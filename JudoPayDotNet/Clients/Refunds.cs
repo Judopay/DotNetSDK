@@ -5,18 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet.Client;
 using JudoPayDotNet.Clients;
+using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet
 {
     internal class Refunds : JudoPayClient, IRefunds
     {
-        public Refunds(IClient client) : base(client)
+        private const string ADDRESS = "";
+
+        public Refunds(IClient client) : base(client, ADDRESS)
         {
         }
 
-        public void Refund()
+        public Task<IResult<PaymentReceiptModel>> Create(RefundModel refund)
         {
-            
+            return CreateInternal<RefundModel, PaymentReceiptModel>(refund);
         }
     }
 }

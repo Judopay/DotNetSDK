@@ -1,9 +1,10 @@
-﻿using JudoPayDotNet.Models;
+﻿using System.Threading.Tasks;
+using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet
 {
     public interface IRefunds
     {
-        void Create(RefundModel refund);
+        Task<IResult<PaymentReceiptModel>> Create(RefundModel refund);
     }
 }

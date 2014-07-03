@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using JudoPayDotNet.Client;
 using JudoPayDotNet.Clients;
 using JudoPayDotNet.Models;
@@ -11,18 +7,21 @@ namespace JudoPayDotNet
 {
     internal class PreAuths : JudoPayClient, IPreAuths
     {
-        public PreAuths(IClient client) : base(client)
+        private const string ADDRESS = "";
+
+        public PreAuths(IClient client)
+            : base(client, ADDRESS)
         {
         }
 
-        public ITransactionResult Create()
+        public Task<IResult<PaymentReceiptModel>> Create(CardPaymentModel cardPreAuth)
         {
-            
+            return CreateInternal<CardPaymentModel, PaymentReceiptModel>(cardPreAuth);
         }
 
-        public void Collected()
+        public Task<IResult<PaymentReceiptModel>> Create(TokenPaymentModel tokenPreAuth)
         {
-            
+            return CreateInternal<TokenPaymentModel, PaymentReceiptModel>(tokenPreAuth);
         }
     }
 }

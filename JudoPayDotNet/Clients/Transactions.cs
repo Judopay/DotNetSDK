@@ -11,13 +11,56 @@ namespace JudoPayDotNet
 {
     internal class Transactions : JudoPayClient, ITransactions
     {
-        public Transactions(IClient client) : base(client)
+        private const string ADDRESS = "";
+
+        public Transactions(IClient client) : base(client, ADDRESS)
         {
         }
 
-        public TransactionModel Get()
+        private void AddParameter(Dictionary<string, string> parameters, string key, object value)
         {
-            return null;
+            string stringValue = value.ToString();
+
+            if (!string.IsNullOrEmpty(stringValue) && !parameters.ContainsKey(key))
+            {
+                parameters.Add(key, stringValue);
+            }
+        }
+
+        private async Task<IResult<T>> DoGet<T>(string address, 
+                                                 Dictionary<string, string> parameters = null) where T : class
+        {
+            T result = null;
+
+            var response = await Client.Get<T>(Address, parameters).ConfigureAwait(false);
+
+            if (!response.ErrorResponse)
+            {
+                result = response.ResponseBodyObject;
+            }
+
+            return new Result<T>(result, response.JudoError);
+        }
+
+        public Task<IResult<PaymentReceiptModel>>  Get(string receiptId)
+        {
+            var address = string.Format("{0}/{1}", Address, receiptId);
+            return DoGet<PaymentReceiptModel>(address);
+        }
+
+        public Task<IResult<PaymentReceiptResults>> Get(string transactionType = null, 
+                                                        long? pageSize = null, 
+                                                        long? offeset = null, 
+                                                        string sort = null)
+        {
+            var address = string.Format("{0}/{1}", Address, transactionType);
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+                
+            AddParameter(parameters, "pageSize", pageSize);
+            AddParameter(parameters, "offeset", offeset);
+            AddParameter(parameters, "sort", sort);
+
+            return DoGet<PaymentReceiptResults>(address, parameters);
         }
     }
 }

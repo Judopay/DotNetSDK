@@ -1,10 +1,11 @@
-﻿using JudoPayDotNet.Models;
+﻿using System.Threading.Tasks;
+using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet
 {
     public interface IPreAuths
     {
-        ITransactionResult Create(CardPaymentModel cardPreAuth);
-        ITransactionResult Create(TokenPaymentModel tokenPreAuth);
+        Task<IResult<PaymentReceiptModel>> Create(CardPaymentModel cardPreAuth);
+        Task<IResult<PaymentReceiptModel>> Create(TokenPaymentModel tokenPreAuth);
     }
 }
