@@ -9,7 +9,7 @@ using JudoPayDotNet.Http;
 
 namespace JudoPayDotNet.Client
 {
-    internal class Client : IClient
+    public class Client : IClient
     {
         private Connection connection;
 

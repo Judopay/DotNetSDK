@@ -47,6 +47,11 @@ namespace JudoPayDotNet.Http
 
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+            if (response.Content.Headers.ContentType.MediaType != "application/json")
+            {
+                //TODO: Not a json response, use a custom error for not accepted response format
+            }
+
             if (response.IsSuccessStatusCode)
             {
                 if (response.StatusCode == HttpStatusCode.OK)
@@ -66,6 +71,10 @@ namespace JudoPayDotNet.Http
                     //TODO: Log error behond judo payments control
                     response.EnsureSuccessStatusCode();
                 }
+                catch (JsonReaderException)
+                {
+                    //TODO: Create an error for errors on responses format
+                }
             }
 
             parsedResponse.ResponseBody = content;
@@ -79,7 +88,15 @@ namespace JudoPayDotNet.Http
                                         object body = null)
         {
             var request = BuildRequest(method, address, parameters, body);
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            HttpResponseMessage response = null;
+            try
+            {
+                response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                //Todo: Do something with connection errors
+            }
             return await HandleResponse<T>(response).ConfigureAwait(false);
         }
 

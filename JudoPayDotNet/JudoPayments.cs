@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Client;
+using JudoPayDotNet.Clients;
 using JudoPayDotNet.Http;
 
 namespace JudoPayDotNet
@@ -15,6 +16,7 @@ namespace JudoPayDotNet
         public IRefunds Refunds { get; set; }
         public IPreAuths PreAuths { get; set; }
         public ITransactions Transactions { get; set; }
+        public ICollections Collections { get; set; }
 
         public IClient Client { get; set; }
         public ICredentials Credentials { get; set; }
@@ -32,6 +34,7 @@ namespace JudoPayDotNet
             Refunds = new Refunds(client);
             PreAuths = new PreAuths(client);
             Transactions = new Transactions(client);
+            Collections = new Collections(client);
         }
 
     }
