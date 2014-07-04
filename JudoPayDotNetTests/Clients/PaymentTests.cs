@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
 using JudoPayDotNet.Autentication;
@@ -15,7 +11,7 @@ using JudoPayDotNet.Models;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace JudoPayDotNetTests
+namespace JudoPayDotNetTests.Clients
 {
     [TestFixture]
     public class PaymentTests

@@ -183,7 +183,7 @@ namespace JudoPayDotNetTests.Clients
         }
 
 
-        [Test, TestCaseSource(typeof(RefundsTests.RefundsTestSource), "SuccessTestCases")]
+        [Test, TestCaseSource(typeof(PreAuthTestSource), "SuccessTestCases")]
         public void PreAuthWithSuccess(PaymentModel payment, string responseData, string receiptId)
         {
             var httpClient = Substitute.For<IHttpClient>();
@@ -217,7 +217,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.AreEqual(paymentReceiptResult.Response.ReceiptId, "134567");
         }
 
-        [Test, TestCaseSource(typeof(RefundsTests.RefundsTestSource), "FailureTestCases")]
+        [Test, TestCaseSource(typeof(PreAuthTestSource), "FailureTestCases")]
         public void PreAuthWithError(PaymentModel payment, string responseData, long errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
