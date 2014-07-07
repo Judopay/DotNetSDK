@@ -60,6 +60,7 @@
     <Compile Include="Clients\PreAuthTests.cs" />
     <Compile Include="Clients\RefundsTests.cs" />
     <Compile Include="Clients\TransactionsTests.cs" />
+    <Compile Include="Http\ConnectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

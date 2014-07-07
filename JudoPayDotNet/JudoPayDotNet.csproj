@@ -68,6 +68,10 @@
     <Compile Include="Clients\Collections.cs" />
     <Compile Include="Clients\ICollections.cs" />
     <Compile Include="Clients\JudoPayClient.cs" />
+    <Compile Include="Errors\BadResponseError.cs" />
+    <Compile Include="Errors\ConnectionError.cs" />
+    <Compile Include="Errors\Error.cs" />
+    <Compile Include="Errors\HttpError.cs" />
     <Compile Include="Errors\JudoApiErrorModel.cs" />
     <Compile Include="Errors\JudoModelError.cs" />
     <Compile Include="Http\Client.cs" />

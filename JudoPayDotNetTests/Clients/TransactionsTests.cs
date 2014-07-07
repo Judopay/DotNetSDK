@@ -118,7 +118,7 @@ namespace JudoPayDotNetTests.Clients
                                                       TransactionsTestSource.FunctionHolder getCall)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(@"{
                             receiptId : '134567',
                             type : 'Create',

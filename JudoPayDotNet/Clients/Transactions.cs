@@ -17,35 +17,10 @@ namespace JudoPayDotNet
         {
         }
 
-        private void AddParameter(Dictionary<string, string> parameters, string key, object value)
-        {
-            string stringValue = value == null ? String.Empty: value.ToString();
-
-            if (!string.IsNullOrEmpty(stringValue) && !parameters.ContainsKey(key))
-            {
-                parameters.Add(key, stringValue);
-            }
-        }
-
-        private async Task<IResult<T>> DoGet<T>(string address, 
-                                                 Dictionary<string, string> parameters = null) where T : class
-        {
-            T result = null;
-
-            var response = await Client.Get<T>(address, parameters).ConfigureAwait(false);
-
-            if (!response.ErrorResponse)
-            {
-                result = response.ResponseBodyObject;
-            }
-
-            return new Result<T>(result, response.JudoError);
-        }
-
         public Task<IResult<PaymentReceiptModel>>  Get(string receiptId)
         {
             var address = string.Format("{0}/{1}", Address, receiptId);
-            return DoGet<PaymentReceiptModel>(address);
+            return GetInternal<PaymentReceiptModel>(address);
         }
 
         public Task<IResult<PaymentReceiptResults>> Get(string transactionType = null, 
@@ -60,7 +35,7 @@ namespace JudoPayDotNet
             AddParameter(parameters, "offset", offset);
             AddParameter(parameters, "sort", sort);
 
-            return DoGet<PaymentReceiptResults>(address, parameters);
+            return GetInternal<PaymentReceiptResults>(address, parameters);
         }
     }
 }

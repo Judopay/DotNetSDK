@@ -19,12 +19,22 @@ namespace JudoPayDotNet.Clients
             Address = address;
         }
 
-        protected async Task<IResult<R>> CreateInternal<T,R>(T payment) where T : class
+        protected void AddParameter(Dictionary<string, string> parameters, string key, object value)
+        {
+            string stringValue = value == null ? String.Empty : value.ToString();
+
+            if (!string.IsNullOrEmpty(stringValue) && !parameters.ContainsKey(key))
+            {
+                parameters.Add(key, stringValue);
+            }
+        }
+
+        protected async Task<IResult<R>> CreateInternal<T,R>(T entity) where T : class
                                                                 where R : class
         {
             R result = null;
 
-            var response = await Client.Post<R>(Address, body: payment).ConfigureAwait(false);
+            var response = await Client.Post<R>(Address, body: entity).ConfigureAwait(false);
 
             if (!response.ErrorResponse)
             {
@@ -32,6 +42,21 @@ namespace JudoPayDotNet.Clients
             }
 
             return new Result<R>(result, response.JudoError);
+        }
+
+        protected async Task<IResult<T>> GetInternal<T>(string address, 
+            Dictionary<string, string> parameters = null) where T : class
+        {
+            T result = null;
+
+            var response = await Client.Get<T>(address, parameters).ConfigureAwait(false);
+
+            if (!response.ErrorResponse)
+            {
+                result = response.ResponseBodyObject;
+            }
+
+            return new Result<T>(result, response.JudoError);
         }
     }
 }

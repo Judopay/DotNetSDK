@@ -49,32 +49,38 @@ namespace JudoPayDotNet.Http
 
             if (response.Content.Headers.ContentType.MediaType != "application/json")
             {
-                //TODO: Not a json response, use a custom error for not accepted response format
+                //Not a json response, use a custom error for not accepted response format
+                throw new BadResponseError(response);
             }
 
-            if (response.IsSuccessStatusCode)
+            try
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                if (response.IsSuccessStatusCode)
                 {
-                    parsedResponse.ResponseBodyObject = JsonConvert.DeserializeObject<T>(content);  
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        parsedResponse.ResponseBodyObject = JsonConvert.DeserializeObject<T>(content);  
+                    }
+                }
+                else
+                {
+                    //Try to parse an rest well formed error, if it isn't one than an generic http error is thrown
+                    try
+                    {
+                        parsedResponse.JudoError = JsonConvert.DeserializeObject<JudoApiErrorModel>(content);
+                    }
+                    catch (JsonException)
+                    {
+                        throw new HttpError(response);
+                    }
                 }
             }
-            else
+            catch (JsonException e)
             {
-                try
-                {
-                    parsedResponse.JudoError = JsonConvert.DeserializeObject<JudoApiErrorModel>(content);
-                }
-                // If the error wasn't a judo payments defined error then it should be logged and thrown
-                catch (JsonSerializationException)
-                {
-                    //TODO: Log error behond judo payments control
-                    response.EnsureSuccessStatusCode();
-                }
-                catch (JsonReaderException)
-                {
-                    //TODO: Create an error for errors on responses format
-                }
+                // If there is an error deserializing a response or an error response then it should be
+                // logged and encapsulated on a BadResponseError
+                //TODO: Log error
+                throw new BadResponseError(e);
             }
 
             parsedResponse.ResponseBody = content;
@@ -88,18 +94,18 @@ namespace JudoPayDotNet.Http
                                         object body = null)
         {
             var request = BuildRequest(method, address, parameters, body);
-            HttpResponseMessage response = null;
+            HttpResponseMessage response;
             try
             {
                 response = await _httpClient.SendAsync(request).ConfigureAwait(false);
             }
-            catch (Exception)
+            catch (HttpRequestException e)
             {
-                //Todo: Do something with connection errors
+                //Comunication layer expections are wrapped by HttpRequestException
+                throw new ConnectionError(e.InnerException);
             }
+
             return await HandleResponse<T>(response).ConfigureAwait(false);
         }
-
-
     }
 }
