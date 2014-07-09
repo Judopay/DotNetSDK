@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JudoPayDotNet.Autentication;
+﻿using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Client;
 using JudoPayDotNet.Clients;
-using JudoPayDotNet.Http;
 
 namespace JudoPayDotNet
 {
@@ -18,17 +12,13 @@ namespace JudoPayDotNet
         public ITransactions Transactions { get; set; }
         public ICollections Collections { get; set; }
 
-        public IClient Client { get; set; }
-        public ICredentials Credentials { get; set; }
-
-        public JudoPayments(string token, string secret, string address) : 
-                                this(new Credentials(token, secret),  
-                                     new Client.Client(new Connection(new HttpClientWrapper(), address))) { }
+        private readonly IClient client;
+        private readonly ICredentials credentials;                 
 
         public JudoPayments(ICredentials credentials, IClient client)
         {
-            Client = client;
-            Credentials = credentials;
+            this.client = client;
+            this.credentials = credentials;
 
             Payments = new Payments(client);
             Refunds = new Refunds(client);

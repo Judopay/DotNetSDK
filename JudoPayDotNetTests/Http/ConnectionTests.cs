@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
+using JudoPayDotNetDotNet.Logging;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -25,7 +26,9 @@ namespace JudoPayDotNetTests.Http
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var httpClient = Substitute.For<IHttpClient>();
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(Task.FromResult(response));
-            Connection connection = new Connection(httpClient, "http://test.com");
+            Connection connection = new Connection(httpClient, 
+                                                    DotNetLoggerFactory.Create(typeof(Connection)),
+                                                    "http://test.com");
             bool generatedException =false;
 
             try
@@ -56,7 +59,9 @@ namespace JudoPayDotNetTests.Http
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/text");
             var httpClient = Substitute.For<IHttpClient>();
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(Task.FromResult(response));
-            Connection connection = new Connection(httpClient, "http://test.com");
+            Connection connection = new Connection(httpClient, 
+                                                    DotNetLoggerFactory.Create(typeof(Connection)), 
+                                                    "http://test.com");
             bool generatedException = false;
 
             try
@@ -88,7 +93,9 @@ namespace JudoPayDotNetTests.Http
                 Do(callInfo => { throw new HttpRequestException("A problem reaching destination",
                                                 new Exception("Unreachable host"));
                 });
-            Connection connection = new Connection(httpClient, "http://test.com");
+            Connection connection = new Connection(httpClient, 
+                                                    DotNetLoggerFactory.Create(typeof(Connection)), 
+                                                    "http://test.com");
             bool generatedException = false;
 
             try

@@ -8,6 +8,7 @@ using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Client;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
+using JudoPayDotNetDotNet.Logging;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -193,7 +194,9 @@ namespace JudoPayDotNetTests.Clients
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var credentials = new Credentials("ABC", "Secrete");
-            var client = new Client(new Connection(httpClient, "http://judo.com"));
+            var client = new Client(new Connection(httpClient, 
+                                                    DotNetLoggerFactory.Create(typeof(Connection)), 
+                                                    "http://judo.com"));
 
             JudoPayments judo = new JudoPayments(credentials, client);
 
@@ -227,7 +230,9 @@ namespace JudoPayDotNetTests.Clients
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var credentials = new Credentials("ABC", "Secrete");
-            var client = new Client(new Connection(httpClient, "http://judo.com"));
+            var client = new Client(new Connection(httpClient, 
+                                                    DotNetLoggerFactory.Create(typeof(Connection)), 
+                                                    "http://judo.com"));
 
             JudoPayments judo = new JudoPayments(credentials, client);
 

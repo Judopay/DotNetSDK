@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using JudoPayDotNet.Errors;
+using JudoPayDotNet.Logging;
 using Newtonsoft.Json;
 
 namespace JudoPayDotNet.Http
@@ -13,11 +14,13 @@ namespace JudoPayDotNet.Http
     {
         private readonly IHttpClient _httpClient;
         private readonly Uri _baseAddress;
+        private readonly ILog _log;
 
-        public Connection(IHttpClient client, string baseAddress)
+        public Connection(IHttpClient client, ILog log, string baseAddress)
         {
             _httpClient = client;
             _baseAddress = new Uri(baseAddress);
+            _log = log;
         }
 
         private HttpRequestMessage BuildRequest(HttpMethod method, string address, 
@@ -50,6 +53,8 @@ namespace JudoPayDotNet.Http
             if (response.Content.Headers.ContentType.MediaType != "application/json")
             {
                 //Not a json response, use a custom error for not accepted response format
+                _log.ErrorFormat("Received a response in {0} media type format rather the expected \"application/json\"",
+                                    response.Content.Headers.ContentType.MediaType);
                 throw new BadResponseError(response);
             }
 
@@ -69,8 +74,11 @@ namespace JudoPayDotNet.Http
                     {
                         parsedResponse.JudoError = JsonConvert.DeserializeObject<JudoApiErrorModel>(content);
                     }
-                    catch (JsonException)
+                    catch (JsonException e)
                     {
+                        _log.ErrorFormat("Ocurred an error deserializing the following content {0}",
+                                            e,
+                                            content);
                         throw new HttpError(response);
                     }
                 }
@@ -79,7 +87,9 @@ namespace JudoPayDotNet.Http
             {
                 // If there is an error deserializing a response or an error response then it should be
                 // logged and encapsulated on a BadResponseError
-                //TODO: Log error
+                _log.ErrorFormat("Ocurred an error deserializing the following content {0}",
+                                            e,
+                                            content);
                 throw new BadResponseError(e);
             }
 
@@ -104,6 +114,7 @@ namespace JudoPayDotNet.Http
                 //Comunication layer expections are wrapped by HttpRequestException
                 throw new ConnectionError(e.InnerException);
             }
+            //TODO: Handle unknown errors propagating a JudoException for the unknown
 
             return await HandleResponse<T>(response).ConfigureAwait(false);
         }

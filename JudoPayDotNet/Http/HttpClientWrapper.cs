@@ -10,7 +10,7 @@ namespace JudoPayDotNet.Http
     /// <summary>
     /// This client is a simple wrapper of IHttpClient
     /// </summary>
-    internal class HttpClientWrapper : IHttpClient
+    public class HttpClientWrapper : IHttpClient
     {
         private readonly HttpClient _httpClient;
 
