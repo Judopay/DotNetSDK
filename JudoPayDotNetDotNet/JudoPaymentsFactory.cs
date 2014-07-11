@@ -1,4 +1,5 @@
-﻿using JudoPayDotNet;
+﻿using System.Configuration;
+using JudoPayDotNet;
 using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Client;
 using JudoPayDotNet.Http;
@@ -8,16 +9,33 @@ namespace JudoPayDotNetDotNet
 {
     public static class JudoPaymentsFactory
     {
-        public static JudoPayments Create(string token, string secret, string address)
+        private const string APIVERSIONHEADER = "api-version";
+
+        private static JudoPayments Create(Credentials credentials, string address)
         {
-            var credentials = new Credentials(token, secret);
-            var httpClient = new HttpClientWrapper();
+            var apiVersion = ConfigurationManager.AppSettings["ApiVersion"];
+
+            var httpClient = new HttpClientWrapper(new AuthorizationHandler(credentials,
+                                                    DotNetLoggerFactory.Create(typeof(AuthorizationHandler))),
+                                                    new VersioningHandler(APIVERSIONHEADER, apiVersion));
             var connection = new Connection(httpClient,
-                                            DotNetLoggerFactory.Create(typeof(Connection)),  
+                                            DotNetLoggerFactory.Create(typeof(Connection)),
                                             address);
             var client = new Client(connection);
 
             return new JudoPayments(credentials, client);
+        }
+
+        public static JudoPayments Create(string token, string secret, string address)
+        {
+            var credentials = new Credentials(token, secret);
+            return Create(credentials, address);
+        }
+
+        public static JudoPayments Create(string oauthAccessToken, string address)
+        {
+            var credentials = new Credentials(oauthAccessToken);
+            return Create(credentials, address);
         }
     }
 }

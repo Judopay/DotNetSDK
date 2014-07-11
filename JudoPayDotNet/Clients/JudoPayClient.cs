@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using JudoPayDotNet.Client;
+using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Clients

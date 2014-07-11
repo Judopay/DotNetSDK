@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using JudoPayDotNet.Client;
+using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Clients

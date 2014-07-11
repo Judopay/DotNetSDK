@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet.Client;
 using JudoPayDotNet.Clients;
+using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet

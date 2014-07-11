@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using JudoPayDotNet;
 using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Client;
+using JudoPayDotNet.Clients;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet.Logging;

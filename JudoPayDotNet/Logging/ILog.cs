@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JudoPayDotNet.Logging
 {
+    /// <summary>
+    /// A wrapper around logger with an interface compatible log4net. 
+    /// This interface must be implemented in each platform providing logging capabilities to the SDK
+    /// </summary>
     public interface ILog
     {
         void Debug(object message);

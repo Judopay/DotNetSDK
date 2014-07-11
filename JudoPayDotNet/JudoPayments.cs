@@ -1,6 +1,7 @@
 ﻿using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Client;
 using JudoPayDotNet.Clients;
+using JudoPayDotNet.Http;
 
 namespace JudoPayDotNet
 {

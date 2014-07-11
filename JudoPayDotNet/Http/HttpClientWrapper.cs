@@ -12,21 +12,53 @@ namespace JudoPayDotNet.Http
     /// </summary>
     public class HttpClientWrapper : IHttpClient
     {
-        private readonly HttpClient _httpClient;
+        public readonly HttpClient HttpClient;
 
         public HttpClientWrapper()
         {
-            _httpClient = new HttpClient();
+            HttpClient = createHttpClient();
         }
 
-        public HttpClientWrapper(HttpMessageHandler handler)
+        public HttpClientWrapper(DelegatingHandler handler)
         {
-            _httpClient = new HttpClient(handler);
+            HttpClient = createHttpClient(handler);
+        }
+
+        public HttpClientWrapper(params DelegatingHandler[] handlers)
+        {
+            HttpClient = createHttpClient(handlers);
+        }
+
+        private HttpClient createHttpClient(params DelegatingHandler[] handlers)
+        {
+            if (!handlers.Any())
+            {
+                return new HttpClient();
+            }
+
+            if (handlers.Count() == 1)
+            {
+                return new HttpClient(handlers.First());
+            }
+
+            var firstHandler = handlers.First();
+            var previousHandler = firstHandler;
+
+            for (int i = 1; i < handlers.Length; ++i)
+            {
+                var currentHandler = handlers[i];
+
+                previousHandler.InnerHandler = currentHandler;
+
+                previousHandler = currentHandler;
+            }
+
+            return new HttpClient(firstHandler);
         }
 
         public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
         {
-            return _httpClient.SendAsync(request);
+            return HttpClient.SendAsync(request);
         }
     }
 }
