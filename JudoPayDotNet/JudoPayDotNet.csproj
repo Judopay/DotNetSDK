@@ -67,6 +67,8 @@
     <Compile Include="Clients\Collections.cs" />
     <Compile Include="Clients\ICollections.cs" />
     <Compile Include="Clients\JudoPayClient.cs" />
+    <Compile Include="Clients\IThreeDs.cs" />
+    <Compile Include="Clients\ThreeDs.cs" />
     <Compile Include="Errors\BadResponseError.cs" />
     <Compile Include="Errors\ConnectionError.cs" />
     <Compile Include="Errors\Error.cs" />

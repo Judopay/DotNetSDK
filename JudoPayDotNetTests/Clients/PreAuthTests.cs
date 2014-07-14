@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using JudoPayDotNet;
 using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Client;
+using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet.Logging;
@@ -181,6 +182,82 @@ namespace JudoPayDotNetTests.Clients
                         200).SetName("PreAuthWithTokenWithoutSuccess");
                 }
             }
+
+            public static IEnumerable ValidateSuccessTestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(new CardPaymentModel()
+                    {
+                        Amount = 2.0m,
+                        CardAddress = new CardAddressModel()
+                        {
+                            Line1 = "Test Street",
+                            PostCode = "W40 9AU",
+                            Town = "Town"
+                        },
+                        CardNumber = "348417606737499",
+                        ConsumerLocation = new ConsumerLocationModel()
+                        {
+                            Latitude = 40m,
+                            Longitude = 14m
+                        },
+                        CV2 = "420",
+                        EmailAddress = "testaccount@judo.com",
+                        ExpiryDate = "120615",
+                        JudoId = "14562",
+                        MobileNumber = "07745352515",
+                        YourConsumerReference = "User10",
+                        YourPaymentReference = "Pay1234"
+                    },
+                        @"{
+                            errorMessage : 'Your good to go!',
+                            errorType : '20'
+                        }",
+                            20).SetName("ValidateSuccess");
+                }
+            }
+
+            public static IEnumerable ValidateFailureTestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(new CardPaymentModel()
+                    {
+                        Amount = 2.0m,
+                        CardAddress = new CardAddressModel()
+                        {
+                            Line1 = "Test Street",
+                            PostCode = "W40 9AU",
+                            Town = "Town"
+                        },
+                        CardNumber = "348417606737499",
+                        ConsumerLocation = new ConsumerLocationModel()
+                        {
+                            Latitude = 40m,
+                            Longitude = 14m
+                        },
+                        CV2 = "420",
+                        EmailAddress = "testaccount@judo.com",
+                        ExpiryDate = "120615",
+                        JudoId = "14562",
+                        MobileNumber = "07745352515",
+                        YourConsumerReference = "User10",
+                        YourPaymentReference = "Pay1234"
+                    },
+                         @"    
+                        {
+                            errorMessage : 'Payment not made',
+                            modelErrors : [{
+                                            fieldName : 'receiptId',
+                                            errorMessage : 'To large',
+                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                          }],
+                            errorType : '200'
+                        }",
+                            200).SetName("ValidateWithoutSuccess");
+                }
+            }
         }
 
 
@@ -235,6 +312,79 @@ namespace JudoPayDotNetTests.Clients
             var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient, 
                                                     DotNetLoggerFactory.Create(typeof(Connection)), 
+                                                    "http://judo.com"));
+
+            JudoPayments judo = new JudoPayments(credentials, client);
+
+            IResult<PaymentReceiptModel> paymentReceiptResult = null;
+
+            if (payment is CardPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((CardPaymentModel)payment).Result;
+            }
+            else if (payment is TokenPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
+            }
+
+            Assert.NotNull(paymentReceiptResult);
+            Assert.IsTrue(paymentReceiptResult.HasError);
+            Assert.IsNull(paymentReceiptResult.Response);
+            Assert.IsNotNull(paymentReceiptResult.Error);
+            Assert.AreEqual(paymentReceiptResult.Error.ErrorType, errorType);
+        }
+
+        [Test, TestCaseSource(typeof(PreAuthTestSource), "ValidateSuccessTestCases")]
+        public void ValidateWithSuccess(PaymentModel payment, string responseData, int errorType)
+        {
+            var httpClient = Substitute.For<IHttpClient>();
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(responseData);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
+            responseTask.SetResult(response);
+
+            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
+
+            var credentials = new Credentials("ABC", "Secrete");
+            var client = new Client(new Connection(httpClient,
+                                                    DotNetLoggerFactory.Create(typeof(Connection)),
+                                                    "http://judo.com"));
+
+            JudoPayments judo = new JudoPayments(credentials, client);
+
+            IResult<JudoApiErrorModel> paymentValidateResult = null;
+
+            if (payment is CardPaymentModel)
+            {
+                paymentValidateResult = judo.Payments.Validate((CardPaymentModel)payment).Result;
+            }
+            else if (payment is TokenPaymentModel)
+            {
+                paymentValidateResult = judo.Payments.Validate((TokenPaymentModel)payment).Result;
+            }
+
+            Assert.NotNull(paymentValidateResult);
+            Assert.IsFalse(paymentValidateResult.HasError);
+            Assert.NotNull(paymentValidateResult.Response);
+            Assert.AreEqual(paymentValidateResult.Response.ErrorType, errorType);
+        }
+
+        [Test, TestCaseSource(typeof(PreAuthTestSource), "ValidateFailureTestCases")]
+        public void ValidateWithoutSuccess(PaymentModel payment, string responseData, long errorType)
+        {
+            var httpClient = Substitute.For<IHttpClient>();
+            var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+            response.Content = new StringContent(responseData);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
+            responseTask.SetResult(response);
+
+            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
+
+            var credentials = new Credentials("ABC", "Secrete");
+            var client = new Client(new Connection(httpClient,
+                                                    DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
             JudoPayments judo = new JudoPayments(credentials, client);

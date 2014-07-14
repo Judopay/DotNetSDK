@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace JudoPayDotNet.Errors
 {
-    public class JudoApiErrorModel : Error
+    public class JudoApiErrorModel
     {
-        public new String ErrorMessage { get; set; }
+        public String ErrorMessage { get; set; }
         public List<JudoModelError> ModelErrors { get; set; }
         public long ErrorType { get; set; }
     }

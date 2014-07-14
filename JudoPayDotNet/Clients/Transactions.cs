@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using JudoPayDotNet.Client;
 using JudoPayDotNet.Clients;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
@@ -12,15 +9,15 @@ namespace JudoPayDotNet
 {
     internal class Transactions : JudoPayClient, ITransactions
     {
-        private const string ADDRESS = "";
+        private const string ADDRESS = "transactions";
 
-        public Transactions(IClient client) : base(client, ADDRESS)
+        public Transactions(IClient client) : base(client)
         {
         }
 
         public Task<IResult<PaymentReceiptModel>>  Get(string receiptId)
         {
-            var address = string.Format("{0}/{1}", Address, receiptId);
+            var address = string.Format("{0}/{1}", ADDRESS, receiptId);
             return GetInternal<PaymentReceiptModel>(address);
         }
 
@@ -29,7 +26,13 @@ namespace JudoPayDotNet
                                                         long? offset = null, 
                                                         string sort = null)
         {
-            var address = string.Format("{0}/{1}", Address, transactionType);
+            var address = ADDRESS;
+
+            if (!String.IsNullOrEmpty(transactionType))
+            {
+                address = string.Format("{0}/{1}", ADDRESS, transactionType);
+            }
+
             Dictionary<string, string> parameters = new Dictionary<string, string>();
                 
             AddParameter(parameters, "pageSize", pageSize);

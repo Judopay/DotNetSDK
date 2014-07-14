@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace JudoPayDotNet.Http
 {
@@ -16,9 +18,21 @@ namespace JudoPayDotNet.Http
         private readonly Uri _baseAddress;
         private readonly ILog _log;
 
+        //Serialization settings
+        private readonly JsonSerializerSettings settings = new JsonSerializerSettings()
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        };
+
         public Connection(IHttpClient client, ILog log, string baseAddress)
         {
             _httpClient = client;
+
+            if (!baseAddress.EndsWith("/"))
+            {
+                baseAddress += "/";
+            }
+
             _baseAddress = new Uri(baseAddress);
             _log = log;
         }
@@ -33,20 +47,24 @@ namespace JudoPayDotNet.Http
                 address += "?" + query;
             }
 
-            var uri = new Uri(_baseAddress, address);
-            var request = new HttpRequestMessage(method, uri);
+            var uri = new UriBuilder(_baseAddress);
+            uri.Path += address;
+
+            var request = new HttpRequestMessage(method, uri.Uri);
 
             if (body != null) 
-            { 
-                request.Content = new StringContent(JsonConvert.SerializeObject(body));
+            {
+                request.Content = new StringContent(JsonConvert.SerializeObject(body, settings));
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             }
 
             return request;
         }
 
-        private async Task<Response<T>> HandleResponse<T>(HttpResponseMessage response)
+        private async Task<T> HandleResponseCommun<T>(HttpResponseMessage response,
+                                                            Func<string, T, T> parser) where T : IResponse, new()
         {
-            var parsedResponse = new Response<T>();
+            T parsedResponse = new T();
 
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
@@ -64,7 +82,7 @@ namespace JudoPayDotNet.Http
                 {
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        parsedResponse.ResponseBodyObject = JsonConvert.DeserializeObject<T>(content);  
+                        parsedResponse = parser(content, parsedResponse);
                     }
                 }
                 else
@@ -99,22 +117,62 @@ namespace JudoPayDotNet.Http
             return parsedResponse;
         }
 
-        public async Task<IResponse<T>> Send<T>(HttpMethod method, string address, 
-                                        Dictionary<string, string> parameters = null,  
+        private async Task<HttpResponseMessage> SendCommon(HttpMethod method, string address,
+                                        Dictionary<string, string> parameters = null,
                                         object body = null)
         {
             var request = BuildRequest(method, address, parameters, body);
-            HttpResponseMessage response;
             try
             {
-                response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+                return await _httpClient.SendAsync(request).ConfigureAwait(false);
             }
             catch (HttpRequestException e)
             {
                 //Comunication layer expections are wrapped by HttpRequestException
                 throw new ConnectionError(e.InnerException);
             }
+            catch (Exception e)
+            {
+                _log.ErrorFormat("error");
+                throw e;
+            }
             //TODO: Handle unknown errors propagating a JudoException for the unknown
+        }
+
+        private async Task<IResponse> HandleResponse(HttpResponseMessage response)
+        {
+            // NO OP when the response is not supose to have content
+            Func<string, Response, Response> parser = (content, parsedResponse) => parsedResponse;
+
+            return await HandleResponseCommun(response, parser);
+        }
+
+        private async Task<IResponse<T>> HandleResponse<T>(HttpResponseMessage response)
+        {
+            Func<string, Response<T>, Response<T>> parser = (content, parsedResponse) =>
+            {
+                parsedResponse.ResponseBodyObject = JsonConvert.DeserializeObject<T>(content);
+                return parsedResponse;
+            };
+
+            return await HandleResponseCommun(response, parser);
+        }
+
+        public async Task<IResponse> Send(HttpMethod method, string address,
+            Dictionary<string, string> parameters = null,
+            object body = null)
+        {
+            var response = await SendCommon(method, address, parameters, body);
+
+
+            return await HandleResponse(response).ConfigureAwait(false);
+        }
+
+        public async Task<IResponse<T>> Send<T>(HttpMethod method, string address,
+            Dictionary<string, string> parameters = null,
+            object body = null)
+        {
+            var response = await SendCommon(method, address, parameters, body);
 
             return await HandleResponse<T>(response).ConfigureAwait(false);
         }

@@ -28,6 +28,17 @@ namespace JudoPayDotNet.Http
         /// <returns>The response from Judy Pay with information of errors if they have ocurred</returns>
         Task<IResponse<T>> Post<T>(string address, Dictionary<string, string> parameters = null, 
                                     object body = null);
+
+        /// <summary>
+        /// Do a http POST to the specified address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <param name="parameters">The parameters for query string.</param>
+        /// <param name="body">The body.</param>
+        /// <returns>The response from Judy Pay with information of errors if they have ocurred</returns>
+        Task<IResponse> Post(string address, Dictionary<string, string> parameters = null,
+            object body = null);
+
         /// <summary>
         /// Do a http UPDATE to the specified address.
         /// </summary>
@@ -38,6 +49,17 @@ namespace JudoPayDotNet.Http
         /// <returns>The response from Judy Pay with information of errors if they have ocurred</returns>
         Task<IResponse<T>> Update<T>(string address, Dictionary<string, string> parameters = null, 
                                         object body = null);
+
+        /// <summary>
+        /// Do a http UPDATE to the specified address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <param name="parameters">The parameters for query string</param>
+        /// <param name="body">The body.</param>
+        /// <returns>The response from Judy Pay with information of errors if they have ocurred</returns>
+        Task<IResponse> Update(string address, Dictionary<string, string> parameters = null,
+            object body = null);
+
         /// <summary>
         /// Do a http Delete to the specified address.
         /// </summary>
@@ -48,5 +70,15 @@ namespace JudoPayDotNet.Http
         /// <returns>The response from Judy Pay with information of errors if they have ocurred</returns>
         Task<IResponse<T>> Delete<T>(string address, Dictionary<string, string> parameters = null, 
                                         object body = null);
+
+        /// <summary>
+        /// Do a http Delete to the specified address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <param name="parameters">The parameters for query string</param>
+        /// <param name="body">The body.</param>
+        /// <returns>The response from Judy Pay with information of errors if they have ocurred</returns>
+        Task<IResponse> Delete(string address, Dictionary<string, string> parameters = null,
+            object body = null);
     }
 }

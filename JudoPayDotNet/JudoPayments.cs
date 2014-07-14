@@ -12,6 +12,7 @@ namespace JudoPayDotNet
         public IPreAuths PreAuths { get; set; }
         public ITransactions Transactions { get; set; }
         public ICollections Collections { get; set; }
+        public IThreeDs ThreeDs { get; set; }
 
         private readonly IClient client;
         private readonly ICredentials credentials;                 
@@ -26,6 +27,7 @@ namespace JudoPayDotNet
             PreAuths = new PreAuths(client);
             Transactions = new Transactions(client);
             Collections = new Collections(client);
+            ThreeDs = new ThreeDs(client);
         }
 
     }

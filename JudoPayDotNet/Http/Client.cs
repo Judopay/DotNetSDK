@@ -29,16 +29,34 @@ namespace JudoPayDotNet.Client
             return connection.Send<T>(HttpMethod.Post, address, parameters, body);
         }
 
+        public Task<IResponse> Post(string address, Dictionary<string, string> parameters = null,
+                                            object body = null)
+        {
+            return connection.Send(HttpMethod.Post, address, parameters, body);
+        }
+
         public Task<IResponse<T>> Update<T>(string address, Dictionary<string, string> parameters = null, 
                                                 object body = null)
         {
             return connection.Send<T>(HttpMethod.Put, address, parameters, body);
         }
 
+        public Task<IResponse> Update(string address, Dictionary<string, string> parameters = null,
+                                                object body = null)
+        {
+            return connection.Send(HttpMethod.Put, address, parameters, body);
+        }
+
         public Task<IResponse<T>> Delete<T>(string address, Dictionary<string, string> parameters = null, 
                                             object body = null)
         {
             return connection.Send<T>(HttpMethod.Delete, address, parameters);
+        }
+
+        public Task<IResponse> Delete(string address, Dictionary<string, string> parameters = null,
+                                            object body = null)
+        {
+            return connection.Send(HttpMethod.Delete, address, parameters);
         }
     }
 }

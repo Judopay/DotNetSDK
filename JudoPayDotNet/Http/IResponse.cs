@@ -4,10 +4,21 @@ using JudoPayDotNet.Errors;
 namespace JudoPayDotNet.Http
 {
     /// <summary>
-    /// The type of response model
+    /// A response typefied
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IResponse<T>
+    /// <typeparam name="T">The type of response model</typeparam>
+    public interface IResponse<T> : IResponse
+    {
+        /// <summary>
+        /// Gets or sets the response body object.
+        /// </summary>
+        /// <value>
+        /// The response body object.
+        /// </value>
+        T ResponseBodyObject { get; set; }
+    }
+
+    public interface IResponse
     {
         /// <summary>
         /// Gets or sets the status code.
@@ -16,14 +27,6 @@ namespace JudoPayDotNet.Http
         /// The status code.
         /// </value>
         HttpStatusCode StatusCode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the response body object.
-        /// </summary>
-        /// <value>
-        /// The response body object.
-        /// </value>
-        T ResponseBodyObject { get; set; }
 
         /// <summary>
         /// Gets or sets the response body.

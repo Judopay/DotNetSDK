@@ -41,17 +41,21 @@ namespace JudoPayDotNet.Http
                 return new HttpClient(handlers.First());
             }
 
-            var firstHandler = handlers.First();
+            DelegatingHandler currentHandler;
+            var firstHandler = currentHandler = handlers.First();
             var previousHandler = firstHandler;
 
             for (int i = 1; i < handlers.Length; ++i)
             {
-                var currentHandler = handlers[i];
+                currentHandler = handlers[i];
 
                 previousHandler.InnerHandler = currentHandler;
 
                 previousHandler = currentHandler;
             }
+
+            //This is the default delegating handler that actually does the http request
+            currentHandler.InnerHandler = new HttpClientHandler();
 
             return new HttpClient(firstHandler);
         }
