@@ -1,4 +1,5 @@
 ﻿using System;
+using JudoPayDotNet.Enums;
 
 namespace JudoPayDotNet.Models
 {
@@ -9,18 +10,18 @@ namespace JudoPayDotNet.Models
     {
         UNKNOWN = 0,
 
-        //[LocalizedDescription("Payment")]
+        [LocalizedDescription("Payment")]
         SALE = 1,
 
-        //[LocalizedDescription("Refund")]
+        [LocalizedDescription("Refund")]
         REFUND = 2,
 
-        //[LocalizedDescription("PreAuth")]
+        [LocalizedDescription("PreAuth")]
         PREAUTH = 3,
 
         VOID = 4,
 
-        //[LocalizedDescription("Collection")]
+        [LocalizedDescription("Collection")]
         COLLECTION = 5,
 
         [Obsolete("Iridium leftover from previous API versions")]

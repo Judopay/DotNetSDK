@@ -35,6 +35,59 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
+        public void ADeclinedCardPreAuth()
+        {
+
+            var judo = JudoPaymentsFactory.Create(Configuration.TOKEN,
+                Configuration.SECRET,
+                Configuration.BASEADDRESS);
+
+            var paymentWithCard = new CardPaymentModel()
+            {
+                JudoId = Configuration.JUDOID,
+                YourPaymentReference = "578543",
+                YourConsumerReference = "432438862",
+                Amount = 25,
+                CardNumber = "4221690000004963",
+                CV2 = "125",
+                ExpiryDate = "12/15"
+            };
+
+            var response = judo.PreAuths.Create(paymentWithCard).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Declined", response.Response.Result);
+        }
+
+        [Test]
+        public void ADeclinedValidationOnCardPreAuth()
+        {
+
+            var judo = JudoPaymentsFactory.Create(Configuration.TOKEN,
+                Configuration.SECRET,
+                Configuration.BASEADDRESS);
+
+            var paymentWithCard = new CardPaymentModel()
+            {
+                JudoId = Configuration.JUDOID,
+                YourPaymentReference = "578543",
+                YourConsumerReference = "432438862",
+                Amount = 25,
+                CardNumber = "4221690000004963",
+                CV2 = "125",
+                ExpiryDate = "12/15"
+            };
+
+            var response = judo.PreAuths.Validate(paymentWithCard).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Your good to go!", response.Response.ErrorMessage);
+            Assert.AreEqual(JudoApiError.Validation_Passed, response.Response.ErrorType);
+        }
+
+        [Test]
         public void ASimplePreAuthAndCollection()
         {
 
@@ -113,7 +166,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(validateResponse);
             Assert.IsFalse(validateResponse.HasError);
             Assert.AreEqual("Your good to go!", validateResponse.Response.ErrorMessage);
-            Assert.AreEqual(20, validateResponse.Response.ErrorType);
+            Assert.AreEqual(JudoApiError.Validation_Passed, validateResponse.Response.ErrorType);
         }
 
         [Test]
@@ -155,7 +208,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsTrue(validateResponse.HasError);
             Assert.AreEqual("Unable to process collection as total amount collected would exceed value of" +
                             " original PreAuth transaction.", validateResponse.Error.ErrorMessage);
-            Assert.AreEqual(12, validateResponse.Error.ErrorType);
+            Assert.AreEqual(JudoApiError.Payment_Failed, validateResponse.Error.ErrorType);
         }
     }
 }

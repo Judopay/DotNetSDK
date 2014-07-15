@@ -211,7 +211,7 @@ namespace JudoPayDotNetTests.Clients
                             errorMessage : 'Your good to go!',
                             errorType : '20'
                         }",
-                            20).SetName("ValidateSuccess");
+                            JudoApiError.Validation_Passed).SetName("ValidateSuccess");
                 }
             }
 
@@ -250,9 +250,9 @@ namespace JudoPayDotNetTests.Clients
                                             errorMessage : 'To large',
                                             detailErrorMessage : 'This field has to be at most 20 characters'
                                           }],
-                            errorType : '200'
+                            errorType : '12'
                         }",
-                            200).SetName("ValidateWithoutSuccess");
+                            JudoApiError.Payment_Failed).SetName("ValidateWithoutSuccess");
                 }
             }
         }
@@ -295,7 +295,7 @@ namespace JudoPayDotNetTests.Clients
         }
 
         [Test, TestCaseSource(typeof(PaymentsTestSource), "CreateFailureTestCases")]
-        public void PayWithError(PaymentModel payment, string responseData, long errorType)
+        public void PayWithError(PaymentModel payment, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
@@ -328,11 +328,11 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(paymentReceiptResult.Error.ErrorType, errorType);
+            Assert.AreEqual(errorType, paymentReceiptResult.Error.ErrorType);
         }
 
         [Test, TestCaseSource(typeof(PaymentsTestSource), "ValidateSuccessTestCases")]
-        public void ValidateWithSuccess(PaymentModel payment, string responseData, int errorType)
+        public void ValidateWithSuccess(PaymentModel payment, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.OK);
@@ -364,11 +364,11 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(paymentValidateResult);
             Assert.IsFalse(paymentValidateResult.HasError);
             Assert.NotNull(paymentValidateResult.Response);
-            Assert.AreEqual(paymentValidateResult.Response.ErrorType, errorType);
+            Assert.AreEqual(errorType, paymentValidateResult.Response.ErrorType);
         }
 
         [Test, TestCaseSource(typeof(PaymentsTestSource), "ValidateFailureTestCases")]
-        public void ValidateWithoutSuccess(PaymentModel payment, string responseData, long errorType)
+        public void ValidateWithoutSuccess(PaymentModel payment, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
@@ -401,7 +401,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(paymentReceiptResult.Error.ErrorType, errorType);
+            Assert.AreEqual(errorType, paymentReceiptResult.Error.ErrorType);
         }
     }
 }

@@ -57,7 +57,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Your good to go!", response.Response.ErrorMessage);
-            Assert.AreEqual(20, response.Response.ErrorType);
+            Assert.AreEqual(JudoApiError.Validation_Passed, response.Response.ErrorType);
         }
 
         [Test]

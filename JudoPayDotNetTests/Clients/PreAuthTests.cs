@@ -298,7 +298,7 @@ namespace JudoPayDotNetTests.Clients
         }
 
         [Test, TestCaseSource(typeof(PreAuthTestSource), "FailureTestCases")]
-        public void PreAuthWithError(PaymentModel payment, string responseData, long errorType)
+        public void PreAuthWithError(PaymentModel payment, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
@@ -331,11 +331,11 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(paymentReceiptResult.Error.ErrorType, errorType);
+            Assert.AreEqual(errorType, paymentReceiptResult.Error.ErrorType);
         }
 
         [Test, TestCaseSource(typeof(PreAuthTestSource), "ValidateSuccessTestCases")]
-        public void ValidateWithSuccess(PaymentModel payment, string responseData, int errorType)
+        public void ValidateWithSuccess(PaymentModel payment, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.OK);
@@ -367,11 +367,11 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(paymentValidateResult);
             Assert.IsFalse(paymentValidateResult.HasError);
             Assert.NotNull(paymentValidateResult.Response);
-            Assert.AreEqual(paymentValidateResult.Response.ErrorType, errorType);
+            Assert.AreEqual(errorType, paymentValidateResult.Response.ErrorType);
         }
 
         [Test, TestCaseSource(typeof(PreAuthTestSource), "ValidateFailureTestCases")]
-        public void ValidateWithoutSuccess(PaymentModel payment, string responseData, long errorType)
+        public void ValidateWithoutSuccess(PaymentModel payment, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
@@ -404,7 +404,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(paymentReceiptResult.Error.ErrorType, errorType);
+            Assert.AreEqual(errorType, paymentReceiptResult.Error.ErrorType);
         }
     }
 }

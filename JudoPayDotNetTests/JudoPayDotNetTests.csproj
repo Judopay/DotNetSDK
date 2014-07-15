@@ -41,6 +41,9 @@
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\packages\NSubstitute.1.7.2.0\lib\NET45\NSubstitute.dll</HintPath>
     </Reference>
@@ -66,6 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\ThreeDsTests.cs" />
+    <Compile Include="Enums\ExplanationAttributeTests.cs" />
+    <Compile Include="Enums\LocalizationAttributeTests.cs" />
+    <Compile Include="Serialization\CustomSerializationTests.cs" />
+    <Compile Include="Enums\DescriptionAttributeTests.cs" />
     <Compile Include="Headers\AuthorizationHandlerTests.cs" />
     <Compile Include="Headers\HeaderChainAdded.cs" />
     <Compile Include="TestHandler.cs" />

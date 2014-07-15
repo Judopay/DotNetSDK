@@ -79,9 +79,9 @@ namespace JudoPayDotNetTests.Clients
                                             errorMessage : 'To large',
                                             detailErrorMessage : 'This field has to be at most 20 characters'
                                           }],
-                            errorType : '200'
+                            errorType : '11'
                         }",
-                        200).SetName("CollectionWithoutSuccess");
+                        JudoApiError.Payment_Declined).SetName("CollectionWithoutSuccess");
                 }
             }
 
@@ -99,7 +99,7 @@ namespace JudoPayDotNetTests.Clients
                             errorMessage : 'Your good to go!',
                             errorType : '20'
                         }",
-                        20).SetName("CollectionWithSuccess");
+                        JudoApiError.Validation_Passed).SetName("CollectionWithSuccess");
                 }
             }
 
@@ -121,9 +121,9 @@ namespace JudoPayDotNetTests.Clients
                                             errorMessage : 'To large',
                                             detailErrorMessage : 'This field has to be at most 20 characters'
                                           }],
-                            errorType : '200'
+                            errorType : '11'
                         }",
-                        200).SetName("CollectionWithoutSuccess");
+                        JudoApiError.Payment_Declined).SetName("CollectionWithoutSuccess");
                 }
             }
         }
@@ -153,11 +153,11 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.AreEqual(paymentReceiptResult.Response.ReceiptId, "134567");
+            Assert.AreEqual("134567", paymentReceiptResult.Response.ReceiptId);
         }
 
         [Test, TestCaseSource(typeof (CollectionsTestSource), "CreateFailureTestCases")]
-        public void CollectionWithError(CollectionModel collections, string responseData, long error)
+        public void CollectionWithError(CollectionModel collections, string responseData, JudoApiError error)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
@@ -181,11 +181,11 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(paymentReceiptResult.Error.ErrorType, error);
+            Assert.AreEqual(error, paymentReceiptResult.Error.ErrorType);
         }
 
         [Test, TestCaseSource(typeof(CollectionsTestSource), "ValidateSuccessTestCases")]
-        public void ValidateWithSuccess(CollectionModel collection, string responseData, int errorType)
+        public void ValidateWithSuccess(CollectionModel collection, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.OK);
@@ -208,11 +208,11 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(collectionValidationResult);
             Assert.IsFalse(collectionValidationResult.HasError);
             Assert.NotNull(collectionValidationResult.Response);
-            Assert.AreEqual(collectionValidationResult.Response.ErrorType, errorType);
+            Assert.AreEqual(errorType, collectionValidationResult.Response.ErrorType);
         }
 
         [Test, TestCaseSource(typeof(CollectionsTestSource), "ValidateFailureTestCases")]
-        public void ValidateWithoutSuccess(CollectionModel collection, string responseData, long errorType)
+        public void ValidateWithoutSuccess(CollectionModel collection, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
@@ -236,7 +236,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(collectionValidationResult.HasError);
             Assert.IsNull(collectionValidationResult.Response);
             Assert.IsNotNull(collectionValidationResult.Error);
-            Assert.AreEqual(collectionValidationResult.Error.ErrorType, errorType);
+            Assert.AreEqual(errorType, collectionValidationResult.Error.ErrorType);
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Logging;
+using JudoPayDotNet.Models.CustomDeserializers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -21,7 +22,8 @@ namespace JudoPayDotNet.Http
         //Serialization settings
         private readonly JsonSerializerSettings settings = new JsonSerializerSettings()
         {
-            ContractResolver = new CamelCasePropertyNamesContractResolver()
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            Converters = new JsonConverter[] { new JudoApiErrorModelConverter()}
         };
 
         public Connection(IHttpClient client, ILog log, string baseAddress)
@@ -41,14 +43,16 @@ namespace JudoPayDotNet.Http
                                                     Dictionary<string, string> parameters = null,
                                                     object body = null)
         {
+            string queryString = string.Empty;
+
             if (parameters != null && parameters.Count > 0)
             {
-                var query = String.Join("&", parameters.Select(kvp => kvp.Key + "=" + kvp.Value));
-                address += "?" + query;
+                queryString = String.Join("&", parameters.Select(kvp => kvp.Key + "=" + kvp.Value));
             }
 
             var uri = new UriBuilder(_baseAddress);
             uri.Path += address;
+            uri.Query += queryString;
 
             var request = new HttpRequestMessage(method, uri.Uri);
 
@@ -90,7 +94,7 @@ namespace JudoPayDotNet.Http
                     //Try to parse an rest well formed error, if it isn't one than an generic http error is thrown
                     try
                     {
-                        parsedResponse.JudoError = JsonConvert.DeserializeObject<JudoApiErrorModel>(content);
+                        parsedResponse.JudoError = JsonConvert.DeserializeObject<JudoApiErrorModel>(content, settings);
                     }
                     catch (JsonException e)
                     {
@@ -151,7 +155,7 @@ namespace JudoPayDotNet.Http
         {
             Func<string, Response<T>, Response<T>> parser = (content, parsedResponse) =>
             {
-                parsedResponse.ResponseBodyObject = JsonConvert.DeserializeObject<T>(content);
+                parsedResponse.ResponseBodyObject = JsonConvert.DeserializeObject<T>(content, settings);
                 return parsedResponse;
             };
 
