@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Results;
+using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
+using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Clients
@@ -9,9 +13,11 @@ namespace JudoPayDotNet.Clients
     internal abstract class JudoPayClient
     {
         protected readonly IClient Client;
+        protected readonly ILog Logger;
 
-        protected JudoPayClient(IClient client)
+        protected JudoPayClient(ILog logger, IClient client)
         {
+            Logger = logger;
             Client = client;
         }
 
@@ -83,6 +89,45 @@ namespace JudoPayDotNet.Clients
             var response = await Client.Delete(address, parameters, entity).ConfigureAwait(false);
 
             return new Result(response.JudoError);
+        }
+
+        protected JudoApiErrorModel CreateValidationErrorMessage(ValidationResult result)
+		{
+            if (result.IsValid)
+            {
+                return null;
+            }
+
+			var invalidRequestModel = new JudoApiErrorModel
+			    {
+			        ErrorType = JudoApiError.General_Model_Error,
+			        ErrorMessage = "Invalid request",
+                    ModelErrors = new List<JudoModelError>(result.Errors.Count)
+			    };
+
+		    foreach (var validationFailure in result.Errors)
+		    {
+			    Logger.DebugFormat("Model validation error {0} {1}", validationFailure.PropertyName, validationFailure.ErrorMessage);
+				invalidRequestModel.ModelErrors.Add(new JudoModelError
+					{
+						FieldName = validationFailure.PropertyName,
+						ErrorMessage = validationFailure.ErrorMessage
+					});
+			}
+
+            return invalidRequestModel;
+		}
+
+        protected Task<IResult<R>> Validate<T, R>(IValidator<T> validator, T instance) where R : class 
+        {
+            var validation = validator.Validate(instance);
+
+            if (!validation.IsValid)
+            {
+                return Task.FromResult<IResult<R>>(new Result<R>(null, CreateValidationErrorMessage(validation)));
+            }
+
+            return null;
         }
     }
 }

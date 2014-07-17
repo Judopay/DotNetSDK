@@ -1,39 +1,51 @@
 ﻿using System.Threading.Tasks;
-using JudoPayDotNet.Client;
-using JudoPayDotNet.Clients;
+using FluentValidation;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
+using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 
-namespace JudoPayDotNet
+namespace JudoPayDotNet.Clients
 {
     internal class Payments : JudoPayClient, IPayments
     {
         private const string CREATEADDRESS = "transactions/payments";
         private const string VALIDATEADDRESS = "transactions/payments/validate";
+        private readonly IValidator<CardPaymentModel> cardPaymentValidator = new CardPaymentValidator();
+        private readonly IValidator<TokenPaymentModel> tokenPaymentValidator = new TokenPaymentValidator();
 
-        public Payments(IClient client) : base(client)
+        public Payments(ILog logger, IClient client)
+            : base(logger, client)
         {
         }
 
-        public Task<IResult<PaymentReceiptModel>> Create(CardPaymentModel cardPayment)
+        public Task<IResult<ITransactionResult>> Create(CardPaymentModel cardPayment)
         {
-            return PostInternal<CardPaymentModel, PaymentReceiptModel>(CREATEADDRESS, cardPayment);
+            var validationError = Validate<CardPaymentModel, ITransactionResult>(cardPaymentValidator, cardPayment);
+
+            return validationError ?? PostInternal<CardPaymentModel, ITransactionResult>(CREATEADDRESS, cardPayment);
         }
 
-        public Task<IResult<PaymentReceiptModel>> Create(TokenPaymentModel tokenPayment)
+        public Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPayment)
         {
-            return PostInternal<TokenPaymentModel, PaymentReceiptModel>(CREATEADDRESS, tokenPayment);
+            var validationError = Validate<TokenPaymentModel, ITransactionResult>(tokenPaymentValidator, tokenPayment);
+
+            return validationError ?? PostInternal<TokenPaymentModel, ITransactionResult>(CREATEADDRESS, tokenPayment);
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPayment)
         {
-            return PostInternal<CardPaymentModel, JudoApiErrorModel>(VALIDATEADDRESS, cardPayment);
+            var validationError = Validate<CardPaymentModel, JudoApiErrorModel>(cardPaymentValidator, cardPayment);
+
+            return validationError ?? PostInternal<CardPaymentModel, JudoApiErrorModel>(VALIDATEADDRESS, cardPayment);
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(TokenPaymentModel tokenPayment)
         {
-            return PostInternal<TokenPaymentModel, JudoApiErrorModel>(VALIDATEADDRESS, tokenPayment);
+            var validationError = Validate<TokenPaymentModel, JudoApiErrorModel>(tokenPaymentValidator, tokenPayment);
+
+            return validationError ?? PostInternal<TokenPaymentModel, JudoApiErrorModel>(VALIDATEADDRESS, tokenPayment);
         }
     }
 }

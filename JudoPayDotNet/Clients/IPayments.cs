@@ -14,14 +14,14 @@ namespace JudoPayDotNet.Clients
         /// </summary>
         /// <param name="cardPayment">The card payment.</param>
         /// <returns>The receipt for the created card payment</returns>
-        Task<IResult<PaymentReceiptModel>> Create(CardPaymentModel cardPayment);
+        Task<IResult<ITransactionResult>> Create(CardPaymentModel cardPayment);
 
         /// <summary>
         /// Creates the specified token payment.
         /// </summary>
         /// <param name="tokenPayment">The token payment.</param>
         /// <returns>The receipt for the created token payment</returns>
-        Task<IResult<PaymentReceiptModel>> Create(TokenPaymentModel tokenPayment);
+        Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPayment);
 
         /// <summary>
         /// Validates the specified card payment.

@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using JudoPayDotNet;
 using JudoPayDotNet.Autentication;
-using JudoPayDotNet.Client;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet.Logging;
@@ -121,7 +120,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
             IResult<PaymentRequiresThreeDSecureModel> paymentRequiresThreeD = 
                                             judo.ThreeDs.GetThreeDAuthorization(md).Result;
@@ -149,7 +148,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
             IResult<PaymentRequiresThreeDSecureModel> paymentReceiptResult = 
                                 judo.ThreeDs.GetThreeDAuthorization(md).Result;
@@ -176,7 +175,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
             IResult<PaymentReceiptModel> paymentReceiptResult =
                                 judo.ThreeDs.Complete3DSecure(receiptId, threeDResult).Result;
@@ -206,7 +205,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
             IResult<PaymentReceiptModel> paymentReceiptResult =
                                 judo.ThreeDs.Complete3DSecure(receiptId, threeDResult).Result;

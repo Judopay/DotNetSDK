@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
 using JudoPayDotNet.Autentication;
-using JudoPayDotNet.Client;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
@@ -88,7 +88,8 @@ namespace JudoPayDotNetTests.Clients
                         JudoId = "14562",
                         MobileNumber = "07745352515",
                         YourConsumerReference = "User10",
-                        YourPaymentReference = "Pay1234"
+                        YourPaymentReference = "Pay1234",
+                        ConsumerToken = "ABAS"
                     },
                         @"{
                             receiptId : '134567',
@@ -167,7 +168,8 @@ namespace JudoPayDotNetTests.Clients
                         JudoId = "14562",
                         MobileNumber = "07745352515",
                         YourConsumerReference = "User10",
-                        YourPaymentReference = "Pay1234"
+                        YourPaymentReference = "Pay1234",
+                        ConsumerToken = "ABAS"
                     },
                         @"    
                         {
@@ -278,9 +280,9 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)), 
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
-            IResult<PaymentReceiptModel> paymentReceiptResult = null;
+            IResult<ITransactionResult> paymentReceiptResult = null;
 
             if (payment is CardPaymentModel)
             {
@@ -314,9 +316,9 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)), 
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
-            IResult<PaymentReceiptModel> paymentReceiptResult = null;
+            IResult<ITransactionResult> paymentReceiptResult = null;
 
             if (payment is CardPaymentModel)
             {
@@ -351,7 +353,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
             IResult<JudoApiErrorModel> paymentValidateResult = null;
 
@@ -387,9 +389,9 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
-            IResult<PaymentReceiptModel> paymentReceiptResult = null;
+            IResult<ITransactionResult> paymentReceiptResult = null;
 
             if (payment is CardPaymentModel)
             {

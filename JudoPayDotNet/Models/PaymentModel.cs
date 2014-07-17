@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models
@@ -72,6 +68,15 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string Currency { get; set; }
+
+        /// <summary>
+        /// Gets or sets the partner service fee.
+        /// </summary>
+        /// <value>
+        /// The partner service fee.
+        /// </value>
+        [DataMember]
+        public decimal PartnerServiceFee { get; set; }
 
         /// <summary>
         /// Gets or sets the CV2.

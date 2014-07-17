@@ -22,7 +22,13 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.Payments.Create(paymentWithCard).Result;

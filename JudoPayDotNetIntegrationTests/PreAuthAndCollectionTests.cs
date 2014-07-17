@@ -1,4 +1,5 @@
-﻿using JudoPayDotNet.Models;
+﻿using JudoPayDotNet.Enums;
+using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
 
@@ -23,15 +24,25 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-            Assert.AreEqual("PreAuth", response.Response.Type);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("PreAuth", receipt.Type);
         }
 
         [Test]
@@ -50,7 +61,13 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4221690000004963",
                 CV2 = "125",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.PreAuths.Create(paymentWithCard).Result;
@@ -76,7 +93,13 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4221690000004963",
                 CV2 = "125",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.PreAuths.Validate(paymentWithCard).Result;
@@ -103,15 +126,26 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-            Assert.AreEqual("PreAuth", response.Response.Type);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("PreAuth", receipt.Type);
 
             var collection = new CollectionModel()
             {
@@ -124,8 +158,13 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-            Assert.AreEqual("Collection", response.Response.Type);
+
+            receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("Collection", receipt.Type);
         }
 
         [Test]
@@ -144,15 +183,26 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-            Assert.AreEqual("PreAuth", response.Response.Type);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("PreAuth", receipt.Type);
 
             var collection = new CollectionModel()
             {
@@ -185,15 +235,26 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-            Assert.AreEqual("PreAuth", response.Response.Type);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("PreAuth", receipt.Type);
 
             var collection = new CollectionModel()
             {

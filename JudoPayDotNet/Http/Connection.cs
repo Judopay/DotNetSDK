@@ -23,7 +23,7 @@ namespace JudoPayDotNet.Http
         private readonly JsonSerializerSettings settings = new JsonSerializerSettings()
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            Converters = new JsonConverter[] { new JudoApiErrorModelConverter()}
+            Converters = new JsonConverter[] { new JudoApiErrorModelConverter(), new TransactionResultConvertor() }
         };
 
         public Connection(IHttpClient client, ILog log, string baseAddress)
@@ -72,20 +72,20 @@ namespace JudoPayDotNet.Http
 
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            if (response.Content.Headers.ContentType.MediaType != "application/json")
-            {
-                //Not a json response, use a custom error for not accepted response format
-                _log.ErrorFormat("Received a response in {0} media type format rather the expected \"application/json\"",
-                                    response.Content.Headers.ContentType.MediaType);
-                throw new BadResponseError(response);
-            }
-
             try
             {
                 if (response.IsSuccessStatusCode)
                 {
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
+                        if (response.Content.Headers.ContentType.MediaType != "application/json")
+                        {
+                            //Not a json response, use a custom error for not accepted response format
+                            _log.ErrorFormat("Received a response in {0} media type format rather the expected \"application/json\"",
+                                                response.Content.Headers.ContentType.MediaType);
+                            throw new BadResponseError(response);
+                        }
+
                         parsedResponse = parser(content, parsedResponse);
                     }
                 }

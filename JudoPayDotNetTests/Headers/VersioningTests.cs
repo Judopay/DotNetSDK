@@ -2,13 +2,10 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Http;
-using JudoPayDotNet.Logging;
-using NSubstitute;
 using NUnit.Framework;
 
-namespace JudoPayDotNetTests.Versioning
+namespace JudoPayDotNetTests.Headers
 {
     [TestFixture]
     public class VersioningTests

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
 using JudoPayDotNet.Autentication;
-using JudoPayDotNet.Client;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
@@ -145,9 +145,9 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)), 
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
-            IResult<PaymentReceiptModel> paymentReceiptResult = judo.Refunds.Create(refund).Result;
+            IResult<ITransactionResult> paymentReceiptResult = judo.Refunds.Create(refund).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
@@ -172,9 +172,9 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)), 
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
-            IResult<PaymentReceiptModel> paymentReceiptResult = judo.Refunds.Create(refund).Result;
+            IResult<ITransactionResult> paymentReceiptResult = judo.Refunds.Create(refund).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsTrue(paymentReceiptResult.HasError);
@@ -200,7 +200,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
             IResult<JudoApiErrorModel> collectionValidationResult = judo.Refunds.Validate(refund).Result;
 
@@ -227,7 +227,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
             IResult<JudoApiErrorModel> collectionValidationResult = judo.Refunds.Validate(refund).Result;
 

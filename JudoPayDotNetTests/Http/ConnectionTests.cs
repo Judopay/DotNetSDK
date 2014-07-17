@@ -54,7 +54,7 @@ namespace JudoPayDotNetTests.Http
         [Test]
         public void HandleAnResponseWithDifferentContentType()
         {
-            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent("errorMessage");
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/text");
             var httpClient = Substitute.For<IHttpClient>();

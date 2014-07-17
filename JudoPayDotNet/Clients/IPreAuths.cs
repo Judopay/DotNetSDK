@@ -14,14 +14,14 @@ namespace JudoPayDotNet.Clients
         /// </summary>
         /// <param name="cardPreAuth">The card pre authorization.</param>
         /// <returns>The receipt for the created card pre authorization</returns>
-        Task<IResult<PaymentReceiptModel>> Create(CardPaymentModel cardPreAuth);
+        Task<IResult<ITransactionResult>> Create(CardPaymentModel cardPreAuth);
 
         /// <summary>
         /// Creates the specified token pre authorization.
         /// </summary>
         /// <param name="tokenPreAuth">The token pre authorization.</param>
         /// <returns>The receipt for the created token pre authorization</returns>
-        Task<IResult<PaymentReceiptModel>> Create(TokenPaymentModel tokenPreAuth);
+        Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPreAuth);
 
         /// <summary>
         /// Validates the specified card pre authorization.

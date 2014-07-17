@@ -1,7 +1,6 @@
 ﻿using System.Configuration;
 using JudoPayDotNet;
 using JudoPayDotNet.Autentication;
-using JudoPayDotNet.Client;
 using JudoPayDotNet.Http;
 using JudoPayDotNetDotNet.Logging;
 
@@ -23,7 +22,7 @@ namespace JudoPayDotNetDotNet
                                             address);
             var client = new Client(connection);
 
-            return new JudoPayments(credentials, client);
+            return new JudoPayments(type => DotNetLoggerFactory.Create(type), credentials, client);
         }
 
         public static JudoPayments Create(string token, string secret, string address)

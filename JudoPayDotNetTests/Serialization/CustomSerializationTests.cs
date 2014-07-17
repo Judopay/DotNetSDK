@@ -1,3 +1,4 @@
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.CustomDeserializers;

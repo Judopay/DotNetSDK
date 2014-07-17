@@ -13,7 +13,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation">
+      <HintPath>..\packages\FluentValidation.5.4.0.0\lib\portable-win+net40+sl50+wp80\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\portable-net45+win8+wp8+wpa81\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -71,6 +74,7 @@
     <Compile Include="Clients\ThreeDs.cs" />
     <Compile Include="Enums\DescriptionAttribute.cs" />
     <Compile Include="Enums\EnumUtils.cs" />
+    <Compile Include="Models\JudoApiError.cs" />
     <Compile Include="Errors\BadResponseError.cs" />
     <Compile Include="Errors\ConnectionError.cs" />
     <Compile Include="Errors\Error.cs" />
@@ -107,11 +111,12 @@
     <Compile Include="Models\CollectionModel.cs" />
     <Compile Include="Models\Consumer.cs" />
     <Compile Include="Models\ConsumerLocationModel.cs" />
+    <Compile Include="Models\CustomDeserializers\JsonCreationConverter.cs" />
     <Compile Include="Models\CustomDeserializers\JudoApiErrorModelConverter.cs" />
+    <Compile Include="Models\CustomDeserializers\TransactionResultConvertor.cs" />
     <Compile Include="Models\DepositAcccount.cs" />
     <Compile Include="Models\IResult.cs" />
     <Compile Include="Models\ITransactionResult.cs" />
-    <Compile Include="Models\JudoApiError.cs" />
     <Compile Include="Models\JudoLocationModel.cs" />
     <Compile Include="Models\MarketPlaceMerchant.cs" />
     <Compile Include="Models\MarketPlaceMerchantLocation.cs" />
@@ -130,6 +135,11 @@
     <Compile Include="Models\TokenPaymentModel.cs" />
     <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Models\TransactionType.cs" />
+    <Compile Include="Models\Validations\RefundsValidator.cs" />
+    <Compile Include="Models\Validations\CollectionsValidator.cs" />
+    <Compile Include="Models\Validations\PaymentsBaseValidator.cs" />
+    <Compile Include="Models\Validations\ThreeDResultValidator.cs" />
+    <Compile Include="Models\Validations\TransactionResultValidation.cs" />
     <Compile Include="Models\WebPaymentCardAddress.cs" />
     <Compile Include="Models\WebPaymentResponseModel.cs" />
     <Compile Include="Models\WebPaymentsRequestModel.cs" />
@@ -140,10 +150,12 @@
     <Compile Include="Clients\Refunds.cs" />
     <Compile Include="Clients\Transactions.cs" />
     <Compile Include="Utility\LocalizedDescriptionAttribute.cs" />
+    <Compile Include="Validation\PolymorphicValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

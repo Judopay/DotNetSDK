@@ -14,7 +14,7 @@ namespace JudoPayDotNet.Clients
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <returns>The receipt for the created collection.</returns>
-        Task<IResult<PaymentReceiptModel>> Create(CollectionModel collection);
+        Task<IResult<ITransactionResult>> Create(CollectionModel collection);
 
         /// <summary>
         /// Validates the specified collection.

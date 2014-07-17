@@ -10,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
 using JudoPayDotNet.Autentication;
-using JudoPayDotNet.Client;
 using JudoPayDotNet.Clients;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
@@ -105,11 +104,11 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)), 
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
             var receiptId = "1245";
 
-            IResult<PaymentReceiptModel> paymentReceiptResult = judo.Transactions.Get(receiptId).Result;
+            IResult<ITransactionResult> paymentReceiptResult = judo.Transactions.Get(receiptId).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
@@ -155,7 +154,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create(typeof(Connection)), 
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(credentials, client);
+            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
             getCall.Func(judo.Transactions);
 

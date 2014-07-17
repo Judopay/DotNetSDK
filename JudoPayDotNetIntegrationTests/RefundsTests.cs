@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
@@ -27,7 +28,13 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.Payments.Create(paymentWithCard).Result;
@@ -47,8 +54,13 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-            Assert.AreEqual("Refund", response.Response.Type);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("Refund", receipt.Type);
         }
 
         [Test]
@@ -66,7 +78,13 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.Payments.Create(paymentWithCard).Result;
@@ -105,7 +123,13 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var preAuthResponse = judo.PreAuths.Create(paymentWithCard).Result;
@@ -125,8 +149,13 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(collection1Response);
             Assert.IsFalse(collection1Response.HasError);
-            Assert.AreEqual("Success", collection1Response.Response.Result);
-            Assert.AreEqual("Collection", collection1Response.Response.Type);
+
+            var receipt = collection1Response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("Collection", receipt.Type);
 
             collection = new CollectionModel()
             {
@@ -139,8 +168,13 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(collection2Response);
             Assert.IsFalse(collection2Response.HasError);
-            Assert.AreEqual("Success", collection2Response.Response.Result);
-            Assert.AreEqual("Collection", collection2Response.Response.Type);
+
+            receipt = collection2Response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("Collection", receipt.Type);
 
             var refund = new RefundModel()
             {
@@ -153,8 +187,13 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-            Assert.AreEqual("Refund", response.Response.Type);
+
+            receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("Refund", receipt.Type);
 
             refund = new RefundModel()
             {
@@ -167,8 +206,13 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-            Assert.AreEqual("Refund", response.Response.Type);
+
+            receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("Refund", receipt.Type);
         }
     }
 }

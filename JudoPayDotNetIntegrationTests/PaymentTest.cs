@@ -1,4 +1,5 @@
-﻿using JudoPayDotNet.Models;
+﻿using JudoPayDotNet.Enums;
+using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
 
@@ -23,7 +24,13 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.Payments.Create(paymentWithCard).Result;
@@ -49,7 +56,13 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.Payments.Validate(paymentWithCard).Result;
@@ -76,17 +89,28 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
 
             // Fetch the card token
-            var cardToken = response.Response.CardDetails.CardToken;
+            var cardToken = receipt.CardDetails.CardToken;
 
             var paymentWithToken = new TokenPaymentModel()
             {
@@ -95,7 +119,8 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardToken = cardToken,
-                CV2 = "452"
+                CV2 = "452",
+                ConsumerToken = "ABSE"
             };
 
             response = judo.Payments.Create(paymentWithToken).Result;
@@ -121,7 +146,13 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = "4221690000004963",
                 CV2 = "125",
-                ExpiryDate = "12/15"
+                ExpiryDate = "12/15",
+                CardAddress = new CardAddressModel()
+                {
+                    Line1 = "Test Street",
+                    PostCode = "W40 9AU",
+                    Town = "Town"
+                }
             };
 
             var response = judo.Payments.Create(paymentWithCard).Result;

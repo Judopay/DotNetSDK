@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using JudoPayDotNet.Clients;
 using JudoPayDotNet.Http;
+using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
 
-namespace JudoPayDotNet
+namespace JudoPayDotNet.Clients
 {
     internal class Transactions : JudoPayClient, ITransactions
     {
         private const string ADDRESS = "transactions";
 
-        public Transactions(IClient client) : base(client)
+        public Transactions(ILog logger, IClient client)
+            : base(logger, client)
         {
         }
 
-        public Task<IResult<PaymentReceiptModel>>  Get(string receiptId)
+        public Task<IResult<ITransactionResult>> Get(string receiptId)
         {
             var address = string.Format("{0}/{1}", ADDRESS, receiptId);
-            return GetInternal<PaymentReceiptModel>(address);
+            return GetInternal<ITransactionResult>(address);
         }
 
         public Task<IResult<PaymentReceiptResults>> Get(string transactionType = null, 

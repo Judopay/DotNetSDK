@@ -14,7 +14,7 @@ namespace JudoPayDotNet.Clients
         /// </summary>
         /// <param name="refund">The refund.</param>
         /// <returns>The receipt for the created refund</returns>
-        Task<IResult<PaymentReceiptModel>> Create(RefundModel refund);
+        Task<IResult<ITransactionResult>> Create(RefundModel refund);
 
         /// <summary>
         /// Validates the specified refund.
