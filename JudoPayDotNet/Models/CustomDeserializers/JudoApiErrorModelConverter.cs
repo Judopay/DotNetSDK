@@ -26,6 +26,13 @@ namespace JudoPayDotNet.Models.CustomDeserializers
         {
             JObject jsonObject = JObject.Load(reader);
             var properties = jsonObject.Properties().ToList();
+            var judoApiErrorModelPropertiesNames = new []{"errormessage", "errortype", "modelerrors"};
+
+            // Check if the object being deserialized doesn't contain any propertie of desired object
+            if (!properties.Any(p => judoApiErrorModelPropertiesNames.Contains(p.Name.ToLower())))
+            {
+                throw new JsonReaderException("Text doesn't match objectType");
+            }
 
             var errorType = GetProperty<int>(serializer, properties, "errortype");
 

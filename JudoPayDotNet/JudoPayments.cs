@@ -1,6 +1,8 @@
 ﻿using System;
 using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Clients;
+using JudoPayDotNet.Clients.Market;
+using JudoPayDotNet.Clients.Merchant;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 
@@ -8,6 +10,10 @@ namespace JudoPayDotNet
 {
     public class JudoPayments : IJudoPayments
     {
+        public IMarket Market { get; set; }
+
+        public IMerchants Merchants { get; set; }
+
         public IPayments Payments { get; set; }
         public IRefunds Refunds { get; set; }
         public IPreAuths PreAuths { get; set; }
@@ -31,6 +37,18 @@ namespace JudoPayDotNet
             Transactions = new Transactions(logger(typeof(Transactions)), client);
             Collections = new Collections(logger(typeof(Collections)), client);
             ThreeDs = new ThreeDs(logger(typeof(ThreeDs)), client);
+
+            Market = new Market()
+            {
+                Payments = new MarketPayments(logger(typeof(MarketPayments)), client),
+                Refunds = new MarketRefunds(logger(typeof(MarketRefunds)), client),
+                PreAuths = new MarketPreAuths(logger(typeof(MarketPreAuths)), client),
+                Transactions = new MarketTransactions(logger(typeof(MarketTransactions)), client),
+                Collections = new MarketCollections(logger(typeof(MarketCollections)), client),
+                Merchants = new MarketMerchants(logger(typeof(MarketMerchants)), client)
+            };
+
+            Merchants = new Merchants(logger(typeof(Merchants)), client);
         }
 
     }

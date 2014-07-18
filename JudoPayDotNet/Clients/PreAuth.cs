@@ -8,44 +8,36 @@ using JudoPayDotNet.Models.Validations;
 
 namespace JudoPayDotNet.Clients
 {
-    internal class PreAuths : JudoPayClient, IPreAuths
+    internal class PreAuths : BasePreAuth, IPreAuths
     {
         private const string CREATEPREAUTHADDRESS = "transactions/preauths";
         private const string VALIDATEPREAUTHADDRESS = "transactions/preauths/validate";
-        private readonly IValidator<CardPaymentModel> cardPaymentValidator = new CardPaymentValidator();
-        private readonly IValidator<TokenPaymentModel> tokenPaymentValidator = new TokenPaymentValidator();
+
+        protected readonly string ValidatePreAuthAddress;
 
         public PreAuths(ILog logger, IClient client)
-            : base(logger, client)
+            : this(logger, client, CREATEPREAUTHADDRESS, VALIDATEPREAUTHADDRESS)
         {
         }
 
-        public Task<IResult<ITransactionResult>> Create(CardPaymentModel cardPreAuth)
+        public PreAuths(ILog logger, IClient client, string createAddress, string validateAddress)
+            : base(logger, client, createAddress)
         {
-            var validationError = Validate<CardPaymentModel, ITransactionResult>(cardPaymentValidator, cardPreAuth);
-
-            return validationError ?? PostInternal<CardPaymentModel, ITransactionResult>(CREATEPREAUTHADDRESS, cardPreAuth);
-        }
-
-        public Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPreAuth)
-        {
-            var validationError = Validate<TokenPaymentModel, ITransactionResult>(tokenPaymentValidator, tokenPreAuth);
-
-            return validationError ?? PostInternal<TokenPaymentModel, ITransactionResult>(CREATEPREAUTHADDRESS, tokenPreAuth);
+            ValidatePreAuthAddress = validateAddress;
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPreAuth)
         {
             var validationError = Validate<CardPaymentModel, JudoApiErrorModel>(cardPaymentValidator, cardPreAuth);
 
-            return validationError ?? PostInternal<CardPaymentModel, JudoApiErrorModel>(VALIDATEPREAUTHADDRESS, cardPreAuth);
+            return validationError ?? PostInternal<CardPaymentModel, JudoApiErrorModel>(ValidatePreAuthAddress, cardPreAuth);
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(TokenPaymentModel tokenPreAuth)
         {
             var validationError = Validate<TokenPaymentModel, JudoApiErrorModel>(tokenPaymentValidator, tokenPreAuth);
 
-            return validationError ?? PostInternal<TokenPaymentModel, JudoApiErrorModel>(VALIDATEPREAUTHADDRESS, tokenPreAuth);
+            return validationError ?? PostInternal<TokenPaymentModel, JudoApiErrorModel>(ValidatePreAuthAddress, tokenPreAuth);
         }
     }
 }

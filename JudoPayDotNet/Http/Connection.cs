@@ -23,7 +23,8 @@ namespace JudoPayDotNet.Http
         private readonly JsonSerializerSettings settings = new JsonSerializerSettings()
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            Converters = new JsonConverter[] { new JudoApiErrorModelConverter(), new TransactionResultConvertor() }
+            Converters = new JsonConverter[] { new JudoApiErrorModelConverter(), new TransactionResultConvertor() },
+
         };
 
         public Connection(IHttpClient client, ILog log, string baseAddress)

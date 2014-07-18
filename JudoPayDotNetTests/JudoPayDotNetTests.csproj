@@ -72,6 +72,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clients\Market\MarketCollectionsTests.cs" />
+    <Compile Include="Clients\Market\MarketMerchantsTests.cs" />
+    <Compile Include="Clients\Market\MarketPaymentTests.cs" />
+    <Compile Include="Clients\Market\MarketPreAuthTests.cs" />
+    <Compile Include="Clients\Market\MarketRefundsTests.cs" />
+    <Compile Include="Clients\Market\MarketTransactionsTests.cs" />
+    <Compile Include="Clients\Merchant\MerchantsTests.cs" />
     <Compile Include="Clients\ThreeDsTests.cs" />
     <Compile Include="Enums\ExplanationAttributeTests.cs" />
     <Compile Include="Enums\LocalizationAttributeTests.cs" />

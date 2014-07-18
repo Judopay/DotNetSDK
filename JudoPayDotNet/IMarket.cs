@@ -1,43 +1,27 @@
 ﻿using JudoPayDotNet.Clients;
-using JudoPayDotNet.Clients.Merchant;
+using JudoPayDotNet.Clients.Market;
 
 namespace JudoPayDotNet
 {
     /// <summary>
-    /// Judo payments sdk client
+    /// Provides judo payment operations for markets
     /// </summary>
-    public interface IJudoPayments
+    public interface IMarket
     {
-        /// <summary>
-        /// Gets or sets the market operations.
-        /// </summary>
-        /// <value>
-        /// The market.
-        /// </value>
-        IMarket Market { get; set; }
-
-        /// <summary>
-        /// Gets or sets the merchant operations.
-        /// </summary>
-        /// <value>
-        /// The merchants.
-        /// </value>
-        IMerchants Merchants { get; set; }
-
         /// <summary>
         /// The entity reponsible for providing payments operations
         /// </summary>
-        IPayments Payments { get; set; }
+        IMarketPayments Payments { get; set; }
 
         /// <summary>
         /// The entity reponsible for providing refunds operations
         /// </summary>
-        IRefunds Refunds { get; set; }
+        IMarketRefunds Refunds { get; set; }
 
         /// <summary>
         /// The entity reponsible for providing pre authorizations operations
         /// </summary>
-        IPreAuths PreAuths { get; set; }
+        IMarketPreAuths PreAuths { get; set; }
 
         /// <summary>
         /// The entity reponsible for providing transactions operations
@@ -50,11 +34,11 @@ namespace JudoPayDotNet
         /// <summary>
         /// The entity reponsible for providing collections operations
         /// </summary>
-        ICollections Collections { get; set; }
+        IMarketCollections Collections { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing threeD authorization operations
+        /// The entity reponsible for providing merchants operations
         /// </summary>
-        IThreeDs ThreeDs { get; set; }
+        IMarketMerchants Merchants { get; set; }
     }
 }

@@ -11,14 +11,22 @@ namespace JudoPayDotNet.Clients
     {
         private const string ADDRESS = "transactions";
 
+        protected readonly string Address;
+
         public Transactions(ILog logger, IClient client)
+            : this(logger, client, ADDRESS)
+        {
+        }
+
+        public Transactions(ILog logger, IClient client, string address)
             : base(logger, client)
         {
+            Address = address;
         }
 
         public Task<IResult<ITransactionResult>> Get(string receiptId)
         {
-            var address = string.Format("{0}/{1}", ADDRESS, receiptId);
+            var address = string.Format("{0}/{1}", Address, receiptId);
             return GetInternal<ITransactionResult>(address);
         }
 
@@ -27,11 +35,11 @@ namespace JudoPayDotNet.Clients
                                                         long? offset = null, 
                                                         string sort = null)
         {
-            var address = ADDRESS;
+            var address = Address;
 
             if (!String.IsNullOrEmpty(transactionType))
             {
-                address = string.Format("{0}/{1}", ADDRESS, transactionType);
+                address = string.Format("{0}/{1}", Address, transactionType);
             }
 
             Dictionary<string, string> parameters = new Dictionary<string, string>();

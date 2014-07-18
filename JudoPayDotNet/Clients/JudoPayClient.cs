@@ -48,7 +48,7 @@ namespace JudoPayDotNet.Clients
 
         protected async Task<IResult<R>> PostInternal<T, R>(string address, T entity, 
                                                                 Dictionary<string, string> parameters = null)
-            where T : class
+                                                                where T : class
                                                                 where R : class
         {
             R result = null;

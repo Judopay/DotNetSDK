@@ -99,7 +99,7 @@ namespace JudoPayDotNetTests.Clients
                             errorMessage : 'Your good to go!',
                             errorType : '20'
                         }",
-                        JudoApiError.Validation_Passed).SetName("CollectionWithSuccess");
+                        JudoApiError.Validation_Passed).SetName("ValidationWithSuccess");
                 }
             }
 
@@ -123,7 +123,7 @@ namespace JudoPayDotNetTests.Clients
                                           }],
                             errorType : '11'
                         }",
-                        JudoApiError.Payment_Declined).SetName("CollectionWithoutSuccess");
+                        JudoApiError.Payment_Declined).SetName("ValidationWithoutSuccess");
                 }
             }
         }

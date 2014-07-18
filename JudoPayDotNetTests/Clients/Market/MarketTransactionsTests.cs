@@ -5,8 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
 using JudoPayDotNet.Autentication;
@@ -14,17 +12,15 @@ using JudoPayDotNet.Clients;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet.Logging;
-using JudoPayDotNetTests.Clients;
 using NSubstitute;
-using NSubstitute.Routing.Handlers;
 using NUnit.Framework;
 
-namespace JudoPayDotNetTests.Clients
+namespace JudoPayDotNetTests.Clients.Market
 {
-    public class TransactionsTests
+    public class MarketTransactionsTests
     {
 
-        public class TransactionsTestSource 
+        public class MarketTransactionsTestSource
         {
 
             public class FunctionHolder
@@ -38,19 +34,22 @@ namespace JudoPayDotNetTests.Clients
                 {
                     yield return new TestCaseData(
                         new[] { new KeyValuePair<string, string>("pageSize", "4") },
-                        new FunctionHolder(){
-                           Func = transactions => transactions.Get("SALE", pageSize: 4).Result
+                        new FunctionHolder()
+                        {
+                            Func = transactions => transactions.Get("SALE", pageSize: 4).Result
                         })
                         .SetName("GetTransactionsJustWithPage");
                     yield return new TestCaseData(
                         new[] { new KeyValuePair<string, string>("sort", "ASC") },
-                        new FunctionHolder(){
+                        new FunctionHolder()
+                        {
                             Func = transactions => transactions.Get("SALE", sort: "ASC").Result
                         })
                         .SetName("GetTransactionsJustWithSort");
                     yield return new TestCaseData(
                         new[] { new KeyValuePair<string, string>("offset", "0") },
-                        new FunctionHolder(){
+                        new FunctionHolder()
+                        {
                             Func = transactions => transactions.Get("SALE", offset: 0).Result
                         }).
                         SetName("GetTransactionsJustWithOffset");
@@ -60,7 +59,8 @@ namespace JudoPayDotNetTests.Clients
                                 new KeyValuePair<string, string>("offset", "0"),
                                 new KeyValuePair<string, string>("sort", "ASC"),
                             },
-                            new FunctionHolder(){
+                            new FunctionHolder()
+                            {
                                 Func = transactions => transactions.Get("SALE", 4, 0, "ASC").Result
                             }).SetName("GetTransactionsWithAll");
                 }
@@ -100,15 +100,15 @@ namespace JudoPayDotNetTests.Clients
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var credentials = new Credentials("ABC", "Secrete");
-            var client = new Client(new Connection(httpClient, 
-                                                    DotNetLoggerFactory.Create(typeof(Connection)), 
+            var client = new Client(new Connection(httpClient,
+                                                    DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
             JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
 
             var receiptId = "1245";
 
-            IResult<ITransactionResult> paymentReceiptResult = judo.Transactions.Get(receiptId).Result;
+            IResult<ITransactionResult> paymentReceiptResult = judo.Market.Transactions.Get(receiptId).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
@@ -116,9 +116,9 @@ namespace JudoPayDotNetTests.Clients
             Assert.AreEqual(paymentReceiptResult.Response.ReceiptId, "134567");
         }
 
-        [Test, TestCaseSource(typeof(TransactionsTestSource),"TestData")]
+        [Test, TestCaseSource(typeof(MarketTransactionsTestSource), "TestData")]
         public void GetTransactionsForSearchCriterias(KeyValuePair<string, string>[] queryExpected,
-                                                      TransactionsTestSource.FunctionHolder getCall)
+                                                      MarketTransactionsTestSource.FunctionHolder getCall)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.OK);
@@ -151,8 +151,8 @@ namespace JudoPayDotNetTests.Clients
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var credentials = new Credentials("ABC", "Secrete");
-            var client = new Client(new Connection(httpClient, 
-                                                    DotNetLoggerFactory.Create(typeof(Connection)), 
+            var client = new Client(new Connection(httpClient,
+                                                    DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
             JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
