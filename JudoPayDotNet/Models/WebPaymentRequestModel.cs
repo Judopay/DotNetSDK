@@ -10,7 +10,7 @@ namespace JudoPayDotNet.Models
     /// WebPayments request
     /// </summary>
     [DataContract]
-    public class WebPaymentsRequestModel
+    public class WebPaymentRequestModel
     {
         /// <summary>
         /// Gets or sets the amount.

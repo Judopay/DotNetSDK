@@ -76,6 +76,7 @@
     <Compile Include="RefundsTests.cs" />
     <Compile Include="ThreeDAuthorizationTests.cs" />
     <Compile Include="TransactionTest.cs" />
+    <Compile Include="WebPaymentsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

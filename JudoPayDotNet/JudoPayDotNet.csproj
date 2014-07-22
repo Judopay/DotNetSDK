@@ -89,9 +89,17 @@
     <Compile Include="Clients\Merchant\IMerchants.cs" />
     <Compile Include="Clients\Merchant\Merchants.cs" />
     <Compile Include="Clients\ThreeDs.cs" />
+    <Compile Include="Clients\WebPayments\BasePayments.cs" />
+    <Compile Include="Clients\WebPayments\IPayments.cs" />
+    <Compile Include="Clients\WebPayments\IPreAuths.cs" />
+    <Compile Include="Clients\WebPayments\ITransactions.cs" />
+    <Compile Include="Clients\WebPayments\Payments.cs" />
+    <Compile Include="Clients\WebPayments\PreAuths.cs" />
+    <Compile Include="Clients\WebPayments\Transactions.cs" />
     <Compile Include="Enums\DescriptionAttribute.cs" />
     <Compile Include="Enums\EnumUtils.cs" />
     <Compile Include="IMarket.cs" />
+    <Compile Include="IWebPayments.cs" />
     <Compile Include="Market.cs" />
     <Compile Include="Models\JudoApiError.cs" />
     <Compile Include="Errors\BadResponseError.cs" />
@@ -161,7 +169,7 @@
     <Compile Include="Models\Validations\TransactionResultValidation.cs" />
     <Compile Include="Models\WebPaymentCardAddress.cs" />
     <Compile Include="Models\WebPaymentResponseModel.cs" />
-    <Compile Include="Models\WebPaymentsRequestModel.cs" />
+    <Compile Include="Models\WebPaymentRequestModel.cs" />
     <Compile Include="Clients\Payments.cs" />
     <Compile Include="Clients\PreAuth.cs" />
     <Compile Include="Models\WebPaymentStatus.cs" />
@@ -170,6 +178,7 @@
     <Compile Include="Clients\Transactions.cs" />
     <Compile Include="Utility\LocalizedDescriptionAttribute.cs" />
     <Compile Include="Validation\PolymorphicValidator.cs" />
+    <Compile Include="WebPayments.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

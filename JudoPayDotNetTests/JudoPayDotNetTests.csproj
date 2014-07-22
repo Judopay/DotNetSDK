@@ -80,6 +80,9 @@
     <Compile Include="Clients\Market\MarketTransactionsTests.cs" />
     <Compile Include="Clients\Merchant\MerchantsTests.cs" />
     <Compile Include="Clients\ThreeDsTests.cs" />
+    <Compile Include="Clients\WebPayments\PaymentsTests.cs" />
+    <Compile Include="Clients\WebPayments\PreAuthsTests.cs" />
+    <Compile Include="Clients\WebPayments\TransactionsTests.cs" />
     <Compile Include="Enums\ExplanationAttributeTests.cs" />
     <Compile Include="Enums\LocalizationAttributeTests.cs" />
     <Compile Include="Serialization\CustomSerializationTests.cs" />

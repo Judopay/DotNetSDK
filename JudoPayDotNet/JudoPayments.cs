@@ -14,6 +14,8 @@ namespace JudoPayDotNet
 
         public IMerchants Merchants { get; set; }
 
+        public IWebPayments WebPayments { get; set; }
+
         public IPayments Payments { get; set; }
         public IRefunds Refunds { get; set; }
         public IPreAuths PreAuths { get; set; }
@@ -49,6 +51,13 @@ namespace JudoPayDotNet
             };
 
             Merchants = new Merchants(logger(typeof(Merchants)), client);
+
+            WebPayments = new WebPayments()
+            {
+                Payments = new Clients.WebPayments.Payments(logger(typeof(Clients.WebPayments.Payments)), client),
+                PreAuths = new Clients.WebPayments.PreAuths(logger(typeof(Clients.WebPayments.PreAuths)), client),
+                Transactions = new Clients.WebPayments.Transactions(logger(typeof(Clients.WebPayments.Transactions)), client)
+            };
         }
 
     }
