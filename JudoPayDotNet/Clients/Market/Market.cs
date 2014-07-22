@@ -1,7 +1,4 @@
-﻿using JudoPayDotNet.Clients;
-using JudoPayDotNet.Clients.Market;
-
-namespace JudoPayDotNet
+﻿namespace JudoPayDotNet.Clients.Market
 {
     class Market : IMarket
     {

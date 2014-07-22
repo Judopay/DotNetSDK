@@ -7,7 +7,7 @@ namespace JudoPayDotNet.Clients.WebPayments
 {
     internal class PreAuths : BasePayments, IPreAuths
     {
-        private const string TRANSACTIONTYPE = "preauths";
+        private const string Transactiontype = "preauths";
 
         public PreAuths(ILog logger, IClient client) : base(logger, client)
         {
@@ -15,12 +15,12 @@ namespace JudoPayDotNet.Clients.WebPayments
 
         public Task<IResult<WebPaymentResponseModel>> Create(WebPaymentRequestModel model)
         {
-            return base.Create(model, TRANSACTIONTYPE);
+            return Create(model, Transactiontype);
         }
 
         public Task<IResult<WebPaymentRequestModel>> Update(WebPaymentRequestModel model)
         {
-            return base.Update(model, TRANSACTIONTYPE);
+            return Update(model, Transactiontype);
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JudoPayDotNet.Http
@@ -16,20 +13,20 @@ namespace JudoPayDotNet.Http
 
         public HttpClientWrapper()
         {
-            HttpClient = createHttpClient();
+            HttpClient = CreateHttpClient();
         }
 
         public HttpClientWrapper(DelegatingHandler handler)
         {
-            HttpClient = createHttpClient(handler);
+            HttpClient = CreateHttpClient(handler);
         }
 
         public HttpClientWrapper(params DelegatingHandler[] handlers)
         {
-            HttpClient = createHttpClient(handlers);
+            HttpClient = CreateHttpClient(handlers);
         }
 
-        private HttpClient createHttpClient(params DelegatingHandler[] handlers)
+        private static HttpClient CreateHttpClient(params DelegatingHandler[] handlers)
         {
             if (!handlers.Any())
             {
@@ -45,7 +42,7 @@ namespace JudoPayDotNet.Http
             var firstHandler = currentHandler = handlers.First();
             var previousHandler = firstHandler;
 
-            for (int i = 1; i < handlers.Length; ++i)
+            for (var i = 1; i < handlers.Length; ++i)
             {
                 currentHandler = handlers[i];
 

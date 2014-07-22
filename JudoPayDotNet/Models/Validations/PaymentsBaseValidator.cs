@@ -27,7 +27,7 @@ namespace JudoPayDotNet.Models.Validations
 
             RuleFor(model => model.YourConsumerReference)
                 .NotEmpty().WithMessage("You must supply your unique consumer reference")
-                .Length(1, 50).WithMessage("You unique consumer reference needs to be less than 50 characters."); ;
+                .Length(1, 50).WithMessage("You unique consumer reference needs to be less than 50 characters.");
 
             RuleFor(model => model.YourPaymentReference)
                 .NotEmpty().WithMessage("You must supply your unique payment reference")
@@ -38,7 +38,7 @@ namespace JudoPayDotNet.Models.Validations
                 .Length(3).WithMessage("You currency needs to be 3 characters.")
                 .Equal("GBP").WithMessage("Sorry, we only support GBP currently");
 
-            string[] validDeviceCategories = new[] { "mobile", "desktop" };
+            var validDeviceCategories = new[] { "mobile", "desktop" };
 
             When(m => !String.IsNullOrWhiteSpace(m.DeviceCategory),
                 () => RuleFor(model => model.DeviceCategory)
@@ -50,10 +50,6 @@ namespace JudoPayDotNet.Models.Validations
 
     public class PaymentValidator : PaymentsBaseValidator<PaymentModel>
     {
-        public PaymentValidator()
-        {
-            
-        }
     }
 
     public class CardPaymentValidator : PaymentsBaseValidator<CardPaymentModel>

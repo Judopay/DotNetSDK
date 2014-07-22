@@ -8,13 +8,13 @@ namespace JudoPayDotNet.Clients
 {
     internal class Refunds : BaseRefunds, IRefunds
     {
-        private const string CREATEREFUNDSADDRESS = "transactions/refunds";
-        private const string VALIDATEREFUNDSADDRESS = "transactions/refunds/validate";
+        private const string Createrefundsaddress = "transactions/refunds";
+        private const string Validaterefundsaddress = "transactions/refunds/validate";
 
         protected readonly string ValidateRefundAddress;
 
         public Refunds(ILog logger, IClient client)
-            : this(logger, client, CREATEREFUNDSADDRESS, VALIDATEREFUNDSADDRESS)
+            : this(logger, client, Createrefundsaddress, Validaterefundsaddress)
         {
         }
 
@@ -26,7 +26,7 @@ namespace JudoPayDotNet.Clients
 
         public Task<IResult<JudoApiErrorModel>> Validate(RefundModel refund)
         {
-            var validationError = Validate<RefundModel, JudoApiErrorModel>(refundValidator, refund);
+            var validationError = Validate<RefundModel, JudoApiErrorModel>(RefundValidator, refund);
 
             return validationError ?? PostInternal<RefundModel, JudoApiErrorModel>(ValidateRefundAddress, refund);
         }

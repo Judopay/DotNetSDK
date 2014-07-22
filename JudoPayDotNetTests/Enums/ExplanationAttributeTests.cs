@@ -10,7 +10,7 @@ namespace JudoPayDotNetTests.Enums
         [Test]
         public void GetExplanation()
         {
-            var type = PaymentErrorCodesPublic.PaymentDeclined;
+            const PaymentErrorCodesPublic type = PaymentErrorCodesPublic.PaymentDeclined;
 
             var explanation = EnumUtils.GetEnumExplanation(type);
 

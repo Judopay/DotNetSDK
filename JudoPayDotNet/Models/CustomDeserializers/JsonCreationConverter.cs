@@ -37,10 +37,10 @@ namespace JudoPayDotNet.Models.CustomDeserializers
             if (reader.TokenType == JsonToken.Null)
                 return null;
             // Load JObject from stream 
-            JObject jObject = JObject.Load(reader);
+            var jObject = JObject.Load(reader);
 
             // Create target object based on JObject 
-            T target = Create(objectType, jObject);
+            var target = Create(objectType, jObject);
 
             // Populate the object properties 
             serializer.Populate(jObject.CreateReader(), target);

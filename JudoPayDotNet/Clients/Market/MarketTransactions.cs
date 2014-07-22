@@ -5,10 +5,10 @@ namespace JudoPayDotNet.Clients.Market
 {
     internal class MarketTransactions : Transactions
     {
-        private const string ADDRESS = "market/transactions";
+        private const string Address = "market/transactions";
 
         public MarketTransactions(ILog logger, IClient client)
-            : base(logger, client, ADDRESS)
+            : base(logger, client, Address)
         {
         }
     }

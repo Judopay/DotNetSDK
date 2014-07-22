@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Http;
@@ -19,8 +16,8 @@ namespace JudoPayDotNetTests.Headers
         [Test]
         public void VerifyTheExistanceOfAuthenticationAndVersioning()
         {
-            string versionHeader = "api-version-header";
-            string versionHeaderValue = "3.2";
+            const string versionHeader = "api-version-header";
+            const string versionHeaderValue = "3.2";
 
             var testHandler = new TestHandler((request, cancelation) =>
             {
@@ -37,15 +34,16 @@ namespace JudoPayDotNetTests.Headers
                 return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
             });
             var logger = Substitute.For<ILog>();
-            Credentials credentials = new Credentials("ABC");
+            var credentials = new Credentials("ABC");
 
-            VersioningHandler versionHandler = new VersioningHandler(versionHeader, versionHeaderValue);
-            AuthorizationHandler authorizationHandlerhandler = new AuthorizationHandler(credentials, logger);
+            var versionHandler = new VersioningHandler(versionHeader, versionHeaderValue);
+            var authorizationHandlerhandler = new AuthorizationHandler(credentials, logger);
 
-            HttpClientWrapper clientWrapper = new HttpClientWrapper(versionHandler, authorizationHandlerhandler, testHandler);
+            var clientWrapper = new HttpClientWrapper(versionHandler, authorizationHandlerhandler, testHandler);
 
-            HttpClient client = clientWrapper.HttpClient;
+            var client = clientWrapper.HttpClient;
 
+// ReSharper disable once MethodSupportsCancellation
             var response = client.GetAsync("http://lodididki");
 
             Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);

@@ -5,11 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
-using JudoPayDotNet.Autentication;
-using JudoPayDotNet.Clients;
 using JudoPayDotNet.Clients.Market;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
@@ -35,21 +32,21 @@ namespace JudoPayDotNetTests.Clients.Market
                 {
                     yield return new TestCaseData(
                         new[] { new KeyValuePair<string, string>("pageSize", "4") },
-                        new FunctionHolder()
+                        new FunctionHolder
                         {
                             Func = marketMerchants => marketMerchants.Get(pageSize: 4).Result
                         })
                         .SetName("GetTransactionsJustWithPage");
                     yield return new TestCaseData(
                         new[] { new KeyValuePair<string, string>("sort", "timeDescending") },
-                        new FunctionHolder()
+                        new FunctionHolder
                         {
                             Func = marketMerchants => marketMerchants.Get(sort: "timeDescending").Result
                         })
                         .SetName("GetTransactionsJustWithSort");
                     yield return new TestCaseData(
                         new[] { new KeyValuePair<string, string>("offset", "0") },
-                        new FunctionHolder()
+                        new FunctionHolder
                         {
                             Func = marketMerchants => marketMerchants.Get( offset: 0).Result
                         }).
@@ -58,9 +55,9 @@ namespace JudoPayDotNetTests.Clients.Market
                             {
                                 new KeyValuePair<string, string>("pageSize", "4"),
                                 new KeyValuePair<string, string>("offset", "0"),
-                                new KeyValuePair<string, string>("sort", "timeDescending"),
+                                new KeyValuePair<string, string>("sort", "timeDescending")
                             },
-                            new FunctionHolder()
+                            new FunctionHolder
                             {
                                 Func = marketMerchants => marketMerchants.Get(4, 0, "timeDescending").Result
                             }).SetName("GetTransactionsWithAll");
@@ -73,8 +70,7 @@ namespace JudoPayDotNetTests.Clients.Market
                                                       MarketMerchantsTestSource.FunctionHolder getCall)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(@"{
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
     	                                            resultCount : 1,
     	                                            pageSize : 1,
     	                                            offest : 0,
@@ -97,26 +93,26 @@ namespace JudoPayDotNetTests.Clients.Market
     			                                            ]
     		                                            }
     	                                            ]
-                                                }");
-                                                        
+                                                }")};
+
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
             getCall.Func(judo.Market.Merchants);
 
             httpClient.Received().SendAsync(Arg.Any<HttpRequestMessage>());
             var calls = httpClient.ReceivedCalls();
 
+// ReSharper disable once PossibleNullReferenceException
             var request = calls.FirstOrDefault(call => call.GetMethodInfo().Name == "SendAsync").
                                     GetArguments().FirstOrDefault() as HttpRequestMessage;
 
@@ -138,8 +134,7 @@ namespace JudoPayDotNetTests.Clients.Market
                                                      MarketMerchantsTestSource.FunctionHolder getCall)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(@"{
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
     	                                            resultCount : 1,
     	                                            pageSize : 1,
     	                                            offest : 0,
@@ -162,19 +157,18 @@ namespace JudoPayDotNetTests.Clients.Market
     			                                            ]
     		                                            }
     	                                            ]
-                                                }");
+                                                }")};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
             var results = getCall.Func(judo.Market.Merchants);
 
@@ -182,8 +176,10 @@ namespace JudoPayDotNetTests.Clients.Market
             Assert.IsFalse(results.HasError);
             Assert.AreEqual(1, results.Response.ResultCount);
             Assert.AreEqual(1, results.Response.Results.Count());
+// ReSharper disable PossibleNullReferenceException
             Assert.AreEqual(1, results.Response.Results.FirstOrDefault().Locations.Count());
             Assert.AreEqual("1235465", results.Response.Results.FirstOrDefault().Locations.FirstOrDefault().JudoId);
+// ReSharper restore PossibleNullReferenceException
         }
     }
 }

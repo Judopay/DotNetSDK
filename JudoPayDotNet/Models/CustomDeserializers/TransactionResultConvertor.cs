@@ -11,10 +11,7 @@ namespace JudoPayDotNet.Models.CustomDeserializers
             {
                 return new PaymentReceiptModel();
             }
-            else
-            {
-                return new PaymentRequiresThreeDSecureModel();
-            }
+            return new PaymentRequiresThreeDSecureModel();
         }
     }
 }

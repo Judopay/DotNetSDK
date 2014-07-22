@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using JudoPayDotNet.Clients;
 
 namespace JudoPayDotNet.Models.Validations
 {

@@ -6,7 +6,7 @@ namespace JudoPayDotNet.Models
     /// A result that has the actual response object typified
     /// </summary>
     /// <typeparam name="T">The actual type of response</typeparam>
-    public interface IResult<T> : IResult
+    public interface IResult<out T> : IResult
     {
         T Response { get; }
     }

@@ -66,6 +66,7 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The iban.
         /// </value>
+        // ReSharper disable once InconsistentNaming
         public string IBAN { get; set; }
         /// <summary>
         /// Gets or sets the swift code.

@@ -7,7 +7,7 @@ namespace JudoPayDotNet.Clients.WebPayments
 {
     internal class Payments : BasePayments, IPayments
     {
-        private const string TRANSACTIONTYPE = "payments";
+        private const string Transactiontype = "payments";
 
         public Payments(ILog logger, IClient client)
             : base(logger, client)
@@ -16,12 +16,12 @@ namespace JudoPayDotNet.Clients.WebPayments
 
         public Task<IResult<WebPaymentResponseModel>> Create(WebPaymentRequestModel model)
         {
-            return base.Create(model, TRANSACTIONTYPE);
+            return Create(model, Transactiontype);
         }
 
         public Task<IResult<WebPaymentRequestModel>> Update(WebPaymentRequestModel model)
         {
-            return base.Update(model, TRANSACTIONTYPE);
+            return Update(model, Transactiontype);
         }
     }
 }

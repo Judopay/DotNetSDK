@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JudoPayDotNet.Enums;
 using JudoPayDotNet.Errors;
 using Newtonsoft.Json;
 using System;
@@ -24,7 +23,7 @@ namespace JudoPayDotNet.Models.CustomDeserializers
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            JObject jsonObject = JObject.Load(reader);
+            var jsonObject = JObject.Load(reader);
             var properties = jsonObject.Properties().ToList();
             var judoApiErrorModelPropertiesNames = new []{"errormessage", "errortype", "modelerrors"};
 

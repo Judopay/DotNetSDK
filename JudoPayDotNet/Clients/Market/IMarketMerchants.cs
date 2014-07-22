@@ -4,7 +4,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients.Market
 {
     /// <summary>
-    /// The entity reponsible for providing market merchant operations
+    /// The entity responsible for providing market merchant operations
     /// </summary>
     public interface IMarketMerchants
     {

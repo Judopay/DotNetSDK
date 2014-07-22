@@ -3,6 +3,9 @@ using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Clients.Market
 {
+    /// <summary>
+    /// The entity responsible for providing market payment operations
+    /// </summary>
     public interface IMarketPayments
     {
         /// <summary>

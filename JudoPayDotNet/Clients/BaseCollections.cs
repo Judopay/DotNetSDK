@@ -9,7 +9,7 @@ namespace JudoPayDotNet.Clients
 {
     internal class BaseCollections : JudoPayClient
     {
-        protected readonly IValidator<CollectionModel> collectionValidator = new CollectionsValidator();
+        protected readonly IValidator<CollectionModel> CollectionValidator = new CollectionsValidator();
         protected readonly string CreateAddress;
 
 
@@ -20,7 +20,7 @@ namespace JudoPayDotNet.Clients
 
         public Task<IResult<ITransactionResult>> Create(CollectionModel collection)
         {
-            var validationError = Validate<CollectionModel, ITransactionResult>(collectionValidator, collection);
+            var validationError = Validate<CollectionModel, ITransactionResult>(CollectionValidator, collection);
 
             return validationError ?? PostInternal<CollectionModel, ITransactionResult>(CreateAddress, collection);
         }

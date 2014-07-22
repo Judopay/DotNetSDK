@@ -10,7 +10,7 @@ namespace JudoPayDotNet.Models
     [DataContract]
     public abstract class PaymentModel
     {
-        public PaymentModel()
+        protected PaymentModel()
         {
             Currency = "GBP";
         }
@@ -85,6 +85,7 @@ namespace JudoPayDotNet.Models
         /// The CV2.
         /// </value>
         [DataMember(IsRequired = true)]
+        // ReSharper disable once InconsistentNaming as this is a DTO
         public string CV2 { get; set; }
 
 

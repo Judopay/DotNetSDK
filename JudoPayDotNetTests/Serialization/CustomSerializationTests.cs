@@ -1,4 +1,3 @@
-using JudoPayDotNet.Enums;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.CustomDeserializers;
@@ -13,7 +12,7 @@ namespace JudoPayDotNetTests.Serialization
         [Test]
         public void DeSerialize()
         {
-            var serializedMessage = @"
+            const string serializedMessage = @"
                         {
                             errorMessage : 'Payment not made',
                             modelErrors : [{
@@ -24,7 +23,7 @@ namespace JudoPayDotNetTests.Serialization
                             errorType : '11'
                         }";
 
-            JsonSerializerSettings settings = new JsonSerializerSettings();
+            var settings = new JsonSerializerSettings();
             settings.Converters.Add(new JudoApiErrorModelConverter());
 
             var judoApiErrorModel = JsonConvert.DeserializeObject<JudoApiErrorModel>(serializedMessage, settings);
@@ -36,13 +35,13 @@ namespace JudoPayDotNetTests.Serialization
         [Test]
         public void DeSerializeWithoutArrayPresent()
         {
-            var serializedMessage = @"
+            const string serializedMessage = @"
                         {
                             errorMessage : 'Payment not made',
                             errorType : '11'
                         }";
 
-            JsonSerializerSettings settings = new JsonSerializerSettings();
+            var settings = new JsonSerializerSettings();
             settings.Converters.Add(new JudoApiErrorModelConverter());
 
             var judoApiErrorModel = JsonConvert.DeserializeObject<JudoApiErrorModel>(serializedMessage, settings);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Errors

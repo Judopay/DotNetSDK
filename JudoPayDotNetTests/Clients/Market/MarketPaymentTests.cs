@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using JudoPayDotNet;
-using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet.Logging;
@@ -24,17 +23,17 @@ namespace JudoPayDotNetTests.Clients.Market
             {
                 get
                 {
-                    yield return new TestCaseData(new CardPaymentModel()
+                    yield return new TestCaseData(new CardPaymentModel
                     {
                         Amount = 2.0m,
-                        CardAddress = new CardAddressModel()
+                        CardAddress = new CardAddressModel
                         {
                             Line1 = "Test Street",
                             PostCode = "W40 9AU",
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ConsumerLocation = new ConsumerLocationModel()
+                        ConsumerLocation = new ConsumerLocationModel
                         {
                             Latitude = 40m,
                             Longitude = 14m
@@ -69,10 +68,10 @@ namespace JudoPayDotNetTests.Clients.Market
                                 }
                             }",
                             "134567").SetName("PayWithCardWithSuccess");
-                    yield return new TestCaseData(new TokenPaymentModel()
+                    yield return new TestCaseData(new TokenPaymentModel
                     {
                         Amount = 2.0m,
-                        ConsumerLocation = new ConsumerLocationModel()
+                        ConsumerLocation = new ConsumerLocationModel
                         {
                             Latitude = 40m,
                             Longitude = 14m
@@ -115,17 +114,17 @@ namespace JudoPayDotNetTests.Clients.Market
             {
                 get
                 {
-                    yield return new TestCaseData(new CardPaymentModel()
+                    yield return new TestCaseData(new CardPaymentModel
                     {
                         Amount = 2.0m,
-                        CardAddress = new CardAddressModel()
+                        CardAddress = new CardAddressModel
                         {
                             Line1 = "Test Street",
                             PostCode = "W40 9AU",
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ConsumerLocation = new ConsumerLocationModel()
+                        ConsumerLocation = new ConsumerLocationModel
                         {
                             Latitude = 40m,
                             Longitude = 14m
@@ -149,10 +148,10 @@ namespace JudoPayDotNetTests.Clients.Market
                             errorType : '200'
                         }",
                         200).SetName("PayWithCardWithoutSuccess");
-                    yield return new TestCaseData(new TokenPaymentModel()
+                    yield return new TestCaseData(new TokenPaymentModel
                     {
                         Amount = 2.0m,
-                        ConsumerLocation = new ConsumerLocationModel()
+                        ConsumerLocation = new ConsumerLocationModel
                         {
                             Latitude = 40m,
                             Longitude = 14m
@@ -186,23 +185,22 @@ namespace JudoPayDotNetTests.Clients.Market
         public void PayWithSuccess(PaymentModel payment, string responseData, string receiptId)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(responseData);
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
             IResult<ITransactionResult> paymentReceiptResult = null;
 
+            // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
             if (payment is CardPaymentModel)
             {
                 paymentReceiptResult = judo.Market.Payments.Create((CardPaymentModel)payment).Result;
@@ -211,6 +209,7 @@ namespace JudoPayDotNetTests.Clients.Market
             {
                 paymentReceiptResult = judo.Market.Payments.Create((TokenPaymentModel)payment).Result;
             }
+            // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
@@ -222,23 +221,25 @@ namespace JudoPayDotNetTests.Clients.Market
         public void PayWithError(PaymentModel payment, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
-            response.Content = new StringContent(responseData);
+            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+            {
+                Content = new StringContent(responseData)
+            };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
             IResult<ITransactionResult> paymentReceiptResult = null;
 
+            // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
             if (payment is CardPaymentModel)
             {
                 paymentReceiptResult = judo.Market.Payments.Create((CardPaymentModel)payment).Result;
@@ -247,6 +248,7 @@ namespace JudoPayDotNetTests.Clients.Market
             {
                 paymentReceiptResult = judo.Market.Payments.Create((TokenPaymentModel)payment).Result;
             }
+            // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsTrue(paymentReceiptResult.HasError);

@@ -6,6 +6,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// The card transaction types supported by our gateway
     /// </summary>
+    // ReSharper disable InconsistentNaming
     public enum TransactionType : long
     {
         UNKNOWN = 0,
@@ -36,4 +37,5 @@ namespace JudoPayDotNet.Models
         [Obsolete("Iridium leftover from previous API versions")]
         KEEP_ALIVE = 8
     }
+    // ReSharper restore InconsistentNaming
 }

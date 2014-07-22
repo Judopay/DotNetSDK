@@ -8,13 +8,13 @@ namespace JudoPayDotNet.Clients
 {
     internal class Collections : BaseCollections, ICollections
     {
-        private const string CREATEADDRESS = "transactions/collections";
-        private const string VALIDATEADDRESS = "transactions/collections/validate";
+        private const string Createaddress = "transactions/collections";
+        private const string Validateaddress = "transactions/collections/validate";
 
         protected readonly string ValidateAddress;
 
         public Collections(ILog logger, IClient client)
-            : this(logger, client, CREATEADDRESS, VALIDATEADDRESS)
+            : this(logger, client, Createaddress, Validateaddress)
         {
         }
 
@@ -26,7 +26,7 @@ namespace JudoPayDotNet.Clients
 
         public Task<IResult<JudoApiErrorModel>> Validate(CollectionModel collection)
         {
-            var validationError = Validate<CollectionModel, JudoApiErrorModel>(collectionValidator, collection);
+            var validationError = Validate<CollectionModel, JudoApiErrorModel>(CollectionValidator, collection);
 
             return validationError ?? PostInternal<CollectionModel, JudoApiErrorModel>(ValidateAddress, collection);
         }

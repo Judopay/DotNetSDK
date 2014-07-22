@@ -1,5 +1,4 @@
 ﻿using System;
-using JudoPayDotNet.Logging;
 using log4net;
 using ILog = JudoPayDotNet.Logging.ILog;
 

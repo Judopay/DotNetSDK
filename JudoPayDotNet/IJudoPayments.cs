@@ -1,5 +1,11 @@
 ﻿using JudoPayDotNet.Clients;
+using JudoPayDotNet.Clients.Consumer;
+using JudoPayDotNet.Clients.Market;
 using JudoPayDotNet.Clients.Merchant;
+using JudoPayDotNet.Clients.WebPayments;
+using IPayments = JudoPayDotNet.Clients.IPayments;
+using IPreAuths = JudoPayDotNet.Clients.IPreAuths;
+using ITransactions = JudoPayDotNet.Clients.ITransactions;
 
 namespace JudoPayDotNet
 {
@@ -31,6 +37,14 @@ namespace JudoPayDotNet
         /// The web payments.
         /// </value>
         IWebPayments WebPayments { get; set; }
+
+        /// <summary>
+        /// Gets or sets the consumers operations.
+        /// </summary>
+        /// <value>
+        /// The consumers.
+        /// </value>
+        IConsumers Consumers { get; set; }
 
         /// <summary>
         /// The entity reponsible for providing payments operations

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JudoPayDotNet.Enums;
+﻿using JudoPayDotNet.Enums;
 
 namespace JudoPayDotNet.Models
 {
@@ -12,6 +6,7 @@ namespace JudoPayDotNet.Models
     /// Card types
     /// </summary>
     /// <remarks>This enum is fed from two data sources, so I'm abusing the LocalizedDescription attribute to do it - BJK</remarks>
+    // ReSharper disable InconsistentNaming
     public enum CardType
     {
         [Description("UNKNOWN")]
@@ -63,4 +58,5 @@ namespace JudoPayDotNet.Models
         [LocalizedDescription("VISA_PURCHASING")]
         VISA_PURCHASING = 13
     }
+    // ReSharper restore InconsistentNaming
 }

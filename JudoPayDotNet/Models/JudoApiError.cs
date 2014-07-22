@@ -2,6 +2,7 @@ using JudoPayDotNet.Enums;
 
 namespace JudoPayDotNet.Models
 {
+    // ReSharper disable InconsistentNaming
     public enum JudoApiError
     {
         [Description("Sorry, an error has occurred. Please try again later.")]
@@ -82,4 +83,5 @@ namespace JudoPayDotNet.Models
         [Description("Not found")]
         Not_Found = 404
     }
+    // ReSharper restore InconsistentNaming
 }

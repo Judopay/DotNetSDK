@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using JudoPayDotNet;
-using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet.Logging;
@@ -20,10 +19,10 @@ namespace JudoPayDotNetTests.Clients.WebPayments
         public void CreatePreAuth()
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var request = new WebPaymentRequestModel()
+            var request = new WebPaymentRequestModel
             {
                 Amount = 10,
-                CardAddress = new WebPaymentCardAddress()
+                CardAddress = new WebPaymentCardAddress
                 {
                     CardHolderName = "Test User",
                     Line1 = "Test Street",
@@ -47,7 +46,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                 TransactionType = TransactionType.SALE,
                 YourConsumerReference = "4235325",
                 YourPaymentReference = "42355",
-                Receipt = new PaymentReceiptModel()
+                Receipt = new PaymentReceiptModel
                 {
                     ReceiptId = "134567",
                     Type = "Create",
@@ -55,7 +54,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                     OriginalAmount = 20,
                     Amount = 20,
                     NetAmount = 20,
-                    CardDetails = new CardDetails()
+                    CardDetails = new CardDetails
                     {
                         CardLastfour = "1345",
                         EndDate = "1214",
@@ -63,32 +62,30 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                         CardType = CardType.VISA
                     },
                     Currency = "GBP",
-                    Consumer = new Consumer()
+                    Consumer = new Consumer
                     {
                         ConsumerToken = "B245SEB",
                         YourConsumerReference = "Consumer1"
                     }
                 }
             };
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(@"{
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
 		                                             postUrl : 'http://test.com',
 		                                             reference : '1342423'   
-                                                }");
+                                                }")};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            IResult<WebPaymentResponseModel> paymentReceiptResult = judo.WebPayments.PreAuths.Create(request).Result;
+            var paymentReceiptResult = judo.WebPayments.PreAuths.Create(request).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
@@ -101,10 +98,10 @@ namespace JudoPayDotNetTests.Clients.WebPayments
         public void UpdatePreAuth()
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var request = new WebPaymentRequestModel()
+            var request = new WebPaymentRequestModel
             {
                 Amount = 10,
-                CardAddress = new WebPaymentCardAddress()
+                CardAddress = new WebPaymentCardAddress
                 {
                     CardHolderName = "Test User",
                     Line1 = "Test Street",
@@ -128,7 +125,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                 TransactionType = TransactionType.SALE,
                 YourConsumerReference = "4235325",
                 YourPaymentReference = "42355",
-                Receipt = new PaymentReceiptModel()
+                Receipt = new PaymentReceiptModel
                 {
                     ReceiptId = "134567",
                     Type = "Create",
@@ -136,7 +133,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                     OriginalAmount = 20,
                     Amount = 20,
                     NetAmount = 20,
-                    CardDetails = new CardDetails()
+                    CardDetails = new CardDetails
                     {
                         CardLastfour = "1345",
                         EndDate = "1214",
@@ -144,15 +141,14 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                         CardType = CardType.VISA
                     },
                     Currency = "GBP",
-                    Consumer = new Consumer()
+                    Consumer = new Consumer
                     {
                         ConsumerToken = "B245SEB",
                         YourConsumerReference = "Consumer1"
                     }
                 }
             };
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(@"{
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
     	                                            amount : 10,
     	                                            cardAddress : 
     	                                            {
@@ -206,21 +202,20 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 		                                                 postUrl : 'http://test.com',
 		                                                 reference : '1342423'   
                                                     }
-                                                }");
+                                                }")};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            IResult<WebPaymentRequestModel> paymentReceiptResult = judo.WebPayments.PreAuths.Update(request).Result;
+            var paymentReceiptResult = judo.WebPayments.PreAuths.Update(request).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);

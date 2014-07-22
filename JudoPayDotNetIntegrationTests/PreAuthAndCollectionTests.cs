@@ -1,5 +1,4 @@
-﻿using JudoPayDotNet.Enums;
-using JudoPayDotNet.Models;
+﻿using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
 
@@ -12,20 +11,20 @@ namespace JudoPayDotNetIntegrationTests
         public void ASimplePreAuth()
         {
 
-            var judo = JudoPaymentsFactory.Create(Configuration.TOKEN,
-                Configuration.SECRET,
-                Configuration.BASEADDRESS);
+            var judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
+                Configuration.Baseaddress);
 
-            var paymentWithCard = new CardPaymentModel()
+            var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.JUDOID,
+                JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
                 ExpiryDate = "12/15",
-                CardAddress = new CardAddressModel()
+                CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
                     PostCode = "W40 9AU",
@@ -49,20 +48,20 @@ namespace JudoPayDotNetIntegrationTests
         public void ADeclinedCardPreAuth()
         {
 
-            var judo = JudoPaymentsFactory.Create(Configuration.TOKEN,
-                Configuration.SECRET,
-                Configuration.BASEADDRESS);
+            var judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
+                Configuration.Baseaddress);
 
-            var paymentWithCard = new CardPaymentModel()
+            var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.JUDOID,
+                JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4221690000004963",
                 CV2 = "125",
                 ExpiryDate = "12/15",
-                CardAddress = new CardAddressModel()
+                CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
                     PostCode = "W40 9AU",
@@ -81,20 +80,20 @@ namespace JudoPayDotNetIntegrationTests
         public void ADeclinedValidationOnCardPreAuth()
         {
 
-            var judo = JudoPaymentsFactory.Create(Configuration.TOKEN,
-                Configuration.SECRET,
-                Configuration.BASEADDRESS);
+            var judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
+                Configuration.Baseaddress);
 
-            var paymentWithCard = new CardPaymentModel()
+            var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.JUDOID,
+                JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4221690000004963",
                 CV2 = "125",
                 ExpiryDate = "12/15",
-                CardAddress = new CardAddressModel()
+                CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
                     PostCode = "W40 9AU",
@@ -114,20 +113,20 @@ namespace JudoPayDotNetIntegrationTests
         public void ASimplePreAuthAndCollection()
         {
 
-            var judo = JudoPaymentsFactory.Create(Configuration.TOKEN,
-                Configuration.SECRET,
-                Configuration.BASEADDRESS);
+            var judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
+                Configuration.Baseaddress);
 
-            var paymentWithCard = new CardPaymentModel()
+            var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.JUDOID,
+                JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
                 ExpiryDate = "12/15",
-                CardAddress = new CardAddressModel()
+                CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
                     PostCode = "W40 9AU",
@@ -147,7 +146,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Success", receipt.Result);
             Assert.AreEqual("PreAuth", receipt.Type);
 
-            var collection = new CollectionModel()
+            var collection = new CollectionModel
             {
                 Amount = 25,
                 ReceiptId = int.Parse(response.Response.ReceiptId),
@@ -171,20 +170,20 @@ namespace JudoPayDotNetIntegrationTests
         public void ASimplePreAuthAndValidateCollection()
         {
 
-            var judo = JudoPaymentsFactory.Create(Configuration.TOKEN,
-                Configuration.SECRET,
-                Configuration.BASEADDRESS);
+            var judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
+                Configuration.Baseaddress);
 
-            var paymentWithCard = new CardPaymentModel()
+            var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.JUDOID,
+                JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
                 ExpiryDate = "12/15",
-                CardAddress = new CardAddressModel()
+                CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
                     PostCode = "W40 9AU",
@@ -204,7 +203,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Success", receipt.Result);
             Assert.AreEqual("PreAuth", receipt.Type);
 
-            var collection = new CollectionModel()
+            var collection = new CollectionModel
             {
                 Amount = 25,
                 ReceiptId = int.Parse(response.Response.ReceiptId),
@@ -223,20 +222,20 @@ namespace JudoPayDotNetIntegrationTests
         public void AFailedSimplePreAuthAndValidateCollection()
         {
 
-            var judo = JudoPaymentsFactory.Create(Configuration.TOKEN,
-                Configuration.SECRET,
-                Configuration.BASEADDRESS);
+            var judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
+                Configuration.Baseaddress);
 
-            var paymentWithCard = new CardPaymentModel()
+            var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.JUDOID,
+                JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
                 ExpiryDate = "12/15",
-                CardAddress = new CardAddressModel()
+                CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
                     PostCode = "W40 9AU",
@@ -256,7 +255,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Success", receipt.Result);
             Assert.AreEqual("PreAuth", receipt.Type);
 
-            var collection = new CollectionModel()
+            var collection = new CollectionModel
             {
                 Amount = 30,
                 ReceiptId = int.Parse(response.Response.ReceiptId),

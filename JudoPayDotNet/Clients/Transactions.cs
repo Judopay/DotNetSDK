@@ -9,40 +9,41 @@ namespace JudoPayDotNet.Clients
 {
     internal class Transactions : JudoPayClient, ITransactions
     {
-        private const string ADDRESS = "transactions";
+        private const string BaseAddress = "transactions";
 
-        protected readonly string Address;
+        protected readonly string UsedAddress;
 
         public Transactions(ILog logger, IClient client)
-            : this(logger, client, ADDRESS)
+            : this(logger, client, BaseAddress)
         {
         }
 
-        public Transactions(ILog logger, IClient client, string address)
+        public Transactions(ILog logger, IClient client, string usedAddress)
             : base(logger, client)
         {
-            Address = address;
+            UsedAddress = usedAddress;
         }
 
         public Task<IResult<ITransactionResult>> Get(string receiptId)
         {
-            var address = string.Format("{0}/{1}", Address, receiptId);
+            var address = string.Format("{0}/{1}", UsedAddress, receiptId);
             return GetInternal<ITransactionResult>(address);
         }
 
+        // ReSharper disable once MethodOverloadWithOptionalParameter
         public Task<IResult<PaymentReceiptResults>> Get(string transactionType = null, 
                                                         long? pageSize = null, 
                                                         long? offset = null, 
                                                         string sort = null)
         {
-            var address = Address;
+            var address = UsedAddress;
 
             if (!String.IsNullOrEmpty(transactionType))
             {
-                address = string.Format("{0}/{1}", Address, transactionType);
+                address = string.Format("{0}/{1}", UsedAddress, transactionType);
             }
 
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            var parameters = new Dictionary<string, string>();
                 
             AddParameter(parameters, "pageSize", pageSize);
             AddParameter(parameters, "offset", offset);

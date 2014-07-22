@@ -39,12 +39,6 @@
     <Reference Include="FluentValidation">
       <HintPath>..\packages\FluentValidation.5.4.0.0\lib\portable-win+net40+sl50+wp80\FluentValidation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\portable-net45+win8+wp8+wpa81\Microsoft.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\portable-net45+win8+wp8+wpa81\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -53,16 +47,7 @@
     <Reference Include="System.Net.Http">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Autentication\Credentials.cs" />
@@ -73,14 +58,18 @@
     <Compile Include="Clients\BaseRefunds.cs" />
     <Compile Include="Clients\Collections.cs" />
     <Compile Include="Clients\Consumer\BaseConsumer.cs" />
+    <Compile Include="Clients\Consumer\Consumers.cs" />
+    <Compile Include="Clients\Consumer\IConsumers.cs" />
     <Compile Include="Clients\ICollections.cs" />
     <Compile Include="Clients\JudoPayClient.cs" />
     <Compile Include="Clients\IThreeDs.cs" />
+    <Compile Include="Clients\Market\IMarket.cs" />
     <Compile Include="Clients\Market\IMarketCollections.cs" />
     <Compile Include="Clients\Market\IMarketMerchants.cs" />
     <Compile Include="Clients\Market\IMarketPayments.cs" />
     <Compile Include="Clients\Market\IMarketPreAuths.cs" />
     <Compile Include="Clients\Market\IMarketRefunds.cs" />
+    <Compile Include="Clients\Market\Market.cs" />
     <Compile Include="Clients\Market\MarketCollections.cs" />
     <Compile Include="Clients\Market\MarketMerchants.cs" />
     <Compile Include="Clients\Market\MarketPayments.cs" />
@@ -94,14 +83,13 @@
     <Compile Include="Clients\WebPayments\IPayments.cs" />
     <Compile Include="Clients\WebPayments\IPreAuths.cs" />
     <Compile Include="Clients\WebPayments\ITransactions.cs" />
+    <Compile Include="Clients\WebPayments\IWebPayments.cs" />
     <Compile Include="Clients\WebPayments\Payments.cs" />
     <Compile Include="Clients\WebPayments\PreAuths.cs" />
     <Compile Include="Clients\WebPayments\Transactions.cs" />
+    <Compile Include="Clients\WebPayments\WebPayments.cs" />
     <Compile Include="Enums\DescriptionAttribute.cs" />
     <Compile Include="Enums\EnumUtils.cs" />
-    <Compile Include="IMarket.cs" />
-    <Compile Include="IWebPayments.cs" />
-    <Compile Include="Market.cs" />
     <Compile Include="Models\JudoApiError.cs" />
     <Compile Include="Errors\BadResponseError.cs" />
     <Compile Include="Errors\ConnectionError.cs" />
@@ -168,6 +156,7 @@
     <Compile Include="Models\Validations\PaymentsBaseValidator.cs" />
     <Compile Include="Models\Validations\ThreeDResultValidator.cs" />
     <Compile Include="Models\Validations\TransactionResultValidation.cs" />
+    <Compile Include="Models\Validations\WebPaymentRequestModelValidator.cs" />
     <Compile Include="Models\WebPaymentCardAddress.cs" />
     <Compile Include="Models\WebPaymentResponseModel.cs" />
     <Compile Include="Models\WebPaymentRequestModel.cs" />
@@ -179,7 +168,6 @@
     <Compile Include="Clients\Transactions.cs" />
     <Compile Include="Utility\LocalizedDescriptionAttribute.cs" />
     <Compile Include="Validation\PolymorphicValidator.cs" />
-    <Compile Include="WebPayments.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

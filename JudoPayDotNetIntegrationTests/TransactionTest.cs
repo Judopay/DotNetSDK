@@ -10,20 +10,20 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void GetTransaction()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.TOKEN,
-                Configuration.SECRET,
-                Configuration.BASEADDRESS);
+            var judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
+                Configuration.Baseaddress);
 
-            var paymentWithCard = new CardPaymentModel()
+            var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.JUDOID,
+                JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
                 ExpiryDate = "12/15",
-                CardAddress = new CardAddressModel()
+                CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
                     PostCode = "W40 9AU",

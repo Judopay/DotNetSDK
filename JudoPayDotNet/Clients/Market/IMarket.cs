@@ -1,7 +1,4 @@
-﻿using JudoPayDotNet.Clients;
-using JudoPayDotNet.Clients.Market;
-
-namespace JudoPayDotNet
+﻿namespace JudoPayDotNet.Clients.Market
 {
     /// <summary>
     /// Provides judo payment operations for markets
@@ -9,22 +6,22 @@ namespace JudoPayDotNet
     public interface IMarket
     {
         /// <summary>
-        /// The entity reponsible for providing payments operations
+        /// The entity rseponsible for providing payments operations
         /// </summary>
         IMarketPayments Payments { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing refunds operations
+        /// The entity responsible for providing refunds operations
         /// </summary>
         IMarketRefunds Refunds { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing pre authorizations operations
+        /// The entity responsible for providing pre authorizations operations
         /// </summary>
         IMarketPreAuths PreAuths { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing transactions operations
+        /// The entity responsible for providing transactions operations
         /// </summary>
         /// <value>
         /// The transactions.
@@ -32,12 +29,12 @@ namespace JudoPayDotNet
         ITransactions Transactions { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing collections operations
+        /// The entity responsible for providing collections operations
         /// </summary>
         IMarketCollections Collections { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing merchants operations
+        /// The entity responsible for providing merchants operations
         /// </summary>
         IMarketMerchants Merchants { get; set; }
     }

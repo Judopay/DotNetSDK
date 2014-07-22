@@ -8,7 +8,7 @@ namespace JudoPayDotNet.Clients.Merchant
 {
     internal class Merchants : JudoPayClient, IMerchants
     {
-        private const string GETADDRESS = "merchants";
+        private const string Getaddress = "merchants";
 
         public Merchants(ILog logger, IClient client) : base(logger, client)
         {
@@ -16,7 +16,7 @@ namespace JudoPayDotNet.Clients.Merchant
 
         public Task<IResult<MerchantModel>> Get(string judoId)
         {
-            var address = String.Format("{0}/{1}", GETADDRESS, judoId);
+            var address = String.Format("{0}/{1}", Getaddress, judoId);
 
             return GetInternal<MerchantModel>(address);
         }

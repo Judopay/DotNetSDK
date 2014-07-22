@@ -5,11 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
-using JudoPayDotNet.Autentication;
-using JudoPayDotNet.Clients;
 using JudoPayDotNet.Clients.Consumer;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
@@ -25,7 +22,7 @@ namespace JudoPayDotNetTests.Clients.Consumers
         public class ConsumerTransactionsTestSource
         {
 
-            private const string CONSUMERTOKEN = "";
+            private const string Consumertoken = "B245SEB";
 
             public class FunctionHolder
             {
@@ -38,34 +35,34 @@ namespace JudoPayDotNetTests.Clients.Consumers
                 {
                     yield return new TestCaseData(
                         new[] { new KeyValuePair<string, string>("pageSize", "4") },
-                        new FunctionHolder()
+                        new FunctionHolder
                         {
-                            Func = consumers => consumers.GetPayments(CONSUMERTOKEN, pageSize: 4).Result
+                            Func = consumers => consumers.GetPayments(Consumertoken, pageSize: 4).Result
                         })
                         .SetName("GetTransactionsJustWithPage");
                     yield return new TestCaseData(
                         new[] { new KeyValuePair<string, string>("sort", "ASC") },
-                        new FunctionHolder()
+                        new FunctionHolder
                         {
-                            Func = consumers => consumers.GetPayments(CONSUMERTOKEN, sort: "ASC").Result
+                            Func = consumers => consumers.GetPayments(Consumertoken, sort: "ASC").Result
                         })
                         .SetName("GetTransactionsJustWithSort");
                     yield return new TestCaseData(
                         new[] { new KeyValuePair<string, string>("offset", "0") },
-                        new FunctionHolder()
+                        new FunctionHolder
                         {
-                            Func = consumers => consumers.GetPayments(CONSUMERTOKEN, offset: 0).Result
+                            Func = consumers => consumers.GetPayments(Consumertoken, offset: 0).Result
                         }).
                         SetName("GetTransactionsJustWithOffset");
                     yield return new TestCaseData(new[]
                             {
                                 new KeyValuePair<string, string>("pageSize", "4"),
                                 new KeyValuePair<string, string>("offset", "0"),
-                                new KeyValuePair<string, string>("sort", "ASC"),
+                                new KeyValuePair<string, string>("sort", "ASC")
                             },
-                            new FunctionHolder()
+                            new FunctionHolder
                             {
-                                Func = consumers => consumers.GetPayments(CONSUMERTOKEN, 4, 0, "ASC").Result
+                                Func = consumers => consumers.GetPayments(Consumertoken, 4, 0, "ASC").Result
                             }).SetName("GetTransactionsWithAll");
                 }
             }
@@ -76,8 +73,7 @@ namespace JudoPayDotNetTests.Clients.Consumers
                                                       ConsumerTransactionsTestSource.FunctionHolder getCall)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(@"{
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
                             receiptId : '134567',
                             type : 'Create',
                             judoId : '12456',
@@ -97,7 +93,7 @@ namespace JudoPayDotNetTests.Clients.Consumers
                                     consumerToken : 'B245SEB',
                                     yourConsumerReference : 'Consumer1'
                                 }
-                            }");
+                            }")};
 
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
@@ -105,18 +101,18 @@ namespace JudoPayDotNetTests.Clients.Consumers
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
             getCall.Func(judo.Consumers);
 
             httpClient.Received().SendAsync(Arg.Any<HttpRequestMessage>());
             var calls = httpClient.ReceivedCalls();
 
+// ReSharper disable once PossibleNullReferenceException
             var request = calls.FirstOrDefault(call => call.GetMethodInfo().Name == "SendAsync").
                                     GetArguments().FirstOrDefault() as HttpRequestMessage;
 

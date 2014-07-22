@@ -10,7 +10,7 @@ namespace JudoPayDotNetTests.Enums
         [Test]
         public void GetDescription()
         {
-            var type = CardType.MASTERCARD_DEBIT;
+            const CardType type = CardType.MASTERCARD_DEBIT;
 
             var description = EnumUtils.GetEnumDescription(type);
 
@@ -20,7 +20,7 @@ namespace JudoPayDotNetTests.Enums
         [Test]
         public void GetValueFromDescription()
         {
-            var description = "MCI DEBIT";
+            const string description = "MCI DEBIT";
 
             var type = EnumUtils.GetValueFromDescription<CardType>(description);
 

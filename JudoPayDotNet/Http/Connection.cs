@@ -20,7 +20,7 @@ namespace JudoPayDotNet.Http
         private readonly ILog _log;
 
         //Serialization settings
-        private readonly JsonSerializerSettings settings = new JsonSerializerSettings()
+        private readonly JsonSerializerSettings _settings = new JsonSerializerSettings
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
             Converters = new JsonConverter[] { new JudoApiErrorModelConverter(), new TransactionResultConvertor() },
@@ -44,7 +44,7 @@ namespace JudoPayDotNet.Http
                                                     Dictionary<string, string> parameters = null,
                                                     object body = null)
         {
-            string queryString = string.Empty;
+            var queryString = string.Empty;
 
             if (parameters != null && parameters.Count > 0)
             {
@@ -59,7 +59,7 @@ namespace JudoPayDotNet.Http
 
             if (body != null) 
             {
-                request.Content = new StringContent(JsonConvert.SerializeObject(body, settings));
+                request.Content = new StringContent(JsonConvert.SerializeObject(body, _settings));
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             }
 
@@ -69,7 +69,7 @@ namespace JudoPayDotNet.Http
         private async Task<T> HandleResponseCommun<T>(HttpResponseMessage response,
                                                             Func<string, T, T> parser) where T : IResponse, new()
         {
-            T parsedResponse = new T();
+            var parsedResponse = new T();
 
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
@@ -95,7 +95,7 @@ namespace JudoPayDotNet.Http
                     //Try to parse an rest well formed error, if it isn't one than an generic http error is thrown
                     try
                     {
-                        parsedResponse.JudoError = JsonConvert.DeserializeObject<JudoApiErrorModel>(content, settings);
+                        parsedResponse.JudoError = JsonConvert.DeserializeObject<JudoApiErrorModel>(content, _settings);
                     }
                     catch (JsonException e)
                     {
@@ -136,10 +136,10 @@ namespace JudoPayDotNet.Http
                 //Comunication layer expections are wrapped by HttpRequestException
                 throw new ConnectionError(e.InnerException);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 _log.ErrorFormat("error");
-                throw e;
+                throw;
             }
             //TODO: Handle unknown errors propagating a JudoException for the unknown
         }
@@ -156,7 +156,7 @@ namespace JudoPayDotNet.Http
         {
             Func<string, Response<T>, Response<T>> parser = (content, parsedResponse) =>
             {
-                parsedResponse.ResponseBodyObject = JsonConvert.DeserializeObject<T>(content, settings);
+                parsedResponse.ResponseBodyObject = JsonConvert.DeserializeObject<T>(content, _settings);
                 return parsedResponse;
             };
 

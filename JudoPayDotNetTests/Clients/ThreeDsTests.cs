@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using JudoPayDotNet;
-using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet.Logging;
@@ -53,7 +52,7 @@ namespace JudoPayDotNetTests.Clients
                 get
                 {
                     yield return new TestCaseData("42353vd22",
-                        new ThreeDResultModel()
+                        new ThreeDResultModel
                         {
                             PaRes = "134253623AbE3442"
                         },
@@ -91,7 +90,7 @@ namespace JudoPayDotNetTests.Clients
                 get
                 {
                     yield return new TestCaseData("42353vd22",
-                        new ThreeDResultModel()
+                        new ThreeDResultModel
                         {
                             PaRes = "134253623AbE3442"
                         },@"    
@@ -107,22 +106,20 @@ namespace JudoPayDotNetTests.Clients
         public void GetThreeDsAuthorizationsWithSuccess(string md, string responseData)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(responseData);
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            IResult<PaymentRequiresThreeDSecureModel> paymentRequiresThreeD = 
+            var paymentRequiresThreeD = 
                                             judo.ThreeDs.GetThreeDAuthorization(md).Result;
 
             Assert.NotNull(paymentRequiresThreeD);
@@ -135,22 +132,23 @@ namespace JudoPayDotNetTests.Clients
         public void GetThreeDsAuthorizationsFail(string md, string responseData)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-            response.Content = new StringContent(responseData);
+            var response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+            {
+                Content = new StringContent(responseData)
+            };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            IResult<PaymentRequiresThreeDSecureModel> paymentReceiptResult = 
+            var paymentReceiptResult = 
                                 judo.ThreeDs.GetThreeDAuthorization(md).Result;
 
             Assert.NotNull(paymentReceiptResult);
@@ -162,22 +160,20 @@ namespace JudoPayDotNetTests.Clients
                                                 string responseData)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(responseData);
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            IResult<PaymentReceiptModel> paymentReceiptResult =
+            var paymentReceiptResult =
                                 judo.ThreeDs.Complete3DSecure(receiptId, threeDResult).Result;
 
             Assert.NotNull(paymentReceiptResult);
@@ -192,22 +188,23 @@ namespace JudoPayDotNetTests.Clients
                                                 string responseData)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-            response.Content = new StringContent(responseData);
+            var response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+            {
+                Content = new StringContent(responseData)
+            };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            IResult<PaymentReceiptModel> paymentReceiptResult =
+            var paymentReceiptResult =
                                 judo.ThreeDs.Complete3DSecure(receiptId, threeDResult).Result;
 
             Assert.NotNull(paymentReceiptResult);

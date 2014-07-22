@@ -15,8 +15,10 @@ namespace JudoPayDotNetTests.Validation
             ITransactionResult transactionResult = new PaymentReceiptModel();
 
             var validator = new PolymorphicValidator<ITransactionResult>(new TransactionResulttValidation())
+// ReSharper disable RedundantTypeArgumentsOfMethod
                 .Add<PaymentReceiptModel>(new PaymentReceiptValidation())
                 .Add<PaymentRequiresThreeDSecureModel>(new PaymentRequiresThreeDSecureModelValidation());
+// ReSharper restore RedundantTypeArgumentsOfMethod
 
             validator.Validate(transactionResult);
         }

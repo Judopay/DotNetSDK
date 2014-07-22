@@ -10,7 +10,7 @@ namespace JudoPayDotNet.Enums
     {
         public static string GetDescriptionFromEnumValue(Enum value)
         {
-            DescriptionAttribute attribute = value.GetType().
+            var attribute = value.GetType().
                 GetRuntimeField(value.ToString())
                 .GetCustomAttributes(typeof(DescriptionAttribute), false)
                 .SingleOrDefault() as DescriptionAttribute;
@@ -28,7 +28,7 @@ namespace JudoPayDotNet.Enums
 
         public static string GetEnumDescription(Enum value)
         {
-            FieldInfo fi = value.GetType().GetRuntimeField(value.ToString());
+            var fi = value.GetType().GetRuntimeField(value.ToString());
 
             var attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
 
@@ -54,7 +54,7 @@ namespace JudoPayDotNet.Enums
 
         public static string GetEnumExplanation(Enum value)
         {
-            FieldInfo fi = value.GetType().GetRuntimeField(value.ToString());
+            var fi = value.GetType().GetRuntimeField(value.ToString());
 
             var attributes = fi.GetCustomAttributes(typeof(ExplanationAttribute), false) as ExplanationAttribute[];
 

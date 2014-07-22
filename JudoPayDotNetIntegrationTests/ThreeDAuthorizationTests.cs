@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
-using System.Security;
-using System.Xml.Linq;
-using System.Xml.XPath;
 using HtmlAgilityPack;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
@@ -19,16 +15,16 @@ namespace JudoPayDotNetIntegrationTests
         {
             var judo = JudoPaymentsFactory.Create("v4vBD2aOTj41wIYj",
                 "d46b106358e675001f9d655efa9582f7d338d483ba24695d67f212d7c68bfd08",
-                Configuration.BASEADDRESS);
+                Configuration.Baseaddress);
 
-            var paymentWithCard = new CardPaymentModel()
+            var paymentWithCard = new CardPaymentModel
             {
                 JudoId = "100016",
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976350000006891",
-                CardAddress = new CardAddressModel()
+                CardAddress = new CardAddressModel
                 {
                     Line1 = "242 Acklam Road",
                     Line2 = "Westbourne Park",
@@ -62,16 +58,16 @@ namespace JudoPayDotNetIntegrationTests
         {
             var judo = JudoPaymentsFactory.Create("v4vBD2aOTj41wIYj",
                 "d46b106358e675001f9d655efa9582f7d338d483ba24695d67f212d7c68bfd08",
-                Configuration.BASEADDRESS);
+                Configuration.Baseaddress);
 
-            var paymentWithCard = new CardPaymentModel()
+            var paymentWithCard = new CardPaymentModel
             {
                 JudoId = "100016",
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976350000006891",
-                CardAddress = new CardAddressModel()
+                CardAddress = new CardAddressModel
                 {
                     Line1 = "242 Acklam Road",
                     Line2 = "Westbourne Park",
@@ -104,7 +100,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 new KeyValuePair<string, string>("MD", receipt.Md),
 				new KeyValuePair<string, string>("PaReq", receipt.PaReq),
-				new KeyValuePair<string, string>("TermUrl", "https://pay.judopay.com/"),
+				new KeyValuePair<string, string>("TermUrl", "https://pay.judopay.com/")
             });
 
             var taskSendMDandPaReqToAcsServer = httpClient.PostAsync(receipt.AcsUrl, formContent).ContinueWith(authResponse =>
@@ -121,7 +117,7 @@ namespace JudoPayDotNetIntegrationTests
 
                 Assert.That(paResValue, Is.Not.Empty);
 
-                var threeDResult = judo.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel() {PaRes = paResValue}).Result;
+                var threeDResult = judo.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel {PaRes = paResValue}).Result;
 
                 Assert.IsNotNull(threeDResult);
                 Assert.IsFalse(threeDResult.HasError);

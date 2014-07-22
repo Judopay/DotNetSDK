@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
-using JudoPayDotNet.Autentication;
-using JudoPayDotNet.Enums;
-using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet.Logging;
@@ -29,7 +22,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new RefundModel()
+                    yield return new TestCaseData(new RefundModel
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
@@ -64,7 +57,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new RefundModel()
+                    yield return new TestCaseData(new RefundModel
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
@@ -88,7 +81,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new RefundModel()
+                    yield return new TestCaseData(new RefundModel
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
@@ -106,7 +99,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new RefundModel()
+                    yield return new TestCaseData(new RefundModel
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
@@ -132,22 +125,20 @@ namespace JudoPayDotNetTests.Clients
         public void RefundWithSuccess(RefundModel refund, string responseData, string receiptId)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(responseData);
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient, 
                                                     DotNetLoggerFactory.Create(typeof(Connection)), 
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            IResult<ITransactionResult> paymentReceiptResult = judo.Refunds.Create(refund).Result;
+            var paymentReceiptResult = judo.Refunds.Create(refund).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
@@ -159,22 +150,23 @@ namespace JudoPayDotNetTests.Clients
         public void RefundWithError(RefundModel refund, string responseData, JudoApiError error)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
-            response.Content = new StringContent(responseData);
+            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+            {
+                Content = new StringContent(responseData)
+            };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient, 
                                                     DotNetLoggerFactory.Create(typeof(Connection)), 
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            IResult<ITransactionResult> paymentReceiptResult = judo.Refunds.Create(refund).Result;
+            var paymentReceiptResult = judo.Refunds.Create(refund).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsTrue(paymentReceiptResult.HasError);
@@ -187,22 +179,20 @@ namespace JudoPayDotNetTests.Clients
         public void ValidateWithSuccess(RefundModel refund, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(responseData);
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            IResult<JudoApiErrorModel> collectionValidationResult = judo.Refunds.Validate(refund).Result;
+            var collectionValidationResult = judo.Refunds.Validate(refund).Result;
 
             Assert.NotNull(collectionValidationResult);
             Assert.IsFalse(collectionValidationResult.HasError);
@@ -214,22 +204,23 @@ namespace JudoPayDotNetTests.Clients
         public void ValidateWithoutSuccess(RefundModel refund, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
-            response.Content = new StringContent(responseData);
+            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+            {
+                Content = new StringContent(responseData)
+            };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            IResult<JudoApiErrorModel> collectionValidationResult = judo.Refunds.Validate(refund).Result;
+            var collectionValidationResult = judo.Refunds.Validate(refund).Result;
 
             Assert.NotNull(collectionValidationResult);
             Assert.IsTrue(collectionValidationResult.HasError);

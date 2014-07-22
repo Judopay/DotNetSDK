@@ -8,7 +8,7 @@ namespace JudoPayDotNetDotNet
 {
     public static class JudoPaymentsFactory
     {
-        private const string APIVERSIONHEADER = "api-version";
+        private const string Apiversionheader = "api-version";
 
         private static JudoPayments Create(Credentials credentials, string address)
         {
@@ -16,13 +16,13 @@ namespace JudoPayDotNetDotNet
 
             var httpClient = new HttpClientWrapper(new AuthorizationHandler(credentials,
                                                     DotNetLoggerFactory.Create(typeof(AuthorizationHandler))),
-                                                    new VersioningHandler(APIVERSIONHEADER, apiVersion));
+                                                    new VersioningHandler(Apiversionheader, apiVersion));
             var connection = new Connection(httpClient,
                                             DotNetLoggerFactory.Create(typeof(Connection)),
                                             address);
             var client = new Client(connection);
 
-            return new JudoPayments(type => DotNetLoggerFactory.Create(type), credentials, client);
+            return new JudoPayments(DotNetLoggerFactory.Create, client);
         }
 
         public static JudoPayments Create(string token, string secret, string address)

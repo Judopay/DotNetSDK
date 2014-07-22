@@ -23,7 +23,7 @@ namespace JudoPayDotNet.Clients
 
         protected void AddParameter(Dictionary<string, string> parameters, string key, object value)
         {
-            string stringValue = value == null ? String.Empty : value.ToString();
+            var stringValue = value == null ? String.Empty : value.ToString();
 
             if (!string.IsNullOrEmpty(stringValue) && !parameters.ContainsKey(key))
             {
@@ -46,6 +46,7 @@ namespace JudoPayDotNet.Clients
             return new Result<T>(result, response.JudoError);
         }
 
+        // ReSharper disable once InconsistentNaming
         protected async Task<IResult<R>> PostInternal<T, R>(string address, T entity, 
                                                                 Dictionary<string, string> parameters = null)
                                                                 where T : class
@@ -63,6 +64,7 @@ namespace JudoPayDotNet.Clients
             return new Result<R>(result, response.JudoError);
         }
 
+        // ReSharper disable once InconsistentNaming
         protected async Task<IResult<R>> PutInternal<T, R>(string address,
                                                             T entity, 
                                                             Dictionary<string, string> parameters = null)
@@ -118,6 +120,7 @@ namespace JudoPayDotNet.Clients
             return invalidRequestModel;
 		}
 
+        // ReSharper disable once InconsistentNaming
         protected Task<IResult<R>> Validate<T, R>(IValidator<T> validator, T instance) where R : class 
         {
             var validation = validator.Validate(instance);

@@ -1,11 +1,17 @@
 ﻿using System;
-using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Clients;
 using JudoPayDotNet.Clients.Consumer;
 using JudoPayDotNet.Clients.Market;
 using JudoPayDotNet.Clients.Merchant;
+using JudoPayDotNet.Clients.WebPayments;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
+using IPayments = JudoPayDotNet.Clients.IPayments;
+using IPreAuths = JudoPayDotNet.Clients.IPreAuths;
+using ITransactions = JudoPayDotNet.Clients.ITransactions;
+using Payments = JudoPayDotNet.Clients.Payments;
+using PreAuths = JudoPayDotNet.Clients.PreAuths;
+using Transactions = JudoPayDotNet.Clients.Transactions;
 
 namespace JudoPayDotNet
 {
@@ -26,16 +32,8 @@ namespace JudoPayDotNet
         public ICollections Collections { get; set; }
         public IThreeDs ThreeDs { get; set; }
 
-        private readonly IClient client;
-        private readonly ICredentials credentials;
-        private readonly Func<Type, ILog> logger;
-
-        public JudoPayments(Func<Type, ILog> log, ICredentials credentials, IClient client)
+        public JudoPayments(Func<Type, ILog> logger, IClient client)
         {
-            this.client = client;
-            this.credentials = credentials;
-            this.logger = log;
-
             Payments = new Payments(logger(typeof(Payments)), client);
             Refunds = new Refunds(logger(typeof(Refunds)), client);
             PreAuths = new PreAuths(logger(typeof(PreAuths)), client);
@@ -43,7 +41,7 @@ namespace JudoPayDotNet
             Collections = new Collections(logger(typeof(Collections)), client);
             ThreeDs = new ThreeDs(logger(typeof(ThreeDs)), client);
 
-            Market = new Market()
+            Market = new Market
             {
                 Payments = new MarketPayments(logger(typeof(MarketPayments)), client),
                 Refunds = new MarketRefunds(logger(typeof(MarketRefunds)), client),
@@ -55,14 +53,14 @@ namespace JudoPayDotNet
 
             Merchants = new Merchants(logger(typeof(Merchants)), client);
 
-            WebPayments = new WebPayments()
+            WebPayments = new WebPayments
             {
                 Payments = new Clients.WebPayments.Payments(logger(typeof(Clients.WebPayments.Payments)), client),
                 PreAuths = new Clients.WebPayments.PreAuths(logger(typeof(Clients.WebPayments.PreAuths)), client),
                 Transactions = new Clients.WebPayments.Transactions(logger(typeof(Clients.WebPayments.Transactions)), client)
             };
 
-            Consumers = new Consumers(logger(typeof(Clients.Consumer.Consumers)), client);
+            Consumers = new Consumers(logger(typeof(Consumers)), client);
         }
 
     }

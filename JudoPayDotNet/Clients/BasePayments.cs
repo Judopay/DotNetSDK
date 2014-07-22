@@ -10,8 +10,8 @@ namespace JudoPayDotNet.Clients
     internal abstract class BasePayments : JudoPayClient
     {
 
-        protected readonly IValidator<CardPaymentModel> cardPaymentValidator = new CardPaymentValidator();
-        protected readonly IValidator<TokenPaymentModel> tokenPaymentValidator = new TokenPaymentValidator();
+        protected readonly IValidator<CardPaymentModel> CardPaymentValidator = new CardPaymentValidator();
+        protected readonly IValidator<TokenPaymentModel> TokenPaymentValidator = new TokenPaymentValidator();
 
         protected readonly string CreateAddress;
 
@@ -22,14 +22,14 @@ namespace JudoPayDotNet.Clients
 
         public Task<IResult<ITransactionResult>> Create(CardPaymentModel cardPayment)
         {
-            var validationError = Validate<CardPaymentModel, ITransactionResult>(cardPaymentValidator, cardPayment);
+            var validationError = Validate<CardPaymentModel, ITransactionResult>(CardPaymentValidator, cardPayment);
 
             return validationError ?? PostInternal<CardPaymentModel, ITransactionResult>(CreateAddress, cardPayment);
         }
 
         public Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPayment)
         {
-            var validationError = Validate<TokenPaymentModel, ITransactionResult>(tokenPaymentValidator, tokenPayment);
+            var validationError = Validate<TokenPaymentModel, ITransactionResult>(TokenPaymentValidator, tokenPayment);
 
             return validationError ?? PostInternal<TokenPaymentModel, ITransactionResult>(CreateAddress, tokenPayment);
         }

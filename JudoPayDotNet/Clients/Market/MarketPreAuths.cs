@@ -5,10 +5,10 @@ namespace JudoPayDotNet.Clients.Market
 {
     internal class MarketPreAuths : BasePreAuth, IMarketPreAuths
     {
-        private const string CREATEPREAUTHADDRESS = "market/transactions/preauths";
+        private const string Createpreauthaddress = "market/transactions/preauths";
 
         public MarketPreAuths(ILog logger, IClient client)
-            : base(logger, client, CREATEPREAUTHADDRESS)
+            : base(logger, client, Createpreauthaddress)
         {
         }
     }

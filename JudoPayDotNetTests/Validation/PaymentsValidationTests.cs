@@ -11,7 +11,7 @@ namespace JudoPayDotNetTests.Validation
         [Test]
         public void ValidateCardPaymentWithErrorOnSpecificCardPaymentInformation()
         {
-            CardPaymentModel payment = new CardPaymentModel();
+            var payment = new CardPaymentModel();
 
             var validator = new CardPaymentValidator();
 
@@ -21,17 +21,17 @@ namespace JudoPayDotNetTests.Validation
         [Test]
         public void ValidateCardPaymentWithErrorOnPaymentValidation()
         {
-            CardPaymentModel payment = new CardPaymentModel()
+            var payment = new CardPaymentModel
             {
                 Amount = 2.0m,
-                CardAddress = new CardAddressModel()
+                CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
                     PostCode = "W40 9AU",
                     Town = "Town"
                 },
                 CardNumber = "348417606737499",
-                ConsumerLocation = new ConsumerLocationModel()
+                ConsumerLocation = new ConsumerLocationModel
                 {
                     Latitude = 40m,
                     Longitude = 14m
@@ -52,10 +52,10 @@ namespace JudoPayDotNetTests.Validation
         [Test]
         public void ValidateCardPaymentWithoutErrors()
         {
-            CardPaymentModel payment = new CardPaymentModel()
+            var payment = new CardPaymentModel
             {
                 Amount = 2.0m,
-                CardAddress = new CardAddressModel()
+                CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
                     Line2 = "Test Street",
@@ -64,7 +64,7 @@ namespace JudoPayDotNetTests.Validation
                     Town = "Town"
                 },
                 CardNumber = "348417606737499",
-                ConsumerLocation = new ConsumerLocationModel()
+                ConsumerLocation = new ConsumerLocationModel
                 {
                     Latitude = 40m,
                     Longitude = 14m

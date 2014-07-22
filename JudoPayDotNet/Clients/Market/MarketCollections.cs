@@ -5,9 +5,9 @@ namespace JudoPayDotNet.Clients.Market
 {
     internal class MarketCollections : BaseCollections, IMarketCollections
     {
-        private const string CREATEADDRESS = "market/transactions/collections";
+        private const string Createaddress = "market/transactions/collections";
 
-        public MarketCollections(ILog logger, IClient client) : base(logger, client, CREATEADDRESS)
+        public MarketCollections(ILog logger, IClient client) : base(logger, client, Createaddress)
         {
         }
     }

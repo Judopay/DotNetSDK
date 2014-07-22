@@ -47,7 +47,7 @@ namespace JudoPayDotNet.Http
             switch (_authenticationType)
             {
                 case AuthType.Basic:
-                    string full = string.Format("{0}:{1}", _credentials.Token, _credentials.Secret);
+                    var full = string.Format("{0}:{1}", _credentials.Token, _credentials.Secret);
 
                     schema = AuthType.Basic.ToString();
                     var authDetails = Encoding.GetEncoding("iso-8859-1").GetBytes(full);
@@ -69,7 +69,7 @@ namespace JudoPayDotNet.Http
 
             if (!String.IsNullOrEmpty(schema) && !string.IsNullOrEmpty(parameter)) 
             { 
-                request.Headers.Authorization = new AuthenticationHeaderValue(schema, parameter); ;
+                request.Headers.Authorization = new AuthenticationHeaderValue(schema, parameter);
             }
 
             return base.SendAsync(request, cancellationToken);

@@ -26,14 +26,13 @@ namespace JudoPayDotNetTests.Headers
 
                 return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
             });
-            Credentials credentials = new Credentials("ABC");
+            var credentials = new Credentials("ABC");
 
-            AuthorizationHandler handler = new AuthorizationHandler(credentials, logger);
+            var handler = new AuthorizationHandler(credentials, logger) {InnerHandler = testHandler};
 
-            handler.InnerHandler = testHandler;
+            var client = new HttpClient(handler);
 
-            HttpClient client = new HttpClient(handler);
-
+// ReSharper disable once MethodSupportsCancellation
             var response = client.GetAsync("http://lodididki");
 
             Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);
@@ -57,14 +56,13 @@ namespace JudoPayDotNetTests.Headers
 
                 return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
             });
-            Credentials credentials = new Credentials("testToken", "testSecret");
+            var credentials = new Credentials("testToken", "testSecret");
 
-            AuthorizationHandler handler = new AuthorizationHandler(credentials, logger);
+            var handler = new AuthorizationHandler(credentials, logger) {InnerHandler = testHandler};
 
-            handler.InnerHandler = testHandler;
+            var client = new HttpClient(handler);
 
-            HttpClient client = new HttpClient(handler);
-
+// ReSharper disable once MethodSupportsCancellation
             var response = client.GetAsync("http://lodididki");
 
             Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);

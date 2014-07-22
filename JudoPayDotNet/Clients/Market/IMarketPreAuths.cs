@@ -4,7 +4,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients.Market
 {
     /// <summary>
-    /// The entity reponsible for providing market pre authorizations operations
+    /// The entity responsible for providing market pre authorizations operations
     /// </summary>
     public interface IMarketPreAuths
     {

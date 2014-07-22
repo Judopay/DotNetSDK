@@ -13,8 +13,8 @@ namespace JudoPayDotNetTests.Headers
         [Test]
         public void VersionHeaderTest()
         {
-            string versionHeader = "api-version-header";
-            string versionHeaderValue = "3.2";
+            const string versionHeader = "api-version-header";
+            const string versionHeaderValue = "3.2";
 
             var testHandler = new TestHandler((request, cancelation) =>
             {
@@ -27,12 +27,11 @@ namespace JudoPayDotNetTests.Headers
                 return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
             });
 
-            VersioningHandler handler = new VersioningHandler(versionHeader, versionHeaderValue);
+            var handler = new VersioningHandler(versionHeader, versionHeaderValue) {InnerHandler = testHandler};
 
-            handler.InnerHandler = testHandler;
+            var client = new HttpClient(handler);
 
-            HttpClient client = new HttpClient(handler);
-
+// ReSharper disable once MethodSupportsCancellation
             var response = client.GetAsync("http://lodididki");
 
             Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);

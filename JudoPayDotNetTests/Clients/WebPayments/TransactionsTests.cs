@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
-using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet.Logging;
@@ -23,8 +18,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
         public void GetTransactionsByReceiptId()
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(@"{
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
     	                                            amount : 10,
     	                                            cardAddress : 
     	                                            {
@@ -73,23 +67,22 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 	                                                            yourConsumerReference : 'Consumer1'
 	                                                        }
 		                                            }
-                                                }");
+                                                }")};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            var receiptId = "1245";
+            const string receiptId = "1245";
 
-            IResult<WebPaymentRequestModel> paymentReceiptResult = judo.WebPayments.Transactions.GetByReceipt(receiptId).Result;
+            var paymentReceiptResult = judo.WebPayments.Transactions.GetByReceipt(receiptId).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
@@ -102,8 +95,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
         public void GetTransactionsByReference()
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(@"{
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
     	                                            amount : 10,
     	                                            cardAddress : 
     	                                            {
@@ -152,23 +144,22 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 	                                                            yourConsumerReference : 'Consumer1'
 	                                                        }
 		                                            }
-                                                }");
+                                                }")};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var credentials = new Credentials("ABC", "Secrete");
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create(typeof(Connection)),
                                                     "http://judo.com"));
 
-            JudoPayments judo = new JudoPayments(DotNetLoggerFactory.Create, credentials, client);
+            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 
-            var reference = "42421";
+            const string reference = "42421";
 
-            IResult<WebPaymentRequestModel> paymentReceiptResult = judo.WebPayments.Transactions.Get(reference).Result;
+            var paymentReceiptResult = judo.WebPayments.Transactions.Get(reference).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
