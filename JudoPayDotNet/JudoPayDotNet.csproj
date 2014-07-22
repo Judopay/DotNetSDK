@@ -72,6 +72,7 @@
     <Compile Include="Clients\BasePreAuth.cs" />
     <Compile Include="Clients\BaseRefunds.cs" />
     <Compile Include="Clients\Collections.cs" />
+    <Compile Include="Clients\Consumer\BaseConsumer.cs" />
     <Compile Include="Clients\ICollections.cs" />
     <Compile Include="Clients\JudoPayClient.cs" />
     <Compile Include="Clients\IThreeDs.cs" />

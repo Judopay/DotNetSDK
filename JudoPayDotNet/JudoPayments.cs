@@ -1,6 +1,7 @@
 ﻿using System;
 using JudoPayDotNet.Autentication;
 using JudoPayDotNet.Clients;
+using JudoPayDotNet.Clients.Consumer;
 using JudoPayDotNet.Clients.Market;
 using JudoPayDotNet.Clients.Merchant;
 using JudoPayDotNet.Http;
@@ -15,6 +16,8 @@ namespace JudoPayDotNet
         public IMerchants Merchants { get; set; }
 
         public IWebPayments WebPayments { get; set; }
+
+        public IConsumers Consumers { get; set; }
 
         public IPayments Payments { get; set; }
         public IRefunds Refunds { get; set; }
@@ -58,6 +61,8 @@ namespace JudoPayDotNet
                 PreAuths = new Clients.WebPayments.PreAuths(logger(typeof(Clients.WebPayments.PreAuths)), client),
                 Transactions = new Clients.WebPayments.Transactions(logger(typeof(Clients.WebPayments.Transactions)), client)
             };
+
+            Consumers = new Consumers(logger(typeof(Clients.Consumer.Consumers)), client);
         }
 
     }

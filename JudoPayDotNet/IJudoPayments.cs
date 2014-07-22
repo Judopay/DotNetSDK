@@ -25,6 +25,14 @@ namespace JudoPayDotNet
         IMerchants Merchants { get; set; }
 
         /// <summary>
+        /// Gets or sets the web payments operations.
+        /// </summary>
+        /// <value>
+        /// The web payments.
+        /// </value>
+        IWebPayments WebPayments { get; set; }
+
+        /// <summary>
         /// The entity reponsible for providing payments operations
         /// </summary>
         IPayments Payments { get; set; }
