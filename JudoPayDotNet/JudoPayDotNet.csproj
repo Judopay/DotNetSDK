@@ -149,6 +149,7 @@
     <Compile Include="Models\ThreeDResultModel.cs" />
     <Compile Include="Models\ThreeDSecureReceiptModel.cs" />
     <Compile Include="Models\TokenPaymentModel.cs" />
+    <Compile Include="Models\TransactionListSorts.cs" />
     <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Models\TransactionType.cs" />
     <Compile Include="Models\Validations\RefundsValidator.cs" />

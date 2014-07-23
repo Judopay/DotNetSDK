@@ -39,10 +39,10 @@ namespace JudoPayDotNetTests.Clients
                         })
                         .SetName("GetTransactionsJustWithPage");
                     yield return new TestCaseData(
-                        new[] { new KeyValuePair<string, string>("sort", "ASC") },
+                        new[] { new KeyValuePair<string, string>("sort", TransactionListSorts.timeAscending.ToString()) },
                         new FunctionHolder
                         {
-                            Func = transactions => transactions.Get("SALE", sort: "ASC").Result
+                            Func = transactions => transactions.Get("SALE", sort: TransactionListSorts.timeAscending).Result
                         })
                         .SetName("GetTransactionsJustWithSort");
                     yield return new TestCaseData(
@@ -56,11 +56,11 @@ namespace JudoPayDotNetTests.Clients
                             {
                                 new KeyValuePair<string, string>("pageSize", "4"),
                                 new KeyValuePair<string, string>("offset", "0"),
-                                new KeyValuePair<string, string>("sort", "ASC")
+                                new KeyValuePair<string, string>("sort", TransactionListSorts.timeAscending.ToString())
                             },
                             new FunctionHolder
                             {
-                                Func = transactions => transactions.Get("SALE", 4, 0, "ASC").Result
+                                Func = transactions => transactions.Get("SALE", 4, 0, TransactionListSorts.timeAscending).Result
                             }).SetName("GetTransactionsWithAll");
                 }
             }

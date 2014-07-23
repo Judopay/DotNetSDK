@@ -25,6 +25,6 @@ namespace JudoPayDotNet.Clients
         /// <returns>The receipts</returns>
         // ReSharper disable once MethodOverloadWithOptionalParameter
         Task<IResult<PaymentReceiptResults>> Get(string transactionType, long? pageSize = null, 
-                                                    long? offset = null, string sort = null);
+                                                    long? offset = null, TransactionListSorts? sort = null);
     }
 }
