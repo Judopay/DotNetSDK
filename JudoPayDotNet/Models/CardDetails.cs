@@ -5,6 +5,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     ///     Details of the card used in the requested operation (add card/payment)
     /// </summary>
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract(Name = "CardDetails", Namespace = "")]
     public class CardDetails
     {
@@ -44,4 +45,5 @@ namespace JudoPayDotNet.Models
         [DataMember]
         public CardType CardType { get; set; }
     }
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

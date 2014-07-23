@@ -8,6 +8,7 @@ namespace JudoPayDotNet.Models
     /// Application information
     /// </summary>
     [DataContract(Name = "Application", Namespace = "")]   
+    // ReSharper disable UnusedMember.Global
     public class ApplicationModel
     {
         /// <summary>
@@ -155,4 +156,5 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public string PartnerShortName { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
 }

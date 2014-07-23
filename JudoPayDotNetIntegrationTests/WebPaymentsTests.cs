@@ -383,7 +383,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual(request.JudoId, webRequest.Response.JudoId);
         }
 
-        protected HttpRequestMessage CreateJudoApiRequest(string url, HttpMethod method, string apiVersion, string apiToken, string apiSecret)
+        private HttpRequestMessage CreateJudoApiRequest(string url, HttpMethod method, string apiVersion, string apiToken, string apiSecret)
         {
 
 

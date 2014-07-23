@@ -7,6 +7,7 @@ namespace JudoPayDotNet.Http
     /// <summary>
     /// This client is a simple wrapper of IHttpClient
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     public class HttpClientWrapper : IHttpClient
     {
         public readonly HttpClient HttpClient;
@@ -62,4 +63,5 @@ namespace JudoPayDotNet.Http
             return HttpClient.SendAsync(request);
         }
     }
+    // ReSharper restore UnusedMember.Global
 }

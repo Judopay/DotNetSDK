@@ -5,8 +5,12 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// A market place merchange location
     /// </summary>
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
+    // ReSharper disable UnusedMember.Global
     [DataContract(Name = "Location", Namespace = "")]
+// ReSharper disable ClassNeverInstantiated.Global
     public class MarketPlaceMerchantLocation
+// ReSharper restore ClassNeverInstantiated.Global
     {
         /// <summary>
         /// Gets or sets the partner reference.
@@ -35,4 +39,6 @@ namespace JudoPayDotNet.Models
         [DataMember]
         public string JudoId { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

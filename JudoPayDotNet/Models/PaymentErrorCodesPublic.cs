@@ -2,6 +2,7 @@ using JudoPayDotNet.Enums;
 
 namespace JudoPayDotNet.Models
 {
+    // ReSharper disable UnusedMember.Global
     // ReSharper disable InconsistentNaming
     public enum PaymentErrorCodesPublic : long
     {
@@ -109,4 +110,5 @@ namespace JudoPayDotNet.Models
         ThreeDSecureNotSuccessful = 7005
     }
     // ReSharper restore InconsistentNaming
+    // ReSharper restore UnusedMember.Global
 }

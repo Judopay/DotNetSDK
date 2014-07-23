@@ -6,6 +6,7 @@ namespace JudoPayDotNet.Models
     /// Data to register a credit card
     /// </summary>
     [DataContract]
+// ReSharper disable UnusedMember.Global
     public class RegisterCardModel
     {
         /// <summary>
@@ -53,4 +54,5 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public string YourConsumerReference { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
 }

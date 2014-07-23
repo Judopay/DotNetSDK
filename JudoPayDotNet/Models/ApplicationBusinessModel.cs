@@ -6,7 +6,10 @@ namespace JudoPayDotNet.Models
     /// Application Business
     /// </summary>
     [DataContract(Name = "ApplicationBusiness", Namespace = "")]
+    // ReSharper disable UnusedMember.Global
+// ReSharper disable ClassNeverInstantiated.Global
     public class ApplicationBusinessModel
+// ReSharper restore ClassNeverInstantiated.Global
     {
         /// <summary>
         /// Gets or sets the type of company.
@@ -16,6 +19,7 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string TypeOfCompany { get; set; }
+
 
         /// <summary>
         /// Gets or sets the name of the legal.
@@ -53,4 +57,5 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public int? YearsInBusiness { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
 }

@@ -11,31 +11,28 @@ namespace JudoPayDotNet.Clients
         private const string Createpreauthaddress = "transactions/preauths";
         private const string Validatepreauthaddress = "transactions/preauths/validate";
 
-        protected readonly string ValidatePreAuthAddress;
+        private readonly string _validatePreAuthAddress;
 
-        public PreAuths(ILog logger, IClient client)
-            : this(logger, client, Createpreauthaddress, Validatepreauthaddress)
-        {
-        }
-
-        public PreAuths(ILog logger, IClient client, string createAddress, string validateAddress)
+        public PreAuths(ILog logger, IClient client, 
+                            string createAddress = Createpreauthaddress, 
+                            string validateAddress = Validatepreauthaddress)
             : base(logger, client, createAddress)
         {
-            ValidatePreAuthAddress = validateAddress;
+            _validatePreAuthAddress = validateAddress;
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPreAuth)
         {
             var validationError = Validate<CardPaymentModel, JudoApiErrorModel>(CardPaymentValidator, cardPreAuth);
 
-            return validationError ?? PostInternal<CardPaymentModel, JudoApiErrorModel>(ValidatePreAuthAddress, cardPreAuth);
+            return validationError ?? PostInternal<CardPaymentModel, JudoApiErrorModel>(_validatePreAuthAddress, cardPreAuth);
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(TokenPaymentModel tokenPreAuth)
         {
             var validationError = Validate<TokenPaymentModel, JudoApiErrorModel>(TokenPaymentValidator, tokenPreAuth);
 
-            return validationError ?? PostInternal<TokenPaymentModel, JudoApiErrorModel>(ValidatePreAuthAddress, tokenPreAuth);
+            return validationError ?? PostInternal<TokenPaymentModel, JudoApiErrorModel>(_validatePreAuthAddress, tokenPreAuth);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace JudoPayDotNet.Clients
     /// <summary>
     /// The entity reponsible for providing pre authorizations operations
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     public interface IPreAuths
     {
         /// <summary>
@@ -37,4 +38,5 @@ namespace JudoPayDotNet.Clients
         /// <returns>The result of validation of token pre authorization</returns>
         Task<IResult<JudoApiErrorModel>> Validate(TokenPaymentModel tokenPayment);
     }
+    // ReSharper restore UnusedMember.Global
 }

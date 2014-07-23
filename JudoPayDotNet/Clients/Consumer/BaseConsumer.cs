@@ -15,7 +15,7 @@ namespace JudoPayDotNet.Clients.Consumer
         {
         }
 
-        public Task<IResult<PaymentReceiptResults>> GetTransactions(string consumerToken, string transactionType = null,
+        protected Task<IResult<PaymentReceiptResults>> GetTransactions(string consumerToken, string transactionType = null,
                                                                     long? pageSize = null, long? offset = null, string sort = null)
         {
             var address = string.Format("{0}/{1}", Address, consumerToken);

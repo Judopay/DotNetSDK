@@ -5,8 +5,11 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// A deposit account 
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     [DataContract(Namespace = "")]
+// ReSharper disable ClassNeverInstantiated.Global
     public class DepositAcccount
+// ReSharper restore ClassNeverInstantiated.Global
     {
         /// <summary>
         /// Gets or sets the sort code.
@@ -15,7 +18,9 @@ namespace JudoPayDotNet.Models
         /// The sort code.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+
         public string SortCode { get; set; }
+
 
         /// <summary>
         /// Gets or sets the mask sort code.
@@ -125,4 +130,5 @@ namespace JudoPayDotNet.Models
         /// </value>
         public string BankCountry { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
 }

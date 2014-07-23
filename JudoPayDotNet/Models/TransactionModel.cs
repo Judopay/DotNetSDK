@@ -5,6 +5,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// Transaction information
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     public class TransactionModel
     {
         /// <summary>
@@ -52,4 +53,5 @@ namespace JudoPayDotNet.Models
         /// </summary>
         public bool IsAvailable { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
 }

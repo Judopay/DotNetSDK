@@ -5,6 +5,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// A payment that requires threeD secure
     /// </summary>
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract(Name = "ThreeDRequired", Namespace = "")]
     public class PaymentRequiresThreeDSecureModel : ITransactionResult
     {
@@ -62,4 +63,5 @@ namespace JudoPayDotNet.Models
         [DataMember]
         public string PaReq { get; set; }
     }
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

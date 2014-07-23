@@ -10,15 +10,16 @@ using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Clients
 {
+    // ReSharper disable UnusedMember.Global
     internal abstract class JudoPayClient
     {
-        protected readonly IClient Client;
-        protected readonly ILog Logger;
+        private readonly IClient _client;
+        private readonly ILog _logger;
 
         protected JudoPayClient(ILog logger, IClient client)
         {
-            Logger = logger;
-            Client = client;
+            _logger = logger;
+            _client = client;
         }
 
         protected void AddParameter(Dictionary<string, string> parameters, string key, object value)
@@ -36,7 +37,7 @@ namespace JudoPayDotNet.Clients
         {
             T result = null;
 
-            var response = await Client.Get<T>(address, parameters).ConfigureAwait(false);
+            var response = await _client.Get<T>(address, parameters).ConfigureAwait(false);
 
             if (!response.ErrorResponse)
             {
@@ -54,7 +55,7 @@ namespace JudoPayDotNet.Clients
         {
             R result = null;
 
-            var response = await Client.Post<R>(address, parameters, entity).ConfigureAwait(false);
+            var response = await _client.Post<R>(address, parameters, entity).ConfigureAwait(false);
 
             if (!response.ErrorResponse)
             {
@@ -73,7 +74,7 @@ namespace JudoPayDotNet.Clients
         {
             R result = null;
 
-            var response = await Client.Update<R>(address, parameters, entity).ConfigureAwait(false);
+            var response = await _client.Update<R>(address, parameters, entity).ConfigureAwait(false);
 
             if (!response.ErrorResponse)
             {
@@ -83,17 +84,16 @@ namespace JudoPayDotNet.Clients
             return new Result<R>(result, response.JudoError);
         }
 
-        protected async Task<IResult> DeleteInternal<T>(string address, 
-                                                        T entity, 
+
+        protected async Task<IResult> DeleteInternal(string address, 
                                                         Dictionary<string, string> parameters = null)
-            where T : class
         {
-            var response = await Client.Delete(address, parameters, entity).ConfigureAwait(false);
+            var response = await _client.Delete(address, parameters).ConfigureAwait(false);
 
             return new Result(response.JudoError);
         }
 
-        protected JudoApiErrorModel CreateValidationErrorMessage(ValidationResult result)
+        private JudoApiErrorModel CreateValidationErrorMessage(ValidationResult result)
 		{
             if (result.IsValid)
             {
@@ -109,7 +109,7 @@ namespace JudoPayDotNet.Clients
 
 		    foreach (var validationFailure in result.Errors)
 		    {
-			    Logger.DebugFormat("Model validation error {0} {1}", validationFailure.PropertyName, validationFailure.ErrorMessage);
+			    _logger.DebugFormat("Model validation error {0} {1}", validationFailure.PropertyName, validationFailure.ErrorMessage);
 				invalidRequestModel.ModelErrors.Add(new JudoModelError
 					{
 						FieldName = validationFailure.PropertyName,
@@ -133,4 +133,5 @@ namespace JudoPayDotNet.Clients
             return null;
         }
     }
+    // ReSharper restore UnusedMember.Global
 }

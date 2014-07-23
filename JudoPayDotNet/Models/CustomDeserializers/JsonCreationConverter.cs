@@ -17,14 +17,14 @@ namespace JudoPayDotNet.Models.CustomDeserializers
                 return false;
             }
         }
+
         /// <summary> 
         /// Create an instance of objectType, based properties in the JSON object 
-        /// </summary> 
-        /// <param name="objectType">type of object expected</param> 
+        /// </summary>
         /// <param name="jObject">contents of JSON object that will be 
         /// deserialized</param> 
         /// <returns></returns> 
-        protected abstract T Create(Type objectType, JObject jObject);
+        protected abstract T Create(JObject jObject);
 
         public override bool CanConvert(Type objectType)
         {
@@ -40,7 +40,7 @@ namespace JudoPayDotNet.Models.CustomDeserializers
             var jObject = JObject.Load(reader);
 
             // Create target object based on JObject 
-            var target = Create(objectType, jObject);
+            var target = Create(jObject);
 
             // Populate the object properties 
             serializer.Populate(jObject.CreateReader(), target);

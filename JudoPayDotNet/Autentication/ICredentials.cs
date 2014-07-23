@@ -3,6 +3,7 @@
     /// <summary>
     /// The credentials to access Judo Payments
     /// </summary>
+    // ReSharper disable UnusedMemberInSuper.Global
     public interface ICredentials
     {
         /// <summary>
@@ -29,4 +30,5 @@
         /// </value>
         string OAuthAccessToken { get; }
     }
+    // ReSharper restore UnusedMemberInSuper.Global
 }

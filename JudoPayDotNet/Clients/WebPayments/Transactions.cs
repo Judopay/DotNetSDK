@@ -6,6 +6,7 @@ using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Clients.WebPayments
 {
+    // ReSharper disable UnusedMember.Global
     internal class Transactions : JudoPayClient, ITransactions
     {
         private const string Baseaddress = "webpayments";
@@ -23,6 +24,7 @@ namespace JudoPayDotNet.Clients.WebPayments
         }
 
         public Task<IResult<WebPaymentRequestModel>> Get(string reference, TransactionType type)
+
         {
 
             if (type == TransactionType.PREAUTH || type == TransactionType.SALE)
@@ -48,4 +50,5 @@ namespace JudoPayDotNet.Clients.WebPayments
             return GetInternal<WebPaymentRequestModel>(address);
         }
     }
+    // ReSharper restore UnusedMember.Global
 }

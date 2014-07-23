@@ -18,7 +18,7 @@ namespace JudoPayDotNetTests.Clients
     {
 
         //Test data
-        public class PaymentsTestSource
+        private class PaymentsTestSource
         {
             public static IEnumerable CreateSuccessTestCases
             {

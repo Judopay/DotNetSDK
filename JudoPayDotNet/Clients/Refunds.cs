@@ -11,24 +11,21 @@ namespace JudoPayDotNet.Clients
         private const string Createrefundsaddress = "transactions/refunds";
         private const string Validaterefundsaddress = "transactions/refunds/validate";
 
-        protected readonly string ValidateRefundAddress;
+        private readonly string _validateRefundAddress;
 
-        public Refunds(ILog logger, IClient client)
-            : this(logger, client, Createrefundsaddress, Validaterefundsaddress)
-        {
-        }
-
-        public Refunds(ILog logger, IClient client, string createAddress, string validateAddress)
+        public Refunds(ILog logger, IClient client, 
+                        string createAddress = Createrefundsaddress, 
+                        string validateAddress = Validaterefundsaddress)
             : base(logger, client, createAddress)
         {
-            ValidateRefundAddress = validateAddress;
+            _validateRefundAddress = validateAddress;
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(RefundModel refund)
         {
             var validationError = Validate<RefundModel, JudoApiErrorModel>(RefundValidator, refund);
 
-            return validationError ?? PostInternal<RefundModel, JudoApiErrorModel>(ValidateRefundAddress, refund);
+            return validationError ?? PostInternal<RefundModel, JudoApiErrorModel>(_validateRefundAddress, refund);
         }
     }
 }

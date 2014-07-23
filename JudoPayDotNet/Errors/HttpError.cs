@@ -5,7 +5,9 @@ namespace JudoPayDotNet.Errors
 {
     public class HttpError : Error
     {
+// ReSharper disable MemberCanBePrivate.Global
         public string StatusCode { get; private set; }
+// ReSharper restore MemberCanBePrivate.Global
 
         public HttpError(HttpResponseMessage response)
         {

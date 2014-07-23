@@ -6,7 +6,9 @@ namespace JudoPayDotNet.Models
     /// A judo location
     /// </summary>
     [DataContract(Name = "JudoLocation", Namespace = "")]
+// ReSharper disable UnusedMember.Global
     public class JudoLocationModel
+
     {
         /// <summary>
         /// Gets or sets the partner reference.
@@ -35,4 +37,5 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public string TradingName { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
 }

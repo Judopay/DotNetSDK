@@ -4,7 +4,10 @@ using System.Runtime.Serialization;
 namespace JudoPayDotNet.Models
 {
     [DataContract(Name = "ApplicationPrinciple", Namespace = "")]
+    // ReSharper disable UnusedMember.Global
+// ReSharper disable ClassNeverInstantiated.Global
     public class ApplicationPrincipleModel
+// ReSharper restore ClassNeverInstantiated.Global
     {
         /// <summary>
         /// Gets or sets the salutation.
@@ -13,7 +16,9 @@ namespace JudoPayDotNet.Models
         /// The salutation.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+
         public string Salutation { get; set; }
+
 
         /// <summary>
         /// Gets or sets the first name.
@@ -130,4 +135,5 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public long? AccountPrincipleRecId { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
 }

@@ -5,6 +5,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     ///     Details of the consumer used in the requested operation (add card/payment)
     /// </summary>
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract(Name = "Consumer", Namespace = "")]
     public class Consumer
     {
@@ -26,4 +27,5 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public string YourConsumerReference { get; set; }
     }
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

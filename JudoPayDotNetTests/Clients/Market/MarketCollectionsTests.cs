@@ -16,7 +16,7 @@ namespace JudoPayDotNetTests.Clients.Market
     public class MarketCollectionsTests
     {
         //Test data
-        public class MarketCollectionsTestSource
+        private class MarketCollectionsTestSource
         {
             public static IEnumerable CreateSuccessTestCases
             {

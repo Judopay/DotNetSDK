@@ -44,7 +44,9 @@ namespace JudoPayDotNet.Validation
             return this;
         }
 
+// ReSharper disable UnusedMethodReturnValue.Global
         public IEnumerable<ValidationFailure> Validate(TBaseClass value)
+// ReSharper restore UnusedMethodReturnValue.Global
         {
             return ActualValidation(value);
         }

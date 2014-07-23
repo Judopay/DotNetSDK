@@ -6,6 +6,7 @@ namespace JudoPayDotNet.Logging
     /// A wrapper around logger with an interface compatible log4net. 
     /// This interface must be implemented in each platform providing logging capabilities to the SDK
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     public interface ILog
     {
         void Debug(object message);
@@ -54,4 +55,5 @@ namespace JudoPayDotNet.Logging
         bool IsInfoEnabled { get; }
         bool IsWarnEnabled { get; }
     }
+    // ReSharper restore UnusedMember.Global
 }

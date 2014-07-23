@@ -3,9 +3,11 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// What state is the webpayment Request in
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     public enum WebPaymentStatus : long
     {
         Unknown = 0,
+
         /// <summary>
         /// Payment is still pending
         /// </summary>
@@ -21,4 +23,5 @@ namespace JudoPayDotNet.Models
         /// </summary>
         Cancelled = 6
     }
+    // ReSharper restore UnusedMember.Global
 }

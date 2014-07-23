@@ -15,8 +15,7 @@ namespace JudoPayDotNetTests.Validation
 {
     class PaymentWithValidation
     {
-
-        public static class TestSource 
+        private static class TestSource 
         {
             public static IEnumerable CreateFailValidate
             {

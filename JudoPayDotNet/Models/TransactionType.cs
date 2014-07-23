@@ -6,6 +6,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// The card transaction types supported by our gateway
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     // ReSharper disable InconsistentNaming
     public enum TransactionType : long
     {
@@ -38,4 +39,5 @@ namespace JudoPayDotNet.Models
         KEEP_ALIVE = 8
     }
     // ReSharper restore InconsistentNaming
+    // ReSharper restore UnusedMember.Global
 }

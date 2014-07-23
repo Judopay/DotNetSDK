@@ -5,6 +5,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// A card address information
     /// </summary>
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract]
     public class CardAddressModel
     {
@@ -53,4 +54,5 @@ namespace JudoPayDotNet.Models
         [DataMember(IsRequired = true)]
         public string PostCode { get; set; }
     }
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

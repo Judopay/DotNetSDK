@@ -9,6 +9,8 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// WebPayments request
     /// </summary>
+    // ReSharper disable UnusedMember.Global
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract]
     public class WebPaymentRequestModel
     {
@@ -173,4 +175,6 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public PaymentReceiptModel Receipt { get; set; }
     }
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
+    // ReSharper restore UnusedMember.Global
 }

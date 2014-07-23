@@ -5,8 +5,11 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// Web payment response
     /// </summary>
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract]
+// ReSharper disable ClassNeverInstantiated.Global
     public class WebPaymentResponseModel
+// ReSharper restore ClassNeverInstantiated.Global
     {
         /// <summary>
         /// Gets or sets the post URL.
@@ -26,4 +29,5 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public string Reference { get; set; }
     }
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

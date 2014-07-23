@@ -16,7 +16,7 @@ namespace JudoPayDotNetTests.Clients.Market
     public class MarketRefundsTests
     {
         //Test data
-        public class MarketRefundsTestSource
+        private class MarketRefundsTestSource
         {
             public static IEnumerable SuccessTestCases
             {

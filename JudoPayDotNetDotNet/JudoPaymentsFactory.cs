@@ -6,6 +6,7 @@ using JudoPayDotNetDotNet.Logging;
 
 namespace JudoPayDotNetDotNet
 {
+    // ReSharper disable UnusedMember.Global
     public static class JudoPaymentsFactory
     {
         private const string Apiversionheader = "api-version";
@@ -37,4 +38,5 @@ namespace JudoPayDotNetDotNet
             return Create(credentials, address);
         }
     }
+    // ReSharper restore UnusedMember.Global
 }

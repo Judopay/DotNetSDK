@@ -6,7 +6,10 @@ namespace JudoPayDotNet.Models
     /// 
     /// </summary>
     [DataContract(Name = "ApplicationTradingLocation", Namespace = "")]
+    // ReSharper disable UnusedMember.Global
+// ReSharper disable ClassNeverInstantiated.Global
     public class ApplicationTradingLocation
+// ReSharper restore ClassNeverInstantiated.Global
     {
         /// <summary>
         /// Gets or sets the partner reference.
@@ -16,6 +19,7 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string PartnerReference { get; set; }
+
 
         /// <summary>
         /// Gets or sets the name of the trading.
@@ -141,4 +145,5 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public long? AccountLocationLnkRecId { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
 }

@@ -17,7 +17,7 @@ namespace JudoPayDotNetTests.Clients
     public class PreAuthTests
     {
         //Test data
-        public class PreAuthTestSource
+        private class PreAuthTestSource
         {
             public static IEnumerable SuccessTestCases
             {

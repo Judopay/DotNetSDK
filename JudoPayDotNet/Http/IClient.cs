@@ -7,6 +7,7 @@ namespace JudoPayDotNet.Http
     /// An HTTP client for Judo Pay api that provides http verb methods with the capibility 
     /// of assembling query string and body
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     public interface IClient
     {
         /// <summary>
@@ -66,19 +67,16 @@ namespace JudoPayDotNet.Http
         /// <typeparam name="T">The type of response model</typeparam>
         /// <param name="address">The address.</param>
         /// <param name="parameters">The parameters for query string</param>
-        /// <param name="body">The body.</param>
         /// <returns>The response from Judy Pay with information of errors if they have ocurred</returns>
-        Task<IResponse<T>> Delete<T>(string address, Dictionary<string, string> parameters = null, 
-                                        object body = null);
+        Task<IResponse<T>> Delete<T>(string address, Dictionary<string, string> parameters = null);
 
         /// <summary>
         /// Do a http Delete to the specified address.
         /// </summary>
         /// <param name="address">The address.</param>
         /// <param name="parameters">The parameters for query string</param>
-        /// <param name="body">The body.</param>
         /// <returns>The response from Judy Pay with information of errors if they have ocurred</returns>
-        Task<IResponse> Delete(string address, Dictionary<string, string> parameters = null,
-            object body = null);
+        Task<IResponse> Delete(string address, Dictionary<string, string> parameters = null);
     }
+    // ReSharper restore UnusedMember.Global
 }

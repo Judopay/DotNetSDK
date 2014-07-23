@@ -5,6 +5,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// A refund request
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     [DataContract]
     public class RefundModel
     {
@@ -44,4 +45,5 @@ namespace JudoPayDotNet.Models
         [DataMember]
         public decimal PartnerServiceFee { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
 }

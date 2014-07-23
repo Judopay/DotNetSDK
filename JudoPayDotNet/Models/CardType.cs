@@ -6,6 +6,7 @@ namespace JudoPayDotNet.Models
     /// Card types
     /// </summary>
     /// <remarks>This enum is fed from two data sources, so I'm abusing the LocalizedDescription attribute to do it - BJK</remarks>
+    // ReSharper disable UnusedMember.Global
     // ReSharper disable InconsistentNaming
     public enum CardType
     {
@@ -59,4 +60,5 @@ namespace JudoPayDotNet.Models
         VISA_PURCHASING = 13
     }
     // ReSharper restore InconsistentNaming
+    // ReSharper restore UnusedMember.Global
 }

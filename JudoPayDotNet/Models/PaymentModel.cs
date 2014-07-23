@@ -7,6 +7,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// Generic information about a payment
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     [DataContract]
     public abstract class PaymentModel
     {
@@ -67,7 +68,9 @@ namespace JudoPayDotNet.Models
         /// The currency.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable MemberCanBePrivate.Global
         public string Currency { get; set; }
+// ReSharper restore MemberCanBePrivate.Global
 
         /// <summary>
         /// Gets or sets the partner service fee.
@@ -76,7 +79,9 @@ namespace JudoPayDotNet.Models
         /// The partner service fee.
         /// </value>
         [DataMember]
+// ReSharper disable UnusedAutoPropertyAccessor.Global
         public decimal PartnerServiceFee { get; set; }
+// ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         /// Gets or sets the CV2.
@@ -85,8 +90,11 @@ namespace JudoPayDotNet.Models
         /// The CV2.
         /// </value>
         [DataMember(IsRequired = true)]
-        // ReSharper disable once InconsistentNaming as this is a DTO
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable InconsistentNaming
         public string CV2 { get; set; }
+// ReSharper restore InconsistentNaming
+// ReSharper restore UnusedAutoPropertyAccessor.Global
 
 
         /// <summary>
@@ -96,7 +104,9 @@ namespace JudoPayDotNet.Models
         /// The consumer location.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable UnusedAutoPropertyAccessor.Global
         public ConsumerLocationModel ConsumerLocation { get; set; }
+// ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         /// Gets or sets the mobile number.
@@ -105,7 +115,9 @@ namespace JudoPayDotNet.Models
         /// The mobile number.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable UnusedAutoPropertyAccessor.Global
         public string MobileNumber { get; set; }
+// ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         /// Gets or sets the email address.
@@ -114,19 +126,24 @@ namespace JudoPayDotNet.Models
         /// The email address.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable UnusedAutoPropertyAccessor.Global
         public string EmailAddress { get; set; }
+// ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         /// This is a set of fraud signals sent by the mobile SDKs
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable once UnusedMember.Global
         public JObject ClientDetails { get; set; }
 
         /// <summary>
         /// The Client's browser useragent for 3D secure
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable UnusedAutoPropertyAccessor.Global
         public string UserAgent { get; set; }
+// ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         /// The Client's browser DeviceCategory for 3D secure
@@ -138,6 +155,9 @@ namespace JudoPayDotNet.Models
         /// The Client's browser DeviceCategory for 3D secure
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable UnusedAutoPropertyAccessor.Global
         public string AcceptHeaders { get; set; }
+// ReSharper restore UnusedAutoPropertyAccessor.Global
     }
+    // ReSharper restore UnusedMember.Global
 }

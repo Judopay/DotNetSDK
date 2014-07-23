@@ -3,6 +3,8 @@
     /// <summary>
     /// Provides judo payment operations for markets
     /// </summary>
+    // ReSharper disable UnusedMember.Global
+    // ReSharper disable UnusedMemberInSuper.Global
     public interface IMarket
     {
         /// <summary>
@@ -38,4 +40,6 @@
         /// </summary>
         IMarketMerchants Merchants { get; set; }
     }
+    // ReSharper restore UnusedMemberInSuper.Global
+    // ReSharper restore UnusedMember.Global
 }

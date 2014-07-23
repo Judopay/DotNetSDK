@@ -7,6 +7,7 @@ namespace JudoPayDotNet.Http
     /// A response typefied
     /// </summary>
     /// <typeparam name="T">The type of response model</typeparam>
+    // ReSharper disable UnusedMemberInSuper.Global
     public interface IResponse<T> : IResponse
     {
         /// <summary>
@@ -17,7 +18,8 @@ namespace JudoPayDotNet.Http
         /// </value>
         T ResponseBodyObject { get; set; }
     }
-
+    // ReSharper restore UnusedMemberInSuper.Global
+    // ReSharper disable UnusedMember.Global
     public interface IResponse
     {
         /// <summary>
@@ -52,4 +54,5 @@ namespace JudoPayDotNet.Http
         /// </value>
         bool ErrorResponse { get; }
     }
+    // ReSharper restore UnusedMember.Global
 }

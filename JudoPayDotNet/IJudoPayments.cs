@@ -12,6 +12,7 @@ namespace JudoPayDotNet
     /// <summary>
     /// Judo payments sdk client
     /// </summary>
+    // ReSharper disable UnusedMemberInSuper.Global
     public interface IJudoPayments
     {
         /// <summary>
@@ -79,4 +80,5 @@ namespace JudoPayDotNet
         /// </summary>
         IThreeDs ThreeDs { get; set; }
     }
+    // ReSharper restore UnusedMemberInSuper.Global
 }

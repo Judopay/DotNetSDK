@@ -5,6 +5,8 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// A result of a transaction request
     /// </summary>
+    // ReSharper disable UnusedMember.Global
+    // ReSharper disable UnusedMemberInSuper.Global
     public interface ITransactionResult
     {
         /// <summary>
@@ -34,4 +36,6 @@ namespace JudoPayDotNet.Models
         [DataMember]
         string Message { get; set; }
     }
+    // ReSharper restore UnusedMemberInSuper.Global
+    // ReSharper restore UnusedMember.Global
 }

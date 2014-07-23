@@ -2,6 +2,7 @@ using JudoPayDotNet.Enums;
 
 namespace JudoPayDotNet.Models
 {
+    // ReSharper disable UnusedMember.Global
     // ReSharper disable InconsistentNaming
     public enum JudoApiError
     {
@@ -84,4 +85,5 @@ namespace JudoPayDotNet.Models
         Not_Found = 404
     }
     // ReSharper restore InconsistentNaming
+    // ReSharper restore UnusedMember.Global
 }

@@ -6,8 +6,12 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// JudoPay API results 
     /// </summary>
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
+    // ReSharper disable UnusedMember.Global
     [DataContract(Name = "SearchResults", Namespace = "")]
+// ReSharper disable ClassNeverInstantiated.Global
     public class PaymentReceiptResults
+// ReSharper restore ClassNeverInstantiated.Global
     {
         /// <summary>
         /// Gets or sets the result count.
@@ -54,4 +58,6 @@ namespace JudoPayDotNet.Models
         [DataMember]
         public string Sort { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

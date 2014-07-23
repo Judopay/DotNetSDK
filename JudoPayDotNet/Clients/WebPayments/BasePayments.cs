@@ -10,7 +10,7 @@ namespace JudoPayDotNet.Clients.WebPayments
     internal abstract class BasePayments : JudoPayClient
     {
         private const string Baseaddress = "webpayments";
-        protected readonly IValidator<WebPaymentRequestModel> WebPaymentValidator = new WebPaymentRequestModelValidator();
+        private readonly IValidator<WebPaymentRequestModel> _webPaymentValidator = new WebPaymentRequestModelValidator();
 
         protected BasePayments(ILog logger, IClient client) : base(logger, client)
         {
@@ -18,7 +18,7 @@ namespace JudoPayDotNet.Clients.WebPayments
 
         protected Task<IResult<WebPaymentResponseModel>> Create(WebPaymentRequestModel model, string transactionType)
         {
-            var validationError = Validate<WebPaymentRequestModel, WebPaymentResponseModel>(WebPaymentValidator, model);
+            var validationError = Validate<WebPaymentRequestModel, WebPaymentResponseModel>(_webPaymentValidator, model);
 
             var address = string.Format("{0}/{1}", Baseaddress, transactionType);
 
@@ -27,7 +27,7 @@ namespace JudoPayDotNet.Clients.WebPayments
 
         protected Task<IResult<WebPaymentRequestModel>> Update(WebPaymentRequestModel model, string transactionType)
         {
-            var validationError = Validate<WebPaymentRequestModel, WebPaymentRequestModel>(WebPaymentValidator, model);
+            var validationError = Validate<WebPaymentRequestModel, WebPaymentRequestModel>(_webPaymentValidator, model);
 
             var address = string.Format("{0}/{1}", Baseaddress, transactionType);
 

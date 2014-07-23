@@ -3,6 +3,7 @@
     /// <summary>
     /// Provides judo payment operations for webpayments
     /// </summary>
+    // ReSharper disable UnusedMemberInSuper.Global
     public interface IWebPayments
     {
         /// <summary>
@@ -20,4 +21,5 @@
         /// </summary>
         ITransactions Transactions { get; set; }
     }
+    // ReSharper restore UnusedMemberInSuper.Global
 }

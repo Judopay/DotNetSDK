@@ -5,6 +5,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// Web payment card address information
     /// </summary>
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract]
     public class WebPaymentCardAddress
     {
@@ -71,4 +72,5 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false, IsRequired = false)]
         public string Country { get; set; }
     }
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

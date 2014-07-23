@@ -16,7 +16,7 @@ namespace JudoPayDotNetTests.Clients
     public class ThreeDsTests
     {
         //Test data
-        public class ThreeDCaseSources
+        private class ThreeDCaseSources
         {
             public static IEnumerable GetSuccessTestCases
             {

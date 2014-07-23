@@ -6,7 +6,7 @@ namespace JudoPayDotNet.Models.Validations
 {
     public class PaymentsBaseValidator<TPaymentModel> : AbstractValidator<TPaymentModel> where TPaymentModel : PaymentModel
     {
-        public PaymentsBaseValidator()
+        protected PaymentsBaseValidator()
         {
             
             RuleFor(model => model.JudoId)
@@ -48,7 +48,9 @@ namespace JudoPayDotNet.Models.Validations
         }
     }
 
+// ReSharper disable UnusedMember.Global
     public class PaymentValidator : PaymentsBaseValidator<PaymentModel>
+// ReSharper restore UnusedMember.Global
     {
     }
 

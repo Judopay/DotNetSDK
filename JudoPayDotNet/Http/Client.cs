@@ -42,14 +42,12 @@ namespace JudoPayDotNet.Http
             return _connection.Send(HttpMethod.Put, address, parameters, body);
         }
 
-        public Task<IResponse<T>> Delete<T>(string address, Dictionary<string, string> parameters = null, 
-                                            object body = null)
+        public Task<IResponse<T>> Delete<T>(string address, Dictionary<string, string> parameters = null)
         {
             return _connection.Send<T>(HttpMethod.Delete, address, parameters);
         }
 
-        public Task<IResponse> Delete(string address, Dictionary<string, string> parameters = null,
-                                            object body = null)
+        public Task<IResponse> Delete(string address, Dictionary<string, string> parameters = null)
         {
             return _connection.Send(HttpMethod.Delete, address, parameters);
         }

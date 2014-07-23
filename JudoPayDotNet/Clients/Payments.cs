@@ -11,30 +11,27 @@ namespace JudoPayDotNet.Clients
         private const string Createaddress = "transactions/payments";
         private const string Validateaddress = "transactions/payments/validate";
 
-        protected readonly string ValidateAddress;
+        private readonly string _validateAddress;
 
-        public Payments(ILog logger, IClient client)
-            : this(logger, client, Createaddress, Validateaddress)
+        public Payments(ILog logger, IClient client, 
+                            string createAddress = Createaddress, 
+                            string validateAddress = Validateaddress) : base(logger, client, createAddress)
         {
-        }
-
-        public Payments(ILog logger, IClient client, string createAddress, string validateAddress) : base(logger, client, createAddress)
-        {
-            ValidateAddress = validateAddress;
+            _validateAddress = validateAddress;
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPayment)
         {
             var validationError = Validate<CardPaymentModel, JudoApiErrorModel>(CardPaymentValidator, cardPayment);
 
-            return validationError ?? PostInternal<CardPaymentModel, JudoApiErrorModel>(ValidateAddress, cardPayment);
+            return validationError ?? PostInternal<CardPaymentModel, JudoApiErrorModel>(_validateAddress, cardPayment);
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(TokenPaymentModel tokenPayment)
         {
             var validationError = Validate<TokenPaymentModel, JudoApiErrorModel>(TokenPaymentValidator, tokenPayment);
 
-            return validationError ?? PostInternal<TokenPaymentModel, JudoApiErrorModel>(ValidateAddress, tokenPayment);
+            return validationError ?? PostInternal<TokenPaymentModel, JudoApiErrorModel>(_validateAddress, tokenPayment);
         }
     }
 }

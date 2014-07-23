@@ -6,7 +6,10 @@ namespace JudoPayDotNet.Models
     /// Application Address
     /// </summary>
     [DataContract(Name = "ApplicationAddress", Namespace = "")]
+    // ReSharper disable UnusedMember.Global
+// ReSharper disable ClassNeverInstantiated.Global
     public class ApplicationAddressModel
+// ReSharper restore ClassNeverInstantiated.Global
     {
         /// <summary>
         /// Gets or sets the name or number of the building.
@@ -16,6 +19,7 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string BuildingNumberOrName { get; set; }
+
 
         /// <summary>
         /// Gets or sets the flat number.
@@ -62,4 +66,5 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public string PostCode { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
 }

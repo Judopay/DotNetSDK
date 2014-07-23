@@ -2,10 +2,10 @@
 {
     public class Credentials : ICredentials
     {
-        public string Token { get; set; }
-        public string Secret { get; set; }
+        public string Token { get; private set; }
+        public string Secret { get; private set; }
 
-        public string OAuthAccessToken { get; set; }
+        public string OAuthAccessToken { get; private set; }
 
         public Credentials(string token, string secret)
         {

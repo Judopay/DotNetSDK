@@ -7,6 +7,8 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// A payment receipt
     /// </summary>
+    // ReSharper disable UnusedMember.Global
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract(Name = "Receipt", Namespace = "")]
     public class PaymentReceiptModel : ITransactionResult
     {
@@ -26,6 +28,7 @@ namespace JudoPayDotNet.Models
         /// The original receipt identifier.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable once UnusedMember.Global
         public long? OriginalReceiptId { get; set; }
 
         /// <summary>
@@ -44,6 +47,7 @@ namespace JudoPayDotNet.Models
         /// The created at.
         /// </value>
         [DataMember]
+// ReSharper disable once UnusedMember.Global
         public DateTimeOffset CreatedAt { get; set; }
 
         /// <summary>
@@ -80,6 +84,7 @@ namespace JudoPayDotNet.Models
         /// The name of the merchant.
         /// </value>
         [DataMember]
+// ReSharper disable once UnusedMember.Global
         public string MerchantName { get; set; }
 
         /// <summary>
@@ -107,7 +112,9 @@ namespace JudoPayDotNet.Models
         /// The refunds.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+
         public decimal Refunds { get; set; }
+
 
         /// <summary>
         /// Gets or sets the net amount.
@@ -134,6 +141,7 @@ namespace JudoPayDotNet.Models
         /// The currency.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Currency { get; set; }
 
         /// <summary>
@@ -143,6 +151,7 @@ namespace JudoPayDotNet.Models
         /// The partner service fee.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable once UnusedMember.Global
         public decimal PartnerServiceFee { get; set; }
 
         /// <summary>
@@ -170,6 +179,7 @@ namespace JudoPayDotNet.Models
         /// The risk score.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable once UnusedMember.Global
         public int? RiskScore { get; set; }
 
         /// <summary>
@@ -179,6 +189,7 @@ namespace JudoPayDotNet.Models
         /// Your payment meta data.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
+// ReSharper disable once UnusedMember.Global
         public IDictionary<string, string> YourPaymentMetaData { get; set; }
 
         /// <summary>
@@ -190,4 +201,6 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public ThreeDSecureReceiptModel ThreeDSecure { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

@@ -6,6 +6,7 @@ using System.Reflection;
 
 namespace JudoPayDotNet.Enums
 {
+    // ReSharper disable UnusedMember.Global
     public static class EnumUtils
     {
         public static string GetDescriptionFromEnumValue(Enum value)
@@ -101,4 +102,5 @@ namespace JudoPayDotNet.Enums
             return default(T);
         }
     }
+    // ReSharper restore UnusedMember.Global
 }

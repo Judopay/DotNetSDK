@@ -6,6 +6,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// A collection request
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     [DataContract]
     public class CollectionModel
     {
@@ -54,4 +55,5 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public JObject ClientDetails { get; set; }
     }
+    // ReSharper restore UnusedMember.Global
 }

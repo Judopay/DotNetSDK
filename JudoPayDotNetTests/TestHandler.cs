@@ -12,7 +12,9 @@ namespace JudoPayDotNetTests
         private readonly Func<HttpRequestMessage,
             CancellationToken, Task<HttpResponseMessage>> _handlerFunc;
 
+// ReSharper disable UnusedMember.Global
         public TestHandler()
+// ReSharper restore UnusedMember.Global
         {
             _handlerFunc = (r, c) => Return200();
         }
@@ -29,7 +31,7 @@ namespace JudoPayDotNetTests
             return _handlerFunc(request, cancellationToken);
         }
 
-        public static Task<HttpResponseMessage> Return200()
+        private static Task<HttpResponseMessage> Return200()
         {
             return Task.Factory.StartNew(
                 () => new HttpResponseMessage(HttpStatusCode.OK));

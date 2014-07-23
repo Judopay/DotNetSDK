@@ -6,6 +6,7 @@ namespace JudoPayDotNet.Clients.Market
     /// <summary>
     /// The entity responsible for providing market merchant operations
     /// </summary>
+    // ReSharper disable UnusedMember.Global
     public interface IMarketMerchants
     {
         /// <summary>
@@ -26,4 +27,5 @@ namespace JudoPayDotNet.Clients.Market
             long? offset = null,
             string sort = null);
     }
+    // ReSharper restore UnusedMember.Global
 }

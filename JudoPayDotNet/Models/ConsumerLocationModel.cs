@@ -3,6 +3,7 @@
     /// <summary>
     /// Consumer location
     /// </summary>
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     public class ConsumerLocationModel
     {
         /// <summary>
@@ -21,4 +22,5 @@
         /// </value>
         public decimal Longitude { get; set; }
     }
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }
