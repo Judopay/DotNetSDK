@@ -48,10 +48,10 @@ namespace JudoPayDotNet.Models.CustomDeserializers
             return target;
         }
 
+        // Because this JsonConverter is configured to not serialize objects, returning false on CanWrite
         public override void WriteJson(JsonWriter writer, object value,
             JsonSerializer serializer)
         {
-            throw new NotImplementedException();
         }
     }
 }

@@ -133,15 +133,15 @@ namespace JudoPayDotNet.Http
             }
             catch (HttpRequestException e)
             {
+                _log.Error("Http error", e.InnerException);
                 //Comunication layer expections are wrapped by HttpRequestException
                 throw new ConnectionError(e.InnerException);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                _log.ErrorFormat("error");
+                _log.Error("Generic error on communication layer", e);
                 throw;
             }
-            //TODO: Handle unknown errors propagating a JudoException for the unknown
         }
 
         private async Task<IResponse> HandleResponse(HttpResponseMessage response)
