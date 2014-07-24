@@ -12,6 +12,9 @@ namespace JudoPayDotNet.Http
     public enum AuthType
     {
         Basic,
+        /// <summary>
+        /// OAuth 2 authorization
+        /// </summary>
         Bearer,
         Unknown
     }
@@ -29,11 +32,11 @@ namespace JudoPayDotNet.Http
 
             _authenticationType = AuthType.Unknown;
 
-            if (!String.IsNullOrEmpty(_credentials.OAuthAccessToken))
+            if (!String.IsNullOrWhiteSpace(_credentials.OAuthAccessToken))
             {
                 _authenticationType = AuthType.Bearer;
             }
-            else if (!String.IsNullOrEmpty(_credentials.Token) && !String.IsNullOrEmpty(_credentials.Secret))
+            else if (!String.IsNullOrWhiteSpace(_credentials.Token) && !String.IsNullOrWhiteSpace(_credentials.Secret))
             {
                 _authenticationType = AuthType.Basic;
             }
@@ -67,7 +70,7 @@ namespace JudoPayDotNet.Http
                     break;
             }
 
-            if (!String.IsNullOrEmpty(schema) && !string.IsNullOrEmpty(parameter)) 
+            if (!String.IsNullOrWhiteSpace(schema) && !string.IsNullOrWhiteSpace(parameter)) 
             { 
                 request.Headers.Authorization = new AuthenticationHeaderValue(schema, parameter);
             }

@@ -33,7 +33,7 @@ namespace JudoPayDotNet.Clients
         {
             var address = _usedAddress;
 
-            if (!String.IsNullOrEmpty(transactionType))
+            if (!String.IsNullOrWhiteSpace(transactionType))
             {
                 address = string.Format("{0}/{1}", _usedAddress, transactionType);
             }

@@ -26,7 +26,7 @@ namespace JudoPayDotNetTests.Http
             var httpClient = Substitute.For<IHttpClient>();
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(Task.FromResult(response));
             var connection = new Connection(httpClient, 
-                                                    DotNetLoggerFactory.Create(typeof(Connection)),
+                                                    DotNetLoggerFactory.Create,
                                                     "http://test.com");
             var generatedException =false;
 
@@ -59,7 +59,7 @@ namespace JudoPayDotNetTests.Http
             var httpClient = Substitute.For<IHttpClient>();
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(Task.FromResult(response));
             var connection = new Connection(httpClient, 
-                                                    DotNetLoggerFactory.Create(typeof(Connection)), 
+                                                    DotNetLoggerFactory.Create, 
                                                     "http://test.com");
             var generatedException = false;
 
@@ -94,7 +94,7 @@ namespace JudoPayDotNetTests.Http
                                                 new Exception("Unreachable host"));
                 });
             var connection = new Connection(httpClient, 
-                                                    DotNetLoggerFactory.Create(typeof(Connection)), 
+                                                    DotNetLoggerFactory.Create, 
                                                     "http://test.com");
             var generatedException = false;
 

@@ -11,6 +11,9 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients
 {
     // ReSharper disable UnusedMember.Global
+    /// <summary>
+    /// Base judo pay client that does all the CRUD operations and verifies the existance of errors on responses
+    /// </summary>
     internal abstract class JudoPayClient
     {
         private readonly IClient _client;
@@ -22,16 +25,29 @@ namespace JudoPayDotNet.Clients
             _client = client;
         }
 
+        /// <summary>
+        /// Adds a query string parameter to a bag of query string parameters
+        /// </summary>
+        /// <param name="parameters">The bag.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
         protected void AddParameter(Dictionary<string, string> parameters, string key, object value)
         {
             var stringValue = value == null ? String.Empty : value.ToString();
 
-            if (!string.IsNullOrEmpty(stringValue) && !parameters.ContainsKey(key))
+            if (!string.IsNullOrWhiteSpace(stringValue) && !parameters.ContainsKey(key))
             {
                 parameters.Add(key, stringValue);
             }
         }
 
+        /// <summary>
+        /// CRUD GET
+        /// </summary>
+        /// <typeparam name="T">The response type</typeparam>
+        /// <param name="address">The URI.</param>
+        /// <param name="parameters">The query string parameters.</param>
+        /// <returns>A result object that wraps the parsed response and an error if something not right happened</returns>
         protected async Task<IResult<T>> GetInternal<T>(string address,
             Dictionary<string, string> parameters = null) where T : class
         {
@@ -48,6 +64,15 @@ namespace JudoPayDotNet.Clients
         }
 
         // ReSharper disable once InconsistentNaming
+        /// <summary>
+        /// CRUD CREATE
+        /// </summary>
+        /// <typeparam name="T">The response type</typeparam>
+        /// <typeparam name="R">The body parameter type</typeparam>
+        /// <param name="address">The URI.</param>
+        /// <param name="entity">The body entity.</param>
+        /// <param name="parameters">The query string parameters.</param>
+        /// <returns>A result object that wraps the parsed response and an error if something not right happened</returns>
         protected async Task<IResult<R>> PostInternal<T, R>(string address, T entity, 
                                                                 Dictionary<string, string> parameters = null)
                                                                 where T : class
@@ -66,6 +91,15 @@ namespace JudoPayDotNet.Clients
         }
 
         // ReSharper disable once InconsistentNaming
+        /// <summary>
+        /// CRUD UPDATE
+        /// </summary>
+        /// <typeparam name="T">The response type</typeparam>
+        /// <typeparam name="R">The body parameter type</typeparam>
+        /// <param name="address">The URI.</param>
+        /// <param name="entity">The body entity.</param>
+        /// <param name="parameters">The query string parameters.</param>
+        /// <returns>A result object that wraps the parsed response and an error if something not right happened</returns>
         protected async Task<IResult<R>> PutInternal<T, R>(string address,
                                                             T entity, 
                                                             Dictionary<string, string> parameters = null)
@@ -85,6 +119,12 @@ namespace JudoPayDotNet.Clients
         }
 
 
+        /// <summary>
+        /// CRUD DELETE
+        /// </summary>
+        /// <param name="address">The URI.</param>
+        /// <param name="parameters">The query string parameters.</param>
+        /// <returns>A result object that wraps the parsed response and an error if something not right happened</returns>
         protected async Task<IResult> DeleteInternal(string address, 
                                                         Dictionary<string, string> parameters = null)
         {
@@ -93,6 +133,11 @@ namespace JudoPayDotNet.Clients
             return new Result(response.JudoError);
         }
 
+        /// <summary>
+        /// Creates the validation error message.
+        /// </summary>
+        /// <param name="result">The validation result.</param>
+        /// <returns>An error based on validation result</returns>
         private JudoApiErrorModel CreateValidationErrorMessage(ValidationResult result)
 		{
             if (result.IsValid)
@@ -121,6 +166,14 @@ namespace JudoPayDotNet.Clients
 		}
 
         // ReSharper disable once InconsistentNaming
+        /// <summary>
+        /// Validates the specified instance with provided validator.
+        /// </summary>
+        /// <typeparam name="T">The instance being validated</typeparam>
+        /// <typeparam name="R">The result type of the operation that is validating the instance</typeparam>
+        /// <param name="validator">The validator.</param>
+        /// <param name="instance">The instance.</param>
+        /// <returns>A result encapsulating the validation error or <c>null</c> if validation was successful</returns>
         protected Task<IResult<R>> Validate<T, R>(IValidator<T> validator, T instance) where R : class 
         {
             var validation = validator.Validate(instance);

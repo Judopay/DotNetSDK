@@ -8,19 +8,9 @@
     public interface IMarket
     {
         /// <summary>
-        /// The entity rseponsible for providing payments operations
-        /// </summary>
-        IMarketPayments Payments { get; set; }
-
-        /// <summary>
         /// The entity responsible for providing refunds operations
         /// </summary>
         IMarketRefunds Refunds { get; set; }
-
-        /// <summary>
-        /// The entity responsible for providing pre authorizations operations
-        /// </summary>
-        IMarketPreAuths PreAuths { get; set; }
 
         /// <summary>
         /// The entity responsible for providing transactions operations

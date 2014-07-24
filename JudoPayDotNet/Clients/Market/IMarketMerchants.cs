@@ -10,7 +10,7 @@ namespace JudoPayDotNet.Clients.Market
     public interface IMarketMerchants
     {
         /// <summary>
-        /// Gets the specified merchants by locator identifier.
+        /// Gets the specified merchants by locator identifier. The reference for an account and it's application
         /// </summary> 
         /// <param name="locatorId">The locator identifier.</param>
         /// <returns></returns>
@@ -25,7 +25,7 @@ namespace JudoPayDotNet.Clients.Market
         /// <returns></returns>
         Task<IResult<MerchantSearchResults>> Get(long? pageSize = null,
             long? offset = null,
-            string sort = null);
+            TransactionListSorts? sort = null);
     }
     // ReSharper restore UnusedMember.Global
 }

@@ -41,10 +41,10 @@ namespace JudoPayDotNetTests.Clients.Consumers
                         })
                         .SetName("GetTransactionsJustWithPage");
                     yield return new TestCaseData(
-                        new[] { new KeyValuePair<string, string>("sort", "ASC") },
+                        new[] { new KeyValuePair<string, string>("sort", TransactionListSorts.timeAscending.ToString()) },
                         new FunctionHolder
                         {
-                            Func = consumers => consumers.GetPayments(Consumertoken, sort: "ASC").Result
+                            Func = consumers => consumers.GetPayments(Consumertoken, sort: TransactionListSorts.timeAscending).Result
                         })
                         .SetName("GetTransactionsJustWithSort");
                     yield return new TestCaseData(
@@ -58,11 +58,11 @@ namespace JudoPayDotNetTests.Clients.Consumers
                             {
                                 new KeyValuePair<string, string>("pageSize", "4"),
                                 new KeyValuePair<string, string>("offset", "0"),
-                                new KeyValuePair<string, string>("sort", "ASC")
+                                new KeyValuePair<string, string>("sort", TransactionListSorts.timeAscending.ToString())
                             },
                             new FunctionHolder
                             {
-                                Func = consumers => consumers.GetPayments(Consumertoken, 4, 0, "ASC").Result
+                                Func = consumers => consumers.GetPayments(Consumertoken, 4, 0, TransactionListSorts.timeAscending).Result
                             }).SetName("GetTransactionsWithAll");
                 }
             }
@@ -102,7 +102,7 @@ namespace JudoPayDotNetTests.Clients.Consumers
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create(typeof(Connection)),
+                                                    DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
             var judo = new JudoPayments(DotNetLoggerFactory.Create, client);

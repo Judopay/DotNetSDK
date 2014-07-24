@@ -27,14 +27,14 @@ namespace JudoPayDotNet.Clients.WebPayments
 
         {
 
-            if (type == TransactionType.PREAUTH || type == TransactionType.SALE)
+            if (type == TransactionType.PREAUTH || type == TransactionType.PAYMENT)
             {
                 var address = string.Format("{0}/{1}/{2}", Baseaddress, type, reference);
 
                 return GetInternal<WebPaymentRequestModel>(address);
             }
 
-            //Transactions can only be fetched by transation types SALE or REFUND
+            //Transactions can only be fetched by transation types PAYMENTS or PREAUTH
             return Task.FromResult<IResult<WebPaymentRequestModel>>(new Result<WebPaymentRequestModel>(null,
                 new JudoApiErrorModel
                 {

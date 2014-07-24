@@ -3,7 +3,7 @@
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// ThreeD secure receipt
+    /// 3D secure receipt
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     // ReSharper disable UnusedMember.Global

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Logging;
@@ -13,21 +14,21 @@ using Newtonsoft.Json.Serialization;
 
 namespace JudoPayDotNet.Http
 {
+    /// <summary>
+    /// Handles the http requests creation and the http responses
+    /// </summary>
     public class Connection
     {
         private readonly IHttpClient _httpClient;
         private readonly Uri _baseAddress;
         private readonly ILog _log;
 
-        //Serialization settings
-        private readonly JsonSerializerSettings _settings = new JsonSerializerSettings
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            Converters = new JsonConverter[] { new JudoApiErrorModelConverter(), new TransactionResultConvertor() },
+        /// <summary>
+        /// Serialization settings
+        /// </summary>
+        private readonly JsonSerializerSettings _settings;
 
-        };
-
-        public Connection(IHttpClient client, ILog log, string baseAddress)
+        public Connection(IHttpClient client, Func<Type, ILog> log, string baseAddress)
         {
             _httpClient = client;
 
@@ -37,9 +38,28 @@ namespace JudoPayDotNet.Http
             }
 
             _baseAddress = new Uri(baseAddress);
-            _log = log;
+            _log = log(GetType());
+
+            _settings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Converters = new JsonConverter[]
+                {
+                    new JudoApiErrorModelConverter(log(typeof(JudoApiErrorModelConverter))), 
+                    new TransactionResultConvertor()
+                },
+
+            };
         }
 
+        /// <summary>
+        /// Builds the request.
+        /// </summary>
+        /// <param name="method">The http method.</param>
+        /// <param name="address">The address.</param>
+        /// <param name="parameters">The query string parameters.</param>
+        /// <param name="body">The body entity.</param>
+        /// <returns>An http request object</returns>
         private HttpRequestMessage BuildRequest(HttpMethod method, string address, 
                                                     Dictionary<string, string> parameters = null,
                                                     object body = null)
@@ -59,14 +79,25 @@ namespace JudoPayDotNet.Http
 
             if (body != null) 
             {
-                request.Content = new StringContent(JsonConvert.SerializeObject(body, _settings));
+                request.Content = new StringContent(JsonConvert.SerializeObject(body, _settings), new UTF8Encoding());
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             }
 
             return request;
         }
 
-        private async Task<T> HandleResponseCommun<T>(HttpResponseMessage response,
+        /// <summary>
+        /// Handles the response. Checking for errors and parsing the response to the expected model
+        /// </summary>
+        /// <typeparam name="T">Result type</typeparam>
+        /// <param name="response">The http response.</param>
+        /// <param name="parser">The function responsible for parsing response.</param>
+        /// <returns>The handled response with result and error if something wrong happened</returns>
+        /// <exception cref="BadResponseError">
+        /// Response in wrong format or malformed
+        /// </exception>
+        /// <exception cref="HttpError">Generic http error</exception>
+        private async Task<T> HandleResponseCommon<T>(HttpResponseMessage response,
                                                             Func<string, T, T> parser) where T : IResponse, new()
         {
             var parsedResponse = new T();
@@ -122,6 +153,15 @@ namespace JudoPayDotNet.Http
             return parsedResponse;
         }
 
+        /// <summary>
+        /// Implements the process of constructing the request and sending it using http.
+        /// </summary>
+        /// <param name="method">The http method.</param>
+        /// <param name="address">The URI address.</param>
+        /// <param name="parameters">The query string parameters.</param>
+        /// <param name="body">The entity body.</param>
+        /// <returns>Http response to be handled</returns>
+        /// <exception cref="ConnectionError">When something wrong happens at the connection level</exception>
         private async Task<HttpResponseMessage> SendCommon(HttpMethod method, string address,
                                         Dictionary<string, string> parameters = null,
                                         object body = null)
@@ -144,14 +184,25 @@ namespace JudoPayDotNet.Http
             }
         }
 
+        /// <summary>
+        /// Handles the http response.
+        /// </summary>
+        /// <param name="response">The http response.</param>
+        /// <returns>The response parsed and with error if something wrong happend</returns>
         private async Task<IResponse> HandleResponse(HttpResponseMessage response)
         {
             // NO OP when the response is not supose to have content
             Func<string, Response, Response> parser = (content, parsedResponse) => parsedResponse;
 
-            return await HandleResponseCommun(response, parser);
+            return await HandleResponseCommon(response, parser);
         }
 
+        /// <summary>
+        /// Handles the http response.
+        /// </summary>
+        /// <typeparam name="T">Result type</typeparam>
+        /// <param name="response">The http response.</param>
+        /// <returns>The response parsed and with error if something wrong happend</returns>
         private async Task<IResponse<T>> HandleResponse<T>(HttpResponseMessage response)
         {
             Func<string, Response<T>, Response<T>> parser = (content, parsedResponse) =>
@@ -160,9 +211,17 @@ namespace JudoPayDotNet.Http
                 return parsedResponse;
             };
 
-            return await HandleResponseCommun(response, parser);
+            return await HandleResponseCommon(response, parser);
         }
 
+        /// <summary>
+        /// Creates an http request, sends it to the server and handle the response checking for errors and parsing it.
+        /// </summary>
+        /// <param name="method">The http method.</param>
+        /// <param name="address">The URI address.</param>
+        /// <param name="parameters">The query string parameters.</param>
+        /// <param name="body">The entity body.</param>
+        /// <returns>The response parsed and with error if something wrong happend</returns>
         public async Task<IResponse> Send(HttpMethod method, string address,
             Dictionary<string, string> parameters = null,
             object body = null)
@@ -173,6 +232,15 @@ namespace JudoPayDotNet.Http
             return await HandleResponse(response).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Creates an http request, sends it to the server and handle the response checking for errors and parsing it.
+        /// </summary>
+        /// <typeparam name="T">Result type</typeparam>
+        /// <param name="method">The http method.</param>
+        /// <param name="address">The URI address.</param>
+        /// <param name="parameters">The query string parameters.</param>
+        /// <param name="body">The entity body.</param>
+        /// <returns>The response parsed and with error if something wrong happend</returns>
         public async Task<IResponse<T>> Send<T>(HttpMethod method, string address,
             Dictionary<string, string> parameters = null,
             object body = null)

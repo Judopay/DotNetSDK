@@ -25,7 +25,7 @@ namespace JudoPayDotNet.Clients.Market
 
         public Task<IResult<MerchantSearchResults>> Get(long? pageSize = null,
                                                         long? offset = null,
-                                                        string sort = null)
+                                                        TransactionListSorts? sort = null)
         {
             var parameters = new Dictionary<string, string>();
 

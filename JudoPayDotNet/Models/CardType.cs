@@ -5,7 +5,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// Card types
     /// </summary>
-    /// <remarks>This enum is fed from two data sources, so I'm abusing the LocalizedDescription attribute to do it - BJK</remarks>
+    /// <remarks>This enum is fed from two data sources</remarks>
     // ReSharper disable UnusedMember.Global
     // ReSharper disable InconsistentNaming
     public enum CardType
@@ -51,7 +51,7 @@ namespace JudoPayDotNet.Models
         VISA_DEBIT = 11,
 
          //<summary>
-         //In the europe mastercard debit is MAESTRO, however there maybe international cards
+         //In the europe mastercard debit is MAESTRO
          //</summary>
         [LocalizedDescription("MCI DEBIT")]
         MASTERCARD_DEBIT = 12,

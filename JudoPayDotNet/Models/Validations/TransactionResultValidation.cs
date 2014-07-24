@@ -11,7 +11,7 @@ namespace JudoPayDotNet.Models.Validations
         }
     }
 
-    public class TransactionResulttValidation : TransactionResultBaseValidation<ITransactionResult>
+    public class TransactionResultValidation : TransactionResultBaseValidation<ITransactionResult>
     {
     }
 

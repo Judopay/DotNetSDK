@@ -1,7 +1,6 @@
 ﻿using JudoPayDotNet.Clients;
 using JudoPayDotNet.Clients.Consumer;
 using JudoPayDotNet.Clients.Market;
-using JudoPayDotNet.Clients.Merchant;
 using JudoPayDotNet.Clients.WebPayments;
 using IPayments = JudoPayDotNet.Clients.IPayments;
 using IPreAuths = JudoPayDotNet.Clients.IPreAuths;
@@ -22,14 +21,6 @@ namespace JudoPayDotNet
         /// The market.
         /// </value>
         IMarket Market { get; set; }
-
-        /// <summary>
-        /// Gets or sets the merchant operations.
-        /// </summary>
-        /// <value>
-        /// The merchants.
-        /// </value>
-        IMerchants Merchants { get; set; }
 
         /// <summary>
         /// Gets or sets the web payments operations.
@@ -76,7 +67,7 @@ namespace JudoPayDotNet
         ICollections Collections { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing threeD authorization operations
+        /// The entity reponsible for providing 3D authorization operations
         /// </summary>
         IThreeDs ThreeDs { get; set; }
     }

@@ -14,7 +14,7 @@ namespace JudoPayDotNet.Models.Validations
 
             RuleFor(model => model.Amount)
                  .NotEmpty().WithMessage("You must supply the amount you wish to pay.")
-                 .InclusiveBetween(0.01M, 5000M).WithMessage("Sorry, this payment amount is not valid.");
+                 .GreaterThanOrEqualTo(0.01M).WithMessage("Sorry, this payment amount is not valid.");
 
             RuleFor(model => model.Amount).Must(amount =>
             {
@@ -23,7 +23,7 @@ namespace JudoPayDotNet.Models.Validations
             }).WithMessage("the amount submitted has more than two decimal places. Please round before submitting the transaction.");
 
             RuleFor(model => model.PartnerServiceFee)
-                 .InclusiveBetween(0.00M, 5000M).WithMessage("Sorry, this partner service fee amount is not valid.");
+                 .GreaterThanOrEqualTo(0.00M).WithMessage("Sorry, this partner service fee amount is not valid.");
 
             RuleFor(model => model.YourConsumerReference)
                 .NotEmpty().WithMessage("You must supply your unique consumer reference")
@@ -35,8 +35,7 @@ namespace JudoPayDotNet.Models.Validations
 
             RuleFor(model => model.Currency)
                 .NotEmpty().WithMessage("You must supply your currency")
-                .Length(3).WithMessage("You currency needs to be 3 characters.")
-                .Equal("GBP").WithMessage("Sorry, we only support GBP currently");
+                .Length(3).WithMessage("You currency needs to be 3 characters.");
 
             var validDeviceCategories = new[] { "mobile", "desktop" };
 
@@ -62,11 +61,7 @@ namespace JudoPayDotNet.Models.Validations
                 .NotEmpty().WithMessage("You must supply your card number");
 
             RuleFor(model => model.ExpiryDate)
-                .NotEmpty().WithMessage("You must supply your expiry date");
-
-            RuleFor(model => model.CardAddress)
-                .NotEmpty().WithMessage("You must supply your card address")
-                .SetValidator(new CardAddressValidator());
+                .NotEmpty().WithMessage("You must supply your card expiry date");
         }
     }
 
@@ -79,27 +74,6 @@ namespace JudoPayDotNet.Models.Validations
 
             RuleFor(model => model.CardToken)
                 .NotEmpty().WithMessage("You must supply your card token");
-        }
-    }
-
-    public class CardAddressValidator : AbstractValidator<CardAddressModel>
-    {
-        public CardAddressValidator()
-        {
-            RuleFor(model => model.Line1)
-                .NotEmpty().WithMessage("You must supply address line 1");
-
-            //RuleFor(model => model.Line2)
-            //    .NotEmpty().WithMessage("You must supply address line 2");
-
-            //RuleFor(model => model.Line3)
-            //    .NotEmpty().WithMessage("You must supply address line 3");
-
-            RuleFor(model => model.Town)
-                .NotEmpty().WithMessage("You must supply address town");
-
-            RuleFor(model => model.PostCode)
-                .NotEmpty().WithMessage("You must supply address post code");
         }
     }
 }

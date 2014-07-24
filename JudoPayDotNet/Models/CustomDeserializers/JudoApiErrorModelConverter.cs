@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JudoPayDotNet.Errors;
+using JudoPayDotNet.Logging;
 using Newtonsoft.Json;
 using System;
 using Newtonsoft.Json.Linq;
@@ -9,6 +10,13 @@ namespace JudoPayDotNet.Models.CustomDeserializers
 {
     public class JudoApiErrorModelConverter : JsonConverter
     {
+        private readonly ILog _log;
+
+        public JudoApiErrorModelConverter(ILog log)
+        {
+            _log = log;
+        }
+
         private T GetProperty<T>(JsonSerializer serializer, IEnumerable<JProperty> properties, string propertyName)
         {
             var property = properties.FirstOrDefault(p => p.Name.ToLowerInvariant() == propertyName);
@@ -35,10 +43,22 @@ namespace JudoPayDotNet.Models.CustomDeserializers
 
             var errorType = GetProperty<int>(serializer, properties, "errortype");
 
+            JudoApiError error;
+
+            if (Enum.IsDefined(typeof (JudoApiError), errorType))
+            {
+                error = (JudoApiError) errorType;
+            }
+            else
+            {
+                _log.InfoFormat("The JudoApiError {0} was sent by the server and it is not recognized by the SDK", errorType);
+                error = JudoApiError.General_Error;
+            }
+
             return new JudoApiErrorModel
             {
                 ErrorMessage = GetProperty<string>(serializer, properties, "errormessage"),
-                ErrorType = (JudoApiError)errorType,
+                ErrorType = error,
                 ModelErrors = GetProperty<List<JudoModelError>>(serializer, properties, "modelerrors")
             };
 

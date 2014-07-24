@@ -3,7 +3,7 @@
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// A payment that requires threeD secure
+    /// A payment that requires 3D secure
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract(Name = "ThreeDRequired", Namespace = "")]

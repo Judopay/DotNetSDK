@@ -44,7 +44,7 @@ namespace JudoPayDotNetIntegrationTests
                 PaymentSuccessUrl = "http://test.com",
                 Reference = "42421",
                 Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.SALE,
+                TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
                 YourPaymentReference = "42355"
             };
@@ -89,7 +89,7 @@ namespace JudoPayDotNetIntegrationTests
                 PaymentSuccessUrl = "http://test.com",
                 Reference = "42421",
                 Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.SALE,
+                TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
                 YourPaymentReference = "42355"
             };
@@ -191,7 +191,7 @@ namespace JudoPayDotNetIntegrationTests
                 PaymentSuccessUrl = "http://test.com",
                 Reference = "42421",
                 Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.SALE,
+                TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
                 YourPaymentReference = "42355"
             };
@@ -248,7 +248,7 @@ namespace JudoPayDotNetIntegrationTests
                 PaymentSuccessUrl = "http://test.com",
                 Reference = "42421",
                 Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.SALE,
+                TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
                 YourPaymentReference = "42355"
             };
@@ -304,7 +304,7 @@ namespace JudoPayDotNetIntegrationTests
                 PaymentSuccessUrl = "http://test.com",
                 Reference = "42421",
                 Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.SALE,
+                TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
                 YourPaymentReference = "42355"
             };

@@ -269,7 +269,7 @@ namespace JudoPayDotNetTests.Clients
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create(typeof(Connection)), 
+                                                    DotNetLoggerFactory.Create, 
                                                     "http://judo.com"));
 
             var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
@@ -308,7 +308,7 @@ namespace JudoPayDotNetTests.Clients
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient, 
-                                                    DotNetLoggerFactory.Create(typeof(Connection)), 
+                                                    DotNetLoggerFactory.Create, 
                                                     "http://judo.com"));
 
             var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
@@ -345,7 +345,7 @@ namespace JudoPayDotNetTests.Clients
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create(typeof(Connection)),
+                                                    DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
             var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
@@ -384,7 +384,7 @@ namespace JudoPayDotNetTests.Clients
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create(typeof(Connection)),
+                                                    DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
             var judo = new JudoPayments(DotNetLoggerFactory.Create, client);

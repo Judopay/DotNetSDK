@@ -3,7 +3,7 @@
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// ThreeD verification result
+    /// 3D verification result
     /// </summary>
     [DataContract(Name = "ThreeDResult", Namespace = "")]
     public class ThreeDResultModel

@@ -53,6 +53,14 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(IsRequired = true)]
         public string PostCode { get; set; }
+
+        /// <summary> 
+        /// The optional country code (ISO 3166-1) for this address. 
+        /// </summary> 
+        /// <remarks>UK is 826</remarks> 
+// ReSharper disable UnusedMember.Local
+        int? CountryCode { get; set; }
+// ReSharper restore UnusedMember.Local
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

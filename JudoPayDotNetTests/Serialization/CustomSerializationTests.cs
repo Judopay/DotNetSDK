@@ -1,7 +1,9 @@
 using JudoPayDotNet.Errors;
+using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.CustomDeserializers;
 using Newtonsoft.Json;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace JudoPayDotNetTests.Serialization
@@ -24,7 +26,7 @@ namespace JudoPayDotNetTests.Serialization
                         }";
 
             var settings = new JsonSerializerSettings();
-            settings.Converters.Add(new JudoApiErrorModelConverter());
+            settings.Converters.Add(new JudoApiErrorModelConverter(Substitute.For<ILog>()));
 
             var judoApiErrorModel = JsonConvert.DeserializeObject<JudoApiErrorModel>(serializedMessage, settings);
 
@@ -42,7 +44,7 @@ namespace JudoPayDotNetTests.Serialization
                         }";
 
             var settings = new JsonSerializerSettings();
-            settings.Converters.Add(new JudoApiErrorModelConverter());
+            settings.Converters.Add(new JudoApiErrorModelConverter(Substitute.For<ILog>()));
 
             var judoApiErrorModel = JsonConvert.DeserializeObject<JudoApiErrorModel>(serializedMessage, settings);
 

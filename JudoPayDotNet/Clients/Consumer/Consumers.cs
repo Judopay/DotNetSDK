@@ -12,31 +12,31 @@ namespace JudoPayDotNet.Clients.Consumer
         }
 
         public Task<IResult<PaymentReceiptResults>> GetTransactions(string consumerToken, long? pageSize = null,
-            long? offset = null, string sort = null)
+            long? offset = null, TransactionListSorts? sort = null)
         {
             return base.GetTransactions(consumerToken, pageSize: pageSize, offset: offset, sort: sort);
         }
 
         public Task<IResult<PaymentReceiptResults>> GetPayments(string consumerToken, long? pageSize = null,
-            long? offset = null, string sort = null)
+            long? offset = null, TransactionListSorts? sort = null)
         {
             return GetTransactions(consumerToken, "payments", pageSize, offset, sort);
         }
 
         public Task<IResult<PaymentReceiptResults>> GetPreAuths(string consumerToken, long? pageSize = null,
-            long? offset = null, string sort = null)
+            long? offset = null, TransactionListSorts? sort = null)
         {
             return GetTransactions(consumerToken, "preauths", pageSize, offset, sort);
         }
 
         public Task<IResult<PaymentReceiptResults>> GetCollections(string consumerToken, long? pageSize = null,
-            long? offset = null, string sort = null)
+            long? offset = null, TransactionListSorts? sort = null)
         {
             return GetTransactions(consumerToken, "collections", pageSize, offset, sort);
         }
 
         public Task<IResult<PaymentReceiptResults>> GetRefunds(string consumerToken, long? pageSize = null,
-            long? offset = null, string sort = null)
+            long? offset = null, TransactionListSorts? sort = null)
         {
             return GetTransactions(consumerToken, "refunds", pageSize, offset, sort);
         }

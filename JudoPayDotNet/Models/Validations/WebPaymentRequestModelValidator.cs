@@ -19,7 +19,7 @@ namespace JudoPayDotNet.Models.Validations
 
             RuleFor(model => model.Amount)
                 .NotEmpty().WithMessage("You must supply the amount you wish to pay.")
-                .InclusiveBetween(0.01M, 5000M).WithMessage("Sorry, this payment amount is not valid.");
+                .GreaterThan(0.01M).WithMessage("Sorry, this payment amount is not valid.");
         }
     }
 }

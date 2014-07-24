@@ -19,7 +19,7 @@ namespace JudoPayDotNetDotNet
                                                     DotNetLoggerFactory.Create(typeof(AuthorizationHandler))),
                                                     new VersioningHandler(Apiversionheader, apiVersion));
             var connection = new Connection(httpClient,
-                                            DotNetLoggerFactory.Create(typeof(Connection)),
+                                            DotNetLoggerFactory.Create,
                                             address);
             var client = new Client(connection);
 

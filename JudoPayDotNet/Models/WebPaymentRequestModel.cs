@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using JudoPayDotNet.Models.CustomDeserializers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -136,7 +137,7 @@ namespace JudoPayDotNet.Models
         /// The type of the transaction.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TransactionTypeConvertor))]
         public TransactionType TransactionType { get; set; }
 
         /// <summary>

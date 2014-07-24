@@ -43,7 +43,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                 PaymentSuccessUrl = "http://test.com",
                 Reference = "42421",
                 Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.SALE,
+                TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
                 YourPaymentReference = "42355",
                 Receipt = new PaymentReceiptModel
@@ -80,7 +80,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create(typeof(Connection)),
+                                                    DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
             var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
@@ -122,7 +122,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                 PaymentSuccessUrl = "http://test.com",
                 Reference = "42421",
                 Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.SALE,
+                TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
                 YourPaymentReference = "42355",
                 Receipt = new PaymentReceiptModel
@@ -210,7 +210,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create(typeof(Connection)),
+                                                    DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
             var judo = new JudoPayments(DotNetLoggerFactory.Create, client);

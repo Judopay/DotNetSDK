@@ -38,10 +38,10 @@ namespace JudoPayDotNetTests.Clients.Market
                         })
                         .SetName("GetTransactionsJustWithPage");
                     yield return new TestCaseData(
-                        new[] { new KeyValuePair<string, string>("sort", "timeDescending") },
+                        new[] { new KeyValuePair<string, string>("sort", TransactionListSorts.timeDescending.ToString()) },
                         new FunctionHolder
                         {
-                            Func = marketMerchants => marketMerchants.Get(sort: "timeDescending").Result
+                            Func = marketMerchants => marketMerchants.Get(sort: TransactionListSorts.timeDescending).Result
                         })
                         .SetName("GetTransactionsJustWithSort");
                     yield return new TestCaseData(
@@ -55,11 +55,11 @@ namespace JudoPayDotNetTests.Clients.Market
                             {
                                 new KeyValuePair<string, string>("pageSize", "4"),
                                 new KeyValuePair<string, string>("offset", "0"),
-                                new KeyValuePair<string, string>("sort", "timeDescending")
+                                new KeyValuePair<string, string>("sort", TransactionListSorts.timeDescending.ToString())
                             },
                             new FunctionHolder
                             {
-                                Func = marketMerchants => marketMerchants.Get(4, 0, "timeDescending").Result
+                                Func = marketMerchants => marketMerchants.Get(4, 0, TransactionListSorts.timeDescending).Result
                             }).SetName("GetTransactionsWithAll");
                 }
             }
@@ -102,7 +102,7 @@ namespace JudoPayDotNetTests.Clients.Market
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create(typeof(Connection)),
+                                                    DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
             var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
@@ -165,7 +165,7 @@ namespace JudoPayDotNetTests.Clients.Market
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create(typeof(Connection)),
+                                                    DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
             var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
