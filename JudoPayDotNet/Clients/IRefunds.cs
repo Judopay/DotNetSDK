@@ -5,7 +5,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients
 {
     /// <summary>
-    /// The entity reponsible for providing refunds operations
+    /// The entity responsible for providing refunds operations
     /// </summary>
     public interface IRefunds
     {

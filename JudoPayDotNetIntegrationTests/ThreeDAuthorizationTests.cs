@@ -13,8 +13,8 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void PaymentWithThreedSecure()
         {
-            var judo = JudoPaymentsFactory.Create("v4vBD2aOTj41wIYj",
-                "d46b106358e675001f9d655efa9582f7d338d483ba24695d67f212d7c68bfd08",
+            var judo = JudoPaymentsFactory.Create(Configuration.ElevatedPrivilegesSecret,
+                Configuration.ElevatedPrivilegesToken,
                 Configuration.Baseaddress);
 
             var paymentWithCard = new CardPaymentModel
@@ -56,8 +56,8 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void FullPaymentWithThreedSecure()
         {
-            var judo = JudoPaymentsFactory.Create("v4vBD2aOTj41wIYj",
-                "d46b106358e675001f9d655efa9582f7d338d483ba24695d67f212d7c68bfd08",
+            var judo = JudoPaymentsFactory.Create(Configuration.ElevatedPrivilegesSecret,
+                Configuration.ElevatedPrivilegesToken,
                 Configuration.Baseaddress);
 
             var paymentWithCard = new CardPaymentModel

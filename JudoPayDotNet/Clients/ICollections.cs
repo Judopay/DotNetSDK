@@ -5,7 +5,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients
 {
     /// <summary>
-    /// The entity reponsible for providing collections operations
+    /// The entity responsible for providing collections operations
     /// </summary>
     public interface ICollections
     {

@@ -32,7 +32,7 @@ namespace JudoPayDotNet.Models
         public long? OriginalReceiptId { get; set; }
 
         /// <summary>
-        /// Payment, Refund, Create, or Collection
+        /// Payment, Refund, PreAuth, or Collection
         /// </summary>
         /// <value>
         /// The type.

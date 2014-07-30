@@ -103,7 +103,7 @@ namespace JudoPayDotNetTests.Clients.Consumers
 
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create,
-                                                    "http://judo.com"));
+                                                    "http://partnerapi.judopay-sandbox.com"));
 
             var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
 

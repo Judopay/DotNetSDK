@@ -4,7 +4,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients
 {
     /// <summary>
-    /// The entity reponsible for providing transactions operations
+    /// The entity responsible for providing transactions operations
     /// </summary>
     public interface ITransactions
     {

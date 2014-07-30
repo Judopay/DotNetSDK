@@ -5,7 +5,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients
 {
     /// <summary>
-    /// The entity reponsible for providing pre authorizations operations
+    /// The entity responsible for providing pre authorizations operations
     /// </summary>
     // ReSharper disable UnusedMember.Global
     public interface IPreAuths

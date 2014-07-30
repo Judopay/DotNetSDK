@@ -39,22 +39,22 @@ namespace JudoPayDotNet
         IConsumers Consumers { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing payments operations
+        /// The entity responsible for providing payments operations
         /// </summary>
         IPayments Payments { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing refunds operations
+        /// The entity responsible for providing refunds operations
         /// </summary>
         IRefunds Refunds { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing pre authorizations operations
+        /// The entity responsible for providing pre authorizations operations
         /// </summary>
         IPreAuths PreAuths { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing transactions operations
+        /// The entity responsible for providing transactions operations
         /// </summary>
         /// <value>
         /// The transactions.
@@ -62,12 +62,12 @@ namespace JudoPayDotNet
         ITransactions Transactions { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing collections operations
+        /// The entity responsible for providing collections operations
         /// </summary>
         ICollections Collections { get; set; }
 
         /// <summary>
-        /// The entity reponsible for providing 3D authorization operations
+        /// The entity responsible for providing 3D authorization operations
         /// </summary>
         IThreeDs ThreeDs { get; set; }
     }
