@@ -12,15 +12,19 @@ namespace JudoPayDotNet.Models
     {
         UNKNOWN = 0,
 
+        [Description("payments")]
         [LocalizedDescription("Sale")]
         PAYMENT = 1,
 
+        [Description("refunds")]
         [LocalizedDescription("Refund")]
         REFUND = 2,
 
+        [Description("preauths")]
         [LocalizedDescription("PreAuth")]
         PREAUTH = 3,
 
+        [Description("collections")]
         [LocalizedDescription("Collection")]
         COLLECTION = 5,
     }

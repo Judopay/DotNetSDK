@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using JudoPayDotNet;
 using JudoPayDotNet.Clients;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet.Logging;
@@ -35,21 +36,21 @@ namespace JudoPayDotNetTests.Clients
                         new[] { new KeyValuePair<string, string>("pageSize", "4") },
                         new FunctionHolder
                         {
-                           Func = transactions => transactions.Get("SALE", 4).Result
+                           Func = transactions => transactions.Get(TransactionType.PAYMENT, 4).Result
                         })
                         .SetName("GetTransactionsJustWithPage");
                     yield return new TestCaseData(
                         new[] { new KeyValuePair<string, string>("sort", TransactionListSorts.timeAscending.ToString()) },
                         new FunctionHolder
                         {
-                            Func = transactions => transactions.Get("SALE", sort: TransactionListSorts.timeAscending).Result
+                            Func = transactions => transactions.Get(TransactionType.PAYMENT, sort: TransactionListSorts.timeAscending).Result
                         })
                         .SetName("GetTransactionsJustWithSort");
                     yield return new TestCaseData(
                         new[] { new KeyValuePair<string, string>("offset", "0") },
                         new FunctionHolder
                         {
-                            Func = transactions => transactions.Get("SALE", offset: 0).Result
+                            Func = transactions => transactions.Get(TransactionType.PAYMENT, offset: 0).Result
                         }).
                         SetName("GetTransactionsJustWithOffset");
                     yield return new TestCaseData(new[]
@@ -60,7 +61,7 @@ namespace JudoPayDotNetTests.Clients
                             },
                             new FunctionHolder
                             {
-                                Func = transactions => transactions.Get("SALE", 4, 0, TransactionListSorts.timeAscending).Result
+                                Func = transactions => transactions.Get(TransactionType.PAYMENT, 4, 0, TransactionListSorts.timeAscending).Result
                             }).SetName("GetTransactionsWithAll");
                 }
             }
@@ -118,27 +119,28 @@ namespace JudoPayDotNetTests.Clients
                                                       TransactionsTestSource.FunctionHolder getCall)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
-                            receiptId : '134567',
-                            type : 'Create',
-                            judoId : '12456',
-                            originalAmount : 20,
-                            amount : 20,
-                            netAmount : 20,
-                            cardDetails :
-                                {
-                                    cardLastfour : '1345',
-                                    endDate : '1214',
-                                    cardToken : 'ASb345AE',
-                                    cardType : 'VISA'
-                                },
-                            currency : 'GBP',
-                            consumer : 
-                                {
-                                    consumerToken : 'B245SEB',
-                                    yourConsumerReference : 'Consumer1'
-                                }
-                            }")};
+            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent((@"{
+                            results : [{
+                                receiptId : '134567',
+                                type : 'Create',
+                                judoId : '12456',
+                                originalAmount : 20,
+                                amount : 20,
+                                netAmount : 20,
+                                cardDetails :
+                                    {
+                                        cardLastfour : '1345',
+                                        endDate : '1214',
+                                        cardToken : 'ASb345AE',
+                                        cardType : 'VISA'
+                                    },
+                                currency : 'GBP',
+                                consumer : 
+                                    {
+                                        consumerToken : 'B245SEB',
+                                        yourConsumerReference : 'Consumer1'
+                                    }
+                             }]}"))};
 
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
@@ -172,7 +174,7 @@ namespace JudoPayDotNetTests.Clients
                                     }).Intersect(queryExpected).Count();
 
             Assert.AreEqual(queryExpected.Count(), numberOfMatchingParameters);
-            Assert.AreEqual("SALE", request.RequestUri.AbsolutePath.Split('/').Last());
+            Assert.AreEqual(EnumUtils.GetEnumDescription(TransactionType.PAYMENT), request.RequestUri.AbsolutePath.Split('/').Last());
         }
     }
 }

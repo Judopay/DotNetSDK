@@ -79,12 +79,6 @@ namespace JudoPayDotNet.Models
         public string JudoId { get; set; }
 
         /// <summary>
-        ///     the PartnerRecId of the API client used to process this request
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public long PartnerRecId { get; set; }
-
-        /// <summary>
         ///     The value of the partner serivce fee
         /// </summary>
         [DataMember]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
@@ -26,16 +27,16 @@ namespace JudoPayDotNet.Clients
         }
 
         // ReSharper disable once MethodOverloadWithOptionalParameter
-        public Task<IResult<PaymentReceiptResults>> Get(string transactionType = null, 
+        public Task<IResult<PaymentReceiptResults>> Get(TransactionType? transactionType = null, 
                                                         long? pageSize = 10, 
                                                         long? offset = null, 
                                                         TransactionListSorts? sort = null)
         {
             var address = _usedAddress;
 
-            if (!String.IsNullOrWhiteSpace(transactionType))
+            if (transactionType.HasValue)
             {
-                address = string.Format("{0}/{1}", _usedAddress, transactionType);
+                address = string.Format("{0}/{1}", _usedAddress, EnumUtils.GetEnumDescription(transactionType));
             }
 
             var parameters = new Dictionary<string, string>();

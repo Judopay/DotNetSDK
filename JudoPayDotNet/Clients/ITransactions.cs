@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using JudoPayDotNet.Models;
 
@@ -24,7 +25,7 @@ namespace JudoPayDotNet.Clients
         /// <param name="sort">The sort.</param>
         /// <returns>The receipts</returns>
         // ReSharper disable once MethodOverloadWithOptionalParameter
-        Task<IResult<PaymentReceiptResults>> Get(string transactionType, long? pageSize = null, 
+        Task<IResult<PaymentReceiptResults>> Get(TransactionType? transactionType = null, long? pageSize = null, 
                                                     long? offset = null, TransactionListSorts? sort = null);
     }
 }

@@ -31,10 +31,12 @@ namespace JudoPayDotNet.Enums
         {
             var fi = value.GetType().GetRuntimeField(value.ToString());
 
-            var attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
+            var attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false)
+                                    .OfType<DescriptionAttribute>()
+                                    .Where(a => a.GetType() == typeof(DescriptionAttribute));
 
-            if (attributes != null && attributes.Length > 0)
-                return attributes[0].Description;
+            if (attributes != null && attributes.Count() > 0)
+                return attributes.First().Description;
 
             var localizedAttributes = fi.GetCustomAttributes(typeof(LocalizedDescriptionAttribute), false) as LocalizedDescriptionAttribute[];
 
