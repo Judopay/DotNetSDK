@@ -2,6 +2,9 @@
 
 namespace JudoPayDotNet.Enums
 {
+	/// <summary>
+	/// Provides programmatically accessable description of an enumeration value.
+	/// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class DescriptionAttribute : Attribute
     {

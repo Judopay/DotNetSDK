@@ -8,14 +8,14 @@ namespace JudoPayDotNet.Clients
 {
     internal class PreAuths : BasePreAuth, IPreAuths
     {
-        private const string Createpreauthaddress = "transactions/preauths";
-        private const string Validatepreauthaddress = "transactions/preauths/validate";
+        private const string CREATE_PREAUTH_ADDRESS = "transactions/preauths";
+        private const string VALIDATE_PREAUTH_ADDRESS = "transactions/preauths/validate";
 
         private readonly string _validatePreAuthAddress;
 
         public PreAuths(ILog logger, IClient client, 
-                            string createAddress = Createpreauthaddress, 
-                            string validateAddress = Validatepreauthaddress)
+                            string createAddress = CREATE_PREAUTH_ADDRESS, 
+                            string validateAddress = VALIDATE_PREAUTH_ADDRESS)
             : base(logger, client, createAddress)
         {
             _validatePreAuthAddress = validateAddress;

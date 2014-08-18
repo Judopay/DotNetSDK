@@ -64,6 +64,7 @@ namespace JudoPayDotNet.Models
         /// <summary>
         /// Gets or sets the currency.
         /// </summary>
+        /// <remarks>Valid values GBP, EUR or USD.</remarks>
         /// <value>
         /// The currency.
         /// </value>
@@ -148,11 +149,12 @@ namespace JudoPayDotNet.Models
         /// <summary>
         /// The Client's browser DeviceCategory for 3D secure
         /// </summary>
+        /// <remarks>This should either be Desktop or Mobile</remarks>
         [DataMember(EmitDefaultValue = false)]
         public string DeviceCategory { get; set; }
 
         /// <summary>
-        /// The Client's browser DeviceCategory for 3D secure
+		/// The Client's browser accept headers, used for 3D secure
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable UnusedAutoPropertyAccessor.Global

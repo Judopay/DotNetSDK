@@ -3,17 +3,17 @@
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// A payment that requires 3D secure
+    /// The information required to complete 3D secure authorization on a transaction (payment or preauth)
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract(Name = "ThreeDRequired", Namespace = "")]
     public class PaymentRequiresThreeDSecureModel : ITransactionResult
     {
         /// <summary>
-        /// Gets or sets the receipt identifier.
+        /// Gets or sets the transaction identifier.
         /// </summary>
         /// <value>
-        /// The receipt identifier.
+        /// The transaction identifier.
         /// </value>
         [DataMember]
         public string ReceiptId { get; set; }

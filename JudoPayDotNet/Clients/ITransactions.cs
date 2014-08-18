@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using JudoPayDotNet.Models;
 
@@ -12,7 +11,7 @@ namespace JudoPayDotNet.Clients
         /// <summary>
         /// Gets the specified receipt by it's identifier.
         /// </summary>
-        /// <param name="receiptId">The receipt identifier.</param>
+        /// <param name="receiptId">The transaction identifier.</param>
         /// <returns>The receipt</returns>
         Task<IResult<ITransactionResult>> Get(string receiptId);
 

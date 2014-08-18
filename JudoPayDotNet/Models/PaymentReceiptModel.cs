@@ -7,16 +7,17 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// A payment receipt
     /// </summary>
+    /// <remarks>This receipt model contains all the information about the transaction processed, including the outcome (see <see cref="Result"/>)</remarks>
     // ReSharper disable UnusedMember.Global
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract(Name = "Receipt", Namespace = "")]
     public class PaymentReceiptModel : ITransactionResult
     {
         /// <summary>
-        /// Gets or sets the receipt identifier.
+        /// Gets or sets the transaction identifier.
         /// </summary>
         /// <value>
-        /// The receipt identifier.
+        /// The transaction identifier.
         /// </value>
         [DataMember]
         public string ReceiptId { get; set; }
@@ -25,7 +26,7 @@ namespace JudoPayDotNet.Models
         /// The receipt id of the original payment, if this is a refund or collection
         /// </summary>
         /// <value>
-        /// The original receipt identifier.
+        /// The original transaction identifier.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable once UnusedMember.Global
@@ -51,7 +52,7 @@ namespace JudoPayDotNet.Models
         public DateTimeOffset CreatedAt { get; set; }
 
         /// <summary>
-        /// Gets or sets the result.
+        /// Gets the result of this transaction.
         /// </summary>
         /// <value>
         /// The result.

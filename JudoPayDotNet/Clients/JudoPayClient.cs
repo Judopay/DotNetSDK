@@ -12,7 +12,7 @@ namespace JudoPayDotNet.Clients
 {
     // ReSharper disable UnusedMember.Global
     /// <summary>
-    /// Base judo pay client that does all the CRUD operations and verifies the existance of errors on responses
+    /// Base judo pay client that does all the CRUD operations and verifies the existence of errors on responses
     /// </summary>
     internal abstract class JudoPayClient
     {

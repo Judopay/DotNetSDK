@@ -4,7 +4,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients.Market
 {
     /// <summary>
-    /// The entity responsible for providing market refunds operations
+    /// The entity responsible for listing and processing refunds for your marketplace sellers.
     /// </summary>
     public interface IMarketRefunds
     {

@@ -1,13 +1,13 @@
-﻿namespace JudoPayDotNet.Autentication
+﻿namespace JudoPayDotNet.Authentication
 {
     /// <summary>
-    /// The credentials to access Judo Payments
+    /// The credentials to access our JudoPay API
     /// </summary>
     // ReSharper disable UnusedMemberInSuper.Global
     public interface ICredentials
     {
         /// <summary>
-        /// Gets the token for basic authentication.
+        /// Gets the API token for basic authentication.
         /// </summary>
         /// <value>
         /// The token for basic authentication.
@@ -15,7 +15,7 @@
         string Token { get; }
 
         /// <summary>
-        /// Gets the secret for basic authentication.
+        /// Gets the API secret for basic authentication.
         /// </summary>
         /// <value>
         /// The secret for basic authentication.
@@ -23,7 +23,7 @@
         string Secret { get; }
 
         /// <summary>
-        /// Gets the OAuth 2 access token.
+        /// Returns your seller's OAuth 2 access token.
         /// </summary>
         /// <value>
         /// The OAuth 2 access token.

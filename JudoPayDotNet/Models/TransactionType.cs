@@ -1,5 +1,4 @@
-﻿using System;
-using JudoPayDotNet.Enums;
+﻿using JudoPayDotNet.Enums;
 
 namespace JudoPayDotNet.Models
 {

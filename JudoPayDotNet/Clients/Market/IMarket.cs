@@ -1,19 +1,19 @@
 ﻿namespace JudoPayDotNet.Clients.Market
 {
     /// <summary>
-    /// Provides judo payment operations for markets
+    /// Provides payment operations for markets
     /// </summary>
     // ReSharper disable UnusedMember.Global
     // ReSharper disable UnusedMemberInSuper.Global
     public interface IMarket
     {
         /// <summary>
-        /// The entity responsible for providing refunds operations
+        /// Refunds for seller's in your marketplace
         /// </summary>
         IMarketRefunds Refunds { get; set; }
 
         /// <summary>
-        /// The entity responsible for providing transactions operations
+        /// All transactions in your marketplace
         /// </summary>
         /// <value>
         /// The transactions.

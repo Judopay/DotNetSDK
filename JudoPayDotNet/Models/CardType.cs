@@ -50,9 +50,9 @@ namespace JudoPayDotNet.Models
         [Description("VISA_DEBIT")]
         VISA_DEBIT = 11,
 
-         //<summary>
-         //In the europe mastercard debit is MAESTRO
-         //</summary>
+		/// <summary>
+		/// In Europe your more likely to see Maestro than Mastercard Debit, however it does exist.
+		/// </summary>
         [LocalizedDescription("MCI DEBIT")]
         MASTERCARD_DEBIT = 12,
 

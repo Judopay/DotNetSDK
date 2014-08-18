@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using JudoPayDotNet.Autentication;
+using JudoPayDotNet.Authentication;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using NSubstitute;

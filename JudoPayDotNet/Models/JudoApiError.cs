@@ -1,9 +1,13 @@
 using JudoPayDotNet.Enums;
+using JudoPayDotNet.Errors;
 
 namespace JudoPayDotNet.Models
 {
     // ReSharper disable UnusedMember.Global
     // ReSharper disable InconsistentNaming
+	/// <summary>
+	/// Processing errors returned by the JudoPay API (Request validation errors are broken down in another property <see cref="JudoApiErrorModel.ModelErrors"/>)
+	/// </summary>
     public enum JudoApiError
     {
         [Description("Sorry, an error has occurred. Please try again later.")]

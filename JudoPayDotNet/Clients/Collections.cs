@@ -8,13 +8,13 @@ namespace JudoPayDotNet.Clients
 {
     internal class Collections : BaseCollections, ICollections
     {
-        private const string Createaddress = "transactions/collections";
-        private const string Validateaddress = "transactions/collections/validate";
+        private const string CREATE_ADDRESS = "transactions/collections";
+        private const string VALIDATE_ADDRESS = "transactions/collections/validate";
 
         private readonly string _validateAddress;
 
         public Collections(ILog logger, IClient client)
-            : this(logger, client, Createaddress, Validateaddress)
+            : this(logger, client, CREATE_ADDRESS, VALIDATE_ADDRESS)
         {
         }
 

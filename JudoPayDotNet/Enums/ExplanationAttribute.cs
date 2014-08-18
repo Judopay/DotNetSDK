@@ -2,6 +2,9 @@
 
 namespace JudoPayDotNet.Enums
 {
+	/// <summary>
+	/// An attribute for enumeration values, used to explain the reason for error messages
+	/// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public class ExplanationAttribute : Attribute
     {

@@ -46,34 +46,4 @@ namespace JudoPayDotNet.Models.Validations
                     );
         }
     }
-
-// ReSharper disable UnusedMember.Global
-    public class PaymentValidator : PaymentsBaseValidator<PaymentModel>
-// ReSharper restore UnusedMember.Global
-    {
-    }
-
-    public class CardPaymentValidator : PaymentsBaseValidator<CardPaymentModel>
-    {
-        public CardPaymentValidator()
-        {
-            RuleFor(model => model.CardNumber)
-                .NotEmpty().WithMessage("You must supply your card number");
-
-            RuleFor(model => model.ExpiryDate)
-                .NotEmpty().WithMessage("You must supply your card expiry date");
-        }
-    }
-
-    public class TokenPaymentValidator : PaymentsBaseValidator<TokenPaymentModel>
-    {
-        public TokenPaymentValidator()
-        {
-            RuleFor(model => model.ConsumerToken)
-                .NotEmpty().WithMessage("You must supply your consumer token");
-
-            RuleFor(model => model.CardToken)
-                .NotEmpty().WithMessage("You must supply your card token");
-        }
-    }
 }

@@ -5,8 +5,11 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients
 {
     /// <summary>
-    /// The entity responsible for providing collections operations
+    /// The entity responsible for processing and validating collection transactions
     /// </summary>
+    /// <remarks>
+    /// This entity allows you to collect previously authorised (PreAuth transaction)
+    /// </remarks>
     public interface ICollections
     {
         /// <summary>

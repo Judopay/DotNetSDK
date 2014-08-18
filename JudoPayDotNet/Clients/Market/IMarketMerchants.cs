@@ -4,7 +4,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients.Market
 {
     /// <summary>
-    /// The entity responsible for providing market merchant operations
+    /// The entity responsible for listing sellers (merchants) in your marketplace
     /// </summary>
     // ReSharper disable UnusedMember.Global
     public interface IMarketMerchants

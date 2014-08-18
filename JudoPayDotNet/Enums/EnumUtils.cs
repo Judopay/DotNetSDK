@@ -7,8 +7,16 @@ using System.Reflection;
 namespace JudoPayDotNet.Enums
 {
     // ReSharper disable UnusedMember.Global
+	/// <summary>
+	/// A set of helper extension methods for working with Enumerations
+	/// </summary>
     public static class EnumUtils
     {
+		/// <summary>
+		/// Returns the value of the <see cref="DescriptionAttribute"/> associated with this enumeration value. 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
         public static string GetDescriptionFromEnumValue(Enum value)
         {
             var attribute = value.GetType().
@@ -18,6 +26,11 @@ namespace JudoPayDotNet.Enums
             return attribute == null ? value.ToString() : attribute.Description;
         }
 
+		/// <summary>
+		/// Returns all <see cref="DescriptionAttribute"/> values for an enumeration type
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
         public static IEnumerable<string> EnumerateDescriptions(Type type)
         {
             if (!type.GetTypeInfo().IsEnum)
@@ -27,6 +40,12 @@ namespace JudoPayDotNet.Enums
                     select GetEnumDescription((Enum)value)).ToList();
         }
 
+		/// <summary>
+		/// Returns the value of the first <see cref="DescriptionAttribute"/> or <see cref="LocalizedDescriptionAttribute"/> (for 
+		/// the current culture) associated with this enumeration value. 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
         public static string GetEnumDescription(Enum value)
         {
             var fi = value.GetType().GetRuntimeField(value.ToString());
@@ -35,26 +54,32 @@ namespace JudoPayDotNet.Enums
                                     .OfType<DescriptionAttribute>()
                                     .Where(a => a.GetType() == typeof(DescriptionAttribute));
 
-            if (attributes != null && attributes.Count() > 0)
+            if (attributes != null && attributes.Any())
                 return attributes.First().Description;
 
             var localizedAttributes = fi.GetCustomAttributes(typeof(LocalizedDescriptionAttribute), false) as LocalizedDescriptionAttribute[];
 
-            if (localizedAttributes != null && localizedAttributes.Length > 0)
-            {
-                // match to the localized culture before invariants
-                var matchingAttribute = localizedAttributes.FirstOrDefault(desc => desc.Culture.Equals(CultureInfo.CurrentUICulture) && !desc.Culture.Equals(CultureInfo.InvariantCulture));
-                if (matchingAttribute != null)
-                    return matchingAttribute.Description;
+	        if (localizedAttributes == null || localizedAttributes.Length <= 0) 
+				return value.ToString();
 
-                var invariantFallback = localizedAttributes.FirstOrDefault(desc => desc.Culture.Equals(CultureInfo.InvariantCulture));
-                if (invariantFallback != null)
-                    return invariantFallback.Description;
-            }
+	        // match to the localized culture before invariants
+	        var matchingAttribute = localizedAttributes.FirstOrDefault(description => description.Culture.Equals(CultureInfo.CurrentUICulture) && !description.Culture.Equals(CultureInfo.InvariantCulture));
+	        if (matchingAttribute != null)
+		        return matchingAttribute.Description;
 
-            return value.ToString();
+			var invariantFallback = localizedAttributes.FirstOrDefault(description => description.Culture.Equals(CultureInfo.InvariantCulture));
+	        if (invariantFallback != null)
+		        return invariantFallback.Description;
+
+	        return value.ToString();
         }
 
+		/// <summary>
+		/// Returns the first <see cref="ExplanationAttribute"/> on an enumeration value.
+		/// </summary>
+		/// <remarks>This is usually used by error enumerations to provide a user readable explanation for the error.</remarks>
+		/// <param name="value"></param>
+		/// <returns></returns>
         public static string GetEnumExplanation(Enum value)
         {
             var fi = value.GetType().GetRuntimeField(value.ToString());
@@ -67,6 +92,12 @@ namespace JudoPayDotNet.Enums
             return string.Empty;
         }
 
+		/// <summary>
+		/// returns an enumeration value from a string based on the <see cref="DescriptionAttribute"/> or <see cref="LocalizedDescriptionAttribute"/> value
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="description"></param>
+		/// <returns></returns>
         public static T GetValueFromDescription<T>(string description)
         {
             var type = typeof(T);

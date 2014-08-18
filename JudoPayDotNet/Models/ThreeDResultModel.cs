@@ -9,10 +9,10 @@ namespace JudoPayDotNet.Models
     public class ThreeDResultModel
     {
         /// <summary>
-        /// Gets or sets the Payment authorisation response.
+        /// Gets or sets the Payment authorization response.
         /// </summary>
         /// <value>
-        /// The Payment authorisation.
+        /// The Payment authorization.
         /// </value>
         [DataMember]
         public string PaRes { get; set; }

@@ -8,7 +8,7 @@ namespace JudoPayDotNet.Clients.Market
 {
     internal class MarketMerchants : JudoPayClient, IMarketMerchants
     {
-        private const string Address = "market/merchants";
+        private const string ADDRESS = "market/merchants";
 
         public MarketMerchants(ILog logger, IClient client) : base(logger, client)
         {
@@ -20,7 +20,7 @@ namespace JudoPayDotNet.Clients.Market
 
             AddParameter(parameters, "locatorId", locatorId);
 
-            return GetInternal<MerchantSearchResults>(Address, parameters);
+            return GetInternal<MerchantSearchResults>(ADDRESS, parameters);
         }
 
         public Task<IResult<MerchantSearchResults>> Get(long? pageSize = null,
@@ -33,7 +33,7 @@ namespace JudoPayDotNet.Clients.Market
             AddParameter(parameters, "offset", offset);
             AddParameter(parameters, "sort", sort);
 
-            return GetInternal<MerchantSearchResults>(Address, parameters);
+            return GetInternal<MerchantSearchResults>(ADDRESS, parameters);
         }
 
     }

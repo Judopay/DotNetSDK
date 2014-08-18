@@ -2,6 +2,9 @@
 {
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     // ReSharper disable UnusedMember.Global
+	/// <summary>
+	/// This model represents one issue encountered with a supplied field
+	/// </summary>
     public class JudoModelError
     {
         public string FieldName { get; set; }

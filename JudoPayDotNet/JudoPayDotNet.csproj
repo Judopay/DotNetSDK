@@ -50,8 +50,8 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Autentication\Credentials.cs" />
-    <Compile Include="Autentication\ICredentials.cs" />
+    <Compile Include="Authentication\Credentials.cs" />
+    <Compile Include="Authentication\ICredentials.cs" />
     <Compile Include="Clients\BaseCollections.cs" />
     <Compile Include="Clients\BasePayments.cs" />
     <Compile Include="Clients\BasePreAuth.cs" />
@@ -87,6 +87,7 @@
     <Compile Include="Enums\Environment.cs" />
     <Compile Include="Enums\ExplanationAttribute.cs" />
     <Compile Include="Enums\LocalizedDescriptionAttribute.cs" />
+    <Compile Include="Models\CustomDeserializers\TransactionTypeConvertor.cs" />
     <Compile Include="Models\JudoApiError.cs" />
     <Compile Include="Errors\BadResponseError.cs" />
     <Compile Include="Errors\ConnectionError.cs" />
@@ -141,10 +142,16 @@
     <Compile Include="Models\TransactionListSorts.cs" />
     <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Models\TransactionType.cs" />
+    <Compile Include="Models\Validations\CardPaymentValidator.cs" />
+    <Compile Include="Models\Validations\PaymentReceiptValidation.cs" />
+    <Compile Include="Models\Validations\PaymentRequiresThreeDSecureModelValidation.cs" />
+    <Compile Include="Models\Validations\PaymentValidator.cs" />
     <Compile Include="Models\Validations\RefundsValidator.cs" />
     <Compile Include="Models\Validations\CollectionsValidator.cs" />
     <Compile Include="Models\Validations\PaymentsBaseValidator.cs" />
     <Compile Include="Models\Validations\ThreeDResultValidator.cs" />
+    <Compile Include="Models\Validations\TokenPaymentValidator.cs" />
+    <Compile Include="Models\Validations\TransactionResultBaseValidation.cs" />
     <Compile Include="Models\Validations\TransactionResultValidation.cs" />
     <Compile Include="Models\Validations\WebPaymentRequestModelValidator.cs" />
     <Compile Include="Models\WebPaymentCardAddress.cs" />

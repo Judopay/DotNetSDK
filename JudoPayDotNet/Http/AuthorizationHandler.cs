@@ -4,13 +4,19 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using JudoPayDotNet.Autentication;
+using JudoPayDotNet.Authentication;
 using JudoPayDotNet.Logging;
 
 namespace JudoPayDotNet.Http
 {
+	/// <summary>
+	/// Which authorization scheme should we use when connecting to the JudoPay API
+	/// </summary>
     public enum AuthType
     {
+		/// <summary>
+		/// This is basic http authentication. You should supply your api token and secret as the username and password.
+		/// </summary>
         Basic,
         /// <summary>
         /// OAuth 2 authorization
@@ -65,7 +71,7 @@ namespace JudoPayDotNet.Http
                     break;
 
                 default:
-                    _log.Info("Unknow Authorisation scheme");
+                    _log.Warn("Unknown Authorization scheme");
 
                     break;
             }

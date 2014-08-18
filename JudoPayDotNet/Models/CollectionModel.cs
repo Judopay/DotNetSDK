@@ -4,17 +4,17 @@ using Newtonsoft.Json.Linq;
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// A collection request
+    /// Collect all or part of a previously authorised (PreAuth) transaction
     /// </summary>
     // ReSharper disable UnusedMember.Global
     [DataContract]
     public class CollectionModel
     {
         /// <summary>
-        /// Gets or sets the receipt identifier.
+        /// Gets or sets the transaction identifier.
         /// </summary>
         /// <value>
-        /// The receipt identifier.
+		/// The transaction identifier.
         /// </value>
         [DataMember(IsRequired = true)]
         public int ReceiptId { get; set; }
@@ -47,7 +47,7 @@ namespace JudoPayDotNet.Models
         public decimal PartnerServiceFee { get; set; }
 
         /// <summary>
-        /// This is a set of fraud signals sent by the mobile SDKs
+        /// This is a set of fraud signals sent by the SDKs as part of our judoShield product
         /// </summary>
         /// <value>
         /// The client details.

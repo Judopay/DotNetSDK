@@ -3,7 +3,7 @@
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    ///     Details of the consumer used in the requested operation (add card/payment)
+    /// Details of your consumer as used in the requested operation (add card/payment)
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract(Name = "Consumer", Namespace = "")]

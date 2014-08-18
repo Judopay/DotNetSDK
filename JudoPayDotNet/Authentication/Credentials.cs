@@ -1,4 +1,4 @@
-﻿namespace JudoPayDotNet.Autentication
+﻿namespace JudoPayDotNet.Authentication
 {
     public class Credentials : ICredentials
     {
@@ -13,9 +13,9 @@
             Secret = secret;
         }
 
-        public Credentials(string oauthAccessToken)
+        public Credentials(string oAuthAccessToken)
         {
-            OAuthAccessToken = oauthAccessToken;
+            OAuthAccessToken = oAuthAccessToken;
         }
     }
 }

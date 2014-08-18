@@ -4,7 +4,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients.Market
 {
     /// <summary>
-    /// The entity responsible for providing market collections operations
+    /// The entity responsible for processing and listing collection transactions for your sellers
     /// </summary>
     public interface IMarketCollections
     {

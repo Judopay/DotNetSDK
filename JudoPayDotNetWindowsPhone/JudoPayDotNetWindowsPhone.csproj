@@ -89,7 +89,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Z:\JudoPayDotNet\JudoPayDotNet.csproj">
+    <ProjectReference Include="..\JudoPayDotNet\JudoPayDotNet.csproj">
       <Project>{365D3FE1-5AA7-4C99-8AEF-0D780C28E842}</Project>
       <Name>JudoPayDotNet</Name>
     </ProjectReference>

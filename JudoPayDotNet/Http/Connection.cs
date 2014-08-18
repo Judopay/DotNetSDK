@@ -53,7 +53,7 @@ namespace JudoPayDotNet.Http
         }
 
         /// <summary>
-        /// Builds the request.
+        /// Builds our base request.
         /// </summary>
         /// <param name="method">The http method.</param>
         /// <param name="address">The address.</param>
@@ -141,7 +141,7 @@ namespace JudoPayDotNet.Http
             {
                 // If there is an error deserializing a response or an error response then it should be
                 // logged and encapsulated on a BadResponseError
-                _log.ErrorFormat("Ocurred an error deserializing the following content {0}",
+                _log.ErrorFormat("An error occurred deserializing the following content {0}",
                                             e,
                                             content);
                 throw new BadResponseError(e);
@@ -174,7 +174,7 @@ namespace JudoPayDotNet.Http
             catch (HttpRequestException e)
             {
                 _log.Error("Http error", e.InnerException);
-                //Comunication layer expections are wrapped by HttpRequestException
+                //Communication layer expections are wrapped by HttpRequestException
                 throw new ConnectionError(e.InnerException);
             }
             catch (Exception e)
@@ -191,7 +191,7 @@ namespace JudoPayDotNet.Http
         /// <returns>The response parsed and with error if something wrong happend</returns>
         private async Task<IResponse> HandleResponse(HttpResponseMessage response)
         {
-            // NO OP when the response is not supose to have content
+            // NO OP when the response is not supposed to have content
             Func<string, Response, Response> parser = (content, parsedResponse) => parsedResponse;
 
             return await HandleResponseCommon(response, parser);

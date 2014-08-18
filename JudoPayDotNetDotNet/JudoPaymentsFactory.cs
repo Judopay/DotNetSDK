@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 using JudoPayDotNet;
-using JudoPayDotNet.Autentication;
+using JudoPayDotNet.Authentication;
 using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNetDotNet.Logging;

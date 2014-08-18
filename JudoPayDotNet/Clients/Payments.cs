@@ -8,14 +8,14 @@ namespace JudoPayDotNet.Clients
 {
     internal class Payments : BasePayments, IPayments
     {
-        private const string Createaddress = "transactions/payments";
-        private const string Validateaddress = "transactions/payments/validate";
+        private const string CREATE_ADDRESS = "transactions/payments";
+        private const string VALIDATE_ADDRESS = "transactions/payments/validate";
 
         private readonly string _validateAddress;
 
         public Payments(ILog logger, IClient client, 
-                            string createAddress = Createaddress, 
-                            string validateAddress = Validateaddress) : base(logger, client, createAddress)
+                            string createAddress = CREATE_ADDRESS, 
+                            string validateAddress = VALIDATE_ADDRESS) : base(logger, client, createAddress)
         {
             _validateAddress = validateAddress;
         }

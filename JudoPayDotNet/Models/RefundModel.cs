@@ -5,15 +5,16 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// A refund request
     /// </summary>
+    /// <remarks>You can refund all or part of a collection or payment</remarks>
     // ReSharper disable UnusedMember.Global
     [DataContract]
     public class RefundModel
     {
         /// <summary>
-        /// Gets or sets the receipt identifier.
+        /// Gets or sets the transaction identifier.
         /// </summary>
         /// <value>
-        /// The receipt identifier.
+        /// The transaction identifier.
         /// </value>
         [DataMember(IsRequired = true)]
         public int ReceiptId { get; set; }

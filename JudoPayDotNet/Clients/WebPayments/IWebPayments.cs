@@ -17,7 +17,7 @@
         IPreAuths PreAuths { get; set; }
 
         /// <summary>
-        /// The entity responsible for providing retrievel transactions operations
+        /// The entity responsible for providing retrieval transactions operations
         /// </summary>
         ITransactions Transactions { get; set; }
     }

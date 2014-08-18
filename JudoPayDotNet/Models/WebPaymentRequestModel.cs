@@ -61,26 +61,30 @@ namespace JudoPayDotNet.Models
         public string CompanyName { get; set; }
 
         /// <summary>
-        ///     The currency to process
+        /// The currency to process (GBP, USD, EUR)
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string Currency { get; set; }
 
         /// <summary>
-        ///     The date and time this webpayment require expires
+        ///     The date and time this webpayment expires
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public DateTimeOffset ExpiryDate { get; set; }
 
         /// <summary>
-        ///     The judo id of the account location
+        ///     The judo id of the location you wish to pay
         /// </summary>
+        /// <remarks>
+        /// You can have multiple locations in your account.
+        /// </remarks>
         [DataMember(EmitDefaultValue = false)]
         public string JudoId { get; set; }
 
         /// <summary>
-        ///     The value of the partner serivce fee
+        /// The value of the partner service fee
         /// </summary>
+        /// <remarks>Unless your using our marketplace product, this will always be zero</remarks>
         [DataMember]
         public decimal PartnerServiceFee { get; set; }
 

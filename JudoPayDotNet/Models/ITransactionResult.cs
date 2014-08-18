@@ -10,10 +10,10 @@ namespace JudoPayDotNet.Models
     public interface ITransactionResult
     {
         /// <summary>
-        /// Gets or sets the receipt identifier.
+        /// Gets or sets the transaction identifier.
         /// </summary>
         /// <value>
-        /// The receipt identifier.
+        /// The transaction identifier.
         /// </value>
         [DataMember]
         string ReceiptId { get; set; }

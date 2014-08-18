@@ -3,7 +3,7 @@
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// A market place merchange location
+    /// A market place merchant location
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     // ReSharper disable UnusedMember.Global
@@ -13,7 +13,7 @@ namespace JudoPayDotNet.Models
 // ReSharper restore ClassNeverInstantiated.Global
     {
         /// <summary>
-        /// Gets or sets the partner reference.
+        /// Gets or sets your reference for this merchant
         /// </summary>
         /// <value>
         /// The partner reference.
@@ -22,7 +22,7 @@ namespace JudoPayDotNet.Models
         public string PartnerReference { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the trading.
+        /// Gets or sets the name of this trading location.
         /// </summary>
         /// <value>
         /// The name of the trading.

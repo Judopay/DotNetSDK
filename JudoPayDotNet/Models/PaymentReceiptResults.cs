@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// JudoPay API results 
+    /// A list of JudoPay Transactions (see <see cref="PaymentReceiptModel"/>)
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     // ReSharper disable UnusedMember.Global

@@ -4,7 +4,7 @@ using JudoPayDotNet.Errors;
 namespace JudoPayDotNet.Http
 {
     /// <summary>
-    /// A response typefied
+    /// The response returned by the JudoPay API
     /// </summary>
     /// <typeparam name="T">The type of response model</typeparam>
     // ReSharper disable UnusedMemberInSuper.Global
