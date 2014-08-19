@@ -1,6 +1,6 @@
 ﻿namespace JudoPayDotNet.Models.Validations
 {
-	public class TransactionResultValidation : TransactionResultBaseValidation<ITransactionResult>
+	internal class TransactionResultValidation : TransactionResultBaseValidation<ITransactionResult>
     {
     }
 }

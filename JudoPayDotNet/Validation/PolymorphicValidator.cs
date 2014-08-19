@@ -7,7 +7,7 @@ using FluentValidation.Validators;
 
 namespace JudoPayDotNet.Validation
 {
-    public class PolymorphicValidator<TBaseClass> : NoopPropertyValidator where TBaseClass : class 
+	internal class PolymorphicValidator<TBaseClass> : NoopPropertyValidator where TBaseClass : class 
     {
         readonly Dictionary<Type, IValidator> _derivedValidators = new Dictionary<Type, IValidator>();
         readonly IValidator<TBaseClass> _baseValidator;

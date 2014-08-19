@@ -2,7 +2,7 @@
 
 namespace JudoPayDotNet.Models.Validations
 {
-    public class CollectionsValidator : AbstractValidator<CollectionModel>
+	internal class CollectionsValidator : AbstractValidator<CollectionModel>
     {
         public CollectionsValidator()
         {

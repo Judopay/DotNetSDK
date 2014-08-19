@@ -7,7 +7,7 @@ using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Clients.Consumer
 {
-    internal abstract class BaseConsumers : JudoPayClient
+	internal abstract class BaseConsumers : JudoPayClient
     {
         private const string ADDRESS = "consumers";
 
@@ -15,6 +15,15 @@ namespace JudoPayDotNet.Clients.Consumer
         {
         }
 
+		/// <summary>
+		/// Returns previous transactions for a consumer, paged and optionally filtered by transaction type
+		/// </summary>
+		/// <param name="consumerToken"></param>
+		/// <param name="transactionType"></param>
+		/// <param name="pageSize"></param>
+		/// <param name="offset"></param>
+		/// <param name="sort"></param>
+		/// <returns></returns>
         protected Task<IResult<PaymentReceiptResults>> GetTransactions(string consumerToken, string transactionType = null,
                                                                     long? pageSize = null, long? offset = null, TransactionListSorts? sort = null)
         {

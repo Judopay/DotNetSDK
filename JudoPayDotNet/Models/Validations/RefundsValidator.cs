@@ -2,7 +2,7 @@
 
 namespace JudoPayDotNet.Models.Validations
 {
-    public class RefundsValidator : AbstractValidator<RefundModel>
+	internal class RefundsValidator : AbstractValidator<RefundModel>
     {
         public RefundsValidator()
         {

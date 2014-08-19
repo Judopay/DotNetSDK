@@ -3,9 +3,10 @@ using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Clients.WebPayments
 {
-    /// <summary>
-    /// The entity responsible for providing webpayments preauth operations
-    /// </summary>
+	/// <summary>
+	/// Allows you to create a webpayment before passing Judo your customer to complete the payment.
+	/// </summary>
+	/// <remarks>This is the preauth variation of a webpayment, where the transaction amount is reserved, but not collected</remarks>
     public interface IPreAuths
     {
         /// <summary>

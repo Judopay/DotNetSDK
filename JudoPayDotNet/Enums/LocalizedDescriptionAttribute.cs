@@ -5,7 +5,7 @@ namespace JudoPayDotNet.Enums
 {
     // ReSharper disable UnusedMember.Global
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
-    public class LocalizedDescriptionAttribute : DescriptionAttribute
+    internal class LocalizedDescriptionAttribute : DescriptionAttribute
     {
         private readonly CultureInfo _culture;
 

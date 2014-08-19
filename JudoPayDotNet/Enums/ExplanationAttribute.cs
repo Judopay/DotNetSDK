@@ -6,7 +6,7 @@ namespace JudoPayDotNet.Enums
 	/// An attribute for enumeration values, used to explain the reason for error messages
 	/// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public class ExplanationAttribute : Attribute
+	internal class ExplanationAttribute : Attribute
     {
         private readonly string _whatsGoingOn;
 

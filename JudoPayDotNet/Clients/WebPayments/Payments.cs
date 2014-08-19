@@ -5,7 +5,10 @@ using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Clients.WebPayments
 {
-    internal class Payments : BasePayments, IPayments
+	/// <summary>
+	/// Allows you to create a webpayment before passing Judo your customer to complete the payment
+	/// </summary>
+	internal class Payments : BasePayments, IPayments
     {
         private const string Transactiontype = "payments";
 
@@ -14,12 +17,22 @@ namespace JudoPayDotNet.Clients.WebPayments
         {
         }
 
-        public Task<IResult<WebPaymentResponseModel>> Create(WebPaymentRequestModel model)
+	    /// <summary>
+	    /// Creates the webpayment payment.
+	    /// </summary>
+	    /// <param name="model">The webpayment payment.</param>
+	    /// <returns>The information required to finalize the webpayment payment</returns>
+	    public Task<IResult<WebPaymentResponseModel>> Create(WebPaymentRequestModel model)
         {
             return Create(model, Transactiontype);
         }
 
-        public Task<IResult<WebPaymentRequestModel>> Update(WebPaymentRequestModel model)
+	    /// <summary>
+		/// Updates the webpayment payment.  Used in conjunction with 3D secure
+	    /// </summary>
+	    /// <param name="model">The updated information of webpayment payment</param>
+	    /// <returns>The webpayment payment updated</returns>
+	    public Task<IResult<WebPaymentRequestModel>> Update(WebPaymentRequestModel model)
         {
             return Update(model, Transactiontype);
         }

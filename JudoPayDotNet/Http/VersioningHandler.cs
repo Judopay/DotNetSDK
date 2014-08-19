@@ -7,7 +7,7 @@ namespace JudoPayDotNet.Http
 	/// <summary>
 	/// The JudoPay API supports multiple api versions, this handler adds the "API-Version" header to requests
 	/// </summary>
-    public class VersioningHandler : DelegatingHandler
+	internal class VersioningHandler : DelegatingHandler
     {
         private readonly string _apiVersionHeader;
         private readonly string _apiVersionValue;

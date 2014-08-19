@@ -4,7 +4,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients.WebPayments
 {
     /// <summary>
-    /// The entity responsible for retrieving webpayment transactions
+    /// This entity allows you to fetch details of an individual webpayment (either by receipt id or reference)
     /// </summary>
     public interface ITransactions
     {

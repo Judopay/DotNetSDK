@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace JudoPayDotNet.Models.Validations
 {
-	public class PaymentRequiresThreeDSecureModelValidation : TransactionResultBaseValidation<PaymentRequiresThreeDSecureModel>
+	internal class PaymentRequiresThreeDSecureModelValidation : TransactionResultBaseValidation<PaymentRequiresThreeDSecureModel>
 	{
 		public PaymentRequiresThreeDSecureModelValidation()
 		{

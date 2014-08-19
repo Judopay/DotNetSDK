@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models.CustomDeserializers
 {
-    public class JudoApiErrorModelConverter : JsonConverter
+	internal class JudoApiErrorModelConverter : JsonConverter
     {
         private readonly ILog _log;
 

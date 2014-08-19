@@ -6,7 +6,7 @@ namespace JudoPayDotNet.Enums
 	/// Provides programmatically accessable description of an enumeration value.
 	/// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-    public class DescriptionAttribute : Attribute
+	internal class DescriptionAttribute : Attribute
     {
         public string Description { get; private set; }
 

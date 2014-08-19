@@ -2,7 +2,7 @@
 
 namespace JudoPayDotNet.Models.Validations
 {
-	public class TransactionResultBaseValidation<TTransactionResult> : AbstractValidator<TTransactionResult> where TTransactionResult : ITransactionResult
+	internal class TransactionResultBaseValidation<TTransactionResult> : AbstractValidator<TTransactionResult> where TTransactionResult : ITransactionResult
 	{
 		protected TransactionResultBaseValidation()
 		{

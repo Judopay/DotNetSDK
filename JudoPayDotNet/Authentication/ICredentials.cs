@@ -1,9 +1,10 @@
 ﻿namespace JudoPayDotNet.Authentication
 {
-    /// <summary>
-    /// The credentials to access our JudoPay API
-    /// </summary>
     // ReSharper disable UnusedMemberInSuper.Global
+	/// <summary>
+	/// Your credentials to access our JudoPay API these can be either an API Token and 
+	/// Secret pair, or an OAuth 2.0 Access Token
+	/// </summary>
     public interface ICredentials
     {
         /// <summary>

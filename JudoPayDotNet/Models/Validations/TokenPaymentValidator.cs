@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace JudoPayDotNet.Models.Validations
 {
-	public class TokenPaymentValidator : PaymentsBaseValidator<TokenPaymentModel>
+	internal class TokenPaymentValidator : PaymentsBaseValidator<TokenPaymentModel>
 	{
 		public TokenPaymentValidator()
 		{

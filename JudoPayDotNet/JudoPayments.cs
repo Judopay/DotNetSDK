@@ -14,6 +14,9 @@ using Transactions = JudoPayDotNet.Clients.Transactions;
 
 namespace JudoPayDotNet
 {
+	/// <summary>
+	/// The JudoPay API client, the main entry point for the SDK
+	/// </summary>
     public class JudoPayments : IJudoPayments
     {
         public IMarket Market { get; set; }

@@ -4,8 +4,9 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients.WebPayments
 {
     /// <summary>
-    /// The entity responsible for providing webpayments payment operations
+    /// Allows you to create a webpayment before passing Judo your customer to complete the payment.
     /// </summary>
+    /// <remarks>This is the payment variation of a webpayment, where the transaction amount is immediately collected</remarks>
     public interface IPayments
     {
         /// <summary>

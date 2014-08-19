@@ -7,6 +7,9 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients.WebPayments
 {
     // ReSharper disable UnusedMember.Global
+	/// <summary>
+	/// This entity allows you to fetch details of an individual webpayment (either by receipt id or reference)
+	/// </summary>
     internal class Transactions : JudoPayClient, ITransactions
     {
         private const string Baseaddress = "webpayments";
@@ -16,13 +19,23 @@ namespace JudoPayDotNet.Clients.WebPayments
         {
         }
 
-        public Task<IResult<WebPaymentRequestModel>> Get(string reference)
+		/// <summary>
+		/// Gets a webpayment transaction by it's reference.
+		/// </summary>
+		/// <param name="reference">The reference.</param>
+		/// <returns>The webpayment transaction</returns>
+		public Task<IResult<WebPaymentRequestModel>> Get(string reference)
         {
             var address = string.Format("{0}/{1}", Baseaddress, reference);
 
             return GetInternal<WebPaymentRequestModel>(address);
         }
 
+		/// <summary>
+		/// Gets a webpayment transaction by it's reference filtering by type
+		/// </summary>
+		/// <param name="reference">The reference.</param>
+		/// <returns>The webpayment transaction</returns>
         public Task<IResult<WebPaymentRequestModel>> Get(string reference, TransactionType type)
 
         {
@@ -43,7 +56,12 @@ namespace JudoPayDotNet.Clients.WebPayments
                 }));
         }
 
-        public Task<IResult<WebPaymentRequestModel>> GetByReceipt(string receiptId)
+		/// <summary>
+		/// Gets a webpayment transaction by transaction identifier (ReceiptId).
+		/// </summary>
+		/// <param name="receiptId">The transaction identifier.</param>
+		/// <returns>The webpayment transaction</returns>
+		public Task<IResult<WebPaymentRequestModel>> GetByReceipt(string receiptId)
         {
             var address = string.Format("{0}/{1}/webpayment", Baseaddressgetbyreceipt, receiptId);
 

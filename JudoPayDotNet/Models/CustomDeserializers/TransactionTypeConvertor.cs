@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace JudoPayDotNet.Models.CustomDeserializers
 {
-	public class TransactionTypeConvertor : JsonConverter
+	internal class TransactionTypeConvertor : JsonConverter
 	{
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{

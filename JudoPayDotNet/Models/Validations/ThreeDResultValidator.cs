@@ -3,7 +3,7 @@
 namespace JudoPayDotNet.Models.Validations
 {
 // ReSharper disable UnusedMember.Global
-    public class ThreeDResultValidator : AbstractValidator<ThreeDResultModel>
+	internal class ThreeDResultValidator : AbstractValidator<ThreeDResultModel>
 // ReSharper restore UnusedMember.Global
     {
         public ThreeDResultValidator()

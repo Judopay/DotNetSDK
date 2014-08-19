@@ -7,7 +7,7 @@ using JudoPayDotNet.Models.Validations;
 
 namespace JudoPayDotNet.Clients.WebPayments
 {
-    internal abstract class BasePayments : JudoPayClient
+	internal abstract class BasePayments : JudoPayClient
     {
         private const string Baseaddress = "webpayments";
         private readonly IValidator<WebPaymentRequestModel> _webPaymentValidator = new WebPaymentRequestModelValidator();

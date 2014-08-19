@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models.CustomDeserializers
 {
-    public abstract class JsonCreationConverter<T> : JsonConverter
+	internal abstract class JsonCreationConverter<T> : JsonConverter
     {
         /// <summary>
         /// this is very important, otherwise serialization breaks!

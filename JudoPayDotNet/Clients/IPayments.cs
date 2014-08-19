@@ -5,8 +5,9 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients
 {
     /// <summary>
-    /// The entity responsible for providing payments operations
+    /// Provides immediate payment processing using either full card details, or a previously used card token
     /// </summary>
+    /// <remarks>The amount specified by a payment is immediately captured</remarks>
     public interface IPayments
     {
         /// <summary>

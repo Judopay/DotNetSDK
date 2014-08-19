@@ -2,7 +2,7 @@
 
 namespace JudoPayDotNet.Models.Validations
 {
-    public class WebPaymentRequestModelValidator : AbstractValidator<WebPaymentRequestModel>
+	internal class WebPaymentRequestModelValidator : AbstractValidator<WebPaymentRequestModel>
     {
         public WebPaymentRequestModelValidator()
         {

@@ -307,7 +307,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var reference = result.Response.Reference;
 
-            // Forms - Post a form with credentials to post url from the webpaymentresponse passing form parameter Reference
+            // Forms - Post a form with credentials to post url from the webpayment response passing form parameter Reference
 
             var httpClient = new HttpClient();
             var formContent = new FormUrlEncodedContent(new[] 

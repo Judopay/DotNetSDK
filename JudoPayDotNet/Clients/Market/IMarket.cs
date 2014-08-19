@@ -1,10 +1,11 @@
 ﻿namespace JudoPayDotNet.Clients.Market
 {
-    /// <summary>
-    /// Provides payment operations for markets
-    /// </summary>
     // ReSharper disable UnusedMember.Global
     // ReSharper disable UnusedMemberInSuper.Global
+
+	/// <summary>
+	/// Provides payment operations and visibility into your judo Marketplace
+	/// </summary>
     public interface IMarket
     {
         /// <summary>

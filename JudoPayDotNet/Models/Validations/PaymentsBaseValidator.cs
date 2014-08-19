@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace JudoPayDotNet.Models.Validations
 {
-    public class PaymentsBaseValidator<TPaymentModel> : AbstractValidator<TPaymentModel> where TPaymentModel : PaymentModel
+	internal class PaymentsBaseValidator<TPaymentModel> : AbstractValidator<TPaymentModel> where TPaymentModel : PaymentModel
     {
         protected PaymentsBaseValidator()
         {

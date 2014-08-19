@@ -4,7 +4,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients.Consumer
 {
     /// <summary>
-    /// The entity responsible for providing consumer operations
+    /// Provides transaction activity per consumer
     /// </summary>
     public interface IConsumers
     {

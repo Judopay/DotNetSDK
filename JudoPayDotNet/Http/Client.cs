@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace JudoPayDotNet.Http
 {
-    public class Client : IClient
+	internal class Client : IClient
     {
         private readonly Connection _connection;
 

@@ -8,66 +8,55 @@ using ITransactions = JudoPayDotNet.Clients.ITransactions;
 
 namespace JudoPayDotNet
 {
-    /// <summary>
-    /// Judo payments sdk client
-    /// </summary>
+	/// <summary>
+	/// The JudoPay API client, the main entry point for the SDK
+	/// </summary>
     // ReSharper disable UnusedMemberInSuper.Global
     public interface IJudoPayments
     {
-        /// <summary>
-        /// Gets or sets the market operations.
-        /// </summary>
-        /// <value>
-        /// The market.
-        /// </value>
+		/// <summary>
+		/// Provides payment operations and visibility into your judo Marketplace
+		/// </summary>
         IMarket Market { get; set; }
 
-        /// <summary>
-        /// Gets or sets the web payments operations.
-        /// </summary>
-        /// <value>
-        /// The web payments.
-        /// </value>
+		/// <summary>
+		/// Provides operations for webpayments
+		/// </summary>
         IWebPayments WebPayments { get; set; }
 
-        /// <summary>
-        /// Gets or sets the consumers operations.
-        /// </summary>
-        /// <value>
-        /// The consumers.
-        /// </value>
+		/// <summary>
+		/// Provides visibility into transaction activity per consumer
+		/// </summary>
         IConsumers Consumers { get; set; }
 
-        /// <summary>
-        /// The entity responsible for providing payments operations
-        /// </summary>
+		/// <summary>
+		/// Provides immediate payment processing using either full card details, or a previously used card token
+		/// </summary>
         IPayments Payments { get; set; }
 
-        /// <summary>
-        /// The entity responsible for providing refunds operations
-        /// </summary>
+		/// <summary>
+		/// Refund previous transactions
+		/// </summary>
         IRefunds Refunds { get; set; }
 
         /// <summary>
-        /// The entity responsible for providing pre authorizations operations
+        /// Process preauth transactions, reserving funds on a consumer's card but not collecting them.
         /// </summary>
         IPreAuths PreAuths { get; set; }
 
-        /// <summary>
-        /// The entity responsible for providing transactions operations
-        /// </summary>
-        /// <value>
-        /// The transactions.
-        /// </value>
+		/// <summary>
+		/// Provides a combined view of all transactions within your account, and allows you to retrieve individual 
+		/// transactions by their receipt id
+		/// </summary>
         ITransactions Transactions { get; set; }
 
         /// <summary>
-        /// The entity responsible for providing collections operations
+        /// Allows you to collect previously authorised transactions (<see cref="PreAuths"/>).
         /// </summary>
         ICollections Collections { get; set; }
 
         /// <summary>
-        /// The entity responsible for providing 3D authorization operations
+        /// Used to retrieve information about inprogress 3D authorization requests
         /// </summary>
         IThreeDs ThreeDs { get; set; }
     }

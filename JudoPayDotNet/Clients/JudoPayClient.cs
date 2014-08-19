@@ -14,7 +14,7 @@ namespace JudoPayDotNet.Clients
     /// <summary>
     /// Base judo pay client that does all the CRUD operations and verifies the existence of errors on responses
     /// </summary>
-    internal abstract class JudoPayClient
+    public abstract class JudoPayClient
     {
         private readonly IClient _client;
         private readonly ILog _logger;

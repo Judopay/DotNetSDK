@@ -10,7 +10,7 @@ namespace JudoPayDotNet.Enums
 	/// <summary>
 	/// A set of helper extension methods for working with Enumerations
 	/// </summary>
-    public static class EnumUtils
+	internal static class EnumUtils
     {
 		/// <summary>
 		/// Returns the value of the <see cref="DescriptionAttribute"/> associated with this enumeration value. 

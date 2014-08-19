@@ -2,7 +2,7 @@
 
 namespace JudoPayDotNet.Models.Validations
 {
-	public class PaymentReceiptValidation : TransactionResultBaseValidation<PaymentReceiptModel>
+	internal class PaymentReceiptValidation : TransactionResultBaseValidation<PaymentReceiptModel>
 	{
 		public PaymentReceiptValidation()
 		{

@@ -5,7 +5,8 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients
 {
     /// <summary>
-    /// The entity responsible for providing pre authorizations operations
+    /// Provides the ability to reserve funds on your consumers cards. Those funds can later 
+    /// be captured using a collection transaction.
     /// </summary>
     // ReSharper disable UnusedMember.Global
     public interface IPreAuths
