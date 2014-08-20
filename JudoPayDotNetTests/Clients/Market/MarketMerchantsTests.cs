@@ -105,7 +105,7 @@ namespace JudoPayDotNetTests.Clients.Market
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             getCall.Func(judo.Market.Merchants);
 
@@ -168,7 +168,7 @@ namespace JudoPayDotNetTests.Clients.Market
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var results = getCall.Func(judo.Market.Merchants);
 

@@ -85,7 +85,7 @@ namespace JudoPayDotNetTests.Validation
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             IResult<ITransactionResult> paymentReceiptResult = null;
 

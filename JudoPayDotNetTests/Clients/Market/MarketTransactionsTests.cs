@@ -102,7 +102,7 @@ namespace JudoPayDotNetTests.Clients.Market
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             const string receiptId = "1245";
 
@@ -152,7 +152,7 @@ namespace JudoPayDotNetTests.Clients.Market
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             getCall.Func(judo.Transactions);
 

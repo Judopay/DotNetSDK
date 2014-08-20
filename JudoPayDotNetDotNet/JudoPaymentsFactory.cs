@@ -17,7 +17,7 @@ namespace JudoPayDotNetDotNet
         private const string SandboxUrlKey = "SandboxUrl";
         private const string LiveUrlKey = "LiveUrl";
 
-        private static JudoPayments Create(Credentials credentials, string baseUrl)
+        private static JudoPayApi Create(Credentials credentials, string baseUrl)
         {
             var apiVersion = ConfigurationManager.AppSettings["ApiVersion"];
 
@@ -29,7 +29,7 @@ namespace JudoPayDotNetDotNet
                                             baseUrl);
             var client = new Client(connection);
 
-            return new JudoPayments(DotNetLoggerFactory.Create, client);
+            return new JudoPayApi(DotNetLoggerFactory.Create, client);
         }
 
 		/// <summary>
@@ -60,7 +60,7 @@ namespace JudoPayDotNetDotNet
 		/// <param name="environment">Either the sandbox (development/testing) or live environments</param>
 		/// <param name="token">Your API token (from our merchant dashboard)</param>
 		/// <param name="secret">Your API secret (from our merchant dashboard)</param>
-		public static JudoPayments Create(Environment environment, string token, string secret)
+		public static JudoPayApi Create(Environment environment, string token, string secret)
         {
             return Create(token, secret, GetEnvironmentUrl(environment));
         }
@@ -73,7 +73,7 @@ namespace JudoPayDotNetDotNet
 		/// <param name="secret"></param>
 		/// <param name="baseUrl"></param>
 		/// <returns></returns>
-		internal static JudoPayments Create(string token, string secret, string baseUrl)
+		internal static JudoPayApi Create(string token, string secret, string baseUrl)
         {
             var credentials = new Credentials(token, secret);
             return Create(credentials, baseUrl);
@@ -85,7 +85,7 @@ namespace JudoPayDotNetDotNet
 		/// <param name="environment">Either the sandbox (development/testing) or live environments</param>
 		/// <param name="oauthAccessToken">Your marketplace seller's access token</param>
 		/// <returns></returns>
-        public static JudoPayments Create(Environment environment, string oauthAccessToken)
+        public static JudoPayApi Create(Environment environment, string oauthAccessToken)
         {
             return Create(oauthAccessToken, GetEnvironmentUrl(environment));
         }
@@ -97,7 +97,7 @@ namespace JudoPayDotNetDotNet
 		/// <param name="oauthAccessToken">Your marketplace seller's access token</param>
 		/// <param name="baseUrl"></param>
 		/// <returns></returns>
-		internal static JudoPayments Create(string oauthAccessToken, string baseUrl)
+		internal static JudoPayApi Create(string oauthAccessToken, string baseUrl)
         {
             var credentials = new Credentials(oauthAccessToken);
             return Create(credentials, baseUrl);

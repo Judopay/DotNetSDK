@@ -136,7 +136,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create, 
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var paymentReceiptResult = judo.Collections.Create(collections).Result;
 
@@ -164,7 +164,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create, 
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var paymentReceiptResult = judo.Collections.Create(collections).Result;
 
@@ -190,7 +190,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var collectionValidationResult = judo.Collections.Validate(collection).Result;
 
@@ -218,7 +218,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var collectionValidationResult = judo.Collections.Validate(collection).Result;
 

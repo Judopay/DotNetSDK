@@ -117,7 +117,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var paymentRequiresThreeD = 
                                             judo.ThreeDs.GetThreeDAuthorization(md).Result;
@@ -146,7 +146,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var paymentReceiptResult = 
                                 judo.ThreeDs.GetThreeDAuthorization(md).Result;
@@ -171,7 +171,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var paymentReceiptResult =
                                 judo.ThreeDs.Complete3DSecure(receiptId, threeDResult).Result;
@@ -202,7 +202,7 @@ namespace JudoPayDotNetTests.Clients
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var paymentReceiptResult =
                                 judo.ThreeDs.Complete3DSecure(receiptId, threeDResult).Result;

@@ -11,8 +11,9 @@ namespace JudoPayDotNet
 	/// <summary>
 	/// The JudoPay API client, the main entry point for the SDK
 	/// </summary>
+	/// <remarks>This interface is provided to make it easy to mock the judopay api client</remarks>
     // ReSharper disable UnusedMemberInSuper.Global
-    public interface IJudoPayments
+    public interface IJudoPayApi
     {
 		/// <summary>
 		/// Provides payment operations and visibility into your judo Marketplace

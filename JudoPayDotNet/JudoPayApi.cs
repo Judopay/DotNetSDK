@@ -17,7 +17,7 @@ namespace JudoPayDotNet
 	/// <summary>
 	/// The JudoPay API client, the main entry point for the SDK
 	/// </summary>
-    public class JudoPayments : IJudoPayments
+    public class JudoPayApi : IJudoPayApi
     {
         public IMarket Market { get; set; }
 
@@ -32,7 +32,7 @@ namespace JudoPayDotNet
         public ICollections Collections { get; set; }
         public IThreeDs ThreeDs { get; set; }
 
-        public JudoPayments(Func<Type, ILog> logger, IClient client)
+        public JudoPayApi(Func<Type, ILog> logger, IClient client)
         {
             Payments = new Payments(logger(typeof(Payments)), client);
             Refunds = new Refunds(logger(typeof(Refunds)), client);

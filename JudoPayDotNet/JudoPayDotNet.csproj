@@ -107,12 +107,12 @@
     <Compile Include="Http\IResponse.cs" />
     <Compile Include="Http\Response.cs" />
     <Compile Include="Http\VersioningHandler.cs" />
-    <Compile Include="IJudoPayments.cs" />
+    <Compile Include="IJudoPayApi.cs" />
     <Compile Include="Clients\IPayments.cs" />
     <Compile Include="Clients\IPreAuths.cs" />
     <Compile Include="Clients\IRefunds.cs" />
     <Compile Include="Clients\ITransactions.cs" />
-    <Compile Include="JudoPayments.cs" />
+    <Compile Include="JudoPayApi.cs" />
     <Compile Include="Logging\ILog.cs" />
     <Compile Include="Models\CardAddressModel.cs" />
     <Compile Include="Models\CardDetails.cs" />

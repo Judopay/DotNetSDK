@@ -4,6 +4,9 @@ using log4netLog = log4net.ILog;
 
 namespace JudoPayDotNetDotNet.Logging
 {
+	/// <summary>
+	/// An implementation of the judopay SDK ILog interface, wraps around the log4net logger.
+	/// </summary>
     class Logger : ILog
     {
         private readonly log4netLog _logger;

@@ -82,7 +82,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var paymentReceiptResult = judo.WebPayments.PreAuths.Create(request).Result;
 
@@ -211,7 +211,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var paymentReceiptResult = judo.WebPayments.PreAuths.Update(request).Result;
 

@@ -105,7 +105,7 @@ namespace JudoPayDotNetTests.Clients.Consumers
                                                     DotNetLoggerFactory.Create,
                                                     "http://partnerapi.judopay-sandbox.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             getCall.Func(judo.Consumers);
 

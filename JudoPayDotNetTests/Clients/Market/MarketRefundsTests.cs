@@ -94,7 +94,7 @@ namespace JudoPayDotNetTests.Clients.Market
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var paymentReceiptResult = judo.Market.Refunds.Create(refund).Result;
 
@@ -122,7 +122,7 @@ namespace JudoPayDotNetTests.Clients.Market
                                                     DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
-            var judo = new JudoPayments(DotNetLoggerFactory.Create, client);
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
             var paymentReceiptResult = judo.Market.Refunds.Create(refund).Result;
 

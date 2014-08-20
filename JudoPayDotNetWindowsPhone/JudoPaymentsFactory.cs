@@ -18,7 +18,7 @@ namespace JudoPayDotNetWindowsPhone
 {
     public class JudoPaymentsFactory
     {
-        public static JudoPayments Create(string token, string secret, string address)
+        public static JudoPayApi Create(string token, string secret, string address)
         {
             var credentials = new Credentials(token, secret);
             var httpClient = new HttpClientWrapper();
@@ -27,7 +27,7 @@ namespace JudoPayDotNetWindowsPhone
                                             address);
             var client = new Client(connection);
 
-            return new JudoPayments(credentials, client);
+            return new JudoPayApi(credentials, client);
         }
     }
 }
