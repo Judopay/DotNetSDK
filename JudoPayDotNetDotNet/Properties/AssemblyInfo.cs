@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("JudoPayDotNetDotNet")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("JudoPayDotNetDotNet")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
+[assembly: AssemblyCompany("Alternative Payments Ltd")]
+[assembly: AssemblyProduct("JudoPay.Net SDK")]
+[assembly: AssemblyCopyright("Alternative Payments Ltd")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

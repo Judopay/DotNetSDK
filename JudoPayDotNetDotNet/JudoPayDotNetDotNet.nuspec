@@ -1,21 +1,34 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
-    <version>2.3.0.3</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <id>JudoPay.Net</id>
+    <version>1.0.1-beta</version>
+    <title>JudoPay.Net</title>
+    <authors>JudoPay</authors>
+    <owners>JudoPay</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/JudoPay/DotNetSDK</projectUrl>
+    <iconUrl>https://www.judopay.com/judo_nuget_icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Test</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <description>A .Net client for our JudoPay API, allowing you to quickly and easily process payments</description>
+    <releaseNotes>This a preview of our full judopay api client</releaseNotes>
     <copyright>Copyright 2014</copyright>
-    <tags>Tag1 Tag2</tags>
+    <tags>payment gateway .net45 rest</tags>
+    <dependencies>
+      <group targetFramework="net45">
+          <dependency  id="FluentValidation" version="5.4.0.0" />
+          <dependency  id="Microsoft.Bcl" version="1.1.9" />
+          <dependency  id="Microsoft.Bcl.Async" version="1.0.168" />
+          <dependency  id="Microsoft.Bcl.Build" version="1.0.14" />
+          <dependency  id="Microsoft.Net.Http" version="2.2.22" />
+          <dependency  id="Newtonsoft.Json" version="6.0.3" />
+          <dependency id="log4net" version="2.0.3" />
+      </group>
+    </dependencies>
   </metadata>
   <files>
-        <file src="content\App.config.transform" target="content" />
+    <file src="content\App.config.transform" target="content" />
+    <file src="bin\debug\JudoPayDotNet.dll" target="lib\net45" />
+    <file src="bin\debug\JudoPayDotNetDotNet.dll" target="lib\net45" />
   </files>
 </package>

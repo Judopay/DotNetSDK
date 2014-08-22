@@ -8,9 +8,9 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("JudoPayDotNet")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("JudoPayDotNet")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
+[assembly: AssemblyCompany("Alternative Payments Ltd")]
+[assembly: AssemblyProduct("JudoPay.Net SDK")]
+[assembly: AssemblyCopyright("Alternative Payments Ltd")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
