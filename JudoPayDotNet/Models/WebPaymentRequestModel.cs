@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models.CustomDeserializers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -173,6 +174,9 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public PaymentReceiptModel Receipt { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public WebPaymentOperation? WebPaymentOperation { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
     // ReSharper restore UnusedMember.Global
