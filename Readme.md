@@ -9,7 +9,7 @@ using the package name of JudoPay.Net. You can install the SDK directly from wit
 either using the NuGet package manager UI, or in the Package Manager Console:
 
 ```powershell
-Install-Package JudoPay.Net -Pre
+Install-Package JudoPay.Net
 ```
 
 ## Configuration
