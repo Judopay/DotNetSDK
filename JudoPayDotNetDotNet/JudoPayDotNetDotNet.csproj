@@ -40,6 +40,8 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\IJudoConfiguration.cs" />
+    <Compile Include="Configuration\JudoConfiguration.cs" />
     <Compile Include="JudoPaymentsFactory.cs" />
     <Compile Include="Logging\DotNetLoggerFactory.cs" />
     <Compile Include="Logging\Logger.cs" />
@@ -53,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="JudoPayDotNetDotNet.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

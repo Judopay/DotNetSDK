@@ -60,6 +60,7 @@
     <Compile Include="Clients\WebPayments\PaymentsTests.cs" />
     <Compile Include="Clients\WebPayments\PreAuthsTests.cs" />
     <Compile Include="Clients\WebPayments\TransactionsTests.cs" />
+    <Compile Include="Configuration\JudoSettingsTests.cs" />
     <Compile Include="Enums\ExplanationAttributeTests.cs" />
     <Compile Include="Enums\LocalizationAttributeTests.cs" />
     <Compile Include="Serialization\CustomSerializationTests.cs" />

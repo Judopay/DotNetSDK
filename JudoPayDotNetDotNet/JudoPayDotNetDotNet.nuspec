@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>JudoPay.Net</id>
-    <version>1.0.1-beta</version>
+    <version>1.0.2-beta</version>
     <title>JudoPay.Net</title>
     <authors>JudoPay</authors>
     <owners>JudoPay</owners>
@@ -27,7 +27,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="content\App.config.transform" target="content" />
     <file src="bin\debug\JudoPayDotNet.dll" target="lib\net45" />
     <file src="bin\debug\JudoPayDotNetDotNet.dll" target="lib\net45" />
   </files>
