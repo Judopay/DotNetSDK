@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>JudoPay.Net</id>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <title>JudoPay.Net</title>
     <authors>JudoPay</authors>
     <owners>JudoPay</owners>
@@ -11,7 +11,7 @@
     <iconUrl>https://www.judopay.com/judo_nuget_icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A .Net client for our JudoPay API, allowing you to quickly and easily process payments</description>
-    <releaseNotes>This a preview of our full judopay api client</releaseNotes>
+    <releaseNotes>This is our .NET client for our JudoPay API.</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>payment gateway .net45 rest</tags>
     <dependencies>
