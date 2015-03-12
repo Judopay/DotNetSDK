@@ -28,6 +28,15 @@ namespace JudoPayDotNet.Models
         public string ExpiryDate { get; set; }
 
         /// <summary>
+        /// Gets or sets the expiry date.
+        /// </summary>
+        /// <value>
+        /// The expiry date.
+        /// </value>
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
+        public string StartDate { get; set; }
+
+        /// <summary>
         /// Gets or sets the card address.
         /// </summary>
         /// <value>

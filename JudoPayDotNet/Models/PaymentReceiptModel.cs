@@ -201,6 +201,9 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public ThreeDSecureReceiptModel ThreeDSecure { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public decimal? AmountCollected { get; set; }
     }
     // ReSharper restore UnusedMember.Global
     // ReSharper restore UnusedAutoPropertyAccessor.Global
