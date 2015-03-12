@@ -285,7 +285,7 @@ namespace JudoPayDotNetIntegrationTests
                     Line2 = "Test Street",
                     Line3 = "Test Street",
                     Town = "London",
-                    PostCode = "W31 4HS",
+                    PostCode = "TR14 8PA",
                     Country = "England"
                 },
                 ClientIpAddress = "127.0.0.1",
@@ -345,6 +345,8 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("__RequestVerificationToken", requestVerificationToken),
                 new KeyValuePair<string, string>("CardNumber", "4976000000003436"),
                 new KeyValuePair<string, string>("Cv2", "452"), 
+                new KeyValuePair<string, string>("CardAddress.CountryCode", "826"), 
+                new KeyValuePair<string, string>("CardAddress.PostCode", "TR14 8PA"), 
                 new KeyValuePair<string, string>("ExpiryDate", "12/15"), 
                 new KeyValuePair<string, string>("Reference", reference)
             });
@@ -391,6 +393,8 @@ namespace JudoPayDotNetIntegrationTests
             request.Headers.Add("Accept", "application/json");
 
             request.Headers.Add("Api-Version", apiVersion);
+
+            request.Headers.Add("User-Agent", "Mozilla");
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Basic", parameter);
 
