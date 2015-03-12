@@ -60,6 +60,11 @@ namespace JudoPayDotNet
         /// Used to retrieve information about inprogress 3D authorization requests
         /// </summary>
         IThreeDs ThreeDs { get; set; }
+
+        /// <summary>
+        /// Enables the developer to register a consumer card
+        /// </summary>
+        IRegisterCards RegisterCards { get; set; }
     }
     // ReSharper restore UnusedMemberInSuper.Global
 }

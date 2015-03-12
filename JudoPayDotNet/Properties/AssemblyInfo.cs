@@ -30,5 +30,6 @@ using System.Runtime.CompilerServices;
 	InternalsVisibleTo("JudoPayDotNetTests"), 
 	InternalsVisibleTo("JudoPayDotNetDotNet"), 
 	InternalsVisibleTo("JudoPayDotNetIntegrationTests"), 
-	InternalsVisibleTo("JudoPayDotNetWindowsPhone"), 
+	InternalsVisibleTo("JudoPayDotNetWindowsPhone"),
+    InternalsVisibleTo("JudoDotNetXamarin"),
 	InternalsVisibleTo("WindowsPhoneDotNetSDK")]

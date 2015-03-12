@@ -16,7 +16,7 @@ namespace JudoPayDotNet.Models
         /// The CV2.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
-        public string Cv2 { get; set; }
+        public string CV2 { get; set; }
 
         /// <summary>
         /// Gets or sets the card number.

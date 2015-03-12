@@ -56,6 +56,7 @@
     <Compile Include="Clients\Market\MarketMerchantsTests.cs" />
     <Compile Include="Clients\Market\MarketRefundsTests.cs" />
     <Compile Include="Clients\Market\MarketTransactionsTests.cs" />
+    <Compile Include="Clients\RegisterCardsTests.cs" />
     <Compile Include="Clients\ThreeDsTests.cs" />
     <Compile Include="Clients\WebPayments\PaymentsTests.cs" />
     <Compile Include="Clients\WebPayments\PreAuthsTests.cs" />

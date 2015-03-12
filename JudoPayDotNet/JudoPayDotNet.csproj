@@ -13,7 +13,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -26,8 +26,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -58,11 +56,13 @@
     <Compile Include="Clients\BasePayments.cs" />
     <Compile Include="Clients\BasePreAuth.cs" />
     <Compile Include="Clients\BaseRefunds.cs" />
+    <Compile Include="Clients\BaseRegisterCards.cs" />
     <Compile Include="Clients\Collections.cs" />
     <Compile Include="Clients\Consumer\BaseConsumer.cs" />
     <Compile Include="Clients\Consumer\Consumers.cs" />
     <Compile Include="Clients\Consumer\IConsumers.cs" />
     <Compile Include="Clients\ICollections.cs" />
+    <Compile Include="Clients\IRegisterCards.cs" />
     <Compile Include="Clients\JudoPayClient.cs" />
     <Compile Include="Clients\IThreeDs.cs" />
     <Compile Include="Clients\Market\IMarket.cs" />
@@ -74,6 +74,7 @@
     <Compile Include="Clients\Market\MarketMerchants.cs" />
     <Compile Include="Clients\Market\MarketRefunds.cs" />
     <Compile Include="Clients\Market\MarketTransactions.cs" />
+    <Compile Include="Clients\RegisterCards.cs" />
     <Compile Include="Clients\ThreeDs.cs" />
     <Compile Include="Clients\WebPayments\BasePayments.cs" />
     <Compile Include="Clients\WebPayments\IPayments.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Models\TransactionListSorts.cs" />
     <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Models\TransactionType.cs" />
+    <Compile Include="Models\Validations\RegisterCardValidator.cs" />
     <Compile Include="Models\Validations\CardPaymentValidator.cs" />
     <Compile Include="Models\Validations\PaymentReceiptValidation.cs" />
     <Compile Include="Models\Validations\PaymentRequiresThreeDSecureModelValidation.cs" />

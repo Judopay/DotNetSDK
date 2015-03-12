@@ -46,6 +46,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="ConsumersTests.cs" />
     <Compile Include="MarketMerchantTests.cs" />
+    <Compile Include="RegisterCardTests.cs" />
     <Compile Include="PaymentTest.cs" />
     <Compile Include="PreAuthAndCollectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
