@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
 {
-    /// <summary>
+	/// <summary>
     /// A payment receipt
     /// </summary>
     /// <remarks>This receipt model contains all the information about the transaction processed, including the outcome (see <see cref="Result"/>)</remarks>
@@ -13,7 +13,10 @@ namespace JudoPayDotNet.Models
     [DataContract(Name = "Receipt", Namespace = "")]
     public class PaymentReceiptModel : ITransactionResult
     {
-        /// <summary>
+		[DataMember(EmitDefaultValue = false)]
+		public WalletType? WalletType { get; set; }
+
+	    /// <summary>
         /// Gets or sets the transaction identifier.
         /// </summary>
         /// <value>
@@ -126,7 +129,13 @@ namespace JudoPayDotNet.Models
         [DataMember]
         public decimal NetAmount { get; set; }
 
-        /// <summary>
+		/// <summary>
+		/// If this transaction is a PreAuth then this is the amount of that has already been collected.
+		/// </summary>
+		[DataMember(EmitDefaultValue = false)]
+	    public decimal? AmountCollected { get; set; }
+
+	    /// <summary>
         /// Gets or sets the amount.
         /// </summary>
         /// <value>
