@@ -27,7 +27,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\debug\JudoPayDotNet.dll" target="lib\net45" />
-    <file src="bin\debug\JudoPayDotNetDotNet.dll" target="lib\net45" />
+    <file src="bin\release\JudoPayDotNet.dll" target="lib\net45" />
+    <file src="bin\release\JudoPayDotNetDotNet.dll" target="lib\net45" />
   </files>
 </package>
