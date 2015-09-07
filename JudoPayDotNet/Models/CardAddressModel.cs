@@ -59,7 +59,8 @@ namespace JudoPayDotNet.Models
         /// </summary> 
         /// <remarks>UK is 826</remarks> 
 // ReSharper disable UnusedMember.Local
-        int? CountryCode { get; set; }
+        [DataMember(IsRequired = false)]
+        public int? CountryCode { get; set; }
 // ReSharper restore UnusedMember.Local
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
