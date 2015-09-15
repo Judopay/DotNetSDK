@@ -1,5 +1,7 @@
 # JudoPay SDK
 
+[![Build status](https://ci.appveyor.com/api/projects/status/y9mrqtjr0cf1g5li?svg=true)](https://ci.appveyor.com/project/JudoPayments/dotnetsdk)
+
 The JudoPay SDK is a client for our JudoPay API, which provides card payment processing 
 for mobile apps and websites.
 
