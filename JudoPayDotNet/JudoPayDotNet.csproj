@@ -171,6 +171,7 @@
     <Compile Include="Validation\PolymorphicValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="JudoPayDotNet.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
