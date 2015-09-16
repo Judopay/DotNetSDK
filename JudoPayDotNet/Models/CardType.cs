@@ -57,7 +57,43 @@ namespace JudoPayDotNet.Models
         MASTERCARD_DEBIT = 12,
 
         [LocalizedDescription("VISA_PURCHASING")]
-        VISA_PURCHASING = 13
+        VISA_PURCHASING = 13,
+
+        // 8192
+		DISCOVER = 14,
+
+        // 16384
+		CARNET = 15,
+
+        // 32768
+		CARTE_BANCAIRE = 16,
+
+        // 65536
+		DINERS_CLUB = 17,
+
+        // 131072
+		ELO = 18,
+
+        // 262144
+		FARMERS_CARD = 19,
+
+        // 524288
+		SORIANA = 20,
+
+        // 1048576
+		PRIVATE_LABEL_CARD = 21,
+
+		Q_CARD = 22,
+
+		STYLE = 23,
+
+		TRUE_REWARDS = 24,
+
+		UATP = 25,
+
+		BANKCARD = 26,
+
+		BANAMEX_COSTCO = 27
     }
     // ReSharper restore InconsistentNaming
     // ReSharper restore UnusedMember.Global
