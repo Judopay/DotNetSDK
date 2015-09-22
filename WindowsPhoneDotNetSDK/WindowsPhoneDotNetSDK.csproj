@@ -170,6 +170,10 @@
       <Project>{45EBC850-2F14-48F1-A688-4F0C173E45AD}</Project>
       <Name>JudoPayDotNetWindowsPhone</Name>
     </ProjectReference>
+    <ProjectReference Include="..\JudoPayDotNet\JudoPayDotNet.csproj">
+      <Project>{365d3fe1-5aa7-4c99-8aef-0d780c28e842}</Project>
+      <Name>JudoPayDotNet</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Threading.Tasks">

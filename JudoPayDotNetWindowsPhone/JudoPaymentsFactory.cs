@@ -1,6 +1,5 @@
 ﻿using JudoPayDotNet;
 using JudoPayDotNet.Authentication;
-using JudoPayDotNet.Client;
 using JudoPayDotNet.Http;
 using JudoPayDotNetWindowsPhone.Logging;
 using System;
@@ -18,16 +17,16 @@ namespace JudoPayDotNetWindowsPhone
 {
     public class JudoPaymentsFactory
     {
-        public static JudoPayApi Create(string token, string secret, string address)
-        {
-            var credentials = new Credentials(token, secret);
-            var httpClient = new HttpClientWrapper();
-            var connection = new Connection(httpClient,
-                                            WindowsPhoneLoggerFactory.Create(typeof(Connection)),
-                                            address);
-            var client = new Client(connection);
+        //public static JudoPayApi Create(string token, string secret, string address)
+        //{
+        //    var credentials = new Credentials(token, secret);
+        //    var httpClient = new HttpClientWrapper();
+        //    //var connection = new Connection(httpClient,
+        //    //                                WindowsPhoneLoggerFactory.Create(typeof(Connection)),
+        //    //                                address);
+        //    //var client = new Client(connection);
 
-            return new JudoPayApi(credentials, client);
-        }
+        //    //return new JudoPayApi(credentials, client);
+        //}
     }
 }
