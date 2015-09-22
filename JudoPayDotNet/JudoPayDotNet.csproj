@@ -160,6 +160,7 @@
     <Compile Include="Models\Validations\TransactionResultBaseValidation.cs" />
     <Compile Include="Models\Validations\TransactionResultValidation.cs" />
     <Compile Include="Models\Validations\WebPaymentRequestModelValidator.cs" />
+    <Compile Include="Models\WalletType.cs" />
     <Compile Include="Models\WebPaymentCardAddress.cs" />
     <Compile Include="Models\WebPaymentResponseModel.cs" />
     <Compile Include="Models\WebPaymentRequestModel.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Validation\PolymorphicValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="JudoPayDotNet.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

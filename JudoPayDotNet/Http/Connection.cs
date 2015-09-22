@@ -226,7 +226,7 @@ namespace JudoPayDotNet.Http
             Dictionary<string, string> parameters = null,
             object body = null)
         {
-            var response = await SendCommon(method, address, parameters, body);
+			var response = await SendCommon(method, address, parameters, body).ConfigureAwait(false);
 
 
             return await HandleResponse(response).ConfigureAwait(false);
@@ -245,7 +245,7 @@ namespace JudoPayDotNet.Http
             Dictionary<string, string> parameters = null,
             object body = null)
         {
-            var response = await SendCommon(method, address, parameters, body);
+			var response = await SendCommon(method, address, parameters, body).ConfigureAwait(false);
 
             return await HandleResponse<T>(response).ConfigureAwait(false);
         }

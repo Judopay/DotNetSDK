@@ -93,7 +93,7 @@ namespace JudoPayDotNetDotNet
 	    /// <param name="baseUrl"></param>
 	    /// <param name="configuration">Application configuration accessor</param>
 	    /// <returns></returns>
-	    internal static JudoPayApi Create(string token, string secret, string baseUrl, IJudoConfiguration configuration = null)
+	    public static JudoPayApi Create(string token, string secret, string baseUrl, IJudoConfiguration configuration = null)
         {
             var credentials = new Credentials(token, secret);
             return Create(credentials, baseUrl, configuration ?? defaultConfigurationAccess);
@@ -118,7 +118,7 @@ namespace JudoPayDotNetDotNet
 	    /// <param name="baseUrl"></param>
         /// <param name="configuration">Application configuration accessor</param>
 	    /// <returns></returns>
-	    internal static JudoPayApi Create(string oauthAccessToken, string baseUrl, IJudoConfiguration configuration = null)
+		public static JudoPayApi Create(string oauthAccessToken, string baseUrl, IJudoConfiguration configuration = null)
         {
             var credentials = new Credentials(oauthAccessToken);
             return Create(credentials, baseUrl, configuration ?? defaultConfigurationAccess);
