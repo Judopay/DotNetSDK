@@ -64,3 +64,4 @@ _ReSharper*/
 *.testsettings
 
 Configuration.cs
+packages/

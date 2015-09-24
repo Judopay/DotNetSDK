@@ -16,7 +16,7 @@ namespace JudoPayDotNet.Models
         /// The CV2.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
-        public string Cv2 { get; set; }
+        public string CV2 { get; set; }
 
         /// <summary>
         /// Gets or sets the card number.
@@ -35,6 +35,24 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string ExpiryDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start date.
+        /// </summary>
+        /// <value>
+        /// The start date.
+        /// </value>
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
+        public string StartDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Issue Number.
+        /// </summary>
+        /// <value>
+        /// The Issue Number date.
+        /// </value>
+        [DataMember(IsRequired = false)]
+        public string IssueNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the card address.

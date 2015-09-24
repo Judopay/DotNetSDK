@@ -48,15 +48,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JudoPayDotNet\JudoPayDotNet.csproj">
-      <Project>{365D3FE1-5AA7-4C99-8AEF-0D780C28E842}</Project>
-      <Name>JudoPayDotNet</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="JudoPayDotNetDotNet.nuspec" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JudoPayDotNet\JudoPayDotNet.csproj">
+      <Project>{365d3fe1-5aa7-4c99-8aef-0d780c28e842}</Project>
+      <Name>JudoPayDotNet</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />

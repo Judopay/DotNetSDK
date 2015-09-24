@@ -6,25 +6,22 @@ using NUnit.Framework;
 namespace JudoPayDotNetIntegrationTests
 {
     [TestFixture]
-    public class PaymentTest
+    public class RegisterCardTest
     {
         [Test]
-        public void ASimplePayment()
+        public void RegisterCard()
         {
 
             var judo = JudoPaymentsFactory.Create(Configuration.Token,
                 Configuration.Secret, 
                 Configuration.Baseaddress);
 
-            var paymentWithCard = new CardPaymentModel
+            var registerCardModel = new RegisterCardModel
             {
-                JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
-                YourConsumerReference    =  Guid.NewGuid().ToString(),
-                Amount = 25,
+                YourConsumerReference = Guid.NewGuid().ToString(),
                 CardNumber = "4976000000003436",
-                CV2 = "452",
                 ExpiryDate = "12/15",
+                CV2 = "452",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -33,7 +30,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.Payments.Create(paymentWithCard).Result;
+            var response = judo.RegisterCards.Create(registerCardModel).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -41,40 +38,7 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void ASimpleValidatePayment()
-        {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/15",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
-
-            var response = judo.Payments.Validate(paymentWithCard).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Your good to go!", response.Response.ErrorMessage);
-            Assert.AreEqual(JudoApiError.Validation_Passed, response.Response.ErrorType);
-        }
-
-        [Test]
-        public void ATokenPayment()
+        public void RegisterCardAndATokenPayment()
         {
 
             var judo = JudoPaymentsFactory.Create(Configuration.Token,
@@ -83,15 +47,12 @@ namespace JudoPayDotNetIntegrationTests
 
             var consumerReference = Guid.NewGuid().ToString();
 
-            var paymentWithCard = new CardPaymentModel
+            var registerCard = new RegisterCardModel
             {
-                JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = consumerReference,
-                Amount = 25,
                 CardNumber = "4976000000003436",
-                CV2 = "452",
                 ExpiryDate = "12/15",
+                CV2 = "452",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -100,7 +61,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.Payments.Create(paymentWithCard).Result;
+            var response = judo.RegisterCards.Create(registerCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -153,14 +114,10 @@ namespace JudoPayDotNetIntegrationTests
                 Configuration.Secret,
                 Configuration.Baseaddress);
 
-            var paymentWithCard = new CardPaymentModel
+            var registerCard = new RegisterCardModel
             {
-                JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
-                Amount = 25,
                 CardNumber = "4221690000004963",
-                CV2 = "125",
                 ExpiryDate = "12/15",
                 CardAddress = new CardAddressModel
                 {
@@ -170,7 +127,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.Payments.Create(paymentWithCard).Result;
+            var response = judo.RegisterCards.Create(registerCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);

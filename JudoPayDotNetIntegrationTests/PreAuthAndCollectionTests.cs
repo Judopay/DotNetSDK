@@ -1,4 +1,5 @@
-﻿using JudoPayDotNet.Models;
+﻿using System;
+using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
 
@@ -121,7 +122,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
-                YourConsumerReference = "432438862",
+                YourConsumerReference = Guid.NewGuid().ToString(),
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
@@ -129,7 +130,7 @@ namespace JudoPayDotNetIntegrationTests
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
-                    PostCode = "W40 9AU",
+                    PostCode = "TR14 8PA",
                     Town = "Town"
                 }
             };

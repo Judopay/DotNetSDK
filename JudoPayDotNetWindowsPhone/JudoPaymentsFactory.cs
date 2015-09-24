@@ -1,6 +1,5 @@
 ﻿using JudoPayDotNet;
 using JudoPayDotNet.Authentication;
-using JudoPayDotNet.Client;
 using JudoPayDotNet.Http;
 using JudoPayDotNetWindowsPhone.Logging;
 using System;
