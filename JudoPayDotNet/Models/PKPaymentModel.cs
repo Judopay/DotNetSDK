@@ -11,48 +11,31 @@ namespace JudoPayDotNet.Models
     public class PKPaymentModel : PaymentModel
     {
         /// <summary>
-        /// Gets or sets the card number.
+        /// Gets or sets the apple pay token.
         /// </summary>
         /// <value>
-        /// The card number.
+        /// The apple pay token.
         /// </value>
         [DataMember(IsRequired = true)]
-        public string CardNumber { get; set; }
+        public PKPaymentTokenModel Token { get; set; }
 
-        /// <summary>
-        /// Gets or sets the expiry date.
-        /// </summary>
-        /// <value>
-        /// The expiry date.
-        /// </value>
-        [DataMember(IsRequired = true)]
-        public string ExpiryDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the start date.
-        /// </summary>
-        /// <value>
-        /// The start date.
-        /// </value>
-        [DataMember(IsRequired = false, EmitDefaultValue = false)]
-        public string StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets the Issue Number.
         /// </summary>
         /// <value>
-        /// The Issue Number date.
+        /// The billing adress.
         /// </value>
-        [DataMember(IsRequired = false)]
-        public string IssueNumber { get; set; }
+        [DataMember(EmitDefaultValue = true)]
+        public CardAddressModel BillingAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the card address.
         /// </summary>
         /// <value>
-        /// The card address.
+        /// The shipping address.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
-        public CardAddressModel CardAddress { get; set; }
+        public CardAddressModel ShippingAddress { get; set; }
     }
 }
