@@ -138,6 +138,7 @@
     <Compile Include="Models\PaymentReceiptModel.cs" />
     <Compile Include="Models\PaymentReceiptResults.cs" />
     <Compile Include="Models\PaymentRequiresThreeDSecureModel.cs" />
+    <Compile Include="Models\PKPaymentModel.cs" />
     <Compile Include="Models\RefundModel.cs" />
     <Compile Include="Models\RegisterCardModel.cs" />
     <Compile Include="Models\Result.cs" />
