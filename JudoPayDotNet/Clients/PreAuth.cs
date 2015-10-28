@@ -34,5 +34,12 @@ namespace JudoPayDotNet.Clients
 
             return validationError ?? PostInternal<TokenPaymentModel, JudoApiErrorModel>(_validatePreAuthAddress, tokenPreAuth);
         }
+
+        public Task<IResult<JudoApiErrorModel>> Validate(PKPaymentModel pkPreAuth)
+        {
+            var validationError = Validate<PKPaymentModel, JudoApiErrorModel>(PKPaymentValidator, pkPreAuth);
+
+            return validationError ?? PostInternal<PKPaymentModel, JudoApiErrorModel>(_validatePreAuthAddress, pkPreAuth);
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models
 {
@@ -35,7 +36,7 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The PaymentData.
         /// </value>
-        [DataMember(IsRequired = false)]
-        public EncryptedPaymentMessage PaymentData { get; set; }
+        [DataMember(IsRequired = true)]
+        public JObject PaymentData { get; set; }
     }
 }

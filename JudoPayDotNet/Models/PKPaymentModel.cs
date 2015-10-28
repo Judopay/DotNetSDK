@@ -17,25 +17,6 @@ namespace JudoPayDotNet.Models
         /// The apple pay token.
         /// </value>
         [DataMember(IsRequired = true)]
-        public PKPaymentTokenModel Token { get; set; }
-
-
-        /// <summary>
-        /// Gets or sets the Issue Number.
-        /// </summary>
-        /// <value>
-        /// The billing adress.
-        /// </value>
-        [DataMember(EmitDefaultValue = true)]
-        public CardAddressModel BillingAddress { get; set; }
-
-        /// <summary>
-        /// Gets or sets the card address.
-        /// </summary>
-        /// <value>
-        /// The shipping address.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-        public CardAddressModel ShippingAddress { get; set; }
+        public PKPaymentInnerModel PkPayment { get; set; }
     }
 }

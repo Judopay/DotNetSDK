@@ -19,11 +19,13 @@ namespace JudoPayDotNet.Models
     /// </remarks>
     public class EncryptedPaymentMessage
     {
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = true)]
         public string Data { get; set; }
 
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = true)]
         public string Signature { get; set; }
+
+
    
     }
 }

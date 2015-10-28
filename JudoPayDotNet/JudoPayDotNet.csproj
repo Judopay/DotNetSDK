@@ -139,6 +139,7 @@
     <Compile Include="Models\PaymentReceiptModel.cs" />
     <Compile Include="Models\PaymentReceiptResults.cs" />
     <Compile Include="Models\PaymentRequiresThreeDSecureModel.cs" />
+    <Compile Include="Models\PKPaymentInnerModel.cs" />
     <Compile Include="Models\PKPaymentModel.cs" />
     <Compile Include="Models\PKPaymentTokenModel.cs" />
     <Compile Include="Models\RefundModel.cs" />

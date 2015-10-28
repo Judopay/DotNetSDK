@@ -7,11 +7,8 @@ namespace JudoPayDotNet.Models.Validations
 	{
         public PKPaymentValidator()
 		{
-			RuleFor(model => model.Token)
+			RuleFor(model => model.PkPayment)
 				.NotEmpty().WithMessage("You must supply your Apple Pay token");
-
-			RuleFor(model => model.BillingAddress)
-				.NotEmpty().WithMessage("You must supply your Billing adress");
 		}
 	}
 }
