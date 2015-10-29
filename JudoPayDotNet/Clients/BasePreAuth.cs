@@ -11,6 +11,8 @@ namespace JudoPayDotNet.Clients
     {
         protected readonly IValidator<CardPaymentModel> CardPaymentValidator = new CardPaymentValidator();
         protected readonly IValidator<TokenPaymentModel> TokenPaymentValidator = new TokenPaymentValidator();
+        protected readonly IValidator<PKPaymentModel> PKPaymentValidator = new PKPaymentValidator();
+
         private readonly string _createPreAuthAddress;
 
         protected BasePreAuth(ILog logger, IClient client, string createPreAuthAddress) : base(logger, client)
@@ -30,6 +32,13 @@ namespace JudoPayDotNet.Clients
             var validationError = Validate<TokenPaymentModel, ITransactionResult>(TokenPaymentValidator, tokenPreAuth);
 
             return validationError ?? PostInternal<TokenPaymentModel, ITransactionResult>(_createPreAuthAddress, tokenPreAuth);
+        }
+
+        public Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPreAuth)
+        {
+            var validationError = Validate<PKPaymentModel, ITransactionResult>(PKPaymentValidator, pkPreAuth);
+
+            return validationError ?? PostInternal<PKPaymentModel, ITransactionResult>(_createPreAuthAddress, pkPreAuth);
         }
     }
 }
