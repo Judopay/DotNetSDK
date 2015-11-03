@@ -27,7 +27,7 @@ namespace JudoPayDotNetDotNet
 	    private static readonly Func<string, string, IJudoConfiguration, string> GetConfigValue = (key, defaultValue, configuration) =>
 	    {
 	        string configurationSetting;
-            return String.IsNullOrWhiteSpace(configurationSetting = configuration[key])
+            return string.IsNullOrWhiteSpace(configurationSetting = configuration[key])
 	            ? defaultValue
 	            : configurationSetting;
 	    };
