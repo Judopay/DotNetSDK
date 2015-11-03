@@ -12,6 +12,7 @@ namespace JudoPayDotNet.Clients
 
         protected readonly IValidator<CardPaymentModel> CardPaymentValidator = new CardPaymentValidator();
         protected readonly IValidator<TokenPaymentModel> TokenPaymentValidator = new TokenPaymentValidator();
+        protected readonly IValidator<PKPaymentModel> PKPaymentValidator = new PKPaymentValidator();
 
         private readonly string _createAddress;
 
@@ -32,6 +33,13 @@ namespace JudoPayDotNet.Clients
             var validationError = Validate<TokenPaymentModel, ITransactionResult>(TokenPaymentValidator, tokenPayment);
 
             return validationError ?? PostInternal<TokenPaymentModel, ITransactionResult>(_createAddress, tokenPayment);
+        }
+
+        public Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPayment)
+        {
+            var validationError = Validate<PKPaymentModel, ITransactionResult>(PKPaymentValidator, pkPayment);
+
+            return validationError ?? PostInternal<PKPaymentModel, ITransactionResult>(_createAddress, pkPayment);
         }
     }
 }

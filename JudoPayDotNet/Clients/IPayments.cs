@@ -24,6 +24,14 @@ namespace JudoPayDotNet.Clients
         /// <returns>The receipt for the created token payment</returns>
         Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPayment);
 
+
+        /// <summary>
+        /// Creates the specified apple payment.
+        /// </summary>
+        /// <param name="pkPayment">The apple payment.</param>
+        /// <returns>The receipt for the created apple payment</returns>
+        Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPayment);
+
         /// <summary>
         /// Validates the specified card payment.
         /// </summary>
@@ -37,5 +45,12 @@ namespace JudoPayDotNet.Clients
         /// <param name="tokenPayment">The token payment.</param>
         /// <returns>If the token payment is valid</returns>
         Task<IResult<JudoApiErrorModel>> Validate(TokenPaymentModel tokenPayment);
+
+        /// <summary>
+        /// Validates the specified apple payment.
+        /// </summary>
+        /// <param name="pkPayment">The apple payment.</param>
+        /// <returns>If the apple payment is valid</returns>
+        Task<IResult<JudoApiErrorModel>> Validate(PKPaymentModel pkPayment);
     }
 }
