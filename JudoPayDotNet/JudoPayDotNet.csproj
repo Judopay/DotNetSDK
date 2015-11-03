@@ -104,6 +104,7 @@
     <Compile Include="Enums\WebPaymentOperation.cs" />
     <Compile Include="Http\AuthType.cs" />
     <Compile Include="Models\CustomDeserializers\TransactionTypeConvertor.cs" />
+    <Compile Include="Models\EncryptedPaymentMessage.cs" />
     <Compile Include="Models\JudoApiError.cs" />
     <Compile Include="Errors\BadResponseError.cs" />
     <Compile Include="Errors\ConnectionError.cs" />
@@ -149,6 +150,9 @@
     <Compile Include="Models\PaymentReceiptModel.cs" />
     <Compile Include="Models\PaymentReceiptResults.cs" />
     <Compile Include="Models\PaymentRequiresThreeDSecureModel.cs" />
+    <Compile Include="Models\PKPaymentInnerModel.cs" />
+    <Compile Include="Models\PKPaymentModel.cs" />
+    <Compile Include="Models\PKPaymentTokenModel.cs" />
     <Compile Include="Models\RefundModel.cs" />
     <Compile Include="Models\RegisterCardModel.cs" />
     <Compile Include="Models\Result.cs" />
@@ -158,6 +162,7 @@
     <Compile Include="Models\TransactionListSorts.cs" />
     <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Models\TransactionType.cs" />
+    <Compile Include="Models\Validations\PKPaymentValidator.cs" />
     <Compile Include="Models\Validations\RegisterCardValidator.cs" />
     <Compile Include="Models\Validations\CardPaymentValidator.cs" />
     <Compile Include="Models\Validations\PaymentReceiptValidation.cs" />
