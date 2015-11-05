@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JudoPayDotNet.Enums;
 using JudoPayDotNetDotNet;
 using JudoPayDotNetDotNet.Configuration;
 using NSubstitute;
 using NUnit.Framework;
-using Environment = JudoPayDotNet.Enums.Environment;
 
 namespace JudoPayDotNetTests.Configuration
 {
@@ -18,26 +18,26 @@ namespace JudoPayDotNetTests.Configuration
         public class GetEnvironment
         {
             [Test]
-            [TestCase(Environment.Sandbox,"https://partnerapi.judopay-sandbox.com/")]
-            [TestCase(Environment.Live, "https://partnerapi.judopay.com/")]
-            public void UsingDefault(Environment environment, string expectedUrl)
+            [TestCase(JudoEnvironment.Sandbox,"https://partnerapi.judopay-sandbox.com/")]
+            [TestCase(JudoEnvironment.Live, "https://partnerapi.judopay.com/")]
+            public void UsingDefault(JudoEnvironment judoEnvironment, string expectedUrl)
             {
                 var configuration = Substitute.For<IJudoConfiguration>();
 
-                var result = JudoPaymentsFactory.GetEnvironmentUrl(environment, configuration);
+                var result = JudoPaymentsFactory.GetEnvironmentUrl(judoEnvironment, configuration);
 
                 Assert.AreEqual(expectedUrl, result);
             }
 
             [Test]
-            [TestCase(Environment.Sandbox, "SandboxUrl", "sandbox")]
-            [TestCase(Environment.Live, "LiveUrl", "live")]
-            public void UsingConfigSetting(Environment environment, string configKey, string expectedUrl)
+            [TestCase(JudoEnvironment.Sandbox, "SandboxUrl", "sandbox")]
+            [TestCase(JudoEnvironment.Live, "LiveUrl", "live")]
+            public void UsingConfigSetting(JudoEnvironment judoEnvironment, string configKey, string expectedUrl)
             {
                 var configuration = Substitute.For<IJudoConfiguration>();
                 configuration[configKey].Returns(expectedUrl);
 
-                var result = JudoPaymentsFactory.GetEnvironmentUrl(environment, configuration);
+                var result = JudoPaymentsFactory.GetEnvironmentUrl(judoEnvironment, configuration);
 
                 Assert.AreEqual(expectedUrl, result);
             }
