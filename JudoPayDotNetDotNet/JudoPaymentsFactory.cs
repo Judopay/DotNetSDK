@@ -2,10 +2,10 @@
 using System.Configuration;
 using JudoPayDotNet;
 using JudoPayDotNet.Authentication;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNetDotNet.Configuration;
 using JudoPayDotNetDotNet.Logging;
-using Environment = JudoPayDotNet.Enums.Environment;
 
 namespace JudoPayDotNetDotNet
 {
@@ -51,20 +51,20 @@ namespace JudoPayDotNetDotNet
 		/// <summary>
 		/// Returns the url of a pre-configured environment
 		/// </summary>
-		/// <param name="environment"></param>
+		/// <param name="judoEnvironment"></param>
 		/// <returns></returns>
-        internal static string GetEnvironmentUrl(Environment environment, IJudoConfiguration configuration = null)
+        internal static string GetEnvironmentUrl(JudoEnvironment judoEnvironment, IJudoConfiguration configuration = null)
         {
             string key = null;
 		    string defaultValue = null;
 
-            switch (environment)
+            switch (judoEnvironment)
             {
-                case Environment.Sandbox:
+                case JudoEnvironment.Sandbox:
                     key = SandboxUrlKey;
                     defaultValue = DEFAULT_SANDBOX_URL;
                     break;
-                case Environment.Live:
+                case JudoEnvironment.Live:
                     key = LiveUrlKey;
                     defaultValue = DEFAULT_LIVE_URL;
                     break;
@@ -76,12 +76,12 @@ namespace JudoPayDotNetDotNet
 		/// <summary>
 		/// Creates an instance of the judopay api client with a custom base url, that will authenticate with your api token and secret.
 		/// </summary>
-		/// <param name="environment">Either the sandbox (development/testing) or live environments</param>
+		/// <param name="judoEnvironment">Either the sandbox (development/testing) or live environments</param>
 		/// <param name="token">Your API token (from our merchant dashboard)</param>
 		/// <param name="secret">Your API secret (from our merchant dashboard)</param>
-		public static JudoPayApi Create(Environment environment, string token, string secret)
+		public static JudoPayApi Create(JudoEnvironment judoEnvironment, string token, string secret)
         {
-            return Create(token, secret, GetEnvironmentUrl(environment), defaultConfigurationAccess);
+            return Create(token, secret, GetEnvironmentUrl(judoEnvironment), defaultConfigurationAccess);
         }
 
 	    /// <summary>
@@ -102,12 +102,12 @@ namespace JudoPayDotNetDotNet
 		/// <summary>
 		/// Creates an instance of the judopay api client with a custom base url, that will authenticate with the supplied OAuth access token
 		/// </summary>
-		/// <param name="environment">Either the sandbox (development/testing) or live environments</param>
+		/// <param name="judoEnvironment">Either the sandbox (development/testing) or live environments</param>
 		/// <param name="oauthAccessToken">Your marketplace seller's access token</param>
 		/// <returns></returns>
-        public static JudoPayApi Create(Environment environment, string oauthAccessToken)
+        public static JudoPayApi Create(JudoEnvironment judoEnvironment, string oauthAccessToken)
         {
-            return Create(oauthAccessToken, GetEnvironmentUrl(environment), defaultConfigurationAccess);
+            return Create(oauthAccessToken, GetEnvironmentUrl(judoEnvironment), defaultConfigurationAccess);
         }
 
 	    /// <summary>

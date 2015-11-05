@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Which judo environment should we connect to.
 	/// </summary>
-    public enum Environment
+    public enum JudoEnvironment
     {
 		/// <summary>
 		/// Sandbox is our development and test environment

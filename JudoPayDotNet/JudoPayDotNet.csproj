@@ -99,7 +99,7 @@
     <Compile Include="Clients\WebPayments\WebPayments.cs" />
     <Compile Include="Enums\DescriptionAttribute.cs" />
     <Compile Include="Enums\EnumUtils.cs" />
-    <Compile Include="Enums\Environment.cs" />
+    <Compile Include="Enums\JudoEnvironment.cs" />
     <Compile Include="Enums\ExplanationAttribute.cs" />
     <Compile Include="Enums\LocalizedDescriptionAttribute.cs" />
     <Compile Include="Enums\WebPaymentOperation.cs" />
