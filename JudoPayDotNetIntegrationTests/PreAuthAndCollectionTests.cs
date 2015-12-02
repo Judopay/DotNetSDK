@@ -1,4 +1,5 @@
 ﻿using System;
+using JudoPayDotNet;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
@@ -8,14 +9,19 @@ namespace JudoPayDotNetIntegrationTests
     [TestFixture]
     public class PreAuthAndCollectionTests
     {
+        private JudoPayApi _judo;
+
+        [TestFixtureSetUp]
+        public void SetupOnce()
+        {
+            _judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
+                Configuration.Baseaddress);
+        }
+
         [Test]
         public void ASimplePreAuth()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
@@ -33,7 +39,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.PreAuths.Create(paymentWithCard).Result;
+            var response = _judo.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -48,11 +54,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ADeclinedCardPreAuth()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
@@ -70,7 +71,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.PreAuths.Create(paymentWithCard).Result;
+            var response = _judo.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -80,11 +81,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ADeclinedValidationOnCardPreAuth()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
@@ -102,7 +98,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.PreAuths.Validate(paymentWithCard).Result;
+            var response = _judo.PreAuths.Validate(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -113,11 +109,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ASimplePreAuthAndCollection()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
@@ -135,7 +126,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.PreAuths.Create(paymentWithCard).Result;
+            var response = _judo.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -154,7 +145,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourPaymentReference = "578543"
             };
 
-            response = judo.Collections.Create(collection).Result;
+            response = _judo.Collections.Create(collection).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -170,11 +161,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ASimplePreAuthAndValidateCollection()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
@@ -192,7 +178,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.PreAuths.Create(paymentWithCard).Result;
+            var response = _judo.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -211,7 +197,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourPaymentReference = "578543"
             };
 
-            var validateResponse = judo.Collections.Validate(collection).Result;
+            var validateResponse = _judo.Collections.Validate(collection).Result;
 
             Assert.IsNotNull(validateResponse);
             Assert.IsFalse(validateResponse.HasError);
@@ -222,11 +208,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void AFailedSimplePreAuthAndValidateCollection()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
@@ -244,7 +225,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.PreAuths.Create(paymentWithCard).Result;
+            var response = _judo.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -263,12 +244,11 @@ namespace JudoPayDotNetIntegrationTests
                 YourPaymentReference = "578543"
             };
 
-            var validateResponse = judo.Collections.Validate(collection).Result;
+            var validateResponse = _judo.Collections.Validate(collection).Result;
 
             Assert.IsNotNull(validateResponse);
             Assert.IsTrue(validateResponse.HasError);
-            Assert.AreEqual("Unable to process collection as total amount collected would exceed value of" +
-                            " original PreAuth transaction.", validateResponse.Error.ErrorMessage);
+            Assert.AreEqual("Unable to process collection as total amount collected would exceed value of original PreAuth transaction.", validateResponse.Error.ErrorMessage);
             Assert.AreEqual(JudoApiError.Payment_Failed, validateResponse.Error.ErrorType);
         }
     }

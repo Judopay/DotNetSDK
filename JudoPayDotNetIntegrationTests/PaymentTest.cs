@@ -1,4 +1,5 @@
 ﻿using System;
+using JudoPayDotNet;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
@@ -8,19 +9,24 @@ namespace JudoPayDotNetIntegrationTests
     [TestFixture]
     public class PaymentTest
     {
+        private JudoPayApi _judo;
+
+        [TestFixtureSetUp]
+        public void SetupOnce()
+        {
+            _judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
+                Configuration.Baseaddress);
+        }
+
         [Test]
         public void ASimplePayment()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret, 
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
-                YourConsumerReference    =  Guid.NewGuid().ToString(),
+                YourConsumerReference = Guid.NewGuid().ToString(),
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
@@ -33,7 +39,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.Payments.Create(paymentWithCard).Result;
+            var response = _judo.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -43,11 +49,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ASimpleValidatePayment()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
@@ -65,7 +66,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.Payments.Validate(paymentWithCard).Result;
+            var response = _judo.Payments.Validate(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -76,11 +77,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ATokenPayment()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var consumerReference = Guid.NewGuid().ToString();
 
             var paymentWithCard = new CardPaymentModel
@@ -100,7 +96,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.Payments.Create(paymentWithCard).Result;
+            var response = _judo.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -125,7 +121,7 @@ namespace JudoPayDotNetIntegrationTests
                 ConsumerToken = "ABSE"
             };
 
-            response = judo.Payments.Create(paymentWithToken).Result;
+            response = _judo.Payments.Create(paymentWithToken).Result;
 
             paymentWithToken = new TokenPaymentModel
             {
@@ -138,7 +134,7 @@ namespace JudoPayDotNetIntegrationTests
                 ConsumerToken = "ABSE"
             };
 
-            response = judo.Payments.Create(paymentWithToken).Result;
+            response = _judo.Payments.Create(paymentWithToken).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -148,11 +144,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ADeclinedCardPayment()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
@@ -170,7 +161,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.Payments.Create(paymentWithCard).Result;
+            var response = _judo.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);

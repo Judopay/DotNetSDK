@@ -48,11 +48,6 @@ namespace JudoPayDotNetDotNet
             return new JudoPayApi(DotNetLoggerFactory.Create, client);
         }
 
-		/// <summary>
-		/// Returns the url of a pre-configured environment
-		/// </summary>
-		/// <param name="judoEnvironment"></param>
-		/// <returns></returns>
         internal static string GetEnvironmentUrl(JudoEnvironment judoEnvironment, IJudoConfiguration configuration = null)
         {
             string key = null;

@@ -1,4 +1,5 @@
 ﻿using System;
+using JudoPayDotNet;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
@@ -8,14 +9,19 @@ namespace JudoPayDotNetIntegrationTests
     [TestFixture]
     public class RegisterCardTest
     {
+        private JudoPayApi _judo;
+
+        [TestFixtureSetUp]
+        public void SetupOnce()
+        {
+            _judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
+                Configuration.Baseaddress);
+        }
+
         [Test]
         public void RegisterCard()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret, 
-                Configuration.Baseaddress);
-
             var registerCardModel = new RegisterCardModel
             {
                 YourConsumerReference = Guid.NewGuid().ToString(),
@@ -30,7 +36,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.RegisterCards.Create(registerCardModel).Result;
+            var response = _judo.RegisterCards.Create(registerCardModel).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -40,11 +46,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void RegisterCardAndATokenPayment()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var consumerReference = Guid.NewGuid().ToString();
 
             var registerCard = new RegisterCardModel
@@ -61,7 +62,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.RegisterCards.Create(registerCard).Result;
+            var response = _judo.RegisterCards.Create(registerCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -86,7 +87,7 @@ namespace JudoPayDotNetIntegrationTests
                 ConsumerToken = "ABSE"
             };
 
-            response = judo.Payments.Create(paymentWithToken).Result;
+            response = _judo.Payments.Create(paymentWithToken).Result;
 
             paymentWithToken = new TokenPaymentModel
             {
@@ -99,7 +100,7 @@ namespace JudoPayDotNetIntegrationTests
                 ConsumerToken = "ABSE"
             };
 
-            response = judo.Payments.Create(paymentWithToken).Result;
+            response = _judo.Payments.Create(paymentWithToken).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -109,11 +110,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ADeclinedCardPayment()
         {
-
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var registerCard = new RegisterCardModel
             {
                 YourConsumerReference = "432438862",
@@ -127,7 +123,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.RegisterCards.Create(registerCard).Result;
+            var response = _judo.RegisterCards.Create(registerCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
