@@ -28,7 +28,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new RegisterCardModel
+                    yield return new TestCaseData(new CardPaymentModel
                     {
                         CardAddress = new CardAddressModel
                         {
@@ -152,7 +152,7 @@ namespace JudoPayDotNetTests.Clients
 
 
         [Test, TestCaseSource(typeof(global::JudoPayDotNetTests.Clients.RegisterCardsTests.RegisterCardsTestSource), "SuccessTestCases")]
-        public void RegisterCardWithSuccess(RegisterCardModel registerCard, string responseData, string receiptId)
+        public void RegisterCardWithSuccess(CardPaymentModel registerCard, string responseData, string receiptId)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
@@ -181,7 +181,7 @@ namespace JudoPayDotNetTests.Clients
         }
 
         [Test, TestCaseSource(typeof(global::JudoPayDotNetTests.Clients.RegisterCardsTests.RegisterCardsTestSource), "FailureTestCases")]
-        public void RegisterCardWithError(RegisterCardModel registerCard, string responseData, JudoApiError errorType)
+        public void RegisterCardWithError(CardPaymentModel registerCard, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
