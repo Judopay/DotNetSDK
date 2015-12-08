@@ -25,7 +25,7 @@ token and secret. You set you API token and secret up through our [management da
 after creating an account. You can create a testing account by clicking "Getting Started" in our [documentation](https://www.judopay.com/docs)
 
 ```c#
-var client = JudoPaymentsFactory.Create(JudoPayDotNet.Enums.Environment.Sandbox, "YOUR_API_TOKEN", "YOUR_API_SECRET");
+var client = JudoPaymentsFactory.Create(JudoPayDotNet.Enums.JudoEnvironment.Sandbox, "YOUR_API_TOKEN", "YOUR_API_SECRET");
 ```
 
 ## Usage - Process a payment
