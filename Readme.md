@@ -75,7 +75,7 @@ client.Transactions.Get().ContinueWith(result =>
 
 	if (!result.Result.HasError)
 	{
-		foreach (var tx in recentTx.Result.Response.Results)
+		foreach (var tx in result.Result.Response.Results)
 		{
 			Console.WriteLine("{0} {1} {2}", tx.ReceiptId, tx.Type, tx.Amount);
 		}
