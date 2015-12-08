@@ -19,7 +19,7 @@ namespace JudoPayDotNet.Clients
             _usedAddress = usedAddress;
         }
 
-        public Task<IResult<ITransactionResult>> Get(string receiptId)
+        public Task<IResult<ITransactionResult>> Get(long receiptId)
         {
             var address = string.Format("{0}/{1}", _usedAddress, receiptId);
             return GetInternal<ITransactionResult>(address);

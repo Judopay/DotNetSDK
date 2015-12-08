@@ -41,7 +41,7 @@ namespace JudoPayDotNetIntegrationTests
             var refund = new RefundModel
             {
                 Amount = 25,
-                ReceiptId = int.Parse(response.Response.ReceiptId),
+                ReceiptId = response.Response.ReceiptId,
                 YourPaymentReference = "578543"
             };
 
@@ -91,7 +91,7 @@ namespace JudoPayDotNetIntegrationTests
             var refund = new RefundModel
             {
                 Amount = 25,
-                ReceiptId = int.Parse(response.Response.ReceiptId),
+                ReceiptId = response.Response.ReceiptId,
                 YourPaymentReference = "578543"
             };
 
@@ -136,7 +136,7 @@ namespace JudoPayDotNetIntegrationTests
             var collection = new CollectionModel
             {
                 Amount = 24,
-                ReceiptId = int.Parse(preAuthResponse.Response.ReceiptId),
+                ReceiptId = preAuthResponse.Response.ReceiptId,
                 YourPaymentReference = "578543"
             };
 
@@ -155,7 +155,7 @@ namespace JudoPayDotNetIntegrationTests
             collection = new CollectionModel
             {
                 Amount = 1,
-                ReceiptId = int.Parse(preAuthResponse.Response.ReceiptId),
+                ReceiptId = preAuthResponse.Response.ReceiptId,
                 YourPaymentReference = "578543"
             };
 
@@ -174,7 +174,7 @@ namespace JudoPayDotNetIntegrationTests
             var refund = new RefundModel
             {
                 Amount = 24,
-                ReceiptId = int.Parse(collection1Response.Response.ReceiptId),
+                ReceiptId = collection1Response.Response.ReceiptId,
                 YourPaymentReference = "578543"
             };
 
@@ -193,7 +193,7 @@ namespace JudoPayDotNetIntegrationTests
             refund = new RefundModel
             {
                 Amount = 1,
-                ReceiptId = int.Parse(collection2Response.Response.ReceiptId),
+                ReceiptId = collection2Response.Response.ReceiptId,
                 YourPaymentReference = "578543"
             };
 
