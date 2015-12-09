@@ -86,7 +86,6 @@ namespace JudoPayDotNetTests.Clients
                         CardNumber = "348417606737499",
                         ExpiryDate = "120615",
                         YourConsumerReference = "User10",
-                        CV2 = "420",
                         JudoId = "14562",
                         MobileNumber = "07745352515",
                     },
@@ -98,9 +97,9 @@ namespace JudoPayDotNetTests.Clients
                                         errorMessage : 'To large',
                                         detailErrorMessage : 'This field has to be at most 20 characters'
                                         }],
-                        errorType : '200'
+                        errorType : '1'
                     }",
-                        200).SetName("RegisterCardWithoutSuccess");
+                        1).SetName("RegisterCardWithoutSuccess");
                 }
             }
 
@@ -152,9 +151,9 @@ namespace JudoPayDotNetTests.Clients
                                         errorMessage : 'To large',
                                         detailErrorMessage : 'This field has to be at most 20 characters'
                                         }],
-                        errorType : '200'
+                        errorType : '1'
                     }",
-                            200).SetName("ValidateWithoutSuccess");
+                            1).SetName("ValidateWithoutSuccess");
                 }
             }
         }
