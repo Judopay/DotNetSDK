@@ -16,7 +16,7 @@ namespace JudoPayDotNetIntegrationTests
                 Configuration.Secret, 
                 Configuration.Baseaddress);
 
-            var registerCardModel = new RegisterCardModel
+            var registerCardModel = new CardPaymentModel
             {
                 YourConsumerReference = Guid.NewGuid().ToString(),
                 CardNumber = "4976000000003436",
@@ -47,7 +47,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var consumerReference = Guid.NewGuid().ToString();
 
-            var registerCard = new RegisterCardModel
+            var registerCard = new CardPaymentModel
             {
                 YourConsumerReference = consumerReference,
                 CardNumber = "4976000000003436",
@@ -114,7 +114,7 @@ namespace JudoPayDotNetIntegrationTests
                 Configuration.Secret,
                 Configuration.Baseaddress);
 
-            var registerCard = new RegisterCardModel
+            var registerCard = new CardPaymentModel
             {
                 YourConsumerReference = "432438862",
                 CardNumber = "4221690000004963",

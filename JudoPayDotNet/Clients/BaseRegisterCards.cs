@@ -13,7 +13,7 @@ namespace JudoPayDotNet.Clients
 {
     internal class BaseRegisterCards : JudoPayClient
     {
-        protected readonly IValidator<RegisterCardModel> RegisterCardValidator = new RegisterCardValidator();
+        protected readonly IValidator<CardPaymentModel> RegisterCardValidator = new CardPaymentValidator();
         private readonly string _createAddress;
 
 
@@ -23,11 +23,11 @@ namespace JudoPayDotNet.Clients
             _createAddress = createAddress;
         }
 
-        public Task<IResult<ITransactionResult>> Create(RegisterCardModel registerCard)
+        public Task<IResult<ITransactionResult>> Create(CardPaymentModel registerCard)
         {
-            var validationError = Validate<RegisterCardModel, ITransactionResult>(RegisterCardValidator, registerCard);
+            var validationError = Validate<CardPaymentModel, ITransactionResult>(RegisterCardValidator, registerCard);
 
-            return validationError ?? PostInternal<RegisterCardModel, ITransactionResult>(_createAddress, registerCard);
+            return validationError ?? PostInternal<CardPaymentModel, ITransactionResult>(_createAddress, registerCard);
         }
     }
 }
