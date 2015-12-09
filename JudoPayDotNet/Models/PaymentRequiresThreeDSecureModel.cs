@@ -16,7 +16,7 @@ namespace JudoPayDotNet.Models
         /// The transaction identifier.
         /// </value>
         [DataMember]
-        public string ReceiptId { get; set; }
+        public long ReceiptId { get; set; }
 
         /// <summary>
         /// Gets or sets the result.

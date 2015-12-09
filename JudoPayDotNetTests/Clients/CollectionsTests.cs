@@ -143,7 +143,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.AreEqual("134567", paymentReceiptResult.Response.ReceiptId);
+            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
         }
 
         [Test, TestCaseSource(typeof (CollectionsTestSource), "CreateFailureTestCases")]

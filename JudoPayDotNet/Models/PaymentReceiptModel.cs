@@ -23,7 +23,7 @@ namespace JudoPayDotNet.Models
         /// The transaction identifier.
         /// </value>
         [DataMember]
-        public string ReceiptId { get; set; }
+        public long ReceiptId { get; set; }
 
         /// <summary>
         /// The receipt id of the original payment, if this is a refund or collection

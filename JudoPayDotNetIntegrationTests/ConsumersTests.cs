@@ -178,7 +178,7 @@ namespace JudoPayDotNetIntegrationTests
             var collection = new CollectionModel
             {
                 Amount = 25,
-                ReceiptId = int.Parse(response.Response.ReceiptId),
+                ReceiptId = response.Response.ReceiptId,
                 YourPaymentReference = "578543"
             };
 
@@ -236,7 +236,7 @@ namespace JudoPayDotNetIntegrationTests
             var refund = new RefundModel
             {
                 Amount = 25,
-                ReceiptId = int.Parse(paymentResponse.Response.ReceiptId),
+                ReceiptId = paymentResponse.Response.ReceiptId,
                 YourPaymentReference = "578543"
             };
 

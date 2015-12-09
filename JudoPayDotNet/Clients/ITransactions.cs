@@ -13,7 +13,7 @@ namespace JudoPayDotNet.Clients
         /// </summary>
         /// <param name="receiptId">The transaction identifier.</param>
         /// <returns>The receipt</returns>
-        Task<IResult<ITransactionResult>> Get(string receiptId);
+        Task<IResult<ITransactionResult>> Get(long receiptId);
 
         /// <summary>
         /// Gets the receipts that match the request parameters.
