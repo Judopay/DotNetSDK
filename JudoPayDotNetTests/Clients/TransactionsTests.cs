@@ -104,14 +104,14 @@ namespace JudoPayDotNetTests.Clients
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
-            const string receiptId = "1245";
+            const long receiptId = 1245;
 
             var paymentReceiptResult = judo.Transactions.Get(receiptId).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.AreEqual(paymentReceiptResult.Response.ReceiptId, "134567");
+            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
         }
 
         [Test, TestCaseSource(typeof(TransactionsTestSource),"TestData")]

@@ -24,7 +24,7 @@ namespace JudoPayDotNetTests.Clients
                 {
                     yield return new TestCaseData("42353vd22",
                         @"{
-                            receiptId : '134567',
+                            receiptId : 134567,
                             result : 'the result',
                             message : 'a message',
                             acsUrl : '12456',
@@ -51,13 +51,13 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData("42353vd22",
+                    yield return new TestCaseData(4235322,
                         new ThreeDResultModel
                         {
                             PaRes = "134253623AbE3442"
                         },
                          @"{
-                            receiptId : '134567',
+                            receiptId : 134567,
                             type : 'Create',
                             judoId : '12456',
                             originalAmount : 20,
@@ -89,7 +89,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData("42353vd22",
+                    yield return new TestCaseData(4235322,
                         new ThreeDResultModel
                         {
                             PaRes = "134253623AbE3442"
@@ -125,7 +125,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(paymentRequiresThreeD);
             Assert.IsFalse(paymentRequiresThreeD.HasError);
             Assert.NotNull(paymentRequiresThreeD.Response);
-            Assert.AreEqual(paymentRequiresThreeD.Response.ReceiptId, "134567");
+            Assert.That(paymentRequiresThreeD.Response.ReceiptId, Is.EqualTo(134567));
         }
 
         [Test, TestCaseSource(typeof(ThreeDCaseSources), "GetFailureTestCases")]
@@ -156,7 +156,7 @@ namespace JudoPayDotNetTests.Clients
         }
 
         [Test, TestCaseSource(typeof(ThreeDCaseSources), "CompleteSuccessTestCases")]
-        public void CompleteThreeDsWithSuccess(string receiptId, ThreeDResultModel threeDResult, 
+        public void CompleteThreeDsWithSuccess(long receiptId, ThreeDResultModel threeDResult, 
                                                 string responseData)
         {
             var httpClient = Substitute.For<IHttpClient>();
@@ -179,12 +179,12 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.AreEqual(paymentReceiptResult.Response.ReceiptId, "134567");
-            Assert.AreEqual(paymentReceiptResult.Response.ThreeDSecure.Result, "done");
+            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
+            Assert.That(paymentReceiptResult.Response.ThreeDSecure.Result, Is.EqualTo("done"));
         }
 
         [Test, TestCaseSource(typeof(ThreeDCaseSources), "CompleteFailureTestCases")]
-        public void CompleteThreeDsFail(string receiptId, ThreeDResultModel threeDResult,
+        public void CompleteThreeDsFail(long receiptId, ThreeDResultModel threeDResult,
                                                 string responseData)
         {
             var httpClient = Substitute.For<IHttpClient>();

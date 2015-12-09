@@ -87,8 +87,8 @@ namespace JudoPayDotNetTests.Clients.WebPayments
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.AreEqual(paymentReceiptResult.Response.Status, WebPaymentStatus.Open);
-            Assert.AreEqual(paymentReceiptResult.Response.Receipt.ReceiptId, "134567");
+            Assert.That(paymentReceiptResult.Response.Status, Is.EqualTo(WebPaymentStatus.Open));
+            Assert.That(paymentReceiptResult.Response.Receipt.ReceiptId, Is.EqualTo(134567));
         }
 
         [Test]
@@ -164,9 +164,9 @@ namespace JudoPayDotNetTests.Clients.WebPayments
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.AreEqual(paymentReceiptResult.Response.Reference, reference);
-            Assert.AreEqual(paymentReceiptResult.Response.Status, WebPaymentStatus.Open);
-            Assert.AreEqual(paymentReceiptResult.Response.Receipt.ReceiptId, "134567");
+            Assert.That(paymentReceiptResult.Response.Reference, Is.EqualTo(reference));
+            Assert.That(paymentReceiptResult.Response.Status, Is.EqualTo(WebPaymentStatus.Open));
+            Assert.That(paymentReceiptResult.Response.Receipt.ReceiptId, Is.EqualTo(134567));
         }
     }
 }

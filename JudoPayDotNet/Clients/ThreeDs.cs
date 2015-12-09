@@ -26,7 +26,7 @@ namespace JudoPayDotNet.Clients
                 new Dictionary<string, string> {{"md", md}});
         }
 
-        public Task<IResult<PaymentReceiptModel>> Complete3DSecure(string receiptId, ThreeDResultModel model)
+        public Task<IResult<PaymentReceiptModel>> Complete3DSecure(long receiptId, ThreeDResultModel model)
         {
             var validationError = Validate<ThreeDResultModel, PaymentReceiptModel>(_threeDResultValidator, model);
 
