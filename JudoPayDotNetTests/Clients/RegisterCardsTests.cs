@@ -30,6 +30,7 @@ namespace JudoPayDotNetTests.Clients
                 {
                     yield return new TestCaseData(new CardPaymentModel
                     {
+                        Amount = 2.0m,
                         CardAddress = new CardAddressModel
                         {
                             Line1 = "Test Street",
@@ -39,6 +40,10 @@ namespace JudoPayDotNetTests.Clients
                         CardNumber = "348417606737499",
                         ExpiryDate = "120615",
                         YourConsumerReference = "User10",
+                        CV2 = "420",
+                        JudoId = "14562",
+                        MobileNumber = "07745352515",
+                        YourPaymentReference = "Pay1234"
                     },
                         @"{
                         receiptId : '134567',
@@ -69,8 +74,9 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new RegisterCardModel
+                    yield return new TestCaseData(new CardPaymentModel
                     {
+                        Amount = 2.0m,
                         CardAddress = new CardAddressModel
                         {
                             Line1 = "Test Street",
@@ -80,6 +86,9 @@ namespace JudoPayDotNetTests.Clients
                         CardNumber = "348417606737499",
                         ExpiryDate = "120615",
                         YourConsumerReference = "User10",
+                        CV2 = "420",
+                        JudoId = "14562",
+                        MobileNumber = "07745352515",
                     },
                         @"    
                     {
