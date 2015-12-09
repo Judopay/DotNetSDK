@@ -83,7 +83,7 @@ namespace JudoPayDotNetIntegrationTests
             var collection = new CollectionModel()
             {
                 Amount = 5,
-                ReceiptId = int.Parse(response.Response.ReceiptId),
+                ReceiptId = response.Response.ReceiptId,
                 YourPaymentReference = Guid.NewGuid().ToString()
             };
 

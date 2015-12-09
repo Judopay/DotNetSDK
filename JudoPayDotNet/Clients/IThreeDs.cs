@@ -21,6 +21,6 @@ namespace JudoPayDotNet.Clients
 		/// <param name="receiptId">The transaction identifier.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        Task<IResult<PaymentReceiptModel>> Complete3DSecure(string receiptId, ThreeDResultModel model);
+        Task<IResult<PaymentReceiptModel>> Complete3DSecure(long receiptId, ThreeDResultModel model);
     }
 }
