@@ -26,7 +26,7 @@ namespace JudoPayDotNetTests.Clients.Market
                 public Func<IMarketMerchants, IResult<MerchantSearchResults>> Func;
             }
 
-            public IEnumerable TestData
+            public static IEnumerable TestData
             {
                 get
                 {

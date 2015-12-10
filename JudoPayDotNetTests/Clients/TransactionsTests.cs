@@ -28,7 +28,7 @@ namespace JudoPayDotNetTests.Clients
                 public Func<ITransactions, IResult<PaymentReceiptResults>> Func;
             }
 
-            public IEnumerable TestData
+            public static IEnumerable TestData
             {
                 get
                 {
