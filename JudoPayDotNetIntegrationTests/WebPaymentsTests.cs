@@ -16,7 +16,7 @@ namespace JudoPayDotNetIntegrationTests
     {
         private JudoPayApi _judo;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupOnce()
         {
             _judo = JudoPaymentsFactory.Create(Configuration.Token,
