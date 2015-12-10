@@ -35,7 +35,7 @@ namespace JudoPayDotNet.Clients
 
             if (transactionType.HasValue)
             {
-                address = string.Format("{0}/{1}", _usedAddress, EnumUtils.GetEnumDescription(transactionType));
+                address = string.Format("{0}/{1}", _usedAddress, transactionType.ToString().ToLower() + "s");
             }
 
             var parameters = new Dictionary<string, string>();
