@@ -11,8 +11,8 @@ namespace JudoPayDotNet.Models
     {
         UNKNOWN = 0,
 
-        [Description("Sale")]
-        [LocalizedDescription("Sale")]
+        [Description("payment")]
+        [LocalizedDescription("Payment")]
         PAYMENT = 1,
 
         [Description("refunds")]

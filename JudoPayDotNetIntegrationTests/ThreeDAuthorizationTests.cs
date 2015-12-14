@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using HtmlAgilityPack;
 using JudoPayDotNet;
@@ -16,8 +17,8 @@ namespace JudoPayDotNetIntegrationTests
         [TestFixtureSetUp]
         public void SetupOnce()
         {
-            _judo = JudoPaymentsFactory.Create(Configuration.ElevatedPrivilegesSecret,
-                Configuration.ElevatedPrivilegesToken,
+            _judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
                 Configuration.Baseaddress);
         }
 
@@ -26,7 +27,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = "100016",
+                JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
@@ -47,6 +48,7 @@ namespace JudoPayDotNetIntegrationTests
                 AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
                 DeviceCategory = "Mobile"
             };
+        
 
             var response = _judo.Payments.Create(paymentWithCard).Result;
 

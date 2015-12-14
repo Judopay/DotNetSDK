@@ -33,57 +33,66 @@ namespace JudoPayDotNet.Models.CustomDeserializers
         {
             var jsonObject = JObject.Load(reader);
             var properties = jsonObject.Properties().ToList();
-            //var judoApiErrorModelPropertiesNames = new []{"errormessage", "errortype", "modelerrors"};
+            var oldNames = new []{"errormessage", "errortype", "modelerrors"};
             var judoApiErrorModelPropertiesNames = new[] { "details", "messages", "code", "category" };
 
 
 
-            if (!judoApiErrorModelPropertiesNames.All(p => properties.Select(t => t.Name).Contains(p.ToLower())))
+            if (judoApiErrorModelPropertiesNames.Any(p => properties.Select(t => t.Name).Contains(p.ToLower())))
             {
-                if (properties.Any(t => t.Name == "message"))
-                {
-                    return new ModelError()
-                    {
-                        Message = GetProperty<string>(serializer, properties, "message"),
-                        Code = 0
 
-                    };
+                var modelError = new ModelError()
+                {
+                    ModelErrors = GetProperty<List<FieldError>>(serializer, properties, "details"),
+                    Code = GetProperty<int>(serializer, properties, "code"),
+                    Category = GetProperty<string>(serializer, properties, "category"),
+                    Message = GetProperty<string>(serializer, properties, "message"),
+
+                };
+                return modelError;
+            }
+
+            if (oldNames.Any(p => properties.Select(t => t.Name).Contains(p.ToLower())))
+            {
+                var errorType = GetProperty<int>(serializer, properties, "errortype");
+                var error  = JudoApiError.General_Error;
+                
+                if (Enum.IsDefined(typeof(JudoApiError), errorType))
+                {
+                    error = (JudoApiError)errorType;
+                }
+                else
+                {
+                    _log.InfoFormat("The JudoApiError {0} was sent by the server and it is not recognized by the SDK", errorType);
+                  
                 }
 
-                throw new JsonReaderException("Object is not model Error");
+                var modelError = new JudoApiErrorModel()
+                {
+                    ErrorMessage = GetProperty<string>(serializer, properties, "errormessage"),
+                    ErrorType = error,
+                    ModelErrors = GetProperty<List<JudoModelError>>(serializer, properties, "modelerrors")
 
 
+                };
+                return modelError;
+             
             }
-            //// Check if the object being deserialized doesn't contain any propertie of desired object
-            //if (!properties.Any(p => judoApiErrorModelPropertiesNames.Contains(p.Name .ToLower())))
-            //{
-            //    throw new JsonReaderException("Text doesn't match objectType");
-            //}
-
-            //var errorType = GetProperty<int>(serializer, properties, "errortype");
-            var code = GetProperty<int>(serializer, properties, "code");
-            JudoApiError error;
-
-            //TODO Decide if We're doing this check. so invites code duplication
-            //if (Enum.IsDefined(typeof (JudoApiError), errorType))
-            //{
-            //    error = (JudoApiError) errorType;
-            //}
-            //else
-            //{
-            //    _log.InfoFormat("The JudoApiError {0} was sent by the server and it is not recognized by the SDK", errorType);
-            //    error = JudoApiError.General_Error;
-            //}
-
-            var modelError = new ModelError()
+            if (properties.Any(t => t.Name == "message"))
             {
-                ModelErrors = GetProperty<List<FieldError>>(serializer, properties, "details"),
-                Code = GetProperty<int>(serializer, properties, "code"),
-                Category = GetProperty<string>(serializer, properties, "category"),
-                Message = GetProperty<string>(serializer, properties, "message"),
+                return new ModelError()
+                {
+                    Message = GetProperty<string>(serializer, properties, "message"),
+                    Code = 0
+
+                };
+            }
+            return new ModelError()
+            {
+                Message = "Unknown Return type",
+                Code = 0
 
             };
-            return modelError;
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

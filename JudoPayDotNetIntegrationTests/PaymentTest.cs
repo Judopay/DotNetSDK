@@ -19,6 +19,7 @@ namespace JudoPayDotNetIntegrationTests
                 Configuration.Baseaddress);
         }
 
+
         [Test]
         public void ASimplePayment()
         {
