@@ -159,7 +159,7 @@ namespace JudoPayDotNet.Clients
 					{
 						FieldName = validationFailure.PropertyName,
 						Message = validationFailure.ErrorMessage,
-                        Code = Int32.Parse( validationFailure.ErrorCode),
+                        Code = (validationFailure.ErrorCode!=null?Int32.Parse(validationFailure.ErrorCode):0),
                         Detail = string.Format( "Model validation error {0} {1}", validationFailure.PropertyName, validationFailure.ErrorMessage)
 					});
 			}

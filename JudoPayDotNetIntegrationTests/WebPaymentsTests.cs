@@ -110,7 +110,7 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.NotNull(resultUpdate);
             Assert.IsFalse(resultUpdate.HasError);
-            Assert.NotNull(resultUpdate.Response);
+            Assert.NotNull(resultUpdate.Response); //todo pick a judoID that has permissions to do this
             Assert.NotNull(resultUpdate.Response.Reference);
             Assert.AreEqual(result.Response.Reference, resultUpdate.Response.Reference);
             Assert.AreEqual(resultUpdate.Response.Status, resultUpdate.Response.Status);
