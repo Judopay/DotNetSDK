@@ -17,6 +17,6 @@ namespace JudoPayDotNet.Models
     public interface IResult
     {
         bool HasError { get; }
-        JudoApiErrorModel Error { get; }
+        ModelError Error { get; }
     }
 }

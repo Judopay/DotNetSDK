@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models.CustomDeserializers
 {
-	internal class JudoApiErrorModelConverter : JsonConverter
+    internal class JudoApiErrorModelConverter : JsonConverter
     {
         private readonly ILog _log;
 
@@ -33,7 +33,11 @@ namespace JudoPayDotNet.Models.CustomDeserializers
         {
             var jsonObject = JObject.Load(reader);
             var properties = jsonObject.Properties().ToList();
-            var judoApiErrorModelPropertiesNames = new []{"errormessage", "errortype", "modelerrors"};
+            //var judoApiErrorModelPropertiesNames = new []{"errormessage", "errortype", "modelerrors"};
+            var judoApiErrorModelPropertiesNames = new[] { "details", "messages", "code", "category" };
+
+            
+
 
             // Check if the object being deserialized doesn't contain any propertie of desired object
             if (!properties.Any(p => judoApiErrorModelPropertiesNames.Contains(p.Name.ToLower())))
@@ -41,39 +45,42 @@ namespace JudoPayDotNet.Models.CustomDeserializers
                 throw new JsonReaderException("Text doesn't match objectType");
             }
 
-            var errorType = GetProperty<int>(serializer, properties, "errortype");
-
+            //var errorType = GetProperty<int>(serializer, properties, "errortype");
+            var code = GetProperty<int>(serializer, properties, "code");
             JudoApiError error;
 
-            if (Enum.IsDefined(typeof (JudoApiError), errorType))
-            {
-                error = (JudoApiError) errorType;
-            }
-            else
-            {
-                _log.InfoFormat("The JudoApiError {0} was sent by the server and it is not recognized by the SDK", errorType);
-                error = JudoApiError.General_Error;
-            }
+            //TODO Decide if We're doing this check. so invites code duplication
+            //if (Enum.IsDefined(typeof (JudoApiError), errorType))
+            //{
+            //    error = (JudoApiError) errorType;
+            //}
+            //else
+            //{
+            //    _log.InfoFormat("The JudoApiError {0} was sent by the server and it is not recognized by the SDK", errorType);
+            //    error = JudoApiError.General_Error;
+            //}
 
-            return new JudoApiErrorModel
+            var test= new ModelError()
             {
-                ErrorMessage = GetProperty<string>(serializer, properties, "errormessage"),
-                ErrorType = error,
-                ModelErrors = GetProperty<List<JudoModelError>>(serializer, properties, "modelerrors")
+              ModelErrors = GetProperty<List<FieldError>>(serializer, properties, "details"),
+              Code = GetProperty<int>(serializer, properties, "code"),
+              Category = GetProperty<string>(serializer, properties, "category"),
+              Message = GetProperty<string>(serializer, properties, "message"),
+            
             };
-
+            return test;
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             serializer.Serialize(writer, value);
         }
-        
+
         public override bool CanConvert(Type objectType)
         {
-            return typeof(JudoApiErrorModel) == objectType;
+            return typeof(ModelError) == objectType;
         }
 
-        
+
     }
 }

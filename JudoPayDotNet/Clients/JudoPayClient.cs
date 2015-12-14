@@ -138,27 +138,29 @@ namespace JudoPayDotNet.Clients
         /// </summary>
         /// <param name="result">The validation result.</param>
         /// <returns>An error based on validation result</returns>
-        private JudoApiErrorModel CreateValidationErrorMessage(ValidationResult result)
+        private ModelError CreateValidationErrorMessage(ValidationResult result)
 		{
             if (result.IsValid)
             {
                 return null;
             }
 
-			var invalidRequestModel = new JudoApiErrorModel
+			var invalidRequestModel = new ModelError()
 			    {
-			        ErrorType = JudoApiError.General_Model_Error,
-			        ErrorMessage = "Invalid request",
-                    ModelErrors = new List<JudoModelError>(result.Errors.Count)
+			        Code = (int) JudoApiError.General_Model_Error,
+                    Message = "Sorry, we're unable to process your request. Please check your details and try again",
+                    ModelErrors = new List<FieldError>(result.Errors.Count)
 			    };
 
 		    foreach (var validationFailure in result.Errors)
 		    {
 			    _logger.DebugFormat("Model validation error {0} {1}", validationFailure.PropertyName, validationFailure.ErrorMessage);
-				invalidRequestModel.ModelErrors.Add(new JudoModelError
+				invalidRequestModel.ModelErrors.Add(new FieldError
 					{
 						FieldName = validationFailure.PropertyName,
-						ErrorMessage = validationFailure.ErrorMessage
+						Message = validationFailure.ErrorMessage,
+                        Code = Int32.Parse( validationFailure.ErrorCode),
+                        Detail = string.Format( "Model validation error {0} {1}", validationFailure.PropertyName, validationFailure.ErrorMessage)
 					});
 			}
 

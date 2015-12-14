@@ -248,8 +248,8 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(validateResponse);
             Assert.IsTrue(validateResponse.HasError);
-            Assert.AreEqual("Unable to process collection as total amount collected would exceed value of original PreAuth transaction.", validateResponse.Error.ErrorMessage);
-            Assert.AreEqual(JudoApiError.Payment_Failed, validateResponse.Error.ErrorType);
+            Assert.AreEqual("Unable to process collection as total amount collected would exceed value of original PreAuth transaction.", validateResponse.Error.Code);
+            Assert.AreEqual(JudoApiError.Payment_Failed, validateResponse.Error.Code);
         }
     }
 }

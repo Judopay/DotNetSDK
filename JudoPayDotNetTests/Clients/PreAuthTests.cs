@@ -330,7 +330,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(errorType, paymentReceiptResult.Error.ErrorType);
+            Assert.AreEqual(errorType, paymentReceiptResult.Error.Code);
         }
 
         [Test, TestCaseSource(typeof(PreAuthTestSource), "ValidateSuccessTestCases")]
@@ -406,7 +406,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(errorType, paymentReceiptResult.Error.ErrorType);
+            Assert.AreEqual(errorType, paymentReceiptResult.Error.Code);
         }
     }
 }

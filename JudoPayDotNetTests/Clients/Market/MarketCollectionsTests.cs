@@ -130,7 +130,7 @@ namespace JudoPayDotNetTests.Clients.Market
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(error, paymentReceiptResult.Error.ErrorType);
+            Assert.AreEqual(error, paymentReceiptResult.Error.Code);
         }
     }
 }

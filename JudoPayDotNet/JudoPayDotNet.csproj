@@ -105,6 +105,8 @@
     <Compile Include="Enums\ExplanationAttribute.cs" />
     <Compile Include="Enums\LocalizedDescriptionAttribute.cs" />
     <Compile Include="Enums\WebPaymentOperation.cs" />
+    <Compile Include="Errors\FieldError.cs" />
+    <Compile Include="Errors\ModelError.cs" />
     <Compile Include="Http\AuthType.cs" />
     <Compile Include="Models\CustomDeserializers\TransactionTypeConvertor.cs" />
     <Compile Include="Models\EncryptedPaymentMessage.cs" />

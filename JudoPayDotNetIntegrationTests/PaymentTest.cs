@@ -39,7 +39,8 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = _judo.Payments.Create(paymentWithCard).Result;
+            var result = _judo.Payments.Create(paymentWithCard);
+            var response = result.Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);

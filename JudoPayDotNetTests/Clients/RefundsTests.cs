@@ -172,7 +172,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(error, paymentReceiptResult.Error.ErrorType);
+            Assert.AreEqual(error, paymentReceiptResult.Error.Code);
         }
 
         [Test, TestCaseSource(typeof(RefundsTestSource), "ValidateSuccessTestCases")]
@@ -226,7 +226,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(collectionValidationResult.HasError);
             Assert.IsNull(collectionValidationResult.Response);
             Assert.IsNotNull(collectionValidationResult.Error);
-            Assert.AreEqual(errorType, collectionValidationResult.Error.ErrorType);
+            Assert.AreEqual(errorType, collectionValidationResult.Error.Code);
         }
         
     }
