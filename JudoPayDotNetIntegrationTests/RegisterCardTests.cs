@@ -110,10 +110,14 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ADeclinedCardPayment()
         {
-            var registerCard = new RegisterCardModel
+            var registerCard = new CardPaymentModel
             {
+                JudoId = Configuration.Judoid,
+                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
+                Amount = 25,
                 CardNumber = "4221690000004963",
+                CV2 = "125",
                 ExpiryDate = "12/15",
                 CardAddress = new CardAddressModel
                 {
