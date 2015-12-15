@@ -63,16 +63,6 @@ namespace JudoPayDotNetTests.Clients
                         ReceiptId = 34560,
                         YourPaymentReference = "Pay1234"
                     },
-//                        @"    
-//                        {
-//                            errorMessage : 'Payment not made',
-//                            modelErrors : [{
-//                                            fieldName : 'receiptId',
-//                                            errorMessage : 'To large',
-//                                            detailErrorMessage : 'This field has to be at most 20 characters'
-//                                          }],
-//                            errorType : '11'
-//                        }",
 
                             @"    
                         {
@@ -136,19 +126,19 @@ namespace JudoPayDotNetTests.Clients
         }
 
 
-        [Test, TestCaseSource(typeof (CollectionsTestSource), "CreateSuccessTestCases")]
+        [Test, TestCaseSource(typeof(CollectionsTestSource), "CreateSuccessTestCases")]
         public void CollectionWithSuccess(CollectionModel collections, string responseData, string receiptId)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient, 
-                                                    DotNetLoggerFactory.Create, 
+            var client = new Client(new Connection(httpClient,
+                                                    DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
@@ -161,7 +151,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
         }
 
-        [Test, TestCaseSource(typeof (CollectionsTestSource), "CreateFailureTestCases")]
+        [Test, TestCaseSource(typeof(CollectionsTestSource), "CreateFailureTestCases")]
         public void CollectionWithError(CollectionModel collections, string responseData, JudoApiError error)
         {
             var httpClient = Substitute.For<IHttpClient>();
@@ -176,7 +166,7 @@ namespace JudoPayDotNetTests.Clients
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create, 
+                                                    DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
@@ -194,7 +184,7 @@ namespace JudoPayDotNetTests.Clients
         public void ValidateWithSuccess(CollectionModel collection, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);

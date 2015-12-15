@@ -39,7 +39,6 @@ namespace JudoPayDotNet.Clients.WebPayments
         public Task<IResult<WebPaymentRequestModel>> Get(string reference, TransactionType type)
 
         {
-            //
             if (type == TransactionType.PREAUTH || type == TransactionType.PAYMENT)
             {
                 var address = string.Format("{0}/{1}/{2}", Baseaddress, type, reference);
