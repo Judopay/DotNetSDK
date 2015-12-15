@@ -47,8 +47,8 @@ namespace JudoPayDotNet.Models.CustomDeserializers
 				return EnumUtils.GetValueFromDescription<TransactionType>(enumText);
 			}
 
-			return TransactionType.UNKNOWN;
-		}
+            throw new JsonReaderException("The object does not represent a valid TransactionType");
+        }
 
 		public override bool CanConvert(Type objectType)
 		{

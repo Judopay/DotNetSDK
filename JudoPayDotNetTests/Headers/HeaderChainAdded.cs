@@ -24,7 +24,7 @@ namespace JudoPayDotNetTests.Headers
                 var requestVersionHeader = request.Headers.FirstOrDefault(h => h.Key == versionHeader);
 
                 Assert.IsNotNull(requestVersionHeader);
-                Assert.IsNotNullOrEmpty(requestVersionHeader.Value.FirstOrDefault());
+                Assert.That(requestVersionHeader.Value.FirstOrDefault(), Is.Not.Null.Or.Empty);
                 Assert.AreEqual(versionHeaderValue, requestVersionHeader.Value.FirstOrDefault());
 
                 Assert.AreEqual("Bearer",

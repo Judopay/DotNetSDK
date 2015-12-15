@@ -28,7 +28,7 @@ namespace JudoPayDotNetTests.Clients
                 public Func<ITransactions, IResult<PaymentReceiptResults>> Func;
             }
 
-            public IEnumerable TestData
+            public static IEnumerable TestData
             {
                 get
                 {
@@ -173,8 +173,8 @@ namespace JudoPayDotNetTests.Clients
                                         return new KeyValuePair<string, string>(keyValue[0], keyValue[1]);
                                     }).Intersect(queryExpected).Count();
 
-            Assert.AreEqual(queryExpected.Count(), numberOfMatchingParameters);
-            Assert.AreEqual(EnumUtils.GetEnumDescription(TransactionType.PAYMENT), request.RequestUri.AbsolutePath.Split('/').Last());
+            Assert.That(numberOfMatchingParameters, Is.EqualTo(queryExpected.Count()));
+            Assert.That(request.RequestUri.AbsolutePath.Split('/').Last(), Is.EqualTo("payments"));
         }
     }
 }

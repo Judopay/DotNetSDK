@@ -9,8 +9,8 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void GetAllMerchants()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.ElevatedPrivilegesSecret,
-                Configuration.ElevatedPrivilegesToken,
+            var judo = JudoPaymentsFactory.Create(Configuration.ElevatedPrivilegesToken,
+                Configuration.ElevatedPrivilegesSecret,
                 Configuration.Baseaddress);
 
             var merchants = judo.Market.Merchants.Get().Result;
