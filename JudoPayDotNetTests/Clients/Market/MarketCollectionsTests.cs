@@ -65,13 +65,15 @@ namespace JudoPayDotNetTests.Clients.Market
                     },
                         @"    
                         {
-                            errorMessage : 'Payment not made',
+                            message : 'Payment not made',
                             modelErrors : [{
                                             fieldName : 'receiptId',
-                                            errorMessage : 'To large',
-                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
                                           }],
-                            errorType : '11'
+                            code : '11',
+                            category : '0'
                         }",
                         JudoApiError.Payment_Declined).SetName("CollectionWithoutSuccess");
                 }
@@ -130,7 +132,7 @@ namespace JudoPayDotNetTests.Clients.Market
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(error, paymentReceiptResult.Error.Code);
+            Assert.AreEqual((int)error, paymentReceiptResult.Error.Code);
         }
     }
 }

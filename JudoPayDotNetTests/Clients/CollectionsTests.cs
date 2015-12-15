@@ -63,15 +63,28 @@ namespace JudoPayDotNetTests.Clients
                         ReceiptId = 34560,
                         YourPaymentReference = "Pay1234"
                     },
-                        @"    
+//                        @"    
+//                        {
+//                            errorMessage : 'Payment not made',
+//                            modelErrors : [{
+//                                            fieldName : 'receiptId',
+//                                            errorMessage : 'To large',
+//                                            detailErrorMessage : 'This field has to be at most 20 characters'
+//                                          }],
+//                            errorType : '11'
+//                        }",
+
+                            @"    
                         {
-                            errorMessage : 'Payment not made',
+                            message : 'Payment not made',
                             modelErrors : [{
                                             fieldName : 'receiptId',
-                                            errorMessage : 'To large',
-                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
                                           }],
-                            errorType : '11'
+                            code : '11',
+                            category : '0'
                         }",
                         JudoApiError.Payment_Declined).SetName("CollectionWithoutSuccess");
                 }
@@ -107,13 +120,15 @@ namespace JudoPayDotNetTests.Clients
                     },
                          @"    
                         {
-                            errorMessage : 'Payment not made',
+                            message : 'Payment not made',
                             modelErrors : [{
                                             fieldName : 'receiptId',
-                                            errorMessage : 'To large',
-                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
                                           }],
-                            errorType : '11'
+                            code : '11',
+                            category : '0'
                         }",
                         JudoApiError.Payment_Declined).SetName("ValidationWithoutSuccess");
                 }
@@ -172,7 +187,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(error, paymentReceiptResult.Error.Code);
+            Assert.AreEqual((int)error, paymentReceiptResult.Error.Code);
         }
 
         [Test, TestCaseSource(typeof(CollectionsTestSource), "ValidateSuccessTestCases")]
@@ -226,7 +241,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(collectionValidationResult.HasError);
             Assert.IsNull(collectionValidationResult.Response);
             Assert.IsNotNull(collectionValidationResult.Error);
-            Assert.AreEqual(errorType, collectionValidationResult.Error.Code);
+            Assert.AreEqual((int)errorType, collectionValidationResult.Error.Code);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace JudoPayDotNet.Models.CustomDeserializers
 
 
 
-            if (judoApiErrorModelPropertiesNames.Any(p => properties.Select(t => t.Name).Contains(p.ToLower())))
+            if (judoApiErrorModelPropertiesNames.Any(p => properties.Select(t => t.Name.ToLower()).Contains(p.ToLower())))
             {
 
                 var modelError = new ModelError()
@@ -52,7 +52,7 @@ namespace JudoPayDotNet.Models.CustomDeserializers
                 return modelError;
             }
 
-            if (oldNames.Any(p => properties.Select(t => t.Name).Contains(p.ToLower())))
+            if (oldNames.Any(p => properties.Select(t => t.Name.ToLower()).Contains(p.ToLower())))
             {
                 var errorType = GetProperty<int>(serializer, properties, "errortype");
                 var error  = JudoApiError.General_Error;

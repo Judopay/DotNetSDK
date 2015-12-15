@@ -65,13 +65,15 @@ namespace JudoPayDotNetTests.Clients
                     },
                         @"    
                         {
-                            errorMessage : 'Payment not made',
+                            message : 'Payment not made',
                             modelErrors : [{
                                             fieldName : 'receiptId',
-                                            errorMessage : 'To large',
-                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
                                           }],
-                            errorType : '200'
+                            code : '200',
+                            category : '0'
                         }",
                         200).SetName("PayWithCardWithoutSuccess");
                 }
@@ -105,15 +107,17 @@ namespace JudoPayDotNetTests.Clients
                         ReceiptId = 34560,
                         YourPaymentReference = "Pay1234"
                     },
-                         @"    
+                          @"    
                         {
-                            errorMessage : 'Payment not made',
+                            message : 'Payment not made',
                             modelErrors : [{
                                             fieldName : 'receiptId',
-                                            errorMessage : 'To large',
-                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
                                           }],
-                            errorType : '200'
+                            code : '200',
+                            category : '0'
                         }",
                         200).SetName("CollectionWithoutSuccess");
                 }
@@ -172,7 +176,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(error, paymentReceiptResult.Error.Code);
+            Assert.AreEqual((int)error, paymentReceiptResult.Error.Code);
         }
 
         [Test, TestCaseSource(typeof(RefundsTestSource), "ValidateSuccessTestCases")]
@@ -226,7 +230,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(collectionValidationResult.HasError);
             Assert.IsNull(collectionValidationResult.Response);
             Assert.IsNotNull(collectionValidationResult.Error);
-            Assert.AreEqual(errorType, collectionValidationResult.Error.Code);
+            Assert.AreEqual((int)errorType, collectionValidationResult.Error.Code);
         }
         
     }
