@@ -39,10 +39,17 @@ namespace JudoPayDotNetTests.Clients
                 get
                 {
                     yield return new TestCaseData("34254645gvdv3",
-                        @"    
+                         @"    
                         {
-                            errorMessage : 'ThreeDSecureNotSuccessful',
-                            errorType : '9'
+                            message : 'ThreeDSecureNotSuccessful',
+                            modelErrors : [{
+                                            fieldName : 'receiptId',
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
+                                          }],
+                            code : '9',
+                            category : '0'
                         }").SetName("GetThreeDsAuthorizationsWithoutSuccess");
                 }
             }
@@ -93,11 +100,25 @@ namespace JudoPayDotNetTests.Clients
                         new ThreeDResultModel
                         {
                             PaRes = "134253623AbE3442"
-                        },@"    
+                        },
+//                        @"    
+//                        {
+//                            errorMessage : 'ThreeDSecureNotSuccessful',
+//                            errorType : '9'
+//                        }"
+                          @"    
                         {
-                            errorMessage : 'ThreeDSecureNotSuccessful',
-                            errorType : '9'
-                        }").SetName("CompleteThreeDsAuthorizationsWithoutSuccess");
+                            message : 'ThreeDSecureNotSuccessful',
+                            modelErrors : [{
+                                            fieldName : 'receiptId',
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
+                                          }],
+                            code : '9',
+                            category : '0'
+                        }"
+                        ).SetName("CompleteThreeDsAuthorizationsWithoutSuccess");
                 }
             }
         }

@@ -126,7 +126,7 @@ namespace JudoPayDotNet.Http
                     //Try to parse an rest well formed error, if it isn't one than an generic http error is thrown
                     try
                     {
-                        parsedResponse.JudoError = JsonConvert.DeserializeObject<JudoApiErrorModel>(content, _settings);
+                        parsedResponse.JudoError = JsonConvert.DeserializeObject<ModelError>(content, _settings);
                     }
                     catch (JsonException e)
                     {

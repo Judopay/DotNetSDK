@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models.CustomDeserializers
 {
-	internal class JudoApiErrorModelConverter : JsonConverter
+    internal class JudoApiErrorModelConverter : JsonConverter
     {
         private readonly ILog _log;
 
@@ -33,47 +33,78 @@ namespace JudoPayDotNet.Models.CustomDeserializers
         {
             var jsonObject = JObject.Load(reader);
             var properties = jsonObject.Properties().ToList();
-            var judoApiErrorModelPropertiesNames = new []{"errormessage", "errortype", "modelerrors"};
+            var oldNames = new []{"errormessage", "errortype", "modelerrors"};
+            var judoApiErrorModelPropertiesNames = new[] { "details", "messages", "code", "category" };
 
-            // Check if the object being deserialized doesn't contain any propertie of desired object
-            if (!properties.Any(p => judoApiErrorModelPropertiesNames.Contains(p.Name.ToLower())))
+
+
+            if (judoApiErrorModelPropertiesNames.Any(p => properties.Select(t => t.Name.ToLower()).Contains(p.ToLower())))
             {
-                throw new JsonReaderException("Text doesn't match objectType");
+
+                var modelError = new ModelError()
+                {
+                    ModelErrors = GetProperty<List<FieldError>>(serializer, properties, "details"),
+                    Code = GetProperty<int>(serializer, properties, "code"),
+                    Category = GetProperty<string>(serializer, properties, "category"),
+                    Message = GetProperty<string>(serializer, properties, "message"),
+
+                };
+                return modelError;
             }
 
-            var errorType = GetProperty<int>(serializer, properties, "errortype");
-
-            JudoApiError error;
-
-            if (Enum.IsDefined(typeof (JudoApiError), errorType))
+            if (oldNames.Any(p => properties.Select(t => t.Name.ToLower()).Contains(p.ToLower())))
             {
-                error = (JudoApiError) errorType;
+                var errorType = GetProperty<int>(serializer, properties, "errortype");
+                var error  = JudoApiError.General_Error;
+                
+                if (Enum.IsDefined(typeof(JudoApiError), errorType))
+                {
+                    error = (JudoApiError)errorType;
+                }
+                else
+                {
+                    _log.InfoFormat("The JudoApiError {0} was sent by the server and it is not recognized by the SDK", errorType);
+                  
+                }
+
+                var modelError = new JudoApiErrorModel()
+                {
+                    ErrorMessage = GetProperty<string>(serializer, properties, "errormessage"),
+                    ErrorType = error,
+                    ModelErrors = GetProperty<List<JudoModelError>>(serializer, properties, "modelerrors")
+
+
+                };
+                return modelError;
+             
             }
-            else
+            if (properties.Any(t => t.Name == "message"))
             {
-                _log.InfoFormat("The JudoApiError {0} was sent by the server and it is not recognized by the SDK", errorType);
-                error = JudoApiError.General_Error;
-            }
+                return new ModelError()
+                {
+                    Message = GetProperty<string>(serializer, properties, "message"),
+                    Code = 0
 
-            return new JudoApiErrorModel
+                };
+            }
+            return new ModelError()
             {
-                ErrorMessage = GetProperty<string>(serializer, properties, "errormessage"),
-                ErrorType = error,
-                ModelErrors = GetProperty<List<JudoModelError>>(serializer, properties, "modelerrors")
+                Message = "Unknown Return type",
+                Code = 0
+
             };
-
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             serializer.Serialize(writer, value);
         }
-        
+
         public override bool CanConvert(Type objectType)
         {
-            return typeof(JudoApiErrorModel) == objectType;
+            return typeof(ModelError) == objectType;
         }
 
-        
+
     }
 }

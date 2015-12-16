@@ -138,15 +138,17 @@ namespace JudoPayDotNetTests.Clients
                         YourConsumerReference = "User10",
                         YourPaymentReference = "Pay1234"
                     },
-                        @"    
+                         @"    
                         {
-                            errorMessage : 'Payment not made',
+                            message : 'Payment not made',
                             modelErrors : [{
                                             fieldName : 'receiptId',
-                                            errorMessage : 'To large',
-                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
                                           }],
-                            errorType : '200'
+                            code : '200',
+                            category : '0'
                         }",
                         200).SetName("PayWithCardWithoutSuccess");
                     yield return new TestCaseData(new TokenPaymentModel
@@ -166,15 +168,17 @@ namespace JudoPayDotNetTests.Clients
                         YourPaymentReference = "Pay1234",
                         ConsumerToken = "ABAS"
                     },
-                        @"    
+                         @"    
                         {
-                            errorMessage : 'Payment not made',
+                            message : 'Payment not made',
                             modelErrors : [{
                                             fieldName : 'receiptId',
-                                            errorMessage : 'To large',
-                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
                                           }],
-                            errorType : '200'
+                            code : '200',
+                            category : '0'
                         }",
                         200).SetName("PayWithTokenWithoutSuccess");
                 }
@@ -244,13 +248,15 @@ namespace JudoPayDotNetTests.Clients
                     },
                          @"    
                         {
-                            errorMessage : 'Payment not made',
+                            message : 'Payment not made',
                             modelErrors : [{
                                             fieldName : 'receiptId',
-                                            errorMessage : 'To large',
-                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
                                           }],
-                            errorType : '12'
+                            code : '12',
+                            category : '0'
                         }",
                             JudoApiError.Payment_Failed).SetName("ValidateWithoutSuccess");
                 }
@@ -331,7 +337,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(errorType, paymentReceiptResult.Error.ErrorType);
+            Assert.AreEqual((int)errorType, paymentReceiptResult.Error.Code);
         }
 
         [Test, TestCaseSource(typeof(PaymentsTestSource), "ValidateSuccessTestCases")]
@@ -407,7 +413,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(errorType, paymentReceiptResult.Error.ErrorType);
+            Assert.AreEqual((int)errorType, paymentReceiptResult.Error.Code);
         }
     }
 }

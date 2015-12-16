@@ -6,7 +6,7 @@ namespace JudoPayDotNet.Models
     {
         public T Response { get; private set; }
 
-        public Result(T response, JudoApiErrorModel error) : base(error)
+        public Result(T response, ModelError error) : base(error)
         {
             Response = response;
         }
@@ -15,9 +15,9 @@ namespace JudoPayDotNet.Models
     public class Result : IResult
     {
         public bool HasError { get { return Error != null; } }
-        public JudoApiErrorModel Error { get; private set; }
+        public ModelError Error { get; private set; }
 
-        public Result(JudoApiErrorModel error = null)
+        public Result(ModelError error = null)
         {
             Error = error;
         }

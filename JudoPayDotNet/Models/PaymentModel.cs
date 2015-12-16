@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
+using JudoPayDotNet.Clients;
 using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models
@@ -160,6 +162,21 @@ namespace JudoPayDotNet.Models
 // ReSharper disable UnusedAutoPropertyAccessor.Global
         public string AcceptHeaders { get; set; }
 // ReSharper restore UnusedAutoPropertyAccessor.Global
+
+        public void ProvisionSDKVersion()
+        {
+            if (String.IsNullOrEmpty(UserAgent) || !UserAgent.Contains("DotNetSDK"))
+            {
+                if (String.IsNullOrEmpty(UserAgent))
+                {
+                    UserAgent = "DotNetSDK-" + JudoPayClient.SDKVersion;
+                }
+                else
+                {
+                    UserAgent = ("DotNetSDK-" + JudoPayClient.SDKVersion + ";" + UserAgent);
+                }
+            }
+        }
     }
     // ReSharper restore UnusedMember.Global
 }

@@ -12,12 +12,13 @@ namespace JudoPayDotNetIntegrationTests
         private JudoPayApi _judo;
 
         [OneTimeSetUp]
-        public void SetupOnce()
+        public void Init()
         {
             _judo = JudoPaymentsFactory.Create(Configuration.Token,
                 Configuration.Secret,
                 Configuration.Baseaddress);
         }
+
 
         [Test]
         public void ASimplePayment()
@@ -39,7 +40,8 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = _judo.Payments.Create(paymentWithCard).Result;
+            var result = _judo.Payments.Create(paymentWithCard);
+            var response = result.Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);

@@ -12,7 +12,7 @@ namespace JudoPayDotNetIntegrationTests
         private JudoPayApi _judo;
 
         [OneTimeSetUp]
-        public void SetupOnce()
+        public void Init()
         {
             _judo = JudoPaymentsFactory.Create(Configuration.Token,
                 Configuration.Secret,
@@ -211,7 +211,7 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
+                YourPaymentReference = "578540",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
@@ -239,17 +239,19 @@ namespace JudoPayDotNetIntegrationTests
 
             var collection = new CollectionModel
             {
-                Amount = 30,
+                Amount = 1,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                YourPaymentReference = "578540"
             };
 
+            var test = _judo.Collections.Create(collection).Result;
+            collection.Amount = 30;
             var validateResponse = _judo.Collections.Validate(collection).Result;
 
             Assert.IsNotNull(validateResponse);
             Assert.IsTrue(validateResponse.HasError);
-            Assert.AreEqual("Unable to process collection as total amount collected would exceed value of original PreAuth transaction.", validateResponse.Error.ErrorMessage);
-            Assert.AreEqual(JudoApiError.Payment_Failed, validateResponse.Error.ErrorType);
+            Assert.AreEqual("Unable to process collection as total amount collected would exceed value of original PreAuth transaction.", validateResponse.Error.Message);
+            Assert.AreEqual(46, validateResponse.Error.Code);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using HtmlAgilityPack;
 using JudoPayDotNet;
@@ -14,10 +15,10 @@ namespace JudoPayDotNetIntegrationTests
         private JudoPayApi _judo;
 
         [OneTimeSetUp]
-        public void SetupOnce()
+        public void Init()
         {
-            _judo = JudoPaymentsFactory.Create(Configuration.ElevatedPrivilegesSecret,
-                Configuration.ElevatedPrivilegesToken,
+            _judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
                 Configuration.Baseaddress);
         }
 
@@ -26,7 +27,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = "100016",
+                JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
@@ -48,6 +49,7 @@ namespace JudoPayDotNetIntegrationTests
                 DeviceCategory = "Mobile"
             };
 
+
             var response = _judo.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
@@ -65,7 +67,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = "100016",
+                JudoId = Configuration.Judoid,
                 YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
@@ -120,7 +122,7 @@ namespace JudoPayDotNetIntegrationTests
 
                 Assert.That(paResValue, Is.Not.Empty);
 
-                var threeDResult = _judo.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel {PaRes = paResValue}).Result;
+                var threeDResult = _judo.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel { PaRes = paResValue }).Result;
 
                 Assert.IsNotNull(threeDResult);
                 Assert.IsFalse(threeDResult.HasError);

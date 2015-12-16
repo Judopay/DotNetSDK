@@ -16,5 +16,9 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember]
         public string PaRes { get; set; }
+
+        [DataMember]
+        public string Md { get; set; }
+        
     }
 }

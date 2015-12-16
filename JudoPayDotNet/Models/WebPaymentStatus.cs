@@ -16,12 +16,17 @@ namespace JudoPayDotNet.Models
         /// <summary>
         /// This web payment has been completed
         /// </summary>
-        Paid = 3,
+        Success = 3,
+
+        /// <summary>
+        /// Web payment expired
+        /// </summary>
+        Expired = 5,
 
         /// <summary>
         /// The payment for this payment request was cancelled
         /// </summary>
-        Cancelled = 6
+        Cancelled = 6,
     }
     // ReSharper restore UnusedMember.Global
 }
