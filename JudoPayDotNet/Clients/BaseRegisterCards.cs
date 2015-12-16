@@ -26,7 +26,7 @@ namespace JudoPayDotNet.Clients
         public Task<IResult<ITransactionResult>> Create(CardPaymentModel registerCard)
         {
             var validationError = Validate<CardPaymentModel, ITransactionResult>(RegisterCardValidator, registerCard);
-
+            registerCard.ProvisionSDKVersion();
             return validationError ?? PostInternal<CardPaymentModel, ITransactionResult>(_createAddress, registerCard);
         }
     }

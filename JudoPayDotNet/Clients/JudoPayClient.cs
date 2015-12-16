@@ -18,7 +18,7 @@ namespace JudoPayDotNet.Clients
     {
         private readonly IClient _client;
         private readonly ILog _logger;
-
+        internal const String SDKVersion = "1.2.0";
         protected JudoPayClient(ILog logger, IClient client)
         {
             _logger = logger;
