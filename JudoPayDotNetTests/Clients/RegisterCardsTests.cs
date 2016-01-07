@@ -42,8 +42,7 @@ namespace JudoPayDotNetTests.Clients
                         YourConsumerReference = "User10",
                         CV2 = "420",
                         JudoId = "14562",
-                        MobileNumber = "07745352515",
-                        YourPaymentReference = "Pay1234"
+                        MobileNumber = "07745352515"
                     },
                         @"{
                         receiptId : '134567',

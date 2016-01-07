@@ -40,8 +40,7 @@ namespace JudoPayDotNetTests.Validation
                 EmailAddress = "testaccount@judo.com",
                 ExpiryDate = "120615",
                 MobileNumber = "07745352515",
-                YourConsumerReference = "User10",
-                YourPaymentReference = "Pay1234"
+                YourConsumerReference = "User10"
             };
 
             var validator = new CardPaymentValidator();
@@ -74,8 +73,7 @@ namespace JudoPayDotNetTests.Validation
                 ExpiryDate = "120615",
                 JudoId = "12356",
                 MobileNumber = "07745352515",
-                YourConsumerReference = "User10",
-                YourPaymentReference = "Pay1234"
+                YourConsumerReference = "User10"
             };
 
             var validator = new CardPaymentValidator();

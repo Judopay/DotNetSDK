@@ -25,12 +25,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -57,12 +56,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4221690000004963",
                 CV2 = "125",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -84,12 +82,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4221690000004963",
                 CV2 = "125",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -112,12 +109,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = Guid.NewGuid().ToString(),
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -164,12 +160,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -194,7 +189,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                YourPaymentReference = paymentWithCard.YourPaymentReference
             };
 
             var validateResponse = _judo.Collections.Validate(collection).Result;
@@ -211,12 +206,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578540",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -250,8 +244,8 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(validateResponse);
             Assert.IsTrue(validateResponse.HasError);
-            Assert.AreEqual("Unable to process collection as total amount collected would exceed value of original PreAuth transaction.", validateResponse.Error.Message);
-            Assert.AreEqual(46, validateResponse.Error.Code);
+            Assert.True(string.Equals("Sorry, but the amount you're trying to collect is greater than the pre-auth", validateResponse.Error.Message));
+            Assert.True(46==validateResponse.Error.Code);
         }
     }
 }

@@ -44,8 +44,7 @@ namespace JudoPayDotNetTests.Clients
                             ExpiryDate = "120615",
                             JudoId = "14562",
                             MobileNumber = "07745352515",
-                            YourConsumerReference = "User10",
-                            YourPaymentReference = "Pay1234"
+                            YourConsumerReference = "User10"
                         },
                         @"{
                             receiptId : '134567',
@@ -83,7 +82,6 @@ namespace JudoPayDotNetTests.Clients
                             JudoId = "14562",
                             MobileNumber = "07745352515",
                             YourConsumerReference = "User10",
-                            YourPaymentReference = "Pay1234",
                             ConsumerToken = "ABAS"
                         },
                         @"{
@@ -135,8 +133,8 @@ namespace JudoPayDotNetTests.Clients
                         ExpiryDate = "120615",
                         JudoId = "14562",
                         MobileNumber = "07745352515",
-                        YourConsumerReference = "User10",
-                        YourPaymentReference = "Pay1234"
+                        YourConsumerReference = "User10"
+                        
                     },
                          @"    
                         {
@@ -165,7 +163,6 @@ namespace JudoPayDotNetTests.Clients
                         JudoId = "14562",
                         MobileNumber = "07745352515",
                         YourConsumerReference = "User10",
-                        YourPaymentReference = "Pay1234",
                         ConsumerToken = "ABAS"
                     },
                          @"    
@@ -208,8 +205,7 @@ namespace JudoPayDotNetTests.Clients
                         ExpiryDate = "120615",
                         JudoId = "14562",
                         MobileNumber = "07745352515",
-                        YourConsumerReference = "User10",
-                        YourPaymentReference = "Pay1234"
+                        YourConsumerReference = "User10"
                     },
                         @"{
                             errorMessage : 'Your good to go!',
@@ -243,8 +239,7 @@ namespace JudoPayDotNetTests.Clients
                         ExpiryDate = "120615",
                         JudoId = "14562",
                         MobileNumber = "07745352515",
-                        YourConsumerReference = "User10",
-                        YourPaymentReference = "Pay1234"
+                        YourConsumerReference = "User10"
                     },
                          @"    
                         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using JudoPayDotNet.Clients;
 using JudoPayDotNet.Clients.Consumer;
 using JudoPayDotNet.Clients.Market;
