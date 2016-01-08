@@ -81,8 +81,8 @@ namespace JudoPayDotNetIntegrationTests
             var collection = new CollectionModel()
             {
                 Amount = 5,
-                ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = Guid.NewGuid().ToString()
+                ReceiptId = response.Response.ReceiptId
+                
             };
 
             var collectionResult = _judo.Collections.Create(collection).Result;

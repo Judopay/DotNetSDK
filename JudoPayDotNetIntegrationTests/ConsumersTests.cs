@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using JudoPayDotNet;
 using JudoPayDotNet.Models;
@@ -19,6 +20,8 @@ namespace JudoPayDotNetIntegrationTests
                 Configuration.Secret,
                 Configuration.Baseaddress);
         }
+
+       
 
         [Test]
         public void GetTransaction()
@@ -168,7 +171,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             response = _judo.Collections.Create(collection).Result;
@@ -221,7 +224,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = paymentResponse.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             var response = _judo.Refunds.Create(refund).Result;

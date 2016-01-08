@@ -20,7 +20,7 @@ namespace JudoPayDotNet
 	/// </summary>
     public class JudoPayApi : IJudoPayApi
     {
-        public IMarket Market { get; set; }
+        internal IMarket Market { get; set; }
 
         public IWebPayments WebPayments { get; set; }
 
@@ -36,13 +36,13 @@ namespace JudoPayDotNet
 
         public JudoPayApi(Func<Type, ILog> logger, IClient client)
         {
-            Payments = new Payments(logger(typeof(Payments)), client);
+            Payments = new Payments(logger(typeof(Payments)), client,true);
             Refunds = new Refunds(logger(typeof(Refunds)), client);
-            PreAuths = new PreAuths(logger(typeof(PreAuths)), client);
+            PreAuths = new PreAuths(logger(typeof(PreAuths)), client, true);
             Transactions = new Transactions(logger(typeof(Transactions)), client);
             Collections = new Collections(logger(typeof(Collections)), client);
             ThreeDs = new ThreeDs(logger(typeof(ThreeDs)), client);
-            RegisterCards = new RegisterCards(logger(typeof(RegisterCards)), client);
+            RegisterCards = new RegisterCards(logger(typeof(RegisterCards)), client,true);
 
             Market = new Market
             {

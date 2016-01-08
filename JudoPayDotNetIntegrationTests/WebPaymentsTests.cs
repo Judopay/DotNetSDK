@@ -51,8 +51,7 @@ namespace JudoPayDotNetIntegrationTests
                 Reference = "42421",
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
-                YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                YourConsumerReference = "4235325"
             };
 
             var result = _judo.WebPayments.Payments.Create(request).Result;
@@ -92,7 +91,7 @@ namespace JudoPayDotNetIntegrationTests
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                
             };
 
             var result = _judo.WebPayments.Payments.Create(request).Result;
@@ -144,7 +143,7 @@ namespace JudoPayDotNetIntegrationTests
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PREAUTH,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                
             };
 
             var result = _judo.WebPayments.PreAuths.Create(request).Result;
@@ -184,7 +183,7 @@ namespace JudoPayDotNetIntegrationTests
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                
             };
 
             var result = _judo.WebPayments.PreAuths.Create(request).Result;
@@ -236,7 +235,7 @@ namespace JudoPayDotNetIntegrationTests
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                
             };
 
             var result = _judo.WebPayments.Payments.Create(request).Result;
@@ -286,7 +285,7 @@ namespace JudoPayDotNetIntegrationTests
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                
             };
 
             var result = _judo.WebPayments.Payments.Create(request).Result;

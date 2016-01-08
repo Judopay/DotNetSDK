@@ -19,6 +19,7 @@ namespace JudoPayDotNetIntegrationTests
                 Configuration.Baseaddress);
         }
 
+ 
         [Test]
         public void ASimplePreAuth()
         {
@@ -138,7 +139,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             response = _judo.Collections.Create(collection).Result;
@@ -189,7 +190,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = paymentWithCard.YourPaymentReference
+                
             };
 
             var validateResponse = _judo.Collections.Validate(collection).Result;
@@ -199,6 +200,8 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Your good to go!", validateResponse.Response.ErrorMessage);
             Assert.AreEqual(JudoApiError.Validation_Passed, validateResponse.Response.ErrorType);
         }
+
+   
 
         [Test]
         public void AFailedSimplePreAuthAndValidateCollection()
@@ -235,7 +238,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 1,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578540"
+                
             };
 
             var test = _judo.Collections.Create(collection).Result;
@@ -247,5 +250,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.True(string.Equals("Sorry, but the amount you're trying to collect is greater than the pre-auth", validateResponse.Error.Message));
             Assert.True(46==validateResponse.Error.Code);
         }
+
+
     }
 }

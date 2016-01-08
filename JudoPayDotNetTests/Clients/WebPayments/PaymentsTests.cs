@@ -44,7 +44,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355",
+                
                 Receipt = new PaymentReceiptModel
                 {
                     ReceiptId = 134567,
@@ -122,7 +122,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355",
+                
                 Receipt = new PaymentReceiptModel
                 {
                     ReceiptId = 134567,

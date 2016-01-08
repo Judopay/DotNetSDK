@@ -18,7 +18,9 @@ namespace JudoPayDotNet
 		/// <summary>
 		/// Provides payment operations and visibility into your judo Marketplace
 		/// </summary>
-        IMarket Market { get; set; }
+		/// 
+		/// Temporarily removing this till we support market operations again
+        //IMarket Market { get; set; }
 
 		/// <summary>
 		/// Provides operations for webpayments

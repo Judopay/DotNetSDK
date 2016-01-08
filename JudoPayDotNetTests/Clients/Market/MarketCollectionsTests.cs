@@ -13,6 +13,7 @@ using NUnit.Framework;
 namespace JudoPayDotNetTests.Clients.Market
 {
     [TestFixture]
+    [Ignore("Not supporting Market operations at present")]
     public class MarketCollectionsTests
     {
         //Test data
@@ -26,7 +27,7 @@ namespace JudoPayDotNetTests.Clients.Market
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
                         @"{
                             receiptId : '134567',
@@ -61,7 +62,7 @@ namespace JudoPayDotNetTests.Clients.Market
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
                         @"    
                         {

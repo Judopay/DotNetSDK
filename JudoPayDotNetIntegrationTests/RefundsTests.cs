@@ -46,7 +46,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+               
             };
 
             response = _judo.Refunds.Create(refund).Result;
@@ -91,7 +91,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             var validateResponse = _judo.Refunds.Validate(refund).Result;
@@ -131,7 +131,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 24,
                 ReceiptId = preAuthResponse.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             var collection1Response = _judo.Collections.Create(collection).Result;
@@ -150,7 +150,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 1,
                 ReceiptId = preAuthResponse.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             var collection2Response = _judo.Collections.Create(collection).Result;
@@ -169,7 +169,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 24,
                 ReceiptId = collection1Response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             var response = _judo.Refunds.Create(refund).Result;
@@ -188,7 +188,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 1,
                 ReceiptId = collection2Response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             response = _judo.Refunds.Create(refund).Result;

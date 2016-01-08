@@ -22,6 +22,7 @@ namespace JudoPayDotNet.Clients
     private readonly ILog _logger;
     internal const String SDKVersion = "1.2.0";
     private Dictionary<string, IResponse> UniqueResponses;
+    public bool DeDuplicateTransactions = false;
 
     protected JudoPayClient(ILog logger, IClient client)
     {
@@ -84,33 +85,38 @@ namespace JudoPayDotNet.Clients
         where R : class
     {
         R result = null;
-
-        Type t = entity.GetType();
-
-        PropertyInfo prop = t.GetRuntimeProperty("YourPaymentReference");
-
-        string paymentRef = (string)prop.GetValue(entity);
-
-
-        if (!string.IsNullOrEmpty(paymentRef))
+        string paymentRef = "";
+        if (DeDuplicateTransactions)
         {
-            IResponse<R> oldResponse = DeDuplicate(paymentRef) as IResponse<R>;
-            if (oldResponse != null)
-            {
-                result = oldResponse.ResponseBodyObject;
-                return new Result<R>(result, oldResponse.JudoError);
-            }
+            Type t = entity.GetType();
 
+            PropertyInfo prop = t.GetRuntimeProperty("YourPaymentReference");
+
+            paymentRef = (string)prop.GetValue(entity);
+
+
+            if (!string.IsNullOrEmpty(paymentRef))
+            {
+                IResponse<R> oldResponse = DeDuplicate(paymentRef) as IResponse<R>;
+                if (oldResponse != null)
+                {
+                    result = oldResponse.ResponseBodyObject;
+                    return new Result<R>(result, oldResponse.JudoError);
+                }
+
+            }
         }
-       
-       
+
         var response = await _client.Post<R>(address, parameters, entity).ConfigureAwait(false);
 
         if (!response.ErrorResponse)
         {
-            if (!string.IsNullOrEmpty(paymentRef))
+            if (DeDuplicateTransactions)
             {
-                StoreResult(response, paymentRef);
+                if (!string.IsNullOrEmpty(paymentRef))
+                {
+                    StoreResult(response, paymentRef);
+                }
             }
             result = response.ResponseBodyObject;
 

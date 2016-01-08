@@ -26,7 +26,7 @@ namespace JudoPayDotNetTests.Clients
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
                         @"{
                             receiptId : '134567',
@@ -61,7 +61,7 @@ namespace JudoPayDotNetTests.Clients
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
 
                             @"    
@@ -88,7 +88,7 @@ namespace JudoPayDotNetTests.Clients
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
                         @"{
                             errorMessage : 'Your good to go!',
@@ -106,7 +106,7 @@ namespace JudoPayDotNetTests.Clients
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
                          @"    
                         {
