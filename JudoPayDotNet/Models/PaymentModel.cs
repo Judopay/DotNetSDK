@@ -16,6 +16,7 @@ namespace JudoPayDotNet.Models
         protected PaymentModel()
         {
             Currency = "GBP";
+            _paymentReference = Guid.NewGuid().ToString();
         }
 
         /// <summary>
@@ -32,9 +33,14 @@ namespace JudoPayDotNet.Models
         /// </summary>
         /// <value>
         /// Your payment reference.
+        ///PLEASE NOTE!!!! there is a reflection call within JudoPayClient.cs that gets this property via a string call. update in both places
+        /// including  other model instances of yourPaymentReference ********************
         /// </value>
+        private string _paymentReference;
         [DataMember(EmitDefaultValue = false)]
-        public string YourPaymentReference { get; set; }
+        public string YourPaymentReference {
+            get { return _paymentReference;}
+        }
 
         /// <summary>
         /// Gets or sets your payment meta data.

@@ -26,12 +26,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -60,12 +59,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = Guid.NewGuid().ToString(),
                 YourConsumerReference = Guid.NewGuid().ToString(),
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -83,8 +81,8 @@ namespace JudoPayDotNetIntegrationTests
             var collection = new CollectionModel()
             {
                 Amount = 5,
-                ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = Guid.NewGuid().ToString()
+                ReceiptId = response.Response.ReceiptId
+                
             };
 
             var collectionResult = _judo.Collections.Create(collection).Result;
@@ -108,12 +106,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "66666666",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -143,12 +140,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",

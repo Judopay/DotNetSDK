@@ -19,12 +19,11 @@ namespace JudoPayDotNetIntegrationTests
             var registerCardModel = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -54,12 +53,11 @@ namespace JudoPayDotNetIntegrationTests
             var registerCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = consumerReference,
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -85,7 +83,6 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithToken = new TokenPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = consumerReference,
                 Amount = 26,
                 CardToken = cardToken,
@@ -98,7 +95,6 @@ namespace JudoPayDotNetIntegrationTests
             paymentWithToken = new TokenPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = consumerReference,
                 Amount = 27,
                 CardToken = cardToken,
@@ -124,12 +120,11 @@ namespace JudoPayDotNetIntegrationTests
             var registerCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4221690000004963",
                 CV2 = "125",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",

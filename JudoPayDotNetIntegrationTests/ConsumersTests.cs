@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using JudoPayDotNet;
 using JudoPayDotNet.Models;
@@ -20,18 +21,19 @@ namespace JudoPayDotNetIntegrationTests
                 Configuration.Baseaddress);
         }
 
+       
+
         [Test]
         public void GetTransaction()
         {
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -39,7 +41,6 @@ namespace JudoPayDotNetIntegrationTests
                     Town = "Town"
                 }
             };
-
             var response = _judo.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
@@ -67,12 +68,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -108,12 +108,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -149,12 +148,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -173,7 +171,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             response = _judo.Collections.Create(collection).Result;
@@ -203,12 +201,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -227,7 +224,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = paymentResponse.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             var response = _judo.Refunds.Create(refund).Result;

@@ -18,8 +18,9 @@ namespace JudoPayDotNetTests.Configuration
         public class GetEnvironment
         {
             [Test]
-            [TestCase(JudoEnvironment.Sandbox,"https://partnerapi.judopay-sandbox.com/")]
-            [TestCase(JudoEnvironment.Live, "https://partnerapi.judopay.com/")]
+            [TestCase(JudoEnvironment.Sandbox, "https://gw1.judopay-sandbox.com/")]
+            [TestCase(JudoEnvironment.Live, "https://gw1.judopay.com/")]
+
             public void UsingDefault(JudoEnvironment judoEnvironment, string expectedUrl)
             {
                 var configuration = Substitute.For<IJudoConfiguration>();

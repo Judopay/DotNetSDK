@@ -23,12 +23,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = Guid.NewGuid().ToString(),
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -47,7 +46,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+               
             };
 
             response = _judo.Refunds.Create(refund).Result;
@@ -69,12 +68,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -93,7 +91,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             var validateResponse = _judo.Refunds.Validate(refund).Result;
@@ -110,12 +108,11 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -134,7 +131,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 24,
                 ReceiptId = preAuthResponse.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             var collection1Response = _judo.Collections.Create(collection).Result;
@@ -153,7 +150,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 1,
                 ReceiptId = preAuthResponse.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             var collection2Response = _judo.Collections.Create(collection).Result;
@@ -172,7 +169,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 24,
                 ReceiptId = collection1Response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             var response = _judo.Refunds.Create(refund).Result;
@@ -191,7 +188,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 1,
                 ReceiptId = collection2Response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
             response = _judo.Refunds.Create(refund).Result;

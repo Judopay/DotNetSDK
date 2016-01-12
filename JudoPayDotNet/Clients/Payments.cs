@@ -13,11 +13,12 @@ namespace JudoPayDotNet.Clients
 
         private readonly string _validateAddress;
 
-        public Payments(ILog logger, IClient client, 
+        public Payments(ILog logger, IClient client, bool deDuplicate=false,
                             string createAddress = CREATE_ADDRESS, 
                             string validateAddress = VALIDATE_ADDRESS) : base(logger, client, createAddress)
         {
             _validateAddress = validateAddress;
+            DeDuplicateTransactions = deDuplicate;
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPayment)

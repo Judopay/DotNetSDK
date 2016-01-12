@@ -28,7 +28,6 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976350000006891",
@@ -41,7 +40,7 @@ namespace JudoPayDotNetIntegrationTests
                     PostCode = "W105JJ"
                 },
                 CV2 = "341",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 MobileNumber = "07123456789",
                 EmailAddress = "test@gmail.com",
                 UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36",
@@ -68,7 +67,6 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976350000006891",
@@ -81,7 +79,7 @@ namespace JudoPayDotNetIntegrationTests
                     PostCode = "W105JJ"
                 },
                 CV2 = "341",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 MobileNumber = "07123456789",
                 EmailAddress = "test@gmail.com",
                 UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36",
