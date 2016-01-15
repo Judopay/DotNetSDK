@@ -19,9 +19,9 @@ namespace JudoPayDotNetDotNet
 	    private const string ApiVersionKey = "ApiVersion";
         private const string SandboxUrlKey = "SandboxUrl";
         private const string LiveUrlKey = "LiveUrl";
-	    private const string DEFAULT_API_VERSION = "4.0";
-        private const string DEFAULT_SANDBOX_URL = "https://partnerapi.judopay-sandbox.com/";
-        private const string DEFAULT_LIVE_URL = "https://partnerapi.judopay.com/";
+	    private const string DEFAULT_API_VERSION = "5.0";
+        private const string DEFAULT_SANDBOX_URL = "https://gw1.judopay-sandbox.com/";
+        private const string DEFAULT_LIVE_URL = "https://gw1.judopay.com/";
         private static readonly IJudoConfiguration defaultConfigurationAccess = new JudoConfiguration();
 
 	    private static readonly Func<string, string, IJudoConfiguration, string> GetConfigValue = (key, defaultValue, configuration) =>
@@ -48,11 +48,6 @@ namespace JudoPayDotNetDotNet
             return new JudoPayApi(DotNetLoggerFactory.Create, client);
         }
 
-		/// <summary>
-		/// Returns the url of a pre-configured environment
-		/// </summary>
-		/// <param name="judoEnvironment"></param>
-		/// <returns></returns>
         internal static string GetEnvironmentUrl(JudoEnvironment judoEnvironment, IJudoConfiguration configuration = null)
         {
             string key = null;

@@ -18,17 +18,20 @@ namespace JudoPayDotNetIntegrationTests
 
             var registerCardModel = new CardPaymentModel
             {
-                YourConsumerReference = Guid.NewGuid().ToString(),
+                JudoId = Configuration.Judoid,
+                YourConsumerReference = "432438862",
+                Amount = 25,
                 CardNumber = "4976000000003436",
-                ExpiryDate = "12/15",
                 CV2 = "452",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
-                    PostCode = "TR14 8PA",
+                    PostCode = "W40 9AU",
                     Town = "Town"
                 }
             };
+
 
             var response = judo.RegisterCards.Create(registerCardModel).Result;
 
@@ -49,14 +52,16 @@ namespace JudoPayDotNetIntegrationTests
 
             var registerCard = new CardPaymentModel
             {
+                JudoId = Configuration.Judoid,
                 YourConsumerReference = consumerReference,
+                Amount = 25,
                 CardNumber = "4976000000003436",
-                ExpiryDate = "12/15",
                 CV2 = "452",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
-                    PostCode = "TR148PA",
+                    PostCode = "W40 9AU",
                     Town = "Town"
                 }
             };
@@ -78,7 +83,6 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithToken = new TokenPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = consumerReference,
                 Amount = 26,
                 CardToken = cardToken,
@@ -91,7 +95,6 @@ namespace JudoPayDotNetIntegrationTests
             paymentWithToken = new TokenPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = consumerReference,
                 Amount = 27,
                 CardToken = cardToken,
@@ -116,9 +119,12 @@ namespace JudoPayDotNetIntegrationTests
 
             var registerCard = new CardPaymentModel
             {
+                JudoId = Configuration.Judoid,
                 YourConsumerReference = "432438862",
+                Amount = 25,
                 CardNumber = "4221690000004963",
-                ExpiryDate = "12/15",
+                CV2 = "125",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",

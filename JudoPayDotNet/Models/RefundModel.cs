@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
 {
@@ -10,6 +11,11 @@ namespace JudoPayDotNet.Models
     [DataContract]
     public class RefundModel
     {
+        public RefundModel()
+        {
+            _paymentReference = Guid.NewGuid().ToString();
+        }
+
         /// <summary>
         /// Gets or sets the transaction identifier.
         /// </summary>
@@ -33,9 +39,15 @@ namespace JudoPayDotNet.Models
         /// </summary>
         /// <value>
         /// Your payment reference.
+        ///PLEASE NOTE!!!! there is a reflection call within JudoPayClient.cs that gets this property via a string call. update in both places
+        /// including  other model instances of yourPaymentReference ********************
         /// </value>
-        [DataMember(IsRequired = true)]
-        public string YourPaymentReference { get; set; }
+        private string _paymentReference;
+        [DataMember(EmitDefaultValue = false)]
+        public string YourPaymentReference
+        {
+            get { return _paymentReference; }
+        }
 
         /// <summary>
         /// Gets or sets the partner service fee.

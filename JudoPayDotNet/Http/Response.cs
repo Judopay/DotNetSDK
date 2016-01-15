@@ -7,7 +7,7 @@ namespace JudoPayDotNet.Http
     {
         public HttpStatusCode StatusCode { get; set; }
         public string ResponseBody { get; set; }
-        public JudoApiErrorModel JudoError { get; set; }
+        public ModelError JudoError { get; set; }
 
         public bool ErrorResponse { get { return JudoError != null; } }
     }

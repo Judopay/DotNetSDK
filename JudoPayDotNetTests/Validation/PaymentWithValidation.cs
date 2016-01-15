@@ -42,8 +42,7 @@ namespace JudoPayDotNetTests.Validation
                         EmailAddress = "testaccount@judo.com",
                         ExpiryDate = "120615",
                         MobileNumber = "07745352515",
-                        YourConsumerReference = "User10",
-                        YourPaymentReference = "Pay1234"
+                        YourConsumerReference = "User10"
                     },
                         @"{
                             receiptId : '134567',

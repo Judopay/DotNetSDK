@@ -26,7 +26,7 @@ namespace JudoPayDotNetTests.Clients
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
                         @"{
                             receiptId : '134567',
@@ -61,17 +61,20 @@ namespace JudoPayDotNetTests.Clients
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
-                        @"    
+
+                            @"    
                         {
-                            errorMessage : 'Payment not made',
+                            message : 'Payment not made',
                             modelErrors : [{
                                             fieldName : 'receiptId',
-                                            errorMessage : 'To large',
-                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
                                           }],
-                            errorType : '11'
+                            code : '11',
+                            category : '0'
                         }",
                         JudoApiError.Payment_Declined).SetName("CollectionWithoutSuccess");
                 }
@@ -85,7 +88,7 @@ namespace JudoPayDotNetTests.Clients
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
                         @"{
                             errorMessage : 'Your good to go!',
@@ -103,17 +106,19 @@ namespace JudoPayDotNetTests.Clients
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
                          @"    
                         {
-                            errorMessage : 'Payment not made',
+                            message : 'Payment not made',
                             modelErrors : [{
                                             fieldName : 'receiptId',
-                                            errorMessage : 'To large',
-                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
                                           }],
-                            errorType : '11'
+                            code : '11',
+                            category : '0'
                         }",
                         JudoApiError.Payment_Declined).SetName("ValidationWithoutSuccess");
                 }
@@ -121,19 +126,19 @@ namespace JudoPayDotNetTests.Clients
         }
 
 
-        [Test, TestCaseSource(typeof (CollectionsTestSource), "CreateSuccessTestCases")]
+        [Test, TestCaseSource(typeof(CollectionsTestSource), "CreateSuccessTestCases")]
         public void CollectionWithSuccess(CollectionModel collections, string responseData, string receiptId)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient, 
-                                                    DotNetLoggerFactory.Create, 
+            var client = new Client(new Connection(httpClient,
+                                                    DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
@@ -146,7 +151,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
         }
 
-        [Test, TestCaseSource(typeof (CollectionsTestSource), "CreateFailureTestCases")]
+        [Test, TestCaseSource(typeof(CollectionsTestSource), "CreateFailureTestCases")]
         public void CollectionWithError(CollectionModel collections, string responseData, JudoApiError error)
         {
             var httpClient = Substitute.For<IHttpClient>();
@@ -161,7 +166,7 @@ namespace JudoPayDotNetTests.Clients
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create, 
+                                                    DotNetLoggerFactory.Create,
                                                     "http://judo.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
@@ -172,14 +177,14 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(error, paymentReceiptResult.Error.ErrorType);
+            Assert.AreEqual((int)error, paymentReceiptResult.Error.Code);
         }
 
         [Test, TestCaseSource(typeof(CollectionsTestSource), "ValidateSuccessTestCases")]
         public void ValidateWithSuccess(CollectionModel collection, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
@@ -226,7 +231,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(collectionValidationResult.HasError);
             Assert.IsNull(collectionValidationResult.Response);
             Assert.IsNotNull(collectionValidationResult.Error);
-            Assert.AreEqual(errorType, collectionValidationResult.Error.ErrorType);
+            Assert.AreEqual((int)errorType, collectionValidationResult.Error.Code);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using JudoPayDotNet;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
@@ -8,22 +9,25 @@ namespace JudoPayDotNetIntegrationTests
     [TestFixture]
     public class RefundsTests
     {
+        private JudoPayApi _judo;
+
+        [OneTimeSetUp]
+        public void Init()
+        {
+            _judo = JudoPaymentsFactory.Create(Configuration.Token, Configuration.Secret, Configuration.Baseaddress);
+        }
+
         [Test]
         public void ASimplePaymentAndRefund()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = Guid.NewGuid().ToString(),
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -32,7 +36,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.Payments.Create(paymentWithCard).Result;
+            var response = _judo.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -42,10 +46,10 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+               
             };
 
-            response = judo.Refunds.Create(refund).Result;
+            response = _judo.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -61,19 +65,14 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ARefundValidate()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -82,7 +81,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var response = judo.Payments.Create(paymentWithCard).Result;
+            var response = _judo.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -92,10 +91,10 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 25,
                 ReceiptId = response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
-            var validateResponse = judo.Refunds.Validate(refund).Result;
+            var validateResponse = _judo.Refunds.Validate(refund).Result;
 
             Assert.IsNotNull(validateResponse);
             Assert.IsFalse(validateResponse.HasError);
@@ -106,19 +105,14 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void APreAuthTwoCollectionsAndTwoRefunds()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
                 JudoId = Configuration.Judoid,
-                YourPaymentReference = "578543",
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
                 CV2 = "452",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "Test Street",
@@ -127,7 +121,7 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
 
-            var preAuthResponse = judo.PreAuths.Create(paymentWithCard).Result;
+            var preAuthResponse = _judo.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(preAuthResponse);
             Assert.IsFalse(preAuthResponse.HasError);
@@ -137,10 +131,10 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 24,
                 ReceiptId = preAuthResponse.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
-            var collection1Response = judo.Collections.Create(collection).Result;
+            var collection1Response = _judo.Collections.Create(collection).Result;
 
             Assert.IsNotNull(collection1Response);
             Assert.IsFalse(collection1Response.HasError);
@@ -156,10 +150,10 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 1,
                 ReceiptId = preAuthResponse.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
-            var collection2Response = judo.Collections.Create(collection).Result;
+            var collection2Response = _judo.Collections.Create(collection).Result;
 
             Assert.IsNotNull(collection2Response);
             Assert.IsFalse(collection2Response.HasError);
@@ -175,10 +169,10 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 24,
                 ReceiptId = collection1Response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
-            var response = judo.Refunds.Create(refund).Result;
+            var response = _judo.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -194,10 +188,10 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 1,
                 ReceiptId = collection2Response.Response.ReceiptId,
-                YourPaymentReference = "578543"
+                
             };
 
-            response = judo.Refunds.Create(refund).Result;
+            response = _judo.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);

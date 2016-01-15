@@ -39,7 +39,6 @@ namespace JudoPayDotNet.Clients.WebPayments
         public Task<IResult<WebPaymentRequestModel>> Get(string reference, TransactionType type)
 
         {
-
             if (type == TransactionType.PREAUTH || type == TransactionType.PAYMENT)
             {
                 var address = string.Format("{0}/{1}/{2}", Baseaddress, type, reference);
@@ -49,10 +48,10 @@ namespace JudoPayDotNet.Clients.WebPayments
 
             //Transactions can only be fetched by transation types PAYMENTS or PREAUTH
             return Task.FromResult<IResult<WebPaymentRequestModel>>(new Result<WebPaymentRequestModel>(null,
-                new JudoApiErrorModel
+                new ModelError()
                 {
-                    ErrorMessage = "Wrong transaction type used",
-                    ErrorType = JudoApiError.General_Error
+                    Message = "Sorry, it looks like you're trying to make a collection on an invalid transaction type. Collections can only be performed on PreAuths.",
+                    Code = 43//JudoApiError.General_Error TODO make enum to represent these code numbers
                 }));
         }
 

@@ -29,7 +29,7 @@ namespace JudoPayDotNetTests.Clients.Consumers
                 public Func<IConsumers, IResult<PaymentReceiptResults>> Func;
             }
 
-            public IEnumerable TestData
+            public static IEnumerable TestData
             {
                 get
                 {
@@ -103,7 +103,7 @@ namespace JudoPayDotNetTests.Clients.Consumers
 
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create,
-                                                    "http://partnerapi.judopay-sandbox.com"));
+                                                    "https://gw1.judopay-sandbox.com/"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 

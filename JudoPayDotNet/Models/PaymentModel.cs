@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
+using JudoPayDotNet.Clients;
 using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models
@@ -14,6 +16,7 @@ namespace JudoPayDotNet.Models
         protected PaymentModel()
         {
             Currency = "GBP";
+            _paymentReference = Guid.NewGuid().ToString();
         }
 
         /// <summary>
@@ -30,9 +33,14 @@ namespace JudoPayDotNet.Models
         /// </summary>
         /// <value>
         /// Your payment reference.
+        ///PLEASE NOTE!!!! there is a reflection call within JudoPayClient.cs that gets this property via a string call. update in both places
+        /// including  other model instances of yourPaymentReference ********************
         /// </value>
+        private string _paymentReference;
         [DataMember(EmitDefaultValue = false)]
-        public string YourPaymentReference { get; set; }
+        public string YourPaymentReference {
+            get { return _paymentReference;}
+        }
 
         /// <summary>
         /// Gets or sets your payment meta data.
@@ -160,6 +168,21 @@ namespace JudoPayDotNet.Models
 // ReSharper disable UnusedAutoPropertyAccessor.Global
         public string AcceptHeaders { get; set; }
 // ReSharper restore UnusedAutoPropertyAccessor.Global
+
+        public void ProvisionSDKVersion()
+        {
+            if (String.IsNullOrEmpty(UserAgent) || !UserAgent.Contains("DotNetSDK"))
+            {
+                if (String.IsNullOrEmpty(UserAgent))
+                {
+                    UserAgent = "DotNetSDK-" + JudoPayClient.SDKVersion;
+                }
+                else
+                {
+                    UserAgent = ("DotNetSDK-" + JudoPayClient.SDKVersion + ";" + UserAgent);
+                }
+            }
+        }
     }
     // ReSharper restore UnusedMember.Global
 }

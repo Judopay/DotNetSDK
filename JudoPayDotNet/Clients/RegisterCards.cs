@@ -18,9 +18,10 @@ namespace JudoPayDotNet.Clients
 
         private readonly string _validateAddress;
 
-        public RegisterCards(ILog logger, IClient client)
+        public RegisterCards(ILog logger, IClient client,bool deDuplicate=false )
             : this(logger, client, CREATE_ADDRESS, VALIDATE_ADDRESS)
         {
+            DeDuplicateTransactions = deDuplicate;
         }
 
         private RegisterCards(ILog logger, IClient client, string createAddress, string validateAddress)

@@ -1,4 +1,5 @@
-﻿using JudoPayDotNet.Models;
+﻿using System.Linq;
+using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.Validations;
 using JudoPayDotNet.Validation;
 using NUnit.Framework;
@@ -15,12 +16,18 @@ namespace JudoPayDotNetTests.Validation
             ITransactionResult transactionResult = new PaymentReceiptModel();
 
             var validator = new PolymorphicValidator<ITransactionResult>(new TransactionResultValidation())
-// ReSharper disable RedundantTypeArgumentsOfMethod
+                // ReSharper disable RedundantTypeArgumentsOfMethod
                 .Add<PaymentReceiptModel>(new PaymentReceiptValidation())
                 .Add<PaymentRequiresThreeDSecureModel>(new PaymentRequiresThreeDSecureModelValidation());
-// ReSharper restore RedundantTypeArgumentsOfMethod
+            // ReSharper restore RedundantTypeArgumentsOfMethod
 
-            validator.Validate(transactionResult);
+            var result = validator.Validate(transactionResult);
+
+            Assert.IsNotNull(result);
+
+            var inner = result.First();
+
+            Assert.IsTrue(inner.PropertyName == "ReceiptId");
         }
 
     }

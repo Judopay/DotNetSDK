@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using HtmlAgilityPack;
+using JudoPayDotNet;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
@@ -13,13 +14,19 @@ namespace JudoPayDotNetIntegrationTests
     [TestFixture]
     public class WebPaymentsTests
     {
+        private JudoPayApi _judo;
+
+        [OneTimeSetUp]
+        public void Init()
+        {
+            _judo = JudoPaymentsFactory.Create(Configuration.ElevatedPrivilegesToken,
+                Configuration.ElevatedPrivilegesSecret,
+                Configuration.Baseaddress);
+        }
+
         [Test]
         public void PaymentCreate()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var request = new WebPaymentRequestModel
             {
                 Amount = 10,
@@ -44,11 +51,10 @@ namespace JudoPayDotNetIntegrationTests
                 Reference = "42421",
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
-                YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                YourConsumerReference = "4235325"
             };
 
-            var result = judo.WebPayments.Payments.Create(request).Result;
+            var result = _judo.WebPayments.Payments.Create(request).Result;
 
             Assert.NotNull(result);
             Assert.IsFalse(result.HasError);
@@ -60,10 +66,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void PaymentUpdate()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var request = new WebPaymentRequestModel
             {
                 Amount = 10,
@@ -89,10 +91,10 @@ namespace JudoPayDotNetIntegrationTests
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                
             };
 
-            var result = judo.WebPayments.Payments.Create(request).Result;
+            var result = _judo.WebPayments.Payments.Create(request).Result;
 
             Assert.NotNull(result);
             Assert.IsFalse(result.HasError);
@@ -100,14 +102,14 @@ namespace JudoPayDotNetIntegrationTests
             Assert.NotNull(result.Response.Reference);
             Assert.NotNull(result.Response.PostUrl);
 
-            request.Status = WebPaymentStatus.Paid;
+            request.Status = WebPaymentStatus.Success;
             request.Reference = result.Response.Reference;
 
-            var resultUpdate = judo.WebPayments.Payments.Update(request).Result;
+            var resultUpdate = _judo.WebPayments.Payments.Update(request).Result;
 
             Assert.NotNull(resultUpdate);
             Assert.IsFalse(resultUpdate.HasError);
-            Assert.NotNull(resultUpdate.Response);
+            Assert.NotNull(resultUpdate.Response); //todo pick a judoID that has permissions to do this
             Assert.NotNull(resultUpdate.Response.Reference);
             Assert.AreEqual(result.Response.Reference, resultUpdate.Response.Reference);
             Assert.AreEqual(resultUpdate.Response.Status, resultUpdate.Response.Status);
@@ -116,10 +118,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void PreAuthCreate()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var request = new WebPaymentRequestModel
             {
                 Amount = 10,
@@ -145,10 +143,10 @@ namespace JudoPayDotNetIntegrationTests
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PREAUTH,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                
             };
 
-            var result = judo.WebPayments.PreAuths.Create(request).Result;
+            var result = _judo.WebPayments.PreAuths.Create(request).Result;
 
             Assert.NotNull(result);
             Assert.IsFalse(result.HasError);
@@ -160,10 +158,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void PreAuthUpdate()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var request = new WebPaymentRequestModel
             {
                 Amount = 10,
@@ -189,10 +183,10 @@ namespace JudoPayDotNetIntegrationTests
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                
             };
 
-            var result = judo.WebPayments.PreAuths.Create(request).Result;
+            var result = _judo.WebPayments.PreAuths.Create(request).Result;
 
             Assert.NotNull(result);
             Assert.IsFalse(result.HasError);
@@ -200,10 +194,10 @@ namespace JudoPayDotNetIntegrationTests
             Assert.NotNull(result.Response.Reference);
             Assert.NotNull(result.Response.PostUrl);
 
-            request.Status = WebPaymentStatus.Paid;
+            request.Status = WebPaymentStatus.Success;
             request.Reference = result.Response.Reference;
 
-            var resultUpdate = judo.WebPayments.PreAuths.Update(request).Result;
+            var resultUpdate = _judo.WebPayments.PreAuths.Update(request).Result;
 
             Assert.NotNull(resultUpdate);
             Assert.IsFalse(resultUpdate.HasError);
@@ -216,10 +210,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void TransactionsGetByReference()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var request = new WebPaymentRequestModel
             {
                 Amount = 10,
@@ -245,10 +235,10 @@ namespace JudoPayDotNetIntegrationTests
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                
             };
 
-            var result = judo.WebPayments.Payments.Create(request).Result;
+            var result = _judo.WebPayments.Payments.Create(request).Result;
 
             Assert.NotNull(result);
             Assert.IsFalse(result.HasError);
@@ -256,7 +246,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.NotNull(result.Response.Reference);
             Assert.NotNull(result.Response.PostUrl);
 
-            var webRequest = judo.WebPayments.Transactions.Get(result.Response.Reference).Result;
+            var webRequest = _judo.WebPayments.Transactions.Get(result.Response.Reference).Result;
 
             Assert.NotNull(webRequest);
             Assert.IsFalse(webRequest.HasError);
@@ -269,12 +259,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void TransactionsGetByReceiptId()
         {
-
             // WebPaymentRequest - Do a web payment
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-
             var request = new WebPaymentRequestModel
             {
                 Amount = 10,
@@ -300,10 +285,10 @@ namespace JudoPayDotNetIntegrationTests
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325",
-                YourPaymentReference = "42355"
+                
             };
 
-            var result = judo.WebPayments.Payments.Create(request).Result;
+            var result = _judo.WebPayments.Payments.Create(request).Result;
 
             var reference = result.Response.Reference;
 
@@ -315,8 +300,8 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("Reference", reference)
             });
 
-            var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "3.2.0.0", Configuration.Token,
-                Configuration.Secret);
+            var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "5.0.0.0", Configuration.ElevatedPrivilegesToken,
+                Configuration.ElevatedPrivilegesSecret);
 
             formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             formRequest.Content = formContent;
@@ -338,7 +323,7 @@ namespace JudoPayDotNetIntegrationTests
 
                 //            CardNumber = "4976000000003436",
                 //CV2 = "452",
-                //ExpiryDate = "12/15",
+                //ExpiryDate = "12/20",
 
             formContent = new FormUrlEncodedContent(new[] 
             {
@@ -347,12 +332,12 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("Cv2", "452"), 
                 new KeyValuePair<string, string>("CardAddress.CountryCode", "826"), 
                 new KeyValuePair<string, string>("CardAddress.PostCode", "TR14 8PA"), 
-                new KeyValuePair<string, string>("ExpiryDate", "12/15"), 
+                new KeyValuePair<string, string>("ExpiryDate", "12/20"), 
                 new KeyValuePair<string, string>("Reference", reference)
             });
 
-            formRequest = CreateJudoApiRequest("http://127.0.0.1/webpayments/v1/Pay", HttpMethod.Post, "3.2.0.0", Configuration.Token,
-                Configuration.Secret);
+            formRequest = CreateJudoApiRequest("https://pay.judopay.com/v1/Pay", HttpMethod.Post, "5.0.0.0", Configuration.ElevatedPrivilegesToken,
+                Configuration.ElevatedPrivilegesSecret);
 
             formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             formRequest.Content = formContent;
@@ -370,7 +355,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var receiptId = formField.GetAttributeValue("value", "");
 
-            var webRequest = judo.WebPayments.Transactions.GetByReceipt(receiptId).Result;
+            var webRequest = _judo.WebPayments.Transactions.GetByReceipt(receiptId).Result;
 
             Assert.NotNull(webRequest);
             Assert.IsFalse(webRequest.HasError);
@@ -381,8 +366,6 @@ namespace JudoPayDotNetIntegrationTests
 
         private HttpRequestMessage CreateJudoApiRequest(string url, HttpMethod method, string apiVersion, string apiToken, string apiSecret)
         {
-
-
             var request = new HttpRequestMessage(method, url);
 
             var full = string.Format("{0}:{1}", apiToken, apiSecret);

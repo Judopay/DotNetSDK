@@ -26,7 +26,7 @@ namespace JudoPayDotNetTests.Clients.Market
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
                         @"{
                             receiptId : '134567',
@@ -61,17 +61,19 @@ namespace JudoPayDotNetTests.Clients.Market
                     {
                         Amount = 2.0m,
                         ReceiptId = 34560,
-                        YourPaymentReference = "Pay1234"
+                        
                     },
                         @"    
                         {
-                            errorMessage : 'Payment not made',
+                            message : 'Payment not made',
                             modelErrors : [{
                                             fieldName : 'receiptId',
-                                            errorMessage : 'To large',
-                                            detailErrorMessage : 'This field has to be at most 20 characters'
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
                                           }],
-                            errorType : '200'
+                            code : '200',
+                            category : '0'
                         }",
                         200).SetName("PayWithCardWithoutSuccess");
                 }
@@ -130,7 +132,7 @@ namespace JudoPayDotNetTests.Clients.Market
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(error, paymentReceiptResult.Error.ErrorType);
+            Assert.AreEqual((int)error, paymentReceiptResult.Error.Code);
         }
     }
 }

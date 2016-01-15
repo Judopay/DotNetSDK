@@ -42,8 +42,7 @@ namespace JudoPayDotNetTests.Clients
                         YourConsumerReference = "User10",
                         CV2 = "420",
                         JudoId = "14562",
-                        MobileNumber = "07745352515",
-                        YourPaymentReference = "Pay1234"
+                        MobileNumber = "07745352515"
                     },
                         @"{
                         receiptId : '134567',
@@ -89,16 +88,18 @@ namespace JudoPayDotNetTests.Clients
                         JudoId = "14562",
                         MobileNumber = "07745352515",
                     },
-                        @"    
-                    {
-                        errorMessage : 'Payment not made',
-                        modelErrors : [{
-                                        fieldName : 'receiptId',
-                                        errorMessage : 'To large',
-                                        detailErrorMessage : 'This field has to be at most 20 characters'
-                                        }],
-                        errorType : '1'
-                    }",
+                       @"    
+                        {
+                            message : 'Payment not made',
+                            modelErrors : [{
+                                            fieldName : 'receiptId',
+                                            message : 'To large',
+                                            detail : 'This field has to be at most 20 characters',
+                                            code : '0'
+                                          }],
+                            code : '1',
+                            category : '0'
+                        }",
                         1).SetName("RegisterCardWithoutSuccess");
                 }
             }
@@ -218,7 +219,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsTrue(paymentReceiptResult.HasError);
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
-            Assert.AreEqual(errorType, paymentReceiptResult.Error.ErrorType);
+            Assert.AreEqual((int)errorType, paymentReceiptResult.Error.Code);
         }
     }
 }

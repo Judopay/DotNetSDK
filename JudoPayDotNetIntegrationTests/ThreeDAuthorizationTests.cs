@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using HtmlAgilityPack;
+using JudoPayDotNet;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
@@ -10,17 +12,22 @@ namespace JudoPayDotNetIntegrationTests
     [TestFixture]
     public class ThreeDAuthorizationTests
     {
+        private JudoPayApi _judo;
+
+        [OneTimeSetUp]
+        public void Init()
+        {
+            _judo = JudoPaymentsFactory.Create(Configuration.Token,
+                Configuration.Secret,
+                Configuration.Baseaddress);
+        }
+
         [Test]
         public void PaymentWithThreedSecure()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.ElevatedPrivilegesSecret,
-                Configuration.ElevatedPrivilegesToken,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = "100016",
-                YourPaymentReference = "578543",
+                JudoId = Configuration.Judoid,
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976350000006891",
@@ -33,7 +40,7 @@ namespace JudoPayDotNetIntegrationTests
                     PostCode = "W105JJ"
                 },
                 CV2 = "341",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 MobileNumber = "07123456789",
                 EmailAddress = "test@gmail.com",
                 UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36",
@@ -41,7 +48,8 @@ namespace JudoPayDotNetIntegrationTests
                 DeviceCategory = "Mobile"
             };
 
-            var response = judo.Payments.Create(paymentWithCard).Result;
+
+            var response = _judo.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -56,14 +64,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void FullPaymentWithThreedSecure()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.ElevatedPrivilegesSecret,
-                Configuration.ElevatedPrivilegesToken,
-                Configuration.Baseaddress);
-
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = "100016",
-                YourPaymentReference = "578543",
+                JudoId = Configuration.Judoid,
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976350000006891",
@@ -76,7 +79,7 @@ namespace JudoPayDotNetIntegrationTests
                     PostCode = "W105JJ"
                 },
                 CV2 = "341",
-                ExpiryDate = "12/15",
+                ExpiryDate = "12/20",
                 MobileNumber = "07123456789",
                 EmailAddress = "test@gmail.com",
                 UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36",
@@ -84,7 +87,7 @@ namespace JudoPayDotNetIntegrationTests
                 DeviceCategory = "Mobile"
             };
 
-            var response = judo.Payments.Create(paymentWithCard).Result;
+            var response = _judo.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -117,7 +120,7 @@ namespace JudoPayDotNetIntegrationTests
 
                 Assert.That(paResValue, Is.Not.Empty);
 
-                var threeDResult = judo.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel {PaRes = paResValue}).Result;
+                var threeDResult = _judo.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel { PaRes = paResValue }).Result;
 
                 Assert.IsNotNull(threeDResult);
                 Assert.IsFalse(threeDResult.HasError);

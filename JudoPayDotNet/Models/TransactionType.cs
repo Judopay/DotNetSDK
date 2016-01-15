@@ -9,8 +9,6 @@ namespace JudoPayDotNet.Models
     // ReSharper disable InconsistentNaming
     public enum TransactionType : long
     {
-        UNKNOWN = 0,
-
         [Description("Sale")]
         [LocalizedDescription("Sale")]
         PAYMENT = 1,

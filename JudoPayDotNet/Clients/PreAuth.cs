@@ -13,12 +13,13 @@ namespace JudoPayDotNet.Clients
 
         private readonly string _validatePreAuthAddress;
 
-        public PreAuths(ILog logger, IClient client, 
+        public PreAuths(ILog logger, IClient client,bool deDuplicate=false, 
                             string createAddress = CREATE_PREAUTH_ADDRESS, 
                             string validateAddress = VALIDATE_PREAUTH_ADDRESS)
             : base(logger, client, createAddress)
         {
             _validatePreAuthAddress = validateAddress;
+            DeDuplicateTransactions = deDuplicate;
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPreAuth)

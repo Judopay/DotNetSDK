@@ -44,7 +44,7 @@ namespace JudoPayDotNet.Http
         /// <value>
         /// The judo error.
         /// </value>
-        JudoApiErrorModel JudoError { get; set; }
+        ModelError JudoError { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether [error response].
