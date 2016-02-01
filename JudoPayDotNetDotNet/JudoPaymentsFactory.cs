@@ -32,8 +32,11 @@ namespace JudoPayDotNetDotNet
 	            : configurationSetting;
 	    };
 
-	    private static JudoPayApi Create(Credentials credentials, string baseUrl, string apiVersion)
-	    {
+
+        private static JudoPayApi Create(Credentials credentials, string baseUrl, IJudoConfiguration configuration)
+        {
+            var apiVersion = GetConfigValue(ApiVersionKey, DEFAULT_API_VERSION, configuration);
+
             var httpClient = new HttpClientWrapper(new AuthorizationHandler(credentials,
                                                     DotNetLoggerFactory.Create(typeof(AuthorizationHandler))),
                                                     new VersioningHandler(Apiversionheader, apiVersion));
@@ -43,12 +46,6 @@ namespace JudoPayDotNetDotNet
             var client = new Client(connection);
 
             return new JudoPayApi(DotNetLoggerFactory.Create, client);
-	    }
-
-        private static JudoPayApi Create(Credentials credentials, string baseUrl, IJudoConfiguration configuration)
-        {
-            var apiVersion = GetConfigValue(ApiVersionKey, DEFAULT_API_VERSION, configuration);
-            return Create(credentials, baseUrl, apiVersion);
         }
 
         internal static string GetEnvironmentUrl(JudoEnvironment judoEnvironment, IJudoConfiguration configuration = null)
@@ -70,20 +67,6 @@ namespace JudoPayDotNetDotNet
 
             return GetConfigValue(key, defaultValue, configuration ?? defaultConfigurationAccess);
         }
-
-        /// <summary>
-        /// Factory method for the benefit of platform tests that need to have finer grained control of the API version
-        /// </summary>
-        /// <param name="token">The api token to use</param>
-        /// <param name="secret">The api secret to use</param>
-        /// <param name="baseUrl">Base URL for the host</param>
-        /// <param name="apiVersion">The api version to use</param>
-        /// <returns>An API Client</returns>
-	    internal static JudoPayApi Create(string token, string secret, string baseUrl, string apiVersion)
-	    {
-            var credentials = new Credentials(token, secret);
-            return Create(credentials, baseUrl, apiVersion);
-	    }
 
 		/// <summary>
 		/// Creates an instance of the judopay api client with a custom base url, that will authenticate with your api token and secret.
