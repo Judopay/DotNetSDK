@@ -8,6 +8,8 @@
 The JudoPay SDK is a client for our JudoPay API, which provides card payment processing 
 for mobile apps and websites.
 
+##### **\*\*\*Due to industry-wide security updates, versions below 1.1.113 of this SDK will no longer be supported after 1st Oct 2016. For more information regarding these updates, please read our blog [here](http://hub.judopay.com/pci31-security-updates/).*****
+
 ## Installation
 The JudoPay SDK is distributed as a [NuGet package](https://www.nuget.org/packages/JudoPay.Net/) 
 using the package name of JudoPay.Net. You can install the SDK directly from within Visual Studio
