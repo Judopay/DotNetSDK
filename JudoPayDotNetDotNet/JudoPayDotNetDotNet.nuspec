@@ -14,17 +14,17 @@
         <releaseNotes>
             Due to industry-wide security updates, versions below 1.1.113 of this SDK will no longer be supported after 1st Oct 2016. For more information regarding these updates, please read our blog http://hub.judopay.com/pci31-security-updates/
         </releaseNotes>
-        <copyright>Copyright 2014</copyright>
-        <tags>payment gateway .net45 rest</tags>
+        <copyright>Copyright 2016</copyright>
+        <tags>payment gateway .net461 rest</tags>
         <dependencies>
-            <group targetFramework="net45">
-                <dependency  id="FluentValidation" version="5.4.0.0" />
-                <dependency  id="Microsoft.Bcl" version="1.1.9" />
-                <dependency  id="Microsoft.Bcl.Async" version="1.0.168" />
-                <dependency  id="Microsoft.Bcl.Build" version="1.0.14" />
-                <dependency  id="Microsoft.Net.Http" version="2.2.22" />
-                <dependency  id="Newtonsoft.Json" version="6.0.3" />
-                <dependency id="log4net" version="2.0.3" />
+            <group targetFramework="net461">
+                <dependency id="FluentValidation" version="6.2.1.0" />
+                <dependency id="Microsoft.Bcl" version="1.1.10" />
+                <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
+                <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
+                <dependency id="Microsoft.Net.Http" version="2.2.29" />
+                <dependency id="Newtonsoft.Json" version="8.0.3" />
+                <dependency id="log4net" version="2.0.5" />
             </group>
         </dependencies>
     </metadata>
