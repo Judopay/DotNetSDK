@@ -108,9 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.config" />
-    <Content Include="app.UAT.config">
-      <DependentUpon>app.config</DependentUpon>
-    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
