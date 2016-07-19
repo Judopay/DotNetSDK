@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using JudoPayDotNet;
 using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
@@ -12,23 +14,26 @@ namespace JudoPayDotNetIntegrationTests
     public class ConsumersTests
     {
         private JudoPayApi _judo;
+        private readonly Configuration _configuration = new Configuration();
+
+        [SetUp]
+        public void SetUp()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
+        }
 
         [OneTimeSetUp]
         public void Init()
         {
-            _judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
+            _judo = JudoPaymentsFactory.Create(_configuration.JudoEnvironment, _configuration.Token, _configuration.Secret);
         }
-
-       
 
         [Test]
         public void GetTransaction()
         {
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
@@ -57,7 +62,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsFalse(transactions.HasError);
             Assert.IsNotEmpty(transactions.Response.Results);
 // ReSharper disable once PossibleNullReferenceException
-            Assert.AreEqual(Configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
+            Assert.AreEqual(_configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
 // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(response.Response.ReceiptId, transactions.Response.Results.FirstOrDefault().ReceiptId);
         }
@@ -67,7 +72,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
@@ -97,7 +102,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsFalse(transactions.HasError);
             Assert.IsNotEmpty(transactions.Response.Results);
 // ReSharper disable once PossibleNullReferenceException
-            Assert.AreEqual(Configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
+            Assert.AreEqual(_configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
 // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(response.Response.ReceiptId, transactions.Response.Results.FirstOrDefault().ReceiptId);
         }
@@ -107,7 +112,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
@@ -137,7 +142,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsFalse(transactions.HasError);
             Assert.IsNotEmpty(transactions.Response.Results);
 // ReSharper disable once PossibleNullReferenceException
-            Assert.AreEqual(Configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
+            Assert.AreEqual(_configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
 // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(response.Response.ReceiptId, transactions.Response.Results.FirstOrDefault().ReceiptId);
         }
@@ -147,7 +152,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
@@ -190,7 +195,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsFalse(transactions.HasError);
             Assert.IsNotEmpty(transactions.Response.Results);
 // ReSharper disable once PossibleNullReferenceException
-            Assert.AreEqual(Configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
+            Assert.AreEqual(_configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
 // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(response.Response.ReceiptId, transactions.Response.Results.FirstOrDefault().ReceiptId);
         }
@@ -200,7 +205,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
@@ -243,7 +248,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsFalse(transactions.HasError);
             Assert.IsNotEmpty(transactions.Response.Results);
 // ReSharper disable once PossibleNullReferenceException
-            Assert.AreEqual(Configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
+            Assert.AreEqual(_configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
 // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(paymentReceipt.ReceiptId, transactions.Response.Results.FirstOrDefault().ReceiptId);
         }

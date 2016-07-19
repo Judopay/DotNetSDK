@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using HtmlAgilityPack;
 using JudoPayDotNet;
@@ -13,13 +14,18 @@ namespace JudoPayDotNetIntegrationTests
     public class ThreeDAuthorizationTests
     {
         private JudoPayApi _judo;
+        private readonly Configuration _configuration = new Configuration();
+
+        [SetUp]
+        public void SetUp()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
+        }
 
         [OneTimeSetUp]
         public void Init()
         {
-            _judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
+            _judo = JudoPaymentsFactory.Create(_configuration.JudoEnvironment, _configuration.Token, _configuration.Secret);
         }
 
         [Test]
@@ -27,7 +33,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976350000006891",
@@ -66,7 +72,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976350000006891",

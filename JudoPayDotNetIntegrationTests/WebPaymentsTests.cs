@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -15,13 +16,18 @@ namespace JudoPayDotNetIntegrationTests
     public class WebPaymentsTests
     {
         private JudoPayApi _judo;
+        private readonly Configuration _configuration = new Configuration();
+
+        [SetUp]
+        public void SetUp()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
+        }
 
         [OneTimeSetUp]
         public void Init()
         {
-            _judo = JudoPaymentsFactory.Create(Configuration.ElevatedPrivilegesToken,
-                Configuration.ElevatedPrivilegesSecret,
-                Configuration.Baseaddress);
+            _judo = JudoPaymentsFactory.Create(_configuration.JudoEnvironment, _configuration.ElevatedPrivilegesToken, _configuration.ElevatedPrivilegesSecret);
         }
 
         [Test]
@@ -44,7 +50,7 @@ namespace JudoPayDotNetIntegrationTests
                 CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now,
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 PartnerServiceFee = 10,
                 PaymentCancelUrl = "http://test.com",
                 PaymentSuccessUrl = "http://test.com",
@@ -83,7 +89,7 @@ namespace JudoPayDotNetIntegrationTests
                 CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now,
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 PartnerServiceFee = 10,
                 PaymentCancelUrl = "http://test.com",
                 PaymentSuccessUrl = "http://test.com",
@@ -135,7 +141,7 @@ namespace JudoPayDotNetIntegrationTests
                 CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now,
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 PartnerServiceFee = 10,
                 PaymentCancelUrl = "http://test.com",
                 PaymentSuccessUrl = "http://test.com",
@@ -175,7 +181,7 @@ namespace JudoPayDotNetIntegrationTests
                 CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now,
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 PartnerServiceFee = 10,
                 PaymentCancelUrl = "http://test.com",
                 PaymentSuccessUrl = "http://test.com",
@@ -227,7 +233,7 @@ namespace JudoPayDotNetIntegrationTests
                 CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now,
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 PartnerServiceFee = 10,
                 PaymentCancelUrl = "http://test.com",
                 PaymentSuccessUrl = "http://test.com",
@@ -259,6 +265,8 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void TransactionsGetByReceiptId()
         {
+            _judo = JudoPaymentsFactory.Create(_configuration.JudoEnvironment, _configuration.Token, _configuration.Secret);
+
             // WebPaymentRequest - Do a web payment
             var request = new WebPaymentRequestModel
             {
@@ -277,7 +285,7 @@ namespace JudoPayDotNetIntegrationTests
                 CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now,
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 PartnerServiceFee = 10,
                 PaymentCancelUrl = "http://test.com",
                 PaymentSuccessUrl = "http://test.com",
@@ -300,8 +308,8 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("Reference", reference)
             });
 
-            var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "5.0.0.0", Configuration.ElevatedPrivilegesToken,
-                Configuration.ElevatedPrivilegesSecret);
+            var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "5.0.0.0", _configuration.ElevatedPrivilegesToken,
+                _configuration.ElevatedPrivilegesSecret);
 
             formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             formRequest.Content = formContent;
@@ -336,8 +344,8 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("Reference", reference)
             });
 
-            formRequest = CreateJudoApiRequest("https://pay.judopay.com/v1/Pay", HttpMethod.Post, "5.0.0.0", Configuration.ElevatedPrivilegesToken,
-                Configuration.ElevatedPrivilegesSecret);
+            formRequest = CreateJudoApiRequest(_configuration.WebpaymentsUrl, HttpMethod.Post, "5.0.0.0", _configuration.ElevatedPrivilegesToken,
+                _configuration.ElevatedPrivilegesSecret);
 
             formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             formRequest.Content = formContent;

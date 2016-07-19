@@ -1,4 +1,5 @@
-﻿using JudoPayDotNet.Models;
+﻿using System.Net;
+using JudoPayDotNet.Models;
 using JudoPayDotNetDotNet;
 using NUnit.Framework;
 
@@ -6,18 +7,23 @@ namespace JudoPayDotNetIntegrationTests
 {
     class JudoPaymentsFactoryTests
     {
+        private readonly Configuration _configuration = new Configuration();
+
+        [SetUp]
+        public void SetUp()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
+        }
+
         [Test]
         public void TestProjectOnlyCreateMethod()
         {
             // Given I create a new Judo client with a custom version number
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress,
-                "4.0");
+            var judo = JudoPaymentsFactory.Create(_configuration.JudoEnvironment, _configuration.Token, _configuration.Secret);
 
             var paymentWithCard = new CardPaymentModel
             {
-                JudoId = Configuration.Judoid,
+                JudoId = _configuration.Judoid,
                 YourConsumerReference = "432438862",
                 Amount = 25,
                 CardNumber = "4976000000003436",
