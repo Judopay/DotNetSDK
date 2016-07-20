@@ -1,47 +1,19 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
-using JudoPayDotNet;
 using JudoPayDotNet.Models;
-using JudoPayDotNetDotNet;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
 {
     [TestFixture]
-    public class ConsumersTests
+    public class ConsumersTests : IntegrationTestsBase
     {
-        private JudoPayApi _judo;
-
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-        }
-
-       
-
         [Test]
         public void GetTransaction()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
-            var response = _judo.Payments.Create(paymentWithCard).Result;
+            var paymentWithCard = GetCardPaymentModel("432438862");
+
+            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -51,37 +23,23 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(paymentReceipt);
 
-            var transactions = _judo.Consumers.GetTransactions(paymentReceipt.Consumer.ConsumerToken).Result;
+            var transactions = JudoPayApi.Consumers.GetTransactions(paymentReceipt.Consumer.ConsumerToken).Result;
 
             Assert.IsNotNull(transactions);
             Assert.IsFalse(transactions.HasError);
             Assert.IsNotEmpty(transactions.Response.Results);
-// ReSharper disable once PossibleNullReferenceException
+            // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(Configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
-// ReSharper disable once PossibleNullReferenceException
-            Assert.AreEqual(response.Response.ReceiptId, transactions.Response.Results.FirstOrDefault().ReceiptId);
+            // ReSharper disable once PossibleNullReferenceException
+            Assert.IsTrue(transactions.Response.Results.Any(t => t.ReceiptId == response.Response.ReceiptId));
         }
 
         [Test]
         public void GetPaymentTransactions()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response = _judo.Payments.Create(paymentWithCard).Result;
+            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -91,37 +49,23 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(paymentReceipt);
 
-            var transactions = _judo.Consumers.GetPayments(paymentReceipt.Consumer.ConsumerToken).Result;
+            var transactions = JudoPayApi.Consumers.GetPayments(paymentReceipt.Consumer.ConsumerToken).Result;
 
             Assert.IsNotNull(transactions);
             Assert.IsFalse(transactions.HasError);
             Assert.IsNotEmpty(transactions.Response.Results);
-// ReSharper disable once PossibleNullReferenceException
+            // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(Configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
-// ReSharper disable once PossibleNullReferenceException
-            Assert.AreEqual(response.Response.ReceiptId, transactions.Response.Results.FirstOrDefault().ReceiptId);
+            // ReSharper disable once PossibleNullReferenceException
+            Assert.IsTrue(transactions.Response.Results.Any(t => t.ReceiptId == response.Response.ReceiptId));
         }
 
         [Test]
         public void GetPreAuthTransactions()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response = _judo.PreAuths.Create(paymentWithCard).Result;
+            var response = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -131,37 +75,23 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(paymentReceipt);
 
-            var transactions = _judo.Consumers.GetPreAuths(paymentReceipt.Consumer.ConsumerToken).Result;
+            var transactions = JudoPayApi.Consumers.GetPreAuths(paymentReceipt.Consumer.ConsumerToken).Result;
 
             Assert.IsNotNull(transactions);
             Assert.IsFalse(transactions.HasError);
             Assert.IsNotEmpty(transactions.Response.Results);
-// ReSharper disable once PossibleNullReferenceException
+            // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(Configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
-// ReSharper disable once PossibleNullReferenceException
-            Assert.AreEqual(response.Response.ReceiptId, transactions.Response.Results.FirstOrDefault().ReceiptId);
+            // ReSharper disable once PossibleNullReferenceException
+            Assert.IsTrue(transactions.Response.Results.Any(t => t.ReceiptId == response.Response.ReceiptId));
         }
 
         [Test]
         public void GetCollectionsTransactions()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response = _judo.PreAuths.Create(paymentWithCard).Result;
+            var response = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -174,7 +104,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            response = _judo.Collections.Create(collection).Result;
+            response = JudoPayApi.Collections.Create(collection).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -184,37 +114,23 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(paymentReceipt);
 
-            var transactions = _judo.Consumers.GetCollections(paymentReceipt.Consumer.ConsumerToken).Result;
+            var transactions = JudoPayApi.Consumers.GetCollections(paymentReceipt.Consumer.ConsumerToken).Result;
 
             Assert.IsNotNull(transactions);
             Assert.IsFalse(transactions.HasError);
             Assert.IsNotEmpty(transactions.Response.Results);
-// ReSharper disable once PossibleNullReferenceException
+            // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(Configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
-// ReSharper disable once PossibleNullReferenceException
-            Assert.AreEqual(response.Response.ReceiptId, transactions.Response.Results.FirstOrDefault().ReceiptId);
+            // ReSharper disable once PossibleNullReferenceException
+            Assert.IsTrue(transactions.Response.Results.Any(t => t.ReceiptId == response.Response.ReceiptId));
         }
 
         [Test]
         public void GetRefundsTransactions()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var paymentResponse = _judo.Payments.Create(paymentWithCard).Result;
+            var paymentResponse = JudoPayApi.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(paymentResponse);
             Assert.IsFalse(paymentResponse.HasError);
@@ -227,7 +143,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var response = _judo.Refunds.Create(refund).Result;
+            var response = JudoPayApi.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -237,15 +153,15 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(paymentReceipt);
 
-            var transactions = _judo.Consumers.GetRefunds(paymentReceipt.Consumer.ConsumerToken).Result;
+            var transactions = JudoPayApi.Consumers.GetRefunds(paymentReceipt.Consumer.ConsumerToken).Result;
 
             Assert.IsNotNull(transactions);
             Assert.IsFalse(transactions.HasError);
             Assert.IsNotEmpty(transactions.Response.Results);
-// ReSharper disable once PossibleNullReferenceException
+            // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(Configuration.Judoid, transactions.Response.Results.FirstOrDefault().JudoId.ToString(CultureInfo.InvariantCulture));
-// ReSharper disable once PossibleNullReferenceException
-            Assert.AreEqual(paymentReceipt.ReceiptId, transactions.Response.Results.FirstOrDefault().ReceiptId);
+            // ReSharper disable once PossibleNullReferenceException
+            Assert.IsTrue(transactions.Response.Results.Any(t => t.ReceiptId == response.Response.ReceiptId));
         }
     }
 }

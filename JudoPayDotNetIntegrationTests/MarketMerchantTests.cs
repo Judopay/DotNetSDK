@@ -1,20 +1,15 @@
-﻿using JudoPayDotNetDotNet;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
 {
     [TestFixture]
-    internal class MarketMerchantTests
+    internal class MarketMerchantTests : IntegrationTestsBase
     {
+
         [Test]
         public void GetAllMerchants()
         {
-            var judo = JudoPaymentsFactory.Create(Configuration.ElevatedPrivilegesToken,
-                Configuration.ElevatedPrivilegesSecret,
-                Configuration.Baseaddress);
-
-            var merchants = judo.Market.Merchants.Get().Result;
-
+            var merchants = JudoPayApiElevated.Market.Merchants.Get().Result;
             Assert.IsNotNull(merchants);
             Assert.IsFalse(merchants.HasError);
             Assert.IsNotNull(merchants.Response);

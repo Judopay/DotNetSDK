@@ -100,7 +100,7 @@ namespace JudoPayDotNetTests.Clients.Market
 
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create,
-                                                    "http://judo.com"));
+                                                    "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
@@ -150,7 +150,7 @@ namespace JudoPayDotNetTests.Clients.Market
 
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create,
-                                                    "http://judo.com"));
+                                                    "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
