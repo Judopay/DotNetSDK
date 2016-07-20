@@ -82,7 +82,7 @@ namespace JudoPayDotNetTests.Validation
 
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create,
-                                                    "http://judo.com"));
+                                                    "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 

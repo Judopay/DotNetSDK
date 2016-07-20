@@ -1,45 +1,17 @@
-﻿using System;
-using JudoPayDotNet;
-using JudoPayDotNet.Models;
-using JudoPayDotNetDotNet;
+﻿using JudoPayDotNet.Models;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
 {
     [TestFixture]
-    public class PreAuthAndCollectionTests
+    public class PreAuthAndCollectionTests : IntegrationTestsBase
     {
-        private JudoPayApi _judo;
-
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.Baseaddress);
-        }
-
- 
         [Test]
         public void ASimplePreAuth()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response = _judo.PreAuths.Create(paymentWithCard).Result;
+            var response = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -54,23 +26,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ADeclinedCardPreAuth()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4221690000004963",
-                CV2 = "125",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
 
-            var response = _judo.PreAuths.Create(paymentWithCard).Result;
+            var response = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -80,50 +38,21 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ADeclinedValidationOnCardPreAuth()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4221690000004963",
-                CV2 = "125",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
 
-            var response = _judo.PreAuths.Validate(paymentWithCard).Result;
+            var response = JudoPayApi.PreAuths.Validate(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Your good to go!", response.Response.ErrorMessage);
-            Assert.AreEqual(JudoApiError.Validation_Passed, response.Response.ErrorType);
+            Assert.AreEqual(JudoApiError.General_Error, response.Response.ErrorType);
         }
 
         [Test]
         public void ASimplePreAuthAndCollection()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = Guid.NewGuid().ToString(),
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "TR14 8PA",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel();
 
-            var response = _judo.PreAuths.Create(paymentWithCard).Result;
+            var response = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -142,7 +71,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            response = _judo.Collections.Create(collection).Result;
+            response = JudoPayApi.Collections.Create(collection).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -158,23 +87,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ASimplePreAuthAndValidateCollection()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response = _judo.PreAuths.Create(paymentWithCard).Result;
+            var response = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -193,12 +108,11 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var validateResponse = _judo.Collections.Validate(collection).Result;
+            var validateResponse = JudoPayApi.Collections.Validate(collection).Result;
 
             Assert.IsNotNull(validateResponse);
             Assert.IsFalse(validateResponse.HasError);
-            Assert.AreEqual("Your good to go!", validateResponse.Response.ErrorMessage);
-            Assert.AreEqual(JudoApiError.Validation_Passed, validateResponse.Response.ErrorType);
+            Assert.AreEqual(JudoApiError.General_Error, validateResponse.Response.ErrorType);
         }
 
    
@@ -206,23 +120,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void AFailedSimplePreAuthAndValidateCollection()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response = _judo.PreAuths.Create(paymentWithCard).Result;
+            var response = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -241,9 +141,9 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var test = _judo.Collections.Create(collection).Result;
+            var test = JudoPayApi.Collections.Create(collection).Result;
             collection.Amount = 30;
-            var validateResponse = _judo.Collections.Validate(collection).Result;
+            var validateResponse = JudoPayApi.Collections.Validate(collection).Result;
 
             Assert.IsNotNull(validateResponse);
             Assert.IsTrue(validateResponse.HasError);

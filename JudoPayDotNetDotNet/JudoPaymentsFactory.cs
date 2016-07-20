@@ -66,6 +66,11 @@ namespace JudoPayDotNetDotNet
             return Create(credentials, baseUrl, apiVersion);
         }
 
+        internal static JudoPayApi Create(string token, string secret, JudoEnvironment judoEnvironment, string apiVersion)
+        {
+            var credentials = new Credentials(token, secret);
+            return Create(credentials, GetEnvironmentUrl(judoEnvironment), apiVersion);
+        }
 
         internal static string GetEnvironmentUrl(JudoEnvironment judoEnvironment, IJudoConfiguration configuration = null)
         {

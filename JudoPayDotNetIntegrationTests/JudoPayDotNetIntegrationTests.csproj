@@ -42,6 +42,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
@@ -59,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="ConsumersTests.cs" />
+    <Compile Include="IntegrationTestsBase.cs" />
     <Compile Include="JudoPaymentsFactoryTests.cs" />
     <Compile Include="MarketMerchantTests.cs" />
     <Compile Include="RegisterCardTests.cs" />
@@ -71,7 +73,10 @@
     <Compile Include="WebPaymentsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <Content Include="app.config" />
+    <Content Include="app.UAT.config">
+      <DependentUpon>app.config</DependentUpon>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
