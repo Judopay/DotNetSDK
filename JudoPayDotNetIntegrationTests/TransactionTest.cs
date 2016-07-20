@@ -95,7 +95,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsFalse(transaction.HasError);
             Assert.IsNotEmpty(transaction.Response.Results);
             Assert.AreEqual("Success", transaction.Response.Results.First().Result);
-            Assert.AreEqual(response.Response.ReceiptId, transaction.Response.Results.First().ReceiptId);
+            Assert.IsTrue(transaction.Response.Results.Any(t => t.ReceiptId == response.Response.ReceiptId));
         }
     }
 }
