@@ -1,51 +1,16 @@
-﻿using System;
-using System.Net;
-using JudoPayDotNet;
-using JudoPayDotNet.Models;
-using JudoPayDotNetDotNet;
+﻿using JudoPayDotNet.Models;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
 {
     [TestFixture]
-    public class RefundsTests
+    public class RefundsTests : IntegrationTestsBase
     {
-        private JudoPayApi _judo;
-        private readonly Configuration _configuration = new Configuration();
-
-        [SetUp]
-        public void SetUp()
-        {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
-        }
-
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _judo = JudoPaymentsFactory.Create(_configuration.JudoEnvironment, _configuration.Token, _configuration.Secret);
-
-        }
-
         [Test]
         public void ASimplePaymentAndRefund()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = _configuration.Judoid,
-                YourConsumerReference = Guid.NewGuid().ToString(),
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "TR14 8PA",
-                    Town = "Town"
-                }
-            };
-
-            var response = _judo.Payments.Create(paymentWithCard).Result;
+            var paymentWithCard = GetCardPaymentModel();
+            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -58,7 +23,7 @@ namespace JudoPayDotNetIntegrationTests
                
             };
 
-            response = _judo.Refunds.Create(refund).Result;
+            response = JudoPayApi.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -74,23 +39,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ARefundValidate()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = _configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response = _judo.Payments.Create(paymentWithCard).Result;
+            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -103,7 +54,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var validateResponse = _judo.Refunds.Validate(refund).Result;
+            var validateResponse = JudoPayApi.Refunds.Validate(refund).Result;
 
             Assert.IsNotNull(validateResponse);
             Assert.IsFalse(validateResponse.HasError);
@@ -113,23 +64,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void APreAuthTwoCollectionsAndTwoRefunds()
         {
-            var paymentWithCard = new CardPaymentModel
-            {
-                JudoId = _configuration.Judoid,
-                YourConsumerReference = "432438862",
-                Amount = 25,
-                CardNumber = "4976000000003436",
-                CV2 = "452",
-                ExpiryDate = "12/20",
-                CardAddress = new CardAddressModel
-                {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
-                }
-            };
+            var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var preAuthResponse = _judo.PreAuths.Create(paymentWithCard).Result;
+            var preAuthResponse = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(preAuthResponse);
             Assert.IsFalse(preAuthResponse.HasError);
@@ -142,7 +79,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var collection1Response = _judo.Collections.Create(collection).Result;
+            var collection1Response = JudoPayApi.Collections.Create(collection).Result;
 
             Assert.IsNotNull(collection1Response);
             Assert.IsFalse(collection1Response.HasError);
@@ -161,7 +98,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var collection2Response = _judo.Collections.Create(collection).Result;
+            var collection2Response = JudoPayApi.Collections.Create(collection).Result;
 
             Assert.IsNotNull(collection2Response);
             Assert.IsFalse(collection2Response.HasError);
@@ -180,7 +117,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var response = _judo.Refunds.Create(refund).Result;
+            var response = JudoPayApi.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -199,7 +136,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            response = _judo.Refunds.Create(refund).Result;
+            response = JudoPayApi.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
