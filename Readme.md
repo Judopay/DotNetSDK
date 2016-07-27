@@ -1,25 +1,28 @@
-# JudoPay SDK
+# Judo .NET SDK
 
 [![Build status](https://ci.appveyor.com/api/projects/status/y9mrqtjr0cf1g5li?svg=true)](https://ci.appveyor.com/project/JudoPayments/dotnetsdk) <a href="https://scan.coverity.com/projects/judopaydotnetsdk">
   <img alt="Coverity Scan Build Status"
        src="https://img.shields.io/coverity/scan/6752.svg"/>
 </a>
 
-The JudoPay SDK is a client for our JudoPay API, which provides card payment processing 
-for mobile apps and websites.
+The JudoPay SDK is a client for our JudoPay API, which provides card payment processing for mobile apps and websites.
 
 ##### **\*\*\*Due to industry-wide security updates, versions below 1.1.113 of this SDK will no longer be supported after 1st Oct 2016. For more information regarding these updates, please read our blog [here](http://hub.judopay.com/pci31-security-updates/).*****
 
-## Installation
+## Requirements
+
+## Getting started
 The JudoPay SDK is distributed as a [NuGet package](https://www.nuget.org/packages/JudoPay.Net/) 
-using the package name of JudoPay.Net. You can install the SDK directly from within Visual Studio
-either using the NuGet package manager UI, or in the Package Manager Console:
+using the package name of JudoPay.Net.
+
+####1. Integration
+You can install the SDK directly from within Visual Studio either using the NuGet package manager UI, or in the Package Manager Console:
 
 ```powershell
 Install-Package JudoPay.Net
 ```
 
-## Configuration
+####2. Setup
 
 You configure you JudoPay API client when invoking the JudoPaymentsFactory.Create method. This has
 three parameters; environment (Sandbox for development and testing, and Live for production), and api
@@ -30,7 +33,7 @@ after creating an account. You can create a testing account by clicking "Getting
 var client = JudoPaymentsFactory.Create(JudoPayDotNet.Enums.JudoEnvironment.Sandbox, "YOUR_API_TOKEN", "YOUR_API_SECRET");
 ```
 
-## Usage - Process a payment
+####3.Make a payment
 Once you have your API client, you can easily process a payment:
 
 ```c#
@@ -67,25 +70,5 @@ client.Payments.Create(cardPaymentModel).ContinueWith(result =>
 });
 ```
 
-## Usage - List transactions
-
-You also have access to a complete feed of all transactions within your account:
-
-```c#
-client.Transactions.Get().ContinueWith(result =>
-{
-
-	if (!result.Result.HasError)
-	{
-		foreach (var tx in result.Result.Response.Results)
-		{
-			Console.WriteLine("{0} {1} {2}", tx.ReceiptId, tx.Type, tx.Amount);
-		}
-	}
-	else
-	{
-		Console.WriteLine("Call returned error. {0}", result.Result.Error.ErrorMessage);
-	}
-});
-```
-
+## Next steps
+The judo .NET library supports additional features and a range of customization options. For more information about this SDK see our wiki documentation as well as our public documentation.
