@@ -5,14 +5,14 @@
        src="https://img.shields.io/coverity/scan/6752.svg"/>
 </a>
 
-The JudoPay SDK is a client for our JudoPay API, which provides card payment processing for mobile apps and websites.
+The JudoPay SDK is a client for our Judopay API, which provides card payment processing for mobile apps and websites.
 
 ##### **\*\*\*Due to industry-wide security updates, versions below 1.1.113 of this SDK will no longer be supported after 1st Oct 2016. For more information regarding these updates, please read our blog [here](http://hub.judopay.com/pci31-security-updates/).*****
 
 ## Requirements
 
 ## Getting started
-The JudoPay SDK is distributed as a [NuGet package](https://www.nuget.org/packages/JudoPay.Net/) 
+The Judopay SDK is distributed as a [NuGet package](https://www.nuget.org/packages/JudoPay.Net/) 
 using the package name of JudoPay.Net.
 
 ####1. Integration
@@ -24,7 +24,7 @@ Install-Package JudoPay.Net
 
 ####2. Setup
 
-You configure you JudoPay API client when invoking the JudoPaymentsFactory.Create method. This has
+You configure you Judopay API client when invoking the JudoPaymentsFactory.Create method. This has
 three parameters; environment (Sandbox for development and testing, and Live for production), and api
 token and secret. You set you API token and secret up through our [management dashboard](https://portal.judopay.com)
 after creating an account. You can create a testing account by clicking "Getting Started" in our [documentation](https://www.judopay.com/docs)
@@ -71,4 +71,4 @@ client.Payments.Create(cardPaymentModel).ContinueWith(result =>
 ```
 
 ## Next steps
-The judo .NET library supports additional features and a range of customization options. For more information about this SDK see our wiki documentation as well as our public documentation.
+The Judo .NET library supports additional features and a range of customization options. For more information about this SDK see our wiki documentation as well as our public documentation.
