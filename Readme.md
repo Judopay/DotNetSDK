@@ -33,7 +33,7 @@ after creating an account. You can create a testing account by clicking "Getting
 var client = JudoPaymentsFactory.Create(JudoPayDotNet.Enums.JudoEnvironment.Sandbox, "YOUR_API_TOKEN", "YOUR_API_SECRET");
 ```
 
-####3.Make a payment
+####3. Make a payment
 Once you have your API client, you can easily process a payment:
 
 ```c#
