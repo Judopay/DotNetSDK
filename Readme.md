@@ -53,16 +53,16 @@ var cardPaymentModel = new CardPaymentModel
 
 	// provide an identifier for your customer
 	YourConsumerReference = "MyCustomer004",
-
-	// provide an identifier for this payment
-	YourPaymentReference = "Payment523515",
+	
 };
-
+```
+####4. Check the payment result
+```
 client.Payments.Create(cardPaymentModel).ContinueWith(result =>
 {
 	var paymentResult = result.Result;
 
-	if (paymentResult.Response.Result == "Success")
+	if (!paymentResult.HasError && paymentResult.Response.Result == "Success")
 	{
 		Console.WriteLine("Payment successful. Transaction Reference {0}", paymentResult.Response.ReceiptId);
 	}
