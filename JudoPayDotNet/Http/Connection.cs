@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation.Results;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models.CustomDeserializers;
@@ -58,10 +59,12 @@ namespace JudoPayDotNet.Http
         /// <param name="method">The http method.</param>
         /// <param name="address">The address.</param>
         /// <param name="parameters">The query string parameters.</param>
+        /// <param name="extraHeaders">If you need to set any additional http headers on the request</param>
         /// <param name="body">The body entity.</param>
         /// <returns>An http request object</returns>
         private HttpRequestMessage BuildRequest(HttpMethod method, string address, 
                                                     Dictionary<string, string> parameters = null,
+                                                    Dictionary<string, string> extraHeaders = null,
                                                     object body = null)
         {
             var queryString = string.Empty;
@@ -76,6 +79,15 @@ namespace JudoPayDotNet.Http
             uri.Query += queryString;
 
             var request = new HttpRequestMessage(method, uri.Uri);
+
+            if (extraHeaders != null)
+            {
+                foreach (var header in extraHeaders)
+                {
+                    request.Headers.Add(header.Key, header.Value);
+                }
+            }
+
 
             if (body != null) 
             {
@@ -159,14 +171,16 @@ namespace JudoPayDotNet.Http
         /// <param name="method">The http method.</param>
         /// <param name="address">The URI address.</param>
         /// <param name="parameters">The query string parameters.</param>
+        /// <param name="extraHeaders">Any extra http headers to send with the request</param>
         /// <param name="body">The entity body.</param>
         /// <returns>Http response to be handled</returns>
         /// <exception cref="ConnectionError">When something wrong happens at the connection level</exception>
         private async Task<HttpResponseMessage> SendCommon(HttpMethod method, string address,
                                         Dictionary<string, string> parameters = null,
+                                        Dictionary<string, string> extraHeaders = null,
                                         object body = null)
         {
-            var request = BuildRequest(method, address, parameters, body);
+            var request = BuildRequest(method, address, parameters, extraHeaders, body);
             try
             {
                 return await _httpClient.SendAsync(request).ConfigureAwait(false);
@@ -220,13 +234,15 @@ namespace JudoPayDotNet.Http
         /// <param name="method">The http method.</param>
         /// <param name="address">The URI address.</param>
         /// <param name="parameters">The query string parameters.</param>
+        /// <param name="extraHeaders">Any extra http headers to send with the request</param>
         /// <param name="body">The entity body.</param>
         /// <returns>The response parsed and with error if something wrong happend</returns>
         public async Task<IResponse> Send(HttpMethod method, string address,
             Dictionary<string, string> parameters = null,
+            Dictionary<string, string> extraHeaders = null,
             object body = null)
         {
-			var response = await SendCommon(method, address, parameters, body).ConfigureAwait(false);
+			var response = await SendCommon(method, address, parameters, extraHeaders, body).ConfigureAwait(false);
 
 
             return await HandleResponse(response).ConfigureAwait(false);
@@ -239,13 +255,15 @@ namespace JudoPayDotNet.Http
         /// <param name="method">The http method.</param>
         /// <param name="address">The URI address.</param>
         /// <param name="parameters">The query string parameters.</param>
+        /// <param name="extraHeaders">Any extra http headers to send with the request</param>
         /// <param name="body">The entity body.</param>
         /// <returns>The response parsed and with error if something wrong happend</returns>
         public async Task<IResponse<T>> Send<T>(HttpMethod method, string address,
             Dictionary<string, string> parameters = null,
+            Dictionary<string, string> extraHeaders = null,
             object body = null)
         {
-			var response = await SendCommon(method, address, parameters, body).ConfigureAwait(false);
+			var response = await SendCommon(method, address, parameters, extraHeaders, body).ConfigureAwait(false);
 
             return await HandleResponse<T>(response).ConfigureAwait(false);
         }
