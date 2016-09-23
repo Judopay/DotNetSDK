@@ -1,6 +1,6 @@
 # JudoPay SDK
 
-[![Build status](https://ci.appveyor.com/api/projects/status/y9mrqtjr0cf1g5li?svg=true)](https://ci.appveyor.com/project/JudoPayments/dotnetsdk) <a href="https://scan.coverity.com/projects/judopaydotnetsdk">
+<a href="https://scan.coverity.com/projects/judopaydotnetsdk">
   <img alt="Coverity Scan Build Status"
        src="https://img.shields.io/coverity/scan/6752.svg"/>
 </a>
