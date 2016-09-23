@@ -167,7 +167,12 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable UnusedAutoPropertyAccessor.Global
         public string AcceptHeaders { get; set; }
-// ReSharper restore UnusedAutoPropertyAccessor.Global
+        // ReSharper restore UnusedAutoPropertyAccessor.Global
+
+        /// <summary>
+        /// Optional extra http headers to include in the request
+        /// </summary>
+        public Dictionary<string,string> HttpHeaders { get; set; }
 
         public void ProvisionSDKVersion()
         {
@@ -175,11 +180,11 @@ namespace JudoPayDotNet.Models
             {
                 if (String.IsNullOrEmpty(UserAgent))
                 {
-                    UserAgent = "DotNetSDK-" + JudoPayClient.SDKVersion;
+                    UserAgent = "DotNetSDK-" + JudoPayClient.SDK_VERSION;
                 }
                 else
                 {
-                    UserAgent = ("DotNetSDK-" + JudoPayClient.SDKVersion + ";" + UserAgent);
+                    UserAgent = ("DotNetSDK-" + JudoPayClient.SDK_VERSION + ";" + UserAgent);
                 }
             }
         }

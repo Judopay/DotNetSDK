@@ -19,7 +19,7 @@ namespace JudoPayDotNet.Clients
             : base(logger, client, createAddress)
         {
             _validatePreAuthAddress = validateAddress;
-            DeDuplicateTransactions = deDuplicate;
+            _deDuplicateTransactions = deDuplicate;
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPreAuth)
