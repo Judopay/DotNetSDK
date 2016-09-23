@@ -18,7 +18,7 @@ namespace JudoPayDotNet.Clients
                             string validateAddress = VALIDATE_ADDRESS) : base(logger, client, createAddress)
         {
             _validateAddress = validateAddress;
-            DeDuplicateTransactions = deDuplicate;
+            _deDuplicateTransactions = deDuplicate;
         }
 
         public Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPayment)
