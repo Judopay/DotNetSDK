@@ -9,7 +9,7 @@ namespace JudoPayDotNet.Models
     /// </summary>
     // ReSharper disable UnusedMember.Global
     [DataContract]
-    public class CollectionModel
+    public class CollectionModel : ReferencingTransactionBase
     {
 
         public CollectionModel()
