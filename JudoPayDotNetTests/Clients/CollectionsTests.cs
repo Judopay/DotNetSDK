@@ -151,6 +151,37 @@ namespace JudoPayDotNetTests.Clients
             Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
         }
 
+
+        [Test, TestCaseSource(typeof(CollectionsTestSource), "CreateSuccessTestCases")]
+        public void ExtraHeadersAreSent(CollectionModel collection, string responseData, string receiptId)
+        {
+            const string EXTRA_HEADER_NAME = "X-Extra-Request-Header";
+
+            var httpClient = Substitute.For<IHttpClient>();
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
+            responseTask.SetResult(response);
+
+            httpClient.SendAsync(Arg.Is<HttpRequestMessage>(r => r.Headers.Contains(EXTRA_HEADER_NAME)))
+                .Returns(responseTask.Task);
+
+            var client = new Client(new Connection(httpClient,
+                                                    DotNetLoggerFactory.Create,
+                                                    "http://something.com"));
+
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
+
+            collection.HttpHeaders.Add(EXTRA_HEADER_NAME, "some random value");
+
+            IResult<ITransactionResult> refundReceipt = judo.Collections.Create(collection).Result;
+
+            Assert.NotNull(refundReceipt);
+            Assert.IsFalse(refundReceipt.HasError);
+            Assert.NotNull(refundReceipt.Response);
+            Assert.That(refundReceipt.Response.ReceiptId, Is.EqualTo(134567));
+        }
+
         [Test, TestCaseSource(typeof(CollectionsTestSource), "CreateFailureTestCases")]
         public void CollectionWithError(CollectionModel collections, string responseData, JudoApiError error)
         {

@@ -11,7 +11,7 @@ namespace JudoPayDotNet.Models
     /// </summary>
     // ReSharper disable UnusedMember.Global
     [DataContract]
-    public abstract class PaymentModel
+    public abstract class PaymentModel : IModelWithHttpHeaders
     {
         protected PaymentModel()
         {
@@ -169,10 +169,16 @@ namespace JudoPayDotNet.Models
         public string AcceptHeaders { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
 
+        private Dictionary<string, string> _httpHeaders;
+
         /// <summary>
-        /// Optional extra http headers to include in the request
+        /// Allows you to set HTTP headers on requests
         /// </summary>
-        public Dictionary<string,string> HttpHeaders { get; set; }
+        [IgnoreDataMember]
+        public Dictionary<string, string> HttpHeaders
+        {
+            get { return _httpHeaders ?? (_httpHeaders = new Dictionary<string, string>()); }
+        }
 
         public void ProvisionSDKVersion()
         {

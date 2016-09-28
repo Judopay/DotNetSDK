@@ -80,9 +80,9 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
-            const string receiptId = "1245";
+            const string RECEIPT_ID = "1245";
 
-            var paymentReceiptResult = judo.WebPayments.Transactions.GetByReceipt(receiptId).Result;
+            var paymentReceiptResult = judo.WebPayments.Transactions.GetByReceipt(RECEIPT_ID).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
@@ -157,14 +157,14 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
-            const string reference = "42421";
+            const string REFERENCE = "42421";
 
-            var paymentReceiptResult = judo.WebPayments.Transactions.Get(reference).Result;
+            var paymentReceiptResult = judo.WebPayments.Transactions.Get(REFERENCE).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.That(paymentReceiptResult.Response.Reference, Is.EqualTo(reference));
+            Assert.That(paymentReceiptResult.Response.Reference, Is.EqualTo(REFERENCE));
             Assert.That(paymentReceiptResult.Response.Status, Is.EqualTo(WebPaymentStatus.Open));
             Assert.That(paymentReceiptResult.Response.Receipt.ReceiptId, Is.EqualTo(134567));
         }

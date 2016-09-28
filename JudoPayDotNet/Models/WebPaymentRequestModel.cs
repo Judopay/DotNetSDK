@@ -14,7 +14,7 @@ namespace JudoPayDotNet.Models
     // ReSharper disable UnusedMember.Global
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract]
-    public class WebPaymentRequestModel
+    public class WebPaymentRequestModel : IModelWithHttpHeaders
     {
 
         public WebPaymentRequestModel()
@@ -189,6 +189,18 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public WebPaymentOperation? WebPaymentOperation { get; set; }
+
+
+        private Dictionary<string, string> _httpHeaders;
+
+        /// <summary>
+        /// Allows you to set HTTP headers on requests
+        /// </summary>
+        [IgnoreDataMember]
+        public Dictionary<string, string> HttpHeaders
+        {
+            get { return _httpHeaders ?? (_httpHeaders = new Dictionary<string, string>()); }
+        }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
     // ReSharper restore UnusedMember.Global
