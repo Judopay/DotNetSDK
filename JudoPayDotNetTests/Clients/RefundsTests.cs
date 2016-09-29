@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -177,6 +178,36 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
             Assert.AreEqual((int)error, paymentReceiptResult.Error.Code);
+        }
+
+        [Test, TestCaseSource(typeof(RefundsTestSource), "SuccessTestCases")]
+        public void ExtraHeadersAreSent(RefundModel refundModel, string responseData, string receiptId)
+        {
+            const string EXTRA_HEADER_NAME = "X-Extra-Request-Header";
+
+            var httpClient = Substitute.For<IHttpClient>();
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
+            responseTask.SetResult(response);
+
+            httpClient.SendAsync(Arg.Is<HttpRequestMessage>(r => r.Headers.Contains(EXTRA_HEADER_NAME)))
+                .Returns(responseTask.Task);
+
+            var client = new Client(new Connection(httpClient,
+                                                    DotNetLoggerFactory.Create,
+                                                    "http://something.com"));
+
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
+
+            refundModel.HttpHeaders.Add(EXTRA_HEADER_NAME, "some random value");
+
+            IResult<ITransactionResult> refundReceipt = judo.Refunds.Create(refundModel).Result;
+
+            Assert.NotNull(refundReceipt);
+            Assert.IsFalse(refundReceipt.HasError);
+            Assert.NotNull(refundReceipt.Response);
+            Assert.That(refundReceipt.Response.ReceiptId, Is.EqualTo(134567));
         }
 
         [Test, TestCaseSource(typeof(RefundsTestSource), "ValidateSuccessTestCases")]

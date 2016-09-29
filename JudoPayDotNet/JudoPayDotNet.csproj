@@ -118,6 +118,7 @@
     <Compile Include="Http\AuthType.cs" />
     <Compile Include="Models\CustomDeserializers\TransactionTypeConvertor.cs" />
     <Compile Include="Models\EncryptedPaymentMessage.cs" />
+    <Compile Include="Models\IModelWithHttpHeaders.cs" />
     <Compile Include="Models\JudoApiError.cs" />
     <Compile Include="Errors\BadResponseError.cs" />
     <Compile Include="Errors\ConnectionError.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Models\PKPaymentInnerModel.cs" />
     <Compile Include="Models\PKPaymentModel.cs" />
     <Compile Include="Models\PKPaymentTokenModel.cs" />
+    <Compile Include="Models\ReferencingTransactionBase.cs" />
     <Compile Include="Models\RefundModel.cs" />
     <Compile Include="Models\RegisterCardModel.cs" />
     <Compile Include="Models\Result.cs" />

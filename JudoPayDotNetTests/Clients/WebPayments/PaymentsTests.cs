@@ -68,6 +68,11 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                     }
                 }
             };
+
+            const string EXTRA_HEADER_NAME = "ExtraHeader";
+
+            request.HttpHeaders.Add(EXTRA_HEADER_NAME, "ExtraHeaderValue");
+
             var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
 		                                             postUrl : 'http://test.com',
 		                                             reference : '1342423'   
@@ -76,7 +81,8 @@ namespace JudoPayDotNetTests.Clients.WebPayments
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
-            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
+            httpClient.SendAsync(Arg.Is<HttpRequestMessage>(r => r.Headers.Contains(EXTRA_HEADER_NAME)))
+                .Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create,
@@ -146,6 +152,11 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                     }
                 }
             };
+
+            const string EXTRA_HEADER_NAME = "ExtraHeader";
+
+            request.HttpHeaders.Add(EXTRA_HEADER_NAME, "ExtraHeaderValue");
+
             var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
     	                                            amount : 10,
     	                                            cardAddress : 
@@ -205,7 +216,8 @@ namespace JudoPayDotNetTests.Clients.WebPayments
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
-            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
+            httpClient.SendAsync(Arg.Is<HttpRequestMessage>(r => r.Headers.Contains(EXTRA_HEADER_NAME)))
+                .Returns(responseTask.Task);
 
             var client = new Client(new Connection(httpClient,
                                                     DotNetLoggerFactory.Create,

@@ -9,7 +9,7 @@ namespace JudoPayDotNet.Models
     /// <remarks>You can refund all or part of a collection or payment</remarks>
     // ReSharper disable UnusedMember.Global
     [DataContract]
-    public class RefundModel
+    public class RefundModel : ReferencingTransactionBase
     {
         public RefundModel()
         {
