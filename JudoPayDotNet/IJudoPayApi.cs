@@ -1,6 +1,5 @@
 ﻿using JudoPayDotNet.Clients;
 using JudoPayDotNet.Clients.Consumer;
-using JudoPayDotNet.Clients.Market;
 using JudoPayDotNet.Clients.WebPayments;
 using IPayments = JudoPayDotNet.Clients.IPayments;
 using IPreAuths = JudoPayDotNet.Clients.IPreAuths;
