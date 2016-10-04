@@ -36,7 +36,7 @@ namespace JudoPayDotNet.Clients
         /// Creates the specified Android Pay payment.
         /// </summary>
         /// <param name="androidPayment">The Android Pay payment.</param>
-        /// <returns>The receipt for the created Android Pay payment</returns> 
+        /// <returns>The receipt for the created Android Pay payment</returns>
         Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPayment);
 
         /// <summary>
