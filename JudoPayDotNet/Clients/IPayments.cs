@@ -24,7 +24,6 @@ namespace JudoPayDotNet.Clients
         /// <returns>The receipt for the created token payment</returns>
         Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPayment);
 
-
         /// <summary>
         /// Creates the specified Apple Pay payment.
         /// </summary>
