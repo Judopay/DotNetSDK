@@ -31,6 +31,8 @@ namespace JudoPayDotNet.Clients
         /// <param name="pkPayment">The apple payment.</param>
         /// <returns>The receipt for the created apple payment</returns>
         Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPayment);
+ 
+        Task<IResult<ITransactionResult>> Create(AndroidPaymentModel pkPayment);
 
         /// <summary>
         /// Validates the specified card payment.
