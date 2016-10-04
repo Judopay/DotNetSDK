@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
@@ -21,6 +22,13 @@ namespace JudoPayDotNet.Clients
             _deDuplicateTransactions = deDuplicate;
         }
 
+        public Task<IResult<JudoApiErrorModel>> Validate(AndroidPaymentModel androidPayment)
+        {
+            var validationError = Validate<AndroidPaymentModel, JudoApiErrorModel>(AndroidPaymentValidator, androidPayment);
+
+            return validationError ?? PostInternal<AndroidPaymentModel, JudoApiErrorModel>(_validateAddress, androidPayment);
+        }
+
         public Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPayment)
         {
             var validationError = Validate<CardPaymentModel, JudoApiErrorModel>(CardPaymentValidator, cardPayment);
@@ -41,5 +49,6 @@ namespace JudoPayDotNet.Clients
 
             return validationError ?? PostInternal<PKPaymentModel, JudoApiErrorModel>(_validateAddress, pkPayment);
         }
+
     }
 }
