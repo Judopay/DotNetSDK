@@ -20,7 +20,7 @@ namespace JudoPayDotNet.Clients
     {
         private readonly IClient _client;
         private readonly ILog _logger;
-        internal const String SDK_VERSION = "1.3.0";
+        internal const String SDK_VERSION = "1.3.1";
         private readonly Dictionary<string, IResponse> _uniqueResponses;
         public bool _deDuplicateTransactions = false;
 
@@ -80,11 +80,9 @@ namespace JudoPayDotNet.Clients
         /// <param name="address">The URI.</param>
         /// <param name="entity">The body entity.</param>
         /// <param name="parameters">The query string parameters.</param>
-        /// /// <param name="extraHeaders">Any extra http headers to send with the request</param>
         /// <returns>A result object that wraps the parsed response and an error if something not right happened</returns>
         protected async Task<IResult<R>> PostInternal<T, R>(string address, T entity,
-        Dictionary<string, string> parameters = null,
-        Dictionary<string, string> extraHeaders = null)
+        Dictionary<string, string> parameters = null)
         where T : class
         where R : class
         {
@@ -109,6 +107,13 @@ namespace JudoPayDotNet.Clients
                     }
 
                 }
+            }
+
+            Dictionary<string, string> extraHeaders = null;
+            IModelWithHttpHeaders headersModel = entity as IModelWithHttpHeaders;
+            if (headersModel != null && headersModel.HttpHeaders.Count > 0)
+            {
+                extraHeaders = headersModel.HttpHeaders;
             }
 
             var response = await _client.Post<R>(address, parameters, extraHeaders, entity).ConfigureAwait(false);
@@ -152,15 +157,21 @@ namespace JudoPayDotNet.Clients
         /// <param name="address">The URI.</param>
         /// <param name="entity">The body entity.</param>
         /// <param name="parameters">The query string parameters.</param>
-        /// /// <param name="extraHeaders">Any extra http headers to send with the request</param>
         /// <returns>A result object that wraps the parsed response and an error if something not right happened</returns>
         protected async Task<IResult<R>> PutInternal<T, R>(string address,
         T entity,
-        Dictionary<string, string> parameters = null,
-        Dictionary<string, string> extraHeaders = null)
+        Dictionary<string, string> parameters = null)
         where T : class
         where R : class
         {
+
+            Dictionary<string, string> extraHeaders = null;
+            IModelWithHttpHeaders headersModel = entity as IModelWithHttpHeaders;
+            if (headersModel != null && headersModel.HttpHeaders.Count > 0)
+            {
+                extraHeaders = headersModel.HttpHeaders;
+            }
+
             R result = null;
 
             var response = await _client.Update<R>(address, parameters, extraHeaders, entity).ConfigureAwait(false);

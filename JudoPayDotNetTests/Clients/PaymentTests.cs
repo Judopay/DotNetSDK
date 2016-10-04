@@ -295,6 +295,47 @@ namespace JudoPayDotNetTests.Clients
             Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
         }
 
+        [Test, TestCaseSource(typeof(PaymentsTestSource), "CreateSuccessTestCases")]
+        public void ExtraHeadersAreSent(PaymentModel payment, string responseData, string receiptId)
+        {
+            const string EXTRA_HEADER_NAME = "X-Extra-Request-Header";
+
+            var httpClient = Substitute.For<IHttpClient>();
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
+            responseTask.SetResult(response);
+
+            httpClient.SendAsync(Arg.Is<HttpRequestMessage>(r=>r.Headers.Contains(EXTRA_HEADER_NAME)))
+                .Returns(responseTask.Task);
+
+            var client = new Client(new Connection(httpClient,
+                                                    DotNetLoggerFactory.Create,
+                                                    "http://something.com"));
+
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
+
+            IResult<ITransactionResult> paymentReceiptResult = null;
+
+            payment.HttpHeaders.Add(EXTRA_HEADER_NAME, "some random value");
+
+            // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
+            if (payment is CardPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((CardPaymentModel)payment).Result;
+            }
+            else if (payment is TokenPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
+            }
+            // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
+
+            Assert.NotNull(paymentReceiptResult);
+            Assert.IsFalse(paymentReceiptResult.HasError);
+            Assert.NotNull(paymentReceiptResult.Response);
+            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
+        }
+
         [Test, TestCaseSource(typeof(PaymentsTestSource), "CreateFailureTestCases")]
         public void PayWithError(PaymentModel payment, string responseData, JudoApiError errorType)
         {
