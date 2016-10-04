@@ -49,6 +49,5 @@ namespace JudoPayDotNet.Clients
 
             return validationError ?? PostInternal<PKPaymentModel, JudoApiErrorModel>(_validateAddress, pkPayment);
         }
-
     }
 }
