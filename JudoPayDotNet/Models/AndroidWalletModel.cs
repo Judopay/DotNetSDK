@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json.Linq;
+using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
 {
@@ -32,5 +33,15 @@ namespace JudoPayDotNet.Models
         [DataMember(IsRequired = true)]
         public int Version { get; set; }
    
+        public string PaymentMethodToken
+        {
+            set
+            {
+                JObject json = JObject.Parse(value);
+                EncryptedMessage = json.GetValue("encryptedMessage").Value<string>();
+                EphemeralPublicKey = json.GetValue("ephemeralPublicKey").Value<string>();
+                Tag = json.GetValue("tag").Value<string>();
+            }
+        }
     }
 }
