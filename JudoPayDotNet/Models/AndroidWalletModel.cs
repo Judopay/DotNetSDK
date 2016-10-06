@@ -32,16 +32,13 @@ namespace JudoPayDotNet.Models
 
         [DataMember(IsRequired = true)]
         public int Version { get; set; }
-   
-        public string PaymentMethodToken
-        {
-            set
-            {
-                JObject json = JObject.Parse(value);
-                EncryptedMessage = json.GetValue("encryptedMessage").Value<string>();
-                EphemeralPublicKey = json.GetValue("ephemeralPublicKey").Value<string>();
-                Tag = json.GetValue("tag").Value<string>();
-            }
+
+        public void SetPaymentMethodToken(string json)
+        {     
+            var jsonObject = JObject.Parse(json);
+            EncryptedMessage = jsonObject.GetValue("encryptedMessage").Value<string>();
+            EphemeralPublicKey = jsonObject.GetValue("ephemeralPublicKey").Value<string>();
+            Tag = jsonObject.GetValue("tag").Value<string>();   
         }
     }
 }
