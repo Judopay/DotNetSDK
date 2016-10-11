@@ -32,7 +32,7 @@ namespace JudoPayDotNet
 
         public JudoPayApi(Func<Type, ILog> logger, IClient client)
         {
-            Payments = new Payments(logger(typeof(Payments)), client,true);
+            Payments = new Payments(logger(typeof(Payments)), client, true);
             Refunds = new Refunds(logger(typeof(Refunds)), client);
             PreAuths = new PreAuths(logger(typeof(PreAuths)), client, true);
             Transactions = new Transactions(logger(typeof(Transactions)), client);
