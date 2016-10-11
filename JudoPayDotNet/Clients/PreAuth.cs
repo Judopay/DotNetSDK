@@ -42,5 +42,12 @@ namespace JudoPayDotNet.Clients
 
             return validationError ?? PostInternal<PKPaymentModel, JudoApiErrorModel>(_validatePreAuthAddress, pkPreAuth);
         }
+    
+        public Task<IResult<JudoApiErrorModel>> Validate(AndroidPaymentModel androidPreAuth)
+        {
+            var validationError = Validate<AndroidPaymentModel, JudoApiErrorModel>(AndroidPaymentValidator, androidPreAuth);
+
+            return validationError ?? PostInternal<AndroidPaymentModel, JudoApiErrorModel>(_validatePreAuthAddress, androidPreAuth);
+        }
     }
 }
