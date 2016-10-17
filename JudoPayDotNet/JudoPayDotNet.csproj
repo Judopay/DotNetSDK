@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Authentication\Credentials.cs" />
     <Compile Include="Authentication\ICredentials.cs" />
+    <Compile Include="Models\AndroidPaymentModel.cs" />
     <Compile Include="Clients\BaseCollections.cs" />
     <Compile Include="Clients\BasePayments.cs" />
     <Compile Include="Clients\BasePreAuth.cs" />
@@ -87,15 +88,6 @@
     <Compile Include="Clients\IRegisterCards.cs" />
     <Compile Include="Clients\JudoPayClient.cs" />
     <Compile Include="Clients\IThreeDs.cs" />
-    <Compile Include="Clients\Market\IMarket.cs" />
-    <Compile Include="Clients\Market\IMarketCollections.cs" />
-    <Compile Include="Clients\Market\IMarketMerchants.cs" />
-    <Compile Include="Clients\Market\IMarketRefunds.cs" />
-    <Compile Include="Clients\Market\Market.cs" />
-    <Compile Include="Clients\Market\MarketCollections.cs" />
-    <Compile Include="Clients\Market\MarketMerchants.cs" />
-    <Compile Include="Clients\Market\MarketRefunds.cs" />
-    <Compile Include="Clients\Market\MarketTransactions.cs" />
     <Compile Include="Clients\RegisterCards.cs" />
     <Compile Include="Clients\ThreeDs.cs" />
     <Compile Include="Clients\WebPayments\BasePayments.cs" />
@@ -177,6 +169,7 @@
     <Compile Include="Models\TransactionListSorts.cs" />
     <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Models\TransactionType.cs" />
+    <Compile Include="Models\Validations\AndroidPaymentValidator.cs" />
     <Compile Include="Models\Validations\JudoModelErrorCodes.cs" />
     <Compile Include="Models\Validations\PKPaymentValidator.cs" />
     <Compile Include="Models\Validations\RegisterCardValidator.cs" />
@@ -192,6 +185,7 @@
     <Compile Include="Models\Validations\TransactionResultBaseValidation.cs" />
     <Compile Include="Models\Validations\TransactionResultValidation.cs" />
     <Compile Include="Models\Validations\WebPaymentRequestModelValidator.cs" />
+    <Compile Include="Models\AndroidWalletModel.cs" />
     <Compile Include="Models\WalletType.cs" />
     <Compile Include="Models\WebPaymentCardAddress.cs" />
     <Compile Include="Models\WebPaymentResponseModel.cs" />

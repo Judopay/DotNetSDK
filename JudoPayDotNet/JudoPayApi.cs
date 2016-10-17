@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using JudoPayDotNet.Clients;
 using JudoPayDotNet.Clients.Consumer;
-using JudoPayDotNet.Clients.Market;
 using JudoPayDotNet.Clients.WebPayments;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
@@ -20,8 +18,6 @@ namespace JudoPayDotNet
 	/// </summary>
     public class JudoPayApi : IJudoPayApi
     {
-        internal IMarket Market { get; set; }
-
         public IWebPayments WebPayments { get; set; }
 
         public IConsumers Consumers { get; set; }
@@ -36,21 +32,13 @@ namespace JudoPayDotNet
 
         public JudoPayApi(Func<Type, ILog> logger, IClient client)
         {
-            Payments = new Payments(logger(typeof(Payments)), client,true);
+            Payments = new Payments(logger(typeof(Payments)), client, true);
             Refunds = new Refunds(logger(typeof(Refunds)), client);
             PreAuths = new PreAuths(logger(typeof(PreAuths)), client, true);
             Transactions = new Transactions(logger(typeof(Transactions)), client);
             Collections = new Collections(logger(typeof(Collections)), client);
             ThreeDs = new ThreeDs(logger(typeof(ThreeDs)), client);
             RegisterCards = new RegisterCards(logger(typeof(RegisterCards)), client,true);
-
-            Market = new Market
-            {
-                Refunds = new MarketRefunds(logger(typeof(MarketRefunds)), client),
-                Transactions = new MarketTransactions(logger(typeof(MarketTransactions)), client),
-                Collections = new MarketCollections(logger(typeof(MarketCollections)), client),
-                Merchants = new MarketMerchants(logger(typeof(MarketMerchants)), client)
-            };
 
             WebPayments = new WebPayments
             {
