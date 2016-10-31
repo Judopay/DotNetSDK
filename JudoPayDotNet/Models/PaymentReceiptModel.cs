@@ -116,9 +116,16 @@ namespace JudoPayDotNet.Models
         /// The refunds.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
-
         public decimal Refunds { get; set; }
 
+        /// <summary>
+        /// Gets or sets your payment reference.
+        /// </summary>
+        /// <value>
+        /// Your payment reference.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public string YourPaymentReference { get; set; }
 
         /// <summary>
         /// Gets or sets the net amount.
