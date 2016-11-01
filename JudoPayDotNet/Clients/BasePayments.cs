@@ -9,10 +9,10 @@ namespace JudoPayDotNet.Clients
 {
     internal abstract class BasePayments : JudoPayClient
     {
-
         protected readonly IValidator<CardPaymentModel> CardPaymentValidator = new CardPaymentValidator();
         protected readonly IValidator<TokenPaymentModel> TokenPaymentValidator = new TokenPaymentValidator();
         protected readonly IValidator<PKPaymentModel> PKPaymentValidator = new PKPaymentValidator();
+        protected readonly IValidator<AndroidPaymentModel> AndroidPaymentValidator = new AndroidPaymentValidator();
 
         private readonly string _createAddress;
 
@@ -41,6 +41,13 @@ namespace JudoPayDotNet.Clients
             var validationError = Validate<PKPaymentModel, ITransactionResult>(PKPaymentValidator, pkPayment);
             pkPayment.ProvisionSDKVersion();
             return validationError ?? PostInternal<PKPaymentModel, ITransactionResult>(_createAddress, pkPayment);
+        }
+   
+        public Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPayment)
+        {
+            var validationError = Validate<AndroidPaymentModel, ITransactionResult>(AndroidPaymentValidator, androidPayment);
+            androidPayment.ProvisionSDKVersion();
+            return validationError ?? PostInternal<AndroidPaymentModel, ITransactionResult>(_createAddress, androidPayment);
         }
     }
 }
