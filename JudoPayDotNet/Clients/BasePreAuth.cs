@@ -12,6 +12,7 @@ namespace JudoPayDotNet.Clients
         protected readonly IValidator<CardPaymentModel> CardPaymentValidator = new CardPaymentValidator();
         protected readonly IValidator<TokenPaymentModel> TokenPaymentValidator = new TokenPaymentValidator();
         protected readonly IValidator<PKPaymentModel> PKPaymentValidator = new PKPaymentValidator();
+        protected readonly IValidator<AndroidPaymentModel> AndroidPaymentValidator = new AndroidPaymentValidator();
 
         private readonly string _createPreAuthAddress;
 
@@ -40,5 +41,13 @@ namespace JudoPayDotNet.Clients
             pkPreAuth.ProvisionSDKVersion();
             return validationError ?? PostInternal<PKPaymentModel, ITransactionResult>(_createPreAuthAddress, pkPreAuth);
         }
+
+        public Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPreAuth)
+        {
+            var validationError = Validate<AndroidPaymentModel, ITransactionResult>(AndroidPaymentValidator, androidPreAuth);
+            androidPreAuth.ProvisionSDKVersion();
+            return validationError ?? PostInternal<AndroidPaymentModel, ITransactionResult>(_createPreAuthAddress, androidPreAuth);
+        }
+ 
     }
 }

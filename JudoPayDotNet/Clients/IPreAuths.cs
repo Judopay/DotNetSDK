@@ -25,14 +25,19 @@ namespace JudoPayDotNet.Clients
         /// <returns>The receipt for the created token pre authorization</returns>
         Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPreAuth);
 
-
         /// <summary>
         /// Creates the specified apple Pay pre authorization.
         /// </summary>
-        /// <param name="pkPreAuth">The apple payment.</param>
+        /// <param name="pkPreAuth">The apple pay pre authorization.</param>
         /// <returns>The receipt for the created apple pre authorization</returns>
         Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPreAuth);
 
+        /// <summary>
+        /// Creates the specified Android Pay pre authorization.
+        /// </summary>
+        /// <param name="androidPayment">The Android Pay pre authorization.</param>
+        /// <returns>The receipt for the created Android Pay pre authorization</returns>
+        Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPreAuth);
 
         /// <summary>
         /// Validates the specified card pre authorization.
@@ -54,6 +59,13 @@ namespace JudoPayDotNet.Clients
         /// <param name="pkPreAuth">The apple  pre authorization.</param>
         /// <returns>If the apple payment is valid</returns>
         Task<IResult<JudoApiErrorModel>> Validate(PKPaymentModel pkPreAuth);
+
+        /// <summary>
+        /// Validates the specified Android Pay pre authorization.
+        /// </summary>
+        /// <param name="pkPreAuth">The Android Pay pre authorization.</param>
+        /// <returns>If the apple payment is valid</returns>
+        Task<IResult<JudoApiErrorModel>> Validate(AndroidPaymentModel androidPreAuth);
     }
     // ReSharper restore UnusedMember.Global
 }
