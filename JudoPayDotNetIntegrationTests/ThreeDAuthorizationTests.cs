@@ -9,7 +9,6 @@ namespace JudoPayDotNetIntegrationTests
     [TestFixture]
     public class ThreeDAuthorizationTests : IntegrationTestsBase
     {
-        
         [Test]
         public void PaymentWithThreedSecure()
         {

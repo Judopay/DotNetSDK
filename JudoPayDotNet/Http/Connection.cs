@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using FluentValidation.Results;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models.CustomDeserializers;
@@ -21,15 +20,23 @@ namespace JudoPayDotNet.Http
     public class Connection
     {
         private readonly IHttpClient _httpClient;
+
         private readonly Uri _baseAddress;
+
         private readonly ILog _log;
+
+        private readonly string _userAgent;
 
         /// <summary>
         /// Serialization settings
         /// </summary>
         private readonly JsonSerializerSettings _settings;
 
-        public Connection(IHttpClient client, Func<Type, ILog> log, string baseAddress)
+        public Connection(IHttpClient client, Func<Type, ILog> log, string baseAddress) : this(client, log, baseAddress, VersioningHandler.SdkVersionDetails)
+        {
+        }
+
+        public Connection(IHttpClient client, Func<Type, ILog> log, string baseAddress, string userAgent)
         {
             _httpClient = client;
 
@@ -40,17 +47,13 @@ namespace JudoPayDotNet.Http
 
             _baseAddress = new Uri(baseAddress);
             _log = log(GetType());
+            _userAgent = userAgent;
 
             _settings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Converters = new JsonConverter[]
-                {
-                    new JudoApiErrorModelConverter(log(typeof(JudoApiErrorModelConverter))), 
-                    new TransactionResultConvertor()
-                },
-
-            };
+                            {
+                                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                                Converters = new JsonConverter[] { new JudoApiErrorModelConverter(log(typeof(JudoApiErrorModelConverter))), new TransactionResultConvertor() }
+                            };
         }
 
         /// <summary>
@@ -62,10 +65,12 @@ namespace JudoPayDotNet.Http
         /// <param name="extraHeaders">If you need to set any additional http headers on the request</param>
         /// <param name="body">The body entity.</param>
         /// <returns>An http request object</returns>
-        private HttpRequestMessage BuildRequest(HttpMethod method, string address, 
-                                                    Dictionary<string, string> parameters = null,
-                                                    Dictionary<string, string> extraHeaders = null,
-                                                    object body = null)
+        private HttpRequestMessage BuildRequest(
+            HttpMethod method,
+            string address,
+            Dictionary<string, string> parameters = null,
+            Dictionary<string, string> extraHeaders = null,
+            object body = null)
         {
             var queryString = string.Empty;
 
@@ -88,8 +93,12 @@ namespace JudoPayDotNet.Http
                 }
             }
 
+            if (!request.Headers.Contains("user-agent"))
+            {
+                request.Headers.Add("User-Agent", this._userAgent);
+            }
 
-            if (body != null) 
+            if (body != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(body, _settings), new UTF8Encoding());
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -109,8 +118,7 @@ namespace JudoPayDotNet.Http
         /// Response in wrong format or malformed
         /// </exception>
         /// <exception cref="HttpError">Generic http error</exception>
-        private async Task<T> HandleResponseCommon<T>(HttpResponseMessage response,
-                                                            Func<string, T, T> parser) where T : IResponse, new()
+        private async Task<T> HandleResponseCommon<T>(HttpResponseMessage response, Func<string, T, T> parser) where T : IResponse, new()
         {
             var parsedResponse = new T();
 
@@ -125,8 +133,7 @@ namespace JudoPayDotNet.Http
                         if (response.Content.Headers.ContentType.MediaType != "application/json")
                         {
                             //Not a json response, use a custom error for not accepted response format
-                            _log.ErrorFormat("Received a response in {0} media type format rather the expected \"application/json\"",
-                                                response.Content.Headers.ContentType.MediaType);
+                            _log.ErrorFormat("Received a response in {0} media type format rather the expected \"application/json\"", response.Content.Headers.ContentType.MediaType);
                             throw new BadResponseError(response);
                         }
 
@@ -142,9 +149,7 @@ namespace JudoPayDotNet.Http
                     }
                     catch (JsonException e)
                     {
-                        _log.ErrorFormat("Ocurred an error deserializing the following content {0}",
-                                            e,
-                                            content);
+                        _log.ErrorFormat("Ocurred an error deserializing the following content {0}", e, content);
                         throw new HttpError(response);
                     }
                 }
@@ -153,9 +158,7 @@ namespace JudoPayDotNet.Http
             {
                 // If there is an error deserializing a response or an error response then it should be
                 // logged and encapsulated on a BadResponseError
-                _log.ErrorFormat("An error occurred deserializing the following content {0}",
-                                            e,
-                                            content);
+                _log.ErrorFormat("An error occurred deserializing the following content {0}", e, content);
                 throw new BadResponseError(e);
             }
 
@@ -175,10 +178,12 @@ namespace JudoPayDotNet.Http
         /// <param name="body">The entity body.</param>
         /// <returns>Http response to be handled</returns>
         /// <exception cref="ConnectionError">When something wrong happens at the connection level</exception>
-        private async Task<HttpResponseMessage> SendCommon(HttpMethod method, string address,
-                                        Dictionary<string, string> parameters = null,
-                                        Dictionary<string, string> extraHeaders = null,
-                                        object body = null)
+        private async Task<HttpResponseMessage> SendCommon(
+            HttpMethod method,
+            string address,
+            Dictionary<string, string> parameters = null,
+            Dictionary<string, string> extraHeaders = null,
+            object body = null)
         {
             var request = BuildRequest(method, address, parameters, extraHeaders, body);
             try
@@ -188,7 +193,8 @@ namespace JudoPayDotNet.Http
             catch (HttpRequestException e)
             {
                 _log.Error("Http error", e.InnerException);
-                //Communication layer expections are wrapped by HttpRequestException
+
+                // Communication layer expections are wrapped by HttpRequestException
                 throw new ConnectionError(e.InnerException);
             }
             catch (Exception e)
@@ -220,10 +226,10 @@ namespace JudoPayDotNet.Http
         private async Task<IResponse<T>> HandleResponse<T>(HttpResponseMessage response)
         {
             Func<string, Response<T>, Response<T>> parser = (content, parsedResponse) =>
-            {
-                parsedResponse.ResponseBodyObject = JsonConvert.DeserializeObject<T>(content, _settings);
-                return parsedResponse;
-            };
+                {
+                    parsedResponse.ResponseBodyObject = JsonConvert.DeserializeObject<T>(content, _settings);
+                    return parsedResponse;
+                };
 
             return await HandleResponseCommon(response, parser);
         }
@@ -237,12 +243,9 @@ namespace JudoPayDotNet.Http
         /// <param name="extraHeaders">Any extra http headers to send with the request</param>
         /// <param name="body">The entity body.</param>
         /// <returns>The response parsed and with error if something wrong happend</returns>
-        public async Task<IResponse> Send(HttpMethod method, string address,
-            Dictionary<string, string> parameters = null,
-            Dictionary<string, string> extraHeaders = null,
-            object body = null)
+        public async Task<IResponse> Send(HttpMethod method, string address, Dictionary<string, string> parameters = null, Dictionary<string, string> extraHeaders = null, object body = null)
         {
-			var response = await SendCommon(method, address, parameters, extraHeaders, body).ConfigureAwait(false);
+            var response = await SendCommon(method, address, parameters, extraHeaders, body).ConfigureAwait(false);
 
 
             return await HandleResponse(response).ConfigureAwait(false);
@@ -258,12 +261,14 @@ namespace JudoPayDotNet.Http
         /// <param name="extraHeaders">Any extra http headers to send with the request</param>
         /// <param name="body">The entity body.</param>
         /// <returns>The response parsed and with error if something wrong happend</returns>
-        public async Task<IResponse<T>> Send<T>(HttpMethod method, string address,
+        public async Task<IResponse<T>> Send<T>(
+            HttpMethod method,
+            string address,
             Dictionary<string, string> parameters = null,
             Dictionary<string, string> extraHeaders = null,
             object body = null)
         {
-			var response = await SendCommon(method, address, parameters, extraHeaders, body).ConfigureAwait(false);
+            var response = await SendCommon(method, address, parameters, extraHeaders, body).ConfigureAwait(false);
 
             return await HandleResponse<T>(response).ConfigureAwait(false);
         }

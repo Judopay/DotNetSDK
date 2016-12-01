@@ -4,6 +4,10 @@ using System.Threading.Tasks;
 
 namespace JudoPayDotNet.Http
 {
+    using System.Reflection;
+
+    using JudoPayDotNet.Clients;
+
     /// <summary>
     /// This client is a simple wrapper of IHttpClient
     /// </summary>
@@ -52,7 +56,7 @@ namespace JudoPayDotNet.Http
                 previousHandler = currentHandler;
             }
 
-            //This is the default delegating handler that actually does the http request
+            // This is the default delegating handler that actually does the http request
             currentHandler.InnerHandler = new HttpClientHandler();
 
             return new HttpClient(firstHandler);
