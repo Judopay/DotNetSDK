@@ -10,9 +10,11 @@ namespace JudoPayDotNet.Clients
     internal class BaseRefunds : JudoPayClient
     {
         protected readonly IValidator<RefundModel> RefundValidator = new RefundsValidator();
+
         private readonly string _createRefundsAddress;
 
-        protected BaseRefunds(ILog logger, IClient client, string createRefundsAddress) : base(logger, client)
+        protected BaseRefunds(ILog logger, IClient client, string createRefundsAddress)
+            : base(logger, client)
         {
             _createRefundsAddress = createRefundsAddress;
         }
@@ -20,7 +22,6 @@ namespace JudoPayDotNet.Clients
         public Task<IResult<ITransactionResult>> Create(RefundModel refund)
         {
             var validationError = Validate<RefundModel, ITransactionResult>(RefundValidator, refund);
-
             return validationError ?? PostInternal<RefundModel, ITransactionResult>(_createRefundsAddress, refund);
         }
     }
