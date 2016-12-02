@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace JudoPayDotNet.Http
 {
+    using System.Net.Http.Headers;
     using System.Reflection;
 
     using JudoPayDotNet.Clients;
@@ -14,6 +15,8 @@ namespace JudoPayDotNet.Http
     // ReSharper disable UnusedMember.Global
     internal class HttpClientWrapper : IHttpClient
     {
+        internal static readonly string SdkUserAgent = "DotNetSDK/" + new AssemblyName(typeof(HttpClientWrapper).GetTypeInfo().Assembly.FullName).Version;
+
         public readonly HttpClient HttpClient;
 
         public HttpClientWrapper()
@@ -26,9 +29,20 @@ namespace JudoPayDotNet.Http
             HttpClient = CreateHttpClient(handler);
         }
 
-        public HttpClientWrapper(params DelegatingHandler[] handlers)
+        public HttpClientWrapper(params DelegatingHandler[] handlers) : this(null, handlers)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the HttpWrapper class for senidng messages to the api
+        /// </summary>
+        /// <param name="userAgent">Details of the client calling the api, should be in the form PRODUCT/VERSION</param>
+        /// <param name="handlers">a list of custom handlers</param>
+        public HttpClientWrapper(ProductInfoHeaderValue userAgent, params DelegatingHandler[] handlers)
         {
             HttpClient = CreateHttpClient(handlers);
+            HttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(SdkUserAgent);
+            if (userAgent != null) HttpClient.DefaultRequestHeaders.UserAgent.Add(userAgent);
         }
 
         private static HttpClient CreateHttpClient(params DelegatingHandler[] handlers)

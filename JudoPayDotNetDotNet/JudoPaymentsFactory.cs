@@ -9,6 +9,8 @@ using JudoPayDotNetDotNet.Logging;
 
 namespace JudoPayDotNetDotNet
 {
+    using System.Net.Http.Headers;
+
     using JudoPayDotNet.Clients;
 
     // ReSharper disable UnusedMember.Global
@@ -36,43 +38,39 @@ namespace JudoPayDotNetDotNet
             };
 
 
-        private static JudoPayApi Create(Credentials credentials, string baseUrl, string apiVersion, string clientVersion)
+        private static JudoPayApi Create(Credentials credentials, string baseUrl, string apiVersion, ProductInfoHeaderValue userAgent)
         {
-            var httpClient = new HttpClientWrapper(
+            var httpClient = new HttpClientWrapper(userAgent,
                                  new AuthorizationHandler(credentials, DotNetLoggerFactory.Create(typeof(AuthorizationHandler))),
-                                 new VersioningHandler(apiVersion, clientVersion));
-            var userAgent = VersioningHandler.SdkVersionDetails + " " + Environment.OSVersion;
+                                 new VersioningHandler(apiVersion));
 
-            var connection = new Connection(httpClient, DotNetLoggerFactory.Create, baseUrl, userAgent);
+            var connection = new Connection(httpClient, DotNetLoggerFactory.Create, baseUrl);
             var client = new Client(connection);
 
             return new JudoPayApi(DotNetLoggerFactory.Create, client);
         }
 
-        private static JudoPayApi Create(Credentials credentials, string baseUrl, string sdkVersion, IJudoConfiguration configuration)
+        private static JudoPayApi Create(Credentials credentials, string baseUrl, IJudoConfiguration configuration, ProductInfoHeaderValue userAgent)
         {
             var apiVersion = GetConfigValue(ApiVersionKey, VersioningHandler.DEFAULT_API_VERSION, configuration);
-            return Create(credentials, baseUrl, apiVersion, sdkVersion);
+            return Create(credentials, baseUrl, apiVersion, userAgent);
         }
 
         /// <summary>
         /// Factory method for the benefit of platform tests that need to have finer grained control of the API version
         /// </summary>
-        /// <param name="token">The api token to use</param>
-        /// <param name="secret">The api secret to use</param>
+        /// <param name="credentials">The api token and secret to use</param>
         /// <param name="baseUrl">Base URL for the host</param>
         /// <param name="apiVersion">The api version to use</param>
-        /// <returns>An API Client</returns>
-        internal static JudoPayApi Create(string token, string secret, string baseUrl, string apiVersion)
+        /// <returns>Initialized instance of the Judopay api client</returns>
+        internal static JudoPayApi Create(Credentials credentials, string baseUrl, string apiVersion)
         {
-            var credentials = new Credentials(token, secret);
-            return Create(credentials, baseUrl, apiVersion, string.Empty);
+            return Create(credentials, baseUrl, apiVersion, null);
         }
 
-        internal static JudoPayApi Create(string token, string secret, JudoEnvironment judoEnvironment, string apiVersion)
+        internal static JudoPayApi Create(Credentials credentials, JudoEnvironment judoEnvironment, string apiVersion)
         {
-            var credentials = new Credentials(token, secret);
-            return Create(credentials, GetEnvironmentUrl(judoEnvironment), apiVersion, string.Empty);
+            return Create(credentials, GetEnvironmentUrl(judoEnvironment), apiVersion, null);
         }
 
         internal static string GetEnvironmentUrl(JudoEnvironment judoEnvironment, IJudoConfiguration configuration = null)
@@ -101,6 +99,7 @@ namespace JudoPayDotNetDotNet
         /// <param name="judoEnvironment">Either the sandbox (development/testing) or live environments</param>
         /// <param name="token">Your API token (from our merchant dashboard)</param>
         /// <param name="secret">Your API secret (from our merchant dashboard)</param>
+        /// <returns>Initialized instance of the Judopay api client</returns>
         public static JudoPayApi Create(JudoEnvironment judoEnvironment, string token, string secret)
         {
             return Create(token, secret, GetEnvironmentUrl(judoEnvironment), null, defaultConfigurationAccess);
@@ -110,30 +109,43 @@ namespace JudoPayDotNetDotNet
         /// Creates an instance of the judopay api client with a custom base url, that will authenticate with your api token and secret.
         /// </summary>
         /// <remarks>This is intented for development/sandbox environments</remarks>
-        /// <param name="token"></param>
-        /// <param name="secret"></param>
-        /// <param name="baseUrl"></param>
-        /// <param name="configuration">Application configuration accessor</param>
-        /// <returns></returns>
-        public static JudoPayApi Create(string token, string secret, string baseUrl, IJudoConfiguration configuration = null)
+        /// <param name="token">Your API token (from our merchant dashboard)</param>
+        /// <param name="secret">Your API secret (from our merchant dashboard)</param>
+        /// <param name="baseUrl">Base URL for the Judopay api</param>
+        /// <returns>Initialized instance of the Judopay api client</returns>
+        public static JudoPayApi Create(string token, string secret, string baseUrl)
         {
-            return Create(token, secret, baseUrl, null, configuration ?? defaultConfigurationAccess);
+            return Create(token, secret, baseUrl, null, defaultConfigurationAccess);
         }
 
         /// <summary>
         /// Creates an instance of the judopay api client with a custom base url, that will authenticate with your api token and secret.
         /// </summary>
         /// <remarks>This is intented for development/sandbox environments</remarks>
-        /// <param name="token"></param>
-        /// <param name="secret"></param>
-        /// <param name="baseUrl"></param>
-        /// <param name="clientVersion">The name and version number of the calling application</param>
+        /// <param name="token">Your API token (from our merchant dashboard)</param>
+        /// <param name="secret">Your API secret (from our merchant dashboard)</param>
+        /// <param name="baseUrl">Base URL for the Judopay api</param>
         /// <param name="configuration">Application configuration accessor</param>
-        /// <returns></returns>
-        public static JudoPayApi Create(string token, string secret, string baseUrl, string clientVersion, IJudoConfiguration configuration = null)
+        /// <returns>Initialized instance of the Judopay api client</returns>
+        public static JudoPayApi Create(string token, string secret, string baseUrl, IJudoConfiguration configuration)
+        {
+            return Create(token, secret, baseUrl, null, configuration);
+        }
+
+        /// <summary>
+        /// Creates an instance of the judopay api client with a custom base url, that will authenticate with your api token and secret.
+        /// </summary>
+        /// <remarks>This is intented for development/sandbox environments</remarks>
+        /// <param name="token">Your API token (from our merchant dashboard)</param>
+        /// <param name="secret">Your API secret (from our merchant dashboard)</param>
+        /// <param name="baseUrl">Base URL for the Judopay api</param>
+        /// <param name="userAgent">The name and version number of the calling application, should be in the form PRODUCT/VERSION</param>
+        /// <param name="configuration">Application configuration accessor</param>
+        /// <returns>Initialized instance of the Judopay api client</returns>
+        public static JudoPayApi Create(string token, string secret, string baseUrl, ProductInfoHeaderValue userAgent, IJudoConfiguration configuration = null)
         {
             var credentials = new Credentials(token, secret);
-            return Create(credentials, baseUrl, clientVersion, configuration ?? defaultConfigurationAccess);
+            return Create(credentials, baseUrl, configuration ?? defaultConfigurationAccess, userAgent);
         }
     }
 

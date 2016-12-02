@@ -14,6 +14,8 @@ using Newtonsoft.Json.Serialization;
 
 namespace JudoPayDotNet.Http
 {
+    using JudoPayDotNet.Models;
+
     /// <summary>
     /// Handles the http requests creation and the http responses
     /// </summary>
@@ -25,18 +27,12 @@ namespace JudoPayDotNet.Http
 
         private readonly ILog _log;
 
-        private readonly string _userAgent;
-
         /// <summary>
         /// Serialization settings
         /// </summary>
         private readonly JsonSerializerSettings _settings;
 
-        public Connection(IHttpClient client, Func<Type, ILog> log, string baseAddress) : this(client, log, baseAddress, VersioningHandler.SdkVersionDetails)
-        {
-        }
-
-        public Connection(IHttpClient client, Func<Type, ILog> log, string baseAddress, string userAgent)
+        public Connection(IHttpClient client, Func<Type, ILog> log, string baseAddress)
         {
             _httpClient = client;
 
@@ -47,7 +43,6 @@ namespace JudoPayDotNet.Http
 
             _baseAddress = new Uri(baseAddress);
             _log = log(GetType());
-            _userAgent = userAgent;
 
             _settings = new JsonSerializerSettings
                             {
@@ -93,11 +88,12 @@ namespace JudoPayDotNet.Http
                 }
             }
 
-            if (!request.Headers.Contains("user-agent"))
+            var paymentModel = body as PaymentModel;
+            if (paymentModel != null && !string.IsNullOrWhiteSpace(paymentModel.UserAgent))
             {
-                request.Headers.Add("User-Agent", this._userAgent);
+                request.Headers.UserAgent.TryParseAdd(paymentModel.UserAgent);
             }
-
+            
             if (body != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(body, _settings), new UTF8Encoding());
