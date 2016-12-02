@@ -56,6 +56,8 @@ var cardPaymentModel = new CardPaymentModel
 	
 };
 ```
+**Note:** Please make sure that you are using a unique Consumer Reference for each different consumer.
+
 ####4. Check the payment result
 ```
 client.Payments.Create(cardPaymentModel).ContinueWith(result =>

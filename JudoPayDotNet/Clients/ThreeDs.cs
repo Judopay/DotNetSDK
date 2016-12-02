@@ -10,7 +10,9 @@ namespace JudoPayDotNet.Clients
     internal class ThreeDs : JudoPayClient, IThreeDs
     {
         private const string GetThreeDAuthorizationAddress = "transactions/threedauthorisations";
+
         private const string CompleteThreeDAuthorizationAddress = "transactions";
+
         private readonly IValidator<ThreeDResultModel> _threeDResultValidator = new InlineValidator<ThreeDResultModel>();
 
         public ThreeDs(ILog logger, IClient client)
@@ -22,8 +24,7 @@ namespace JudoPayDotNet.Clients
         {
             var address = string.Format("{0}/{1}", GetThreeDAuthorizationAddress, md);
 
-            return GetInternal<PaymentRequiresThreeDSecureModel>(address, 
-                new Dictionary<string, string> {{"md", md}});
+            return GetInternal<PaymentRequiresThreeDSecureModel>(address, new Dictionary<string, string> { { "md", md } });
         }
 
         public Task<IResult<PaymentReceiptModel>> Complete3DSecure(long receiptId, ThreeDResultModel model)
