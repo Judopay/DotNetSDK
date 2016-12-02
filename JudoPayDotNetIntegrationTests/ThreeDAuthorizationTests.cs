@@ -37,7 +37,7 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341");
             paymentWithCard.MobileNumber = "07123456789";
             paymentWithCard.EmailAddress = "test@gmail.com";
-            paymentWithCard.UserAgent = "Mozilla / 4.0(compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)"; //"Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
+            paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             paymentWithCard.DeviceCategory = "Mobile";
             
