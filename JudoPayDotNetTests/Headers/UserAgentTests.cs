@@ -16,6 +16,7 @@ namespace JudoPayDotNetTests.Headers
     [TestFixture]
     public class UserAgentTests
     {
+        [TestCase("DotNetSDK/1.0.0.0", 1)]
         [TestCase("Mozilla / 4.0", 1)]
         [TestCase("Mozilla / 4.0(compatible)", 0)] // The underlying .Net classes are unable to parse these values
         [TestCase("Mozilla / 4.0(compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)", 0)] // The underlying .Net classes are unable to parse these values
@@ -25,6 +26,15 @@ namespace JudoPayDotNetTests.Headers
             request.Headers.UserAgent.TryParseAdd(userAgent);
 
             Assert.That(request.Headers.UserAgent, Has.Count.EqualTo(expectedCount));
+        }
+
+        [Test]
+        public void ComplexUserAgentAdd()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://foo");
+            request.Headers.Add("User-Agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)");
+
+            Assert.That(request.Headers.UserAgent, Has.Count.EqualTo(1));
         }
     }
 }

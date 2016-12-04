@@ -40,6 +40,8 @@ namespace JudoPayDotNetDotNet
 
         private static JudoPayApi Create(Credentials credentials, string baseUrl, string apiVersion, ProductInfoHeaderValue userAgent)
         {
+            var platformUserAgent = new ProductInfoHeaderValue(Environment.OSVersion.Platform.ToString(), Environment.OSVersion.Version.ToString());
+            platformUserAgent.Comment = Environment.OSVersion.ToString();
             var httpClient = new HttpClientWrapper(userAgent,
                                  new AuthorizationHandler(credentials, DotNetLoggerFactory.Create(typeof(AuthorizationHandler))),
                                  new VersioningHandler(apiVersion));
