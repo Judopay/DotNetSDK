@@ -12,6 +12,8 @@ using NUnit.Framework;
 
 namespace JudoPayDotNetTests.Http
 {
+    using JudoPayDotNet.Models;
+
     using NSubstitute.Core;
 
     [TestFixture]
@@ -110,48 +112,6 @@ namespace JudoPayDotNetTests.Http
         }
 
         [Test]
-        public async Task NoExplicitUserAgentSoDefaultIsUsed()
-        {
-            var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent((@"{
-                            results : [{
-                                receiptId : '134567',
-                                type : 'Create',
-                                judoId : '12456',
-                                originalAmount : 20,
-                                amount : 20,
-                                netAmount : 20,
-                                cardDetails :
-                                    {
-                                        cardLastfour : '1345',
-                                        endDate : '1214',
-                                        cardToken : 'ASb345AE',
-                                        cardType : 'VISA'
-                                    },
-                                currency : 'GBP',
-                                consumer : 
-                                    {
-                                        consumerToken : 'B245SEB',
-                                        yourConsumerReference : 'Consumer1'
-                                    }
-                             }]}")) };
-
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
-            responseTask.SetResult(response);
-
-            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
-
-            var connection = new Connection(httpClient, DotNetLoggerFactory.Create, "http://test.com");
-
-            await connection.Send(HttpMethod.Get, "http://foo");
-
-            await httpClient.Received().SendAsync(Arg.Is<HttpRequestMessage>(r => r.Headers.UserAgent.First().Product.Name == VersioningHandler.SdkVersionDetails));
-        }
-
-
-
-        [Test]
         public async Task ExplicitUserAgentSendsExplicitValue()
         {
             var httpClient = Substitute.For<IHttpClient>();
@@ -183,13 +143,12 @@ namespace JudoPayDotNetTests.Http
             responseTask.SetResult(response);
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            const string SomeAgent = "SomeTest-234"; // .Net interprets spaces as the delimiter between product name and version
+            var connection = new Connection(httpClient, DotNetLoggerFactory.Create, "http://test.com");
+            var paymentModel = new CardPaymentModel { UserAgent = "SomeText" };
 
-            var connection = new Connection(httpClient, DotNetLoggerFactory.Create, "http://test.com", SomeAgent);
+            await connection.Send(HttpMethod.Post, "http://foo", null, null, paymentModel);
 
-            await connection.Send(HttpMethod.Get, "http://foo");
-
-            await httpClient.Received().SendAsync(Arg.Is<HttpRequestMessage>(r => r.Headers.UserAgent.First().Product.Name == SomeAgent));
+            await httpClient.Received().SendAsync(Arg.Is<HttpRequestMessage>(r => r.Headers.UserAgent.First().Product.Name == paymentModel.UserAgent));
         }
     }
 }

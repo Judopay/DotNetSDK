@@ -10,15 +10,20 @@ using NUnit.Framework;
 
 namespace JudoPayDotNetTests.Headers
 {
+    using System.Collections.Generic;
+    using System.Net.Http.Headers;
+    using System.Reflection;
+
     [TestFixture]
     public class HeaderChainAdded
     {
         private const string API_VERSION = "7.2";
-        private const string SDK_VERSION = "TEST-7.2";
 
         private VersioningHandler _versionHandler;
 
         private AuthorizationHandler _authorizationHandlerhandler;
+
+        private static readonly string ProductVersion = new AssemblyName(typeof(HttpClientWrapper).GetTypeInfo().Assembly.FullName).Version.ToString();
 
         [SetUp]
         public void SetupOnce()
@@ -26,7 +31,7 @@ namespace JudoPayDotNetTests.Headers
             var logger = Substitute.For<ILog>();
             var credentials = new Credentials("ABC");
 
-            _versionHandler = new VersioningHandler(API_VERSION, SDK_VERSION);
+            _versionHandler = new VersioningHandler(API_VERSION);
             _authorizationHandlerhandler = new AuthorizationHandler(credentials, logger);
         }
 
@@ -57,18 +62,14 @@ namespace JudoPayDotNetTests.Headers
         }
 
         [Test]
-        public void VerifyTheExistanceOfSDKVersioning()
+        public void VerifyTheExistanceOfAuthenticationHeader()
         {
             var testHandler = new TestHandler(
                                   (request, cancelation) =>
                                   {
-                                      var requestVersionHeader = request.Headers.FirstOrDefault(h => h.Key == VersioningHandler.SDK_VERSION_HEADER);
-
-                                      // Ensure API version header is sent
-                                      Assert.IsNotNull(requestVersionHeader);
-                                      Assert.That(requestVersionHeader.Value.FirstOrDefault(), Is.Not.Null.Or.Empty);
-                                      Assert.That(requestVersionHeader.Value.FirstOrDefault(), Contains.Substring(SDK_VERSION));
-                                      Assert.That(requestVersionHeader.Value.FirstOrDefault(), Contains.Substring("DotNetSDK-"));
+                                      // Ensure that authentication header is sent
+                                      Assert.AreEqual("Bearer", request.Headers.Authorization.Scheme);
+                                      Assert.AreEqual("ABC", request.Headers.Authorization.Parameter);
 
                                       return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
                                   });
@@ -84,19 +85,47 @@ namespace JudoPayDotNetTests.Headers
         }
 
         [Test]
-        public void VerifyTheExistanceOfAuthenticationHeader()
+        public void VerifyExistanceOfDefaultHeaders()
         {
             var testHandler = new TestHandler(
                                   (request, cancelation) =>
                                   {
-                                      // Ensure that authentication header is sent
-                                      Assert.AreEqual("Bearer", request.Headers.Authorization.Scheme);
-                                      Assert.AreEqual("ABC", request.Headers.Authorization.Parameter);
+                                      // Ensure User-Agent is sent
+                                      Assert.That(request.Headers.UserAgent, Is.Not.Null.Or.Empty);
+                                      Assert.That(request.Headers.UserAgent.First().Product.Name, Is.EqualTo("DotNetSDK"));
+                                      Assert.That(request.Headers.UserAgent.First().Product.Version, Is.EqualTo(ProductVersion));
 
                                       return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
                                   });
 
             var clientWrapper = new HttpClientWrapper(_versionHandler, _authorizationHandlerhandler, testHandler);
+
+            var client = clientWrapper.HttpClient;
+
+            // ReSharper disable once MethodSupportsCancellation
+            var response = client.GetAsync("http://lodididki");
+
+            Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);
+        }
+
+        [Test]
+        public void VerifyExistanceOfExplicitUserAgent()
+        {
+            var customAgent = new List<ProductInfoHeaderValue>() { new ProductInfoHeaderValue("TEST", "123") };
+
+            var testHandler = new TestHandler(
+                                  (request, cancelation) =>
+                                  {
+                                      // Ensure User-Agent is sent
+                                      Assert.That(request.Headers.UserAgent, Is.Not.Null.Or.Empty);
+                                      Assert.That(request.Headers.UserAgent.Count, Is.EqualTo(2));
+
+                                      Assert.That(request.Headers.UserAgent, Has.Exactly(1).Matches<ProductInfoHeaderValue>(a => a.Product.Name == "TEST"));
+
+                                      return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
+                                  });
+
+            var clientWrapper = new HttpClientWrapper(customAgent, _versionHandler, _authorizationHandlerhandler, testHandler);
 
             var client = clientWrapper.HttpClient;
 

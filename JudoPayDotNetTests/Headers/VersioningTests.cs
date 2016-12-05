@@ -27,7 +27,7 @@ namespace JudoPayDotNetTests.Headers
                                           return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
                                       });
 
-            var handler = new VersioningHandler(versionHeaderValue, "") { InnerHandler = testHandler };
+            var handler = new VersioningHandler(versionHeaderValue) { InnerHandler = testHandler };
 
             var client = new HttpClient(handler);
 
