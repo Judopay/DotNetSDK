@@ -29,12 +29,11 @@ namespace JudoPayDotNetTests.Headers
         }
 
         [Test]
-        public void ComplexUserAgentAdd()
+        public void OsVersionHeaderTest()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://foo");
-            request.Headers.Add("User-Agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)");
+            var platformUserAgent = new ProductInfoHeaderValue(Environment.OSVersion.Platform.ToString(), Environment.OSVersion.Version.ToString());
 
-            Assert.That(request.Headers.UserAgent, Has.Count.EqualTo(1));
+            Assert.That(platformUserAgent.Product.Name, Does.Contain("Win"));
         }
     }
 }

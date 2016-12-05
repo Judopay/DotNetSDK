@@ -89,6 +89,7 @@
     <Compile Include="Enums\ExplanationAttributeTests.cs" />
     <Compile Include="Enums\LocalizationAttributeTests.cs" />
     <Compile Include="Headers\UserAgentTests.cs" />
+    <Compile Include="JudoPaymentsFactoryTests.cs" />
     <Compile Include="Serialization\CustomSerializationTests.cs" />
     <Compile Include="Enums\DescriptionAttributeTests.cs" />
     <Compile Include="Headers\AuthorizationHandlerTests.cs" />

@@ -9,6 +9,7 @@ using JudoPayDotNetDotNet.Logging;
 
 namespace JudoPayDotNetDotNet
 {
+    using System.Collections.Generic;
     using System.Net.Http.Headers;
 
     using JudoPayDotNet.Clients;
@@ -40,9 +41,12 @@ namespace JudoPayDotNetDotNet
 
         private static JudoPayApi Create(Credentials credentials, string baseUrl, string apiVersion, ProductInfoHeaderValue userAgent)
         {
-            var platformUserAgent = new ProductInfoHeaderValue(Environment.OSVersion.Platform.ToString(), Environment.OSVersion.Version.ToString());
-            platformUserAgent.Comment = Environment.OSVersion.ToString();
-            var httpClient = new HttpClientWrapper(userAgent,
+            var userAgentCollection = new List<ProductInfoHeaderValue>();
+            userAgentCollection.Add(new ProductInfoHeaderValue("DotNetCLR", Environment.Version.ToString()));
+            userAgentCollection.Add(new ProductInfoHeaderValue(Environment.OSVersion.Platform.ToString(), Environment.OSVersion.Version.ToString()));
+            if (userAgent != null) userAgentCollection.Add(userAgent);
+            var httpClient = new HttpClientWrapper(
+                                 userAgentCollection,
                                  new AuthorizationHandler(credentials, DotNetLoggerFactory.Create(typeof(AuthorizationHandler))),
                                  new VersioningHandler(apiVersion));
 

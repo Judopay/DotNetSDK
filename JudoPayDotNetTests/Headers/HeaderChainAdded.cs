@@ -10,6 +10,7 @@ using NUnit.Framework;
 
 namespace JudoPayDotNetTests.Headers
 {
+    using System.Collections.Generic;
     using System.Net.Http.Headers;
     using System.Reflection;
 
@@ -110,7 +111,7 @@ namespace JudoPayDotNetTests.Headers
         [Test]
         public void VerifyExistanceOfExplicitUserAgent()
         {
-            var customAgent = new ProductInfoHeaderValue("TEST", "123");
+            var customAgent = new List<ProductInfoHeaderValue>() { new ProductInfoHeaderValue("TEST", "123") };
 
             var testHandler = new TestHandler(
                                   (request, cancelation) =>
@@ -119,7 +120,7 @@ namespace JudoPayDotNetTests.Headers
                                       Assert.That(request.Headers.UserAgent, Is.Not.Null.Or.Empty);
                                       Assert.That(request.Headers.UserAgent.Count, Is.EqualTo(2));
 
-                                      Assert.That(request.Headers.UserAgent, Has.Member(customAgent));
+                                      Assert.That(request.Headers.UserAgent, Has.Exactly(1).Matches<ProductInfoHeaderValue>(a => a.Product.Name == "TEST"));
 
                                       return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
                                   });
