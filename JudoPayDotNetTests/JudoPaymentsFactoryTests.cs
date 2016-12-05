@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace JudoPayDotNetTests
 {
+    using System.Net.Http.Headers;
+
     using JudoPayDotNet.Authentication;
 
     using JudoPayDotNetDotNet;
@@ -19,6 +21,15 @@ namespace JudoPayDotNetTests
         public void PassingNoUserAgentDoesntCauseException()
         {
             var client = JudoPaymentsFactory.Create(new Credentials("abc", "def"), "http://foo", "5.0.0.0");
+
+            Assert.That(client, Is.Not.Null);
+        }
+
+
+        [Test]
+        public void PassingDuplicateAgentDoesntCauseException()
+        {
+            var client = JudoPaymentsFactory.Create("abc", "def", "http://foo", new ProductInfoHeaderValue("DotNetSDK", "1.0.0.0"));
 
             Assert.That(client, Is.Not.Null);
         }
