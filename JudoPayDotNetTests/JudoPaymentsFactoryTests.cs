@@ -9,6 +9,7 @@ namespace JudoPayDotNetTests
     using System.Net.Http.Headers;
 
     using JudoPayDotNet.Authentication;
+    using JudoPayDotNet.Enums;
 
     using JudoPayDotNetDotNet;
 
@@ -29,7 +30,7 @@ namespace JudoPayDotNetTests
         [Test]
         public void PassingDuplicateAgentDoesntCauseException()
         {
-            var client = JudoPaymentsFactory.Create("abc", "def", "http://foo", new ProductInfoHeaderValue("DotNetSDK", "1.0.0.0"));
+            var client = JudoPaymentsFactory.Create(JudoEnvironment.Sandbox, "abc", "def", new ProductInfoHeaderValue("DotNetSDK", "1.0.0.0"));
 
             Assert.That(client, Is.Not.Null);
         }
