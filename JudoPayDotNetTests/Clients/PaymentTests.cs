@@ -17,36 +17,28 @@ namespace JudoPayDotNetTests.Clients
     public class PaymentTests
     {
 
-        //Test data
+        // Test data
         private class PaymentsTestSource
         {
             public static IEnumerable CreateSuccessTestCases
             {
                 get
                 {
-                    yield return new TestCaseData(new CardPaymentModel
-                    {
-                            Amount = 2.0m,
-                            CardAddress = new CardAddressModel
-                            {
-                                Line1 = "Test Street",
-                                PostCode = "W40 9AU",
-                                Town = "Town"
-                            },
-                            CardNumber = "348417606737499",
-                            ConsumerLocation = new ConsumerLocationModel
-                            {
-                                Latitude = 40m,
-                                Longitude = 14m
-                            },
-                            CV2 = "420",
-                            EmailAddress = "testaccount@judo.com",
-                            ExpiryDate = "120615",
-                            JudoId = "14562",
-                            MobileNumber = "07745352515",
-                            YourConsumerReference = "User10"
-                        },
-                        @"{
+                    yield return
+                        new TestCaseData(new CardPaymentModel
+                                             {
+                                                 Amount = 2.0m,
+                                                 CardAddress = new CardAddressModel { Line1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
+                                                 CardNumber = "348417606737499",
+                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
+                                                 CV2 = "420",
+                                                 EmailAddress = "testaccount@judo.com",
+                                                 ExpiryDate = "120615",
+                                                 JudoId = "14562",
+                                                 MobileNumber = "07745352515",
+                                                 YourConsumerReference = "User10"
+                                             },
+                            @"{
                             receiptId : '134567',
                             type : 'Create',
                             judoId : '12456',
@@ -68,23 +60,20 @@ namespace JudoPayDotNetTests.Clients
                                 }
                             }",
                             "134567").SetName("PayWithCardWithSuccess");
-                    yield return new TestCaseData(new TokenPaymentModel
-                    {
-                            Amount = 2.0m,
-                            ConsumerLocation = new ConsumerLocationModel
-                            {
-                                Latitude = 40m,
-                                Longitude = 14m
-                            },
-                            CV2 = "420",
-                            CardToken = "A24BS2",
-                            EmailAddress = "testaccount@judo.com",
-                            JudoId = "14562",
-                            MobileNumber = "07745352515",
-                            YourConsumerReference = "User10",
-                            ConsumerToken = "ABAS"
-                        },
-                        @"{
+                    yield return
+                        new TestCaseData(new TokenPaymentModel
+                                             {
+                                                 Amount = 2.0m,
+                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
+                                                 CV2 = "420",
+                                                 CardToken = "A24BS2",
+                                                 EmailAddress = "testaccount@judo.com",
+                                                 JudoId = "14562",
+                                                 MobileNumber = "07745352515",
+                                                 YourConsumerReference = "User10",
+                                                 ConsumerToken = "ABAS"
+                                             },
+                            @"{
                             receiptId : '134567',
                             type : 'Create',
                             judoId : '12456',
@@ -113,30 +102,21 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new CardPaymentModel
-                    {
-                        Amount = 2.0m,
-                        CardAddress = new CardAddressModel
-                        {
-                            Line1 = "Test Street",
-                            PostCode = "W40 9AU",
-                            Town = "Town"
-                        },
-                        CardNumber = "348417606737499",
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
-                        CV2 = "420",
-                        EmailAddress = "testaccount@judo.com",
-                        ExpiryDate = "120615",
-                        JudoId = "14562",
-                        MobileNumber = "07745352515",
-                        YourConsumerReference = "User10"
-                        
-                    },
-                         @"    
+                    yield return
+                        new TestCaseData(new CardPaymentModel
+                                             {
+                                                 Amount = 2.0m,
+                                                 CardAddress = new CardAddressModel { Line1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
+                                                 CardNumber = "348417606737499",
+                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
+                                                 CV2 = "420",
+                                                 EmailAddress = "testaccount@judo.com",
+                                                 ExpiryDate = "120615",
+                                                 JudoId = "14562",
+                                                 MobileNumber = "07745352515",
+                                                 YourConsumerReference = "User10"
+                                             },
+                            @"    
                         {
                             message : 'Payment not made',
                             modelErrors : [{
@@ -148,24 +128,21 @@ namespace JudoPayDotNetTests.Clients
                             code : '200',
                             category : '0'
                         }",
-                        200).SetName("PayWithCardWithoutSuccess");
-                    yield return new TestCaseData(new TokenPaymentModel
-                    {
-                        Amount = 2.0m,
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
-                        CV2 = "420",
-                        CardToken = "A24BS2",
-                        EmailAddress = "testaccount@judo.com",
-                        JudoId = "14562",
-                        MobileNumber = "07745352515",
-                        YourConsumerReference = "User10",
-                        ConsumerToken = "ABAS"
-                    },
-                         @"    
+                            200).SetName("PayWithCardWithoutSuccess");
+                    yield return
+                        new TestCaseData(new TokenPaymentModel
+                                             {
+                                                 Amount = 2.0m,
+                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
+                                                 CV2 = "420",
+                                                 CardToken = "A24BS2",
+                                                 EmailAddress = "testaccount@judo.com",
+                                                 JudoId = "14562",
+                                                 MobileNumber = "07745352515",
+                                                 YourConsumerReference = "User10",
+                                                 ConsumerToken = "ABAS"
+                                             },
+                            @"    
                         {
                             message : 'Payment not made',
                             modelErrors : [{
@@ -177,7 +154,7 @@ namespace JudoPayDotNetTests.Clients
                             code : '200',
                             category : '0'
                         }",
-                        200).SetName("PayWithTokenWithoutSuccess");
+                            200).SetName("PayWithTokenWithoutSuccess");
                 }
             }
 
@@ -185,29 +162,21 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new CardPaymentModel
-                    {
-                        Amount = 2.0m,
-                        CardAddress = new CardAddressModel
-                        {
-                            Line1 = "Test Street",
-                            PostCode = "W40 9AU",
-                            Town = "Town"
-                        },
-                        CardNumber = "348417606737499",
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
-                        CV2 = "420",
-                        EmailAddress = "testaccount@judo.com",
-                        ExpiryDate = "120615",
-                        JudoId = "14562",
-                        MobileNumber = "07745352515",
-                        YourConsumerReference = "User10"
-                    },
-                        @"{
+                    yield return
+                        new TestCaseData(new CardPaymentModel
+                                             {
+                                                 Amount = 2.0m,
+                                                 CardAddress = new CardAddressModel { Line1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
+                                                 CardNumber = "348417606737499",
+                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
+                                                 CV2 = "420",
+                                                 EmailAddress = "testaccount@judo.com",
+                                                 ExpiryDate = "120615",
+                                                 JudoId = "14562",
+                                                 MobileNumber = "07745352515",
+                                                 YourConsumerReference = "User10"
+                                             },
+                            @"{
                             errorMessage : 'Your good to go!',
                             errorType : '20'
                         }",
@@ -219,29 +188,21 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new CardPaymentModel
-                    {
-                        Amount = 2.0m,
-                        CardAddress = new CardAddressModel
-                        {
-                            Line1 = "Test Street",
-                            PostCode = "W40 9AU",
-                            Town = "Town"
-                        },
-                        CardNumber = "348417606737499",
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
-                        CV2 = "420",
-                        EmailAddress = "testaccount@judo.com",
-                        ExpiryDate = "120615",
-                        JudoId = "14562",
-                        MobileNumber = "07745352515",
-                        YourConsumerReference = "User10"
-                    },
-                         @"    
+                    yield return
+                        new TestCaseData(new CardPaymentModel
+                                             {
+                                                 Amount = 2.0m,
+                                                 CardAddress = new CardAddressModel { Line1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
+                                                 CardNumber = "348417606737499",
+                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
+                                                 CV2 = "420",
+                                                 EmailAddress = "testaccount@judo.com",
+                                                 ExpiryDate = "120615",
+                                                 JudoId = "14562",
+                                                 MobileNumber = "07745352515",
+                                                 YourConsumerReference = "User10"
+                                             },
+                            @"    
                         {
                             message : 'Payment not made',
                             modelErrors : [{
@@ -258,21 +219,18 @@ namespace JudoPayDotNetTests.Clients
             }
         }
 
-
         [Test, TestCaseSource(typeof(PaymentsTestSource), "CreateSuccessTestCases")]
         public void PayWithSuccess(PaymentModel payment, string responseData, string receiptId)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient, 
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
@@ -306,12 +264,9 @@ namespace JudoPayDotNetTests.Clients
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
-            httpClient.SendAsync(Arg.Is<HttpRequestMessage>(r=>r.Headers.Contains(EXTRA_HEADER_NAME)))
-                .Returns(responseTask.Task);
+            httpClient.SendAsync(Arg.Is<HttpRequestMessage>(r => r.Headers.Contains(EXTRA_HEADER_NAME))).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
@@ -340,19 +295,14 @@ namespace JudoPayDotNetTests.Clients
         public void PayWithError(PaymentModel payment, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                Content = new StringContent(responseData)
-            };
+            var response = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(responseData) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient, 
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
@@ -380,16 +330,14 @@ namespace JudoPayDotNetTests.Clients
         public void ValidateWithSuccess(PaymentModel payment, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
@@ -416,19 +364,14 @@ namespace JudoPayDotNetTests.Clients
         public void ValidateWithoutSuccess(PaymentModel payment, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                Content = new StringContent(responseData)
-            };
+            var response = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(responseData) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 

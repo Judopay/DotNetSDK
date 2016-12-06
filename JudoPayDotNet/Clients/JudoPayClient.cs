@@ -16,12 +16,13 @@ namespace JudoPayDotNet.Clients
     /// Base judo pay client that does all the CRUD operations and verifies the existence of errors on responses
     /// </summary>
     public abstract class JudoPayClient
-
     {
         private readonly IClient _client;
+
         private readonly ILog _logger;
-        internal const String SDK_VERSION = "1.3.1";
+
         private readonly Dictionary<string, IResponse> _uniqueResponses;
+
         public bool _deDuplicateTransactions = false;
 
         protected JudoPayClient(ILog logger, IClient client)
@@ -55,9 +56,7 @@ namespace JudoPayDotNet.Clients
         /// <param name="parameters">The query string parameters.</param>
         /// /// <param name="extraHeaders">Any extra http headers to send with the request</param>
         /// <returns>A result object that wraps the parsed response and an error if something not right happened</returns>
-        protected async Task<IResult<T>> GetInternal<T>(string address,
-        Dictionary<string, string> parameters = null,
-        Dictionary<string, string> extraHeaders = null) where T : class
+        protected async Task<IResult<T>> GetInternal<T>(string address, Dictionary<string, string> parameters = null, Dictionary<string, string> extraHeaders = null) where T : class
         {
             T result = null;
 
@@ -81,10 +80,7 @@ namespace JudoPayDotNet.Clients
         /// <param name="entity">The body entity.</param>
         /// <param name="parameters">The query string parameters.</param>
         /// <returns>A result object that wraps the parsed response and an error if something not right happened</returns>
-        protected async Task<IResult<R>> PostInternal<T, R>(string address, T entity,
-        Dictionary<string, string> parameters = null)
-        where T : class
-        where R : class
+        protected async Task<IResult<R>> PostInternal<T, R>(string address, T entity, Dictionary<string, string> parameters = null) where T : class where R : class
         {
             R result = null;
             string paymentRef = "";
@@ -120,15 +116,8 @@ namespace JudoPayDotNet.Clients
 
             if (!response.ErrorResponse)
             {
-                if (_deDuplicateTransactions)
-                {
-                    if (!string.IsNullOrEmpty(paymentRef))
-                    {
-                        StoreResult(response, paymentRef);
-                    }
-                }
+                if (this._deDuplicateTransactions && !string.IsNullOrEmpty(paymentRef)) this.StoreResult(response, paymentRef);
                 result = response.ResponseBodyObject;
-
             }
 
             return new Result<R>(result, response.JudoError);
@@ -158,11 +147,7 @@ namespace JudoPayDotNet.Clients
         /// <param name="entity">The body entity.</param>
         /// <param name="parameters">The query string parameters.</param>
         /// <returns>A result object that wraps the parsed response and an error if something not right happened</returns>
-        protected async Task<IResult<R>> PutInternal<T, R>(string address,
-        T entity,
-        Dictionary<string, string> parameters = null)
-        where T : class
-        where R : class
+        protected async Task<IResult<R>> PutInternal<T, R>(string address, T entity, Dictionary<string, string> parameters = null) where T : class where R : class
         {
 
             Dictionary<string, string> extraHeaders = null;
@@ -192,9 +177,7 @@ namespace JudoPayDotNet.Clients
         /// <param name="parameters">The query string parameters.</param>
         /// /// <param name="extraHeaders">Any extra http headers to send with the request</param>
         /// <returns>A result object that wraps the parsed response and an error if something not right happened</returns>
-        protected async Task<IResult> DeleteInternal(string address,
-        Dictionary<string, string> parameters = null,
-        Dictionary<string, string> extraHeaders = null)
+        protected async Task<IResult> DeleteInternal(string address, Dictionary<string, string> parameters = null, Dictionary<string, string> extraHeaders = null)
         {
             var response = await _client.Delete(address, parameters, extraHeaders).ConfigureAwait(false);
 
@@ -214,25 +197,23 @@ namespace JudoPayDotNet.Clients
             }
 
             var invalidRequestModel = new ModelError()
-            {
-                Code = (int)JudoApiError.General_Model_Error,
-                Message = "Sorry, we're unable to process your request. Please check your details and try again",
-                ModelErrors = new List<FieldError>(result.Errors.Count)
-            };
+                                          {
+                                              Code = (int)JudoApiError.General_Model_Error,
+                                              Message = "Sorry, we're unable to process your request. Please check your details and try again",
+                                              ModelErrors = new List<FieldError>(result.Errors.Count)
+                                          };
 
             foreach (var validationFailure in result.Errors)
             {
-                _logger.DebugFormat("Model validation error {0} {1}", validationFailure.PropertyName,
-                    validationFailure.ErrorMessage);
-                invalidRequestModel.ModelErrors.Add(new FieldError
-                {
-                    FieldName = validationFailure.PropertyName,
-                    Message = validationFailure.ErrorMessage,
-                    Code = (validationFailure.ErrorCode != null ? Int32.Parse(validationFailure.ErrorCode) : 0),
-                    Detail =
-                        string.Format("Model validation error {0} {1}", validationFailure.PropertyName,
-                            validationFailure.ErrorMessage)
-                });
+                _logger.DebugFormat("Model validation error {0} {1}", validationFailure.PropertyName, validationFailure.ErrorMessage);
+                invalidRequestModel.ModelErrors.Add(
+                    new FieldError
+                        {
+                            FieldName = validationFailure.PropertyName,
+                            Message = validationFailure.ErrorMessage,
+                            Code = (validationFailure.ErrorCode != null ? Int32.Parse(validationFailure.ErrorCode) : 0),
+                            Detail = string.Format("Model validation error {0} {1}", validationFailure.PropertyName, validationFailure.ErrorMessage)
+                        });
             }
 
             return invalidRequestModel;
@@ -259,5 +240,6 @@ namespace JudoPayDotNet.Clients
             return null;
         }
     }
+
     // ReSharper restore UnusedMember.Global
 }

@@ -16,7 +16,8 @@ namespace JudoPayDotNet.Models
         protected PaymentModel()
         {
             Currency = "GBP";
-            _paymentReference = Guid.NewGuid().ToString();
+            YourPaymentReference = Guid.NewGuid().ToString();
+            HttpHeaders = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -33,14 +34,11 @@ namespace JudoPayDotNet.Models
         /// </summary>
         /// <value>
         /// Your payment reference.
-        ///PLEASE NOTE!!!! there is a reflection call within JudoPayClient.cs that gets this property via a string call. update in both places
+        /// PLEASE NOTE!!!! there is a reflection call within JudoPayClient.cs that gets this property via a string call. update in both places
         /// including  other model instances of yourPaymentReference ********************
         /// </value>
-        private string _paymentReference;
         [DataMember(EmitDefaultValue = false)]
-        public string YourPaymentReference {
-            get { return _paymentReference;}
-        }
+        public string YourPaymentReference { get; private set; }
 
         /// <summary>
         /// Gets or sets your payment meta data.
@@ -147,7 +145,7 @@ namespace JudoPayDotNet.Models
         public JObject ClientDetails { get; set; }
 
         /// <summary>
-        /// The Client's browser useragent for 3D secure
+        /// The end consumers browser useragent for 3D secure
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -155,45 +153,25 @@ namespace JudoPayDotNet.Models
 // ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
-        /// The Client's browser DeviceCategory for 3D secure
+        /// The end consumers browser DeviceCategory for 3D secure
         /// </summary>
         /// <remarks>This should either be Desktop or Mobile</remarks>
         [DataMember(EmitDefaultValue = false)]
         public string DeviceCategory { get; set; }
 
         /// <summary>
-		/// The Client's browser accept headers, used for 3D secure
+		/// The end consumers browser accept headers, used for 3D secure
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable UnusedAutoPropertyAccessor.Global
         public string AcceptHeaders { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
 
-        private Dictionary<string, string> _httpHeaders;
-
         /// <summary>
         /// Allows you to set HTTP headers on requests
         /// </summary>
         [IgnoreDataMember]
-        public Dictionary<string, string> HttpHeaders
-        {
-            get { return _httpHeaders ?? (_httpHeaders = new Dictionary<string, string>()); }
-        }
-
-        public void ProvisionSDKVersion()
-        {
-            if (String.IsNullOrEmpty(UserAgent) || !UserAgent.Contains("DotNetSDK"))
-            {
-                if (String.IsNullOrEmpty(UserAgent))
-                {
-                    UserAgent = "DotNetSDK-" + JudoPayClient.SDK_VERSION;
-                }
-                else
-                {
-                    UserAgent = ("DotNetSDK-" + JudoPayClient.SDK_VERSION + ";" + UserAgent);
-                }
-            }
-        }
+        public Dictionary<string, string> HttpHeaders { get; private set; }
     }
     // ReSharper restore UnusedMember.Global
 }

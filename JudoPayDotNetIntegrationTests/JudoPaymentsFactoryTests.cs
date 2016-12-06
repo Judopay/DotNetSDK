@@ -3,17 +3,15 @@ using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
 {
-    class JudoPaymentsFactoryTests : IntegrationTestsBase
+    using JudoPayDotNet.Authentication;
+
+    public class JudoPaymentsFactoryTests : IntegrationTestsBase
     {
-        
         [Test]
         public void TestProjectOnlyCreateMethod()
         {
             // Given I create a new Judo client with a custom version number
-            var judo = JudoPaymentsFactory.Create(Configuration.Token,
-                Configuration.Secret,
-                Configuration.JudoEnvironment,
-                "4.0");
+            var judo = JudoPaymentsFactory.Create(new Credentials(Configuration.Token, Configuration.Secret), Configuration.JudoEnvironment, "5.0");
 
             var paymentWithCard = GetCardPaymentModel("432438862");
 

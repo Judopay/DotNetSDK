@@ -13,25 +13,25 @@ namespace JudoPayDotNetTests.Headers
         [Test]
         public void VersionHeaderTest()
         {
-            const string versionHeader = "api-version-header";
             const string versionHeaderValue = "3.2";
 
-            var testHandler = new TestHandler((request, cancelation) =>
-            {
-                var requestVersionHeader = request.Headers.FirstOrDefault(h => h.Key == versionHeader);
-                
-                Assert.IsNotNull(requestVersionHeader);
-                Assert.That(requestVersionHeader.Value.FirstOrDefault(), Is.Not.Null.Or.Empty);
-                Assert.That(requestVersionHeader.Value.FirstOrDefault(), Is.EqualTo(versionHeaderValue));
+            var testHandler = new TestHandler(
+                                  (request, cancelation) =>
+                                      {
+                                          var requestVersionHeader = request.Headers.FirstOrDefault(h => h.Key == VersioningHandler.API_VERSION_HEADER);
 
-                return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
-            });
+                                          Assert.IsNotNull(requestVersionHeader);
+                                          Assert.That(requestVersionHeader.Value.FirstOrDefault(), Is.Not.Null.Or.Empty);
+                                          Assert.That(requestVersionHeader.Value.FirstOrDefault(), Is.EqualTo(versionHeaderValue));
 
-            var handler = new VersioningHandler(versionHeader, versionHeaderValue) {InnerHandler = testHandler};
+                                          return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
+                                      });
+
+            var handler = new VersioningHandler(versionHeaderValue) { InnerHandler = testHandler };
 
             var client = new HttpClient(handler);
 
-// ReSharper disable once MethodSupportsCancellation
+            // ReSharper disable once MethodSupportsCancellation
             var response = client.GetAsync("http://lodididki");
 
             Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);

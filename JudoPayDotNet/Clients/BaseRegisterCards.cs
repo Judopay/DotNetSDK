@@ -14,6 +14,7 @@ namespace JudoPayDotNet.Clients
     internal class BaseRegisterCards : JudoPayClient
     {
         protected readonly IValidator<CardPaymentModel> RegisterCardValidator = new CardPaymentValidator();
+
         private readonly string _createAddress;
 
 
@@ -26,7 +27,6 @@ namespace JudoPayDotNet.Clients
         public Task<IResult<ITransactionResult>> Create(CardPaymentModel registerCard)
         {
             var validationError = Validate<CardPaymentModel, ITransactionResult>(RegisterCardValidator, registerCard);
-            registerCard.ProvisionSDKVersion();
             return validationError ?? PostInternal<CardPaymentModel, ITransactionResult>(_createAddress, registerCard);
         }
     }

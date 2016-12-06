@@ -22,13 +22,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new CollectionModel
-                    {
-                        Amount = 2.0m,
-                        ReceiptId = 34560,
-                        
-                    },
-                        @"{
+                    yield return new TestCaseData(new CollectionModel { Amount = 2.0m, ReceiptId = 34560, }, @"{
                             receiptId : '134567',
                             type : 'Create',
                             judoId : '12456',
@@ -48,8 +42,7 @@ namespace JudoPayDotNetTests.Clients
                                     consumerToken : 'B245SEB',
                                     yourConsumerReference : 'Consumer1'
                                 }
-                            }",
-                        "134567").SetName("CollectionWithSuccess");
+                            }", "134567").SetName("CollectionWithSuccess");
                 }
             }
 
@@ -57,14 +50,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new CollectionModel
-                    {
-                        Amount = 2.0m,
-                        ReceiptId = 34560,
-                        
-                    },
-
-                            @"    
+                    yield return new TestCaseData(new CollectionModel { Amount = 2.0m, ReceiptId = 34560, }, @"    
                         {
                             message : 'Payment not made',
                             modelErrors : [{
@@ -75,8 +61,7 @@ namespace JudoPayDotNetTests.Clients
                                           }],
                             code : '11',
                             category : '0'
-                        }",
-                        JudoApiError.Payment_Declined).SetName("CollectionWithoutSuccess");
+                        }", JudoApiError.Payment_Declined).SetName("CollectionWithoutSuccess");
                 }
             }
 
@@ -84,17 +69,10 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new CollectionModel
-                    {
-                        Amount = 2.0m,
-                        ReceiptId = 34560,
-                        
-                    },
-                        @"{
+                    yield return new TestCaseData(new CollectionModel { Amount = 2.0m, ReceiptId = 34560, }, @"{
                             errorMessage : 'Your good to go!',
                             errorType : '20'
-                        }",
-                        JudoApiError.Validation_Passed).SetName("ValidationWithSuccess");
+                        }", JudoApiError.Validation_Passed).SetName("ValidationWithSuccess");
                 }
             }
 
@@ -102,13 +80,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new CollectionModel
-                    {
-                        Amount = 2.0m,
-                        ReceiptId = 34560,
-                        
-                    },
-                         @"    
+                    yield return new TestCaseData(new CollectionModel { Amount = 2.0m, ReceiptId = 34560, }, @"    
                         {
                             message : 'Payment not made',
                             modelErrors : [{
@@ -119,8 +91,7 @@ namespace JudoPayDotNetTests.Clients
                                           }],
                             code : '11',
                             category : '0'
-                        }",
-                        JudoApiError.Payment_Declined).SetName("ValidationWithoutSuccess");
+                        }", JudoApiError.Payment_Declined).SetName("ValidationWithoutSuccess");
                 }
             }
         }
@@ -137,9 +108,7 @@ namespace JudoPayDotNetTests.Clients
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
@@ -163,12 +132,9 @@ namespace JudoPayDotNetTests.Clients
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
-            httpClient.SendAsync(Arg.Is<HttpRequestMessage>(r => r.Headers.Contains(EXTRA_HEADER_NAME)))
-                .Returns(responseTask.Task);
+            httpClient.SendAsync(Arg.Is<HttpRequestMessage>(r => r.Headers.Contains(EXTRA_HEADER_NAME))).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
@@ -186,19 +152,14 @@ namespace JudoPayDotNetTests.Clients
         public void CollectionWithError(CollectionModel collections, string responseData, JudoApiError error)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                Content = new StringContent(responseData)
-            };
+            var response = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(responseData) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
@@ -222,9 +183,7 @@ namespace JudoPayDotNetTests.Clients
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
@@ -240,19 +199,14 @@ namespace JudoPayDotNetTests.Clients
         public void ValidateWithoutSuccess(CollectionModel collection, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                Content = new StringContent(responseData)
-            };
+            var response = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(responseData) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
