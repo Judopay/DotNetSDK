@@ -30,7 +30,7 @@ namespace JudoPayDotNet.Models
         public string YourConsumerReference { get; set; }
 
         /// <summary>
-        /// Gets or sets your payment reference.
+        /// Gets your payment reference.
         /// </summary>
         /// <value>
         /// Your payment reference.
@@ -38,7 +38,7 @@ namespace JudoPayDotNet.Models
         /// including  other model instances of yourPaymentReference ********************
         /// </value>
         [DataMember(EmitDefaultValue = false)]
-        public string YourPaymentReference { get; private set; }
+        public string YourPaymentReference { get; internal set; }
 
         /// <summary>
         /// Gets or sets your payment meta data.
