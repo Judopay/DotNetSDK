@@ -9,8 +9,6 @@ namespace JudoPayDotNet.Http
     using System.Net.Http.Headers;
     using System.Reflection;
 
-    using JudoPayDotNet.Clients;
-
     /// <summary>
     /// This client is a simple wrapper of IHttpClient
     /// </summary>
@@ -23,7 +21,7 @@ namespace JudoPayDotNet.Http
 
         public HttpClientWrapper()
         {
-            HttpClient = CreateHttpClient(null);
+            HttpClient = CreateHttpClient((IEnumerable<ProductInfoHeaderValue>)null);
         }
 
         public HttpClientWrapper(DelegatingHandler handler)
@@ -31,9 +29,7 @@ namespace JudoPayDotNet.Http
             HttpClient = CreateHttpClient(null, handler);
         }
 
-        public HttpClientWrapper(params DelegatingHandler[] handlers) : this(null, handlers)
-        {
-        }
+        public HttpClientWrapper(params DelegatingHandler[] handlers) : this(null, handlers) { }
 
         /// <summary>
         /// Initializes a new instance of the HttpWrapper class for senidng messages to the api
@@ -43,18 +39,19 @@ namespace JudoPayDotNet.Http
         public HttpClientWrapper(IEnumerable<ProductInfoHeaderValue> userAgent, params DelegatingHandler[] handlers)
         {
             HttpClient = CreateHttpClient(userAgent, handlers);
+            SetUserAgent(HttpClient, userAgent);
         }
 
         private static HttpClient CreateHttpClient(IEnumerable<ProductInfoHeaderValue> userAgent, params DelegatingHandler[] handlers)
         {
             if (!handlers.Any())
             {
-                return new HttpClient();
+                return CreateHttpClient(userAgent);
             }
 
             if (handlers.Count() == 1)
             {
-                return new HttpClient(handlers.First());
+                return CreateHttpClient(handlers.First(), userAgent);
             }
 
             DelegatingHandler currentHandler;
@@ -64,29 +61,34 @@ namespace JudoPayDotNet.Http
             for (var i = 1; i < handlers.Length; ++i)
             {
                 currentHandler = handlers[i];
-
                 previousHandler.InnerHandler = currentHandler;
-
                 previousHandler = currentHandler;
             }
 
             // This is the default delegating handler that actually does the http request
             currentHandler.InnerHandler = new HttpClientHandler();
+            return CreateHttpClient(firstHandler, userAgent);
+        }
 
-            var httpClient = new HttpClient(firstHandler);
+        private static HttpClient CreateHttpClient(DelegatingHandler handler, IEnumerable<ProductInfoHeaderValue> userAgent)
+        {
+            var httpClient = new HttpClient(handler);
+            SetUserAgent(httpClient, userAgent);
 
+            return httpClient;
+        }
+
+        private static void SetUserAgent(HttpClient httpClient, IEnumerable<ProductInfoHeaderValue> userAgent)
+        {
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(SdkUserAgent);
 
             if (userAgent != null && userAgent.Any())
             {
-              
                 foreach (var productInfoHeaderValue in userAgent)
                 {
                     httpClient.DefaultRequestHeaders.UserAgent.Add(productInfoHeaderValue);
                 }
             }
-
-            return httpClient;
         }
 
         public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
