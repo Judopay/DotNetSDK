@@ -21,7 +21,7 @@ namespace JudoPayDotNet.Http
 
         public HttpClientWrapper()
         {
-            HttpClient = CreateHttpClient((IEnumerable<ProductInfoHeaderValue>)null);
+            HttpClient = CreateHttpClient(null);
         }
 
         public HttpClientWrapper(DelegatingHandler handler)
