@@ -134,5 +134,18 @@ namespace JudoPayDotNetTests.Headers
 
             Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);
         }
+
+        [Test]
+        public void VerifyNoAdditionalHandlersIsHandledCorrectly()
+        {
+            var customAgent = new List<ProductInfoHeaderValue>() { new ProductInfoHeaderValue("TEST", "123") };
+
+            var clientWrapper = new HttpClientWrapper(customAgent);
+
+            var client = clientWrapper.HttpClient;
+
+            Assert.That(client, Is.InstanceOf<HttpClient>());
+            Assert.That(client.DefaultRequestHeaders.UserAgent.ToString(), Contains.Substring("TEST/123"));
+        }
     }
 }

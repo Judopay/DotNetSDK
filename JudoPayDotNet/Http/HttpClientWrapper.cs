@@ -45,7 +45,9 @@ namespace JudoPayDotNet.Http
         {
             if (!handlers.Any())
             {
-                return CreateHttpClient(userAgent);
+                var httpClient = new HttpClient();
+                SetUserAgent(httpClient, userAgent);
+                return httpClient;
             }
 
             if (handlers.Count() == 1)
