@@ -39,14 +39,15 @@ namespace JudoPayDotNet.Http
         public HttpClientWrapper(IEnumerable<ProductInfoHeaderValue> userAgent, params DelegatingHandler[] handlers)
         {
             HttpClient = CreateHttpClient(userAgent, handlers);
-            SetUserAgent(HttpClient, userAgent);
         }
 
         private static HttpClient CreateHttpClient(IEnumerable<ProductInfoHeaderValue> userAgent, params DelegatingHandler[] handlers)
         {
             if (!handlers.Any())
             {
-                return CreateHttpClient(userAgent);
+                var httpClient = new HttpClient();
+                SetUserAgent(httpClient, userAgent);
+                return httpClient;
             }
 
             if (handlers.Count() == 1)

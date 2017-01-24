@@ -118,8 +118,8 @@ namespace JudoPayDotNetTests.Headers
                                   {
                                       // Ensure User-Agent is sent
                                       Assert.That(request.Headers.UserAgent, Is.Not.Null.Or.Empty);
-                                      Assert.That(request.Headers.UserAgent.Count, Is.EqualTo(4));
 
+                                      Assert.That(request.Headers.UserAgent.Count, Is.EqualTo(2));
                                       Assert.That(request.Headers.UserAgent.Any(a => a.Product.Name == "TEST"));
 
                                       return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
@@ -133,6 +133,19 @@ namespace JudoPayDotNetTests.Headers
             var response = client.GetAsync("http://lodididki");
 
             Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);
+        }
+
+        [Test]
+        public void VerifyNoAdditionalHandlersIsHandledCorrectly()
+        {
+            var customAgent = new List<ProductInfoHeaderValue>() { new ProductInfoHeaderValue("TEST", "123") };
+
+            var clientWrapper = new HttpClientWrapper(customAgent);
+
+            var client = clientWrapper.HttpClient;
+
+            Assert.That(client, Is.InstanceOf<HttpClient>());
+            Assert.That(client.DefaultRequestHeaders.UserAgent.ToString(), Contains.Substring("TEST/123"));
         }
     }
 }
