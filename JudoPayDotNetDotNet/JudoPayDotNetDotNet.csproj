@@ -74,10 +74,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app.config" />
-    <Content Include="app.UAT.config">
-      <DependentUpon>app.config</DependentUpon>
-    </Content>
     <None Include="JudoPayDotNetDotNet.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
