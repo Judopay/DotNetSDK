@@ -31,5 +31,7 @@
     <files>
         <file src="bin\release\JudoPayDotNet.dll" target="lib\net45" />
         <file src="bin\release\JudoPayDotNetDotNet.dll" target="lib\net45" />
+        <file src="bin\release\JudoPayDotNet.dll" target="lib\net461" />
+        <file src="bin\release\JudoPayDotNetDotNet.dll" target="lib\net461" />
     </files>
 </package>
