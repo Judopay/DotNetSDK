@@ -118,9 +118,9 @@ namespace JudoPayDotNetTests.Headers
                                   {
                                       // Ensure User-Agent is sent
                                       Assert.That(request.Headers.UserAgent, Is.Not.Null.Or.Empty);
-                                      Assert.That(request.Headers.UserAgent.Count, Is.EqualTo(2));
+                                      Assert.That(request.Headers.UserAgent.Count, Is.EqualTo(4));
 
-                                      Assert.That(request.Headers.UserAgent, Has.Exactly(1).Matches<ProductInfoHeaderValue>(a => a.Product.Name == "TEST"));
+                                      Assert.That(request.Headers.UserAgent.Any(a => a.Product.Name == "TEST"));
 
                                       return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
                                   });
