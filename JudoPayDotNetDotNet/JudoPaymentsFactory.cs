@@ -151,7 +151,6 @@ namespace JudoPayDotNetDotNet
         /// <param name="token">Your API token (from our merchant dashboard)</param>
         /// <param name="secret">Your API secret (from our merchant dashboard)</param>
         /// <param name="baseUrl">Base URL for the Judopay api</param>
-        /// <param name="userAgent">The name and version number of the calling application, should be in the form PRODUCT/VERSION</param>
         /// <param name="configuration">Application configuration accessor</param>
         /// <returns>Initialized instance of the Judopay api client</returns>
         public static JudoPayApi Create(string token, string secret, string baseUrl, IJudoConfiguration configuration = null)
