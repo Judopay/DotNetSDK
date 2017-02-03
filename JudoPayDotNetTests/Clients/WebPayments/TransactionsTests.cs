@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -14,6 +15,19 @@ namespace JudoPayDotNetTests.Clients.WebPayments
     [TestFixture]
     public class TransactionsTests
     {
+        [TestCase("")]
+        [TestCase(" ")]
+        [TestCase(null)]
+        public void GetByReciptIdRequiresReceiptId(string receiptId)
+        {
+            var httpClient = Substitute.For<IHttpClient>();
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => judo.WebPayments.Transactions.GetByReceipt(receiptId));
+            Assert.That(exception.Message, Contains.Substring("receiptId"));
+        }
+
         [Test]
         public void GetTransactionsByReceiptId()
         {

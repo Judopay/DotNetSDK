@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
@@ -31,11 +32,12 @@ namespace JudoPayDotNet.Clients.WebPayments
             return GetInternal<WebPaymentRequestModel>(address);
         }
 
-		/// <summary>
-		/// Gets a webpayment transaction by it's reference filtering by type
-		/// </summary>
-		/// <param name="reference">The reference.</param>
-		/// <returns>The webpayment transaction</returns>
+        /// <summary>
+        /// Gets a webpayment transaction by it's reference filtering by type
+        /// </summary>
+        /// <param name="reference">The reference.</param>
+        /// <param name="type">The type of transaction <see cref="TransactionType"/></param>
+        /// <returns>The webpayment transaction</returns>
         public Task<IResult<WebPaymentRequestModel>> Get(string reference, TransactionType type)
 
         {
@@ -59,9 +61,13 @@ namespace JudoPayDotNet.Clients.WebPayments
 		/// Gets a webpayment transaction by transaction identifier (ReceiptId).
 		/// </summary>
 		/// <param name="receiptId">The transaction identifier.</param>
+		/// <exception cref="ArgumentNullException">If receiptId is empty</exception>
 		/// <returns>The webpayment transaction</returns>
 		public Task<IResult<WebPaymentRequestModel>> GetByReceipt(string receiptId)
         {
+            if (string.IsNullOrWhiteSpace(receiptId))
+                throw new ArgumentNullException(nameof(receiptId));
+
             var address = string.Format("{0}/{1}/webpayment", Baseaddressgetbyreceipt, receiptId);
 
             return GetInternal<WebPaymentRequestModel>(address);
