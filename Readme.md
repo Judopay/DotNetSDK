@@ -30,7 +30,7 @@ token and secret. You set you API token and secret up through our [management da
 after creating an account. You can create a testing account by clicking "Getting Started" in our [documentation](https://www.judopay.com/docs)
 
 ```c#
-var client = JudoPaymentsFactory.Create(JudoPayDotNet.Enums.JudoEnvironment.Sandbox, "YOUR_API_TOKEN", "YOUR_API_SECRET");
+var client = JudoPaymentsFactory.Create(JudoPayDotNet.Enums.JudoEnvironment.Sandbox, "<TOKEN>", "<SECRET>");
 ```
 
 ####3. Make a payment
@@ -39,21 +39,19 @@ Once you have your API client, you can easily process a payment:
 ```c#
 var cardPaymentModel = new CardPaymentModel
 {
-	//the value of the payment
+	JudoId = "<JUDO_ID>",
+
+	// value of the payment
 	Amount = 1.01m,
 	Currency = "GBP",
 
-	// the card details
+	// card details
 	CardNumber = "4976000000000036",
 	ExpiryDate = "1215",
 	CV2 = "452",
 
-	// identify the recipient
-	JudoId = "500017",
-
-	// provide an identifier for your customer
+	// an identifier for your customer
 	YourConsumerReference = "MyCustomer004",
-	
 };
 ```
 **Note:** Please make sure that you are using a unique Consumer Reference for each different consumer.
