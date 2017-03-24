@@ -78,8 +78,6 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Declined", response.Response.Result);
         }
 
-
-
         [Test]
         public void DeDuplicationTest()
         {

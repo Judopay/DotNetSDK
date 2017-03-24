@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Configuration;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using JudoPayDotNet;
 using JudoPayDotNet.Authentication;
 using JudoPayDotNet.Enums;
@@ -37,6 +40,15 @@ namespace JudoPayDotNetDotNet
                 string configurationSetting;
                 return string.IsNullOrWhiteSpace(configurationSetting = configuration[key]) ? defaultValue : configurationSetting;
             };
+
+        private const string LiveCertificatePublicKey = "MIIBCgKCAQEAqyx7Fg8FkI7Q2yaai//AXURuithFkoPfBliXOpGQ8O8vo+foXTLVpWmStnCUfzhm5dIJEgKn/FVK+/M5vGQSJ+aqhAL6A9Eq+UazOY2X65QweOQiQmcC6WELYBO+wx8oXQLp/PVYLlAfaljFRBqo3c4kfeLwd4VISJuFs941B7vTrkgZ0t6TSbnwUZNpSLr53pNyR4QJ/OSPsoxtdec7z+38dPUW0Ah9tscXa4lns5h3FvqEaY6bduYl7xQwO7LGGVaaYFmj4kMLn1Fyd+gw8vdRBd4NC7VCRJ2NxshMHdKwW4sS5YK+MT+s/3yAXlkhj9vXPczJAXBVNjn3jX4CWQIDAQAB";
+
+        private const string SandboxCertificatePublicKey = "MIIBCgKCAQEAmMrGJkxm/vvfZ/IU0EuhljWlgxzdRnkgWzkzB1NGpOoZw1AJWYq3Lg1uOvphltQ+oq3athGIhoXYuQrOh7BsMpw2vXj1VTwGP9/1AkNOXXCzTVKATw+AwuBwdIYg0yOqTB4wImvLqDVFuuO6f0SnFZ3ntqlNFvOBzxGHKlr6Y20fsiXzv95vRfkwtb5exNUy9bnKn81GyPONWVeLgqFEM7TQO7eUbLEMcnEwgPCvMhYKggSN/i99wqcMomEBlfsfFxcYG7R6P8GmiXBkHKaPO2JXf4OMOMcLOmG7kyRZYBPWNTlQsUsgatTUTO1oFJuMYRIcUE+G51C2FLraCH2YqQIDAQAB";
+
+        static JudoPaymentsFactory()
+        {
+            ServicePointManager.ServerCertificateValidationCallback += PinPublicKey;
+        }
 
         /// <summary>
         /// Factory method for the benefit of platform tests that need to have finer grained control of the API version
@@ -104,6 +116,39 @@ namespace JudoPayDotNetDotNet
             }
 
             return GetConfigValue(key, defaultValue, configuration ?? defaultConfigurationAccess);
+        }
+
+        private static bool PinPublicKey(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            if (null == certificate)
+                return false;
+
+            var webRequest = sender as HttpWebRequest;
+            if (webRequest != null)
+            {
+                // If we're connecting to the live system vault
+                if (webRequest.Address.ToString().StartsWith(DEFAULT_LIVE_URL, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var serviceKey = Convert.ToBase64String(certificate.GetPublicKey());
+
+                    // If the certifcate public key doesn't match fail the validation
+                    if (serviceKey != LiveCertificatePublicKey)
+                        return false;
+                }
+
+                // If we're connecting to the live system vault
+                if (webRequest.Address.ToString().StartsWith(DEFAULT_SANDBOX_URL, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var serviceKey = Convert.ToBase64String(certificate.GetPublicKey());
+
+                    // If the certifcate public key doesn't match fail the validation
+                    if (serviceKey != SandboxCertificatePublicKey)
+                        return false;
+                }
+            }
+
+            // Propogate any previous errors
+            return sslPolicyErrors == SslPolicyErrors.None;
         }
 
         /// <summary>
