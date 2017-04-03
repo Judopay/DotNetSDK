@@ -1,34 +1,27 @@
 ﻿using System.Threading.Tasks;
-using JudoPayDotNet.Errors;
+using FluentValidation;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 
 namespace JudoPayDotNet.Clients
 {
-    internal class Collections : BaseCollections, ICollections
+    internal class Collections : JudoPayClient, ICollections
     {
         private const string CREATE_ADDRESS = "transactions/collections";
-        private const string VALIDATE_ADDRESS = "transactions/collections/validate";
 
-        private readonly string _validateAddress;
+        private readonly IValidator<CollectionModel> CollectionValidator = new CollectionsValidator();
 
         public Collections(ILog logger, IClient client)
-            : this(logger, client, CREATE_ADDRESS, VALIDATE_ADDRESS)
+            : base(logger, client)
         {
         }
 
-        private Collections(ILog logger, IClient client, string createAddress, string validateAddress)
-            : base(logger, client, createAddress)
+        public Task<IResult<ITransactionResult>> Create(CollectionModel collection)
         {
-            _validateAddress = validateAddress;
-        }
-
-        public Task<IResult<JudoApiErrorModel>> Validate(CollectionModel collection)
-        {
-            var validationError = Validate<CollectionModel, JudoApiErrorModel>(CollectionValidator, collection);
-
-            return validationError ?? PostInternal<CollectionModel, JudoApiErrorModel>(_validateAddress, collection);
+            var validationError = Validate<CollectionModel, ITransactionResult>(CollectionValidator, collection);
+            return validationError ?? PostInternal<CollectionModel, ITransactionResult>(CREATE_ADDRESS, collection);
         }
     }
 }

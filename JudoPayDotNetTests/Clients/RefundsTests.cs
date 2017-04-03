@@ -79,50 +79,6 @@ namespace JudoPayDotNetTests.Clients
                         200).SetName("PayWithCardWithoutSuccess");
                 }
             }
-
-            public static IEnumerable ValidateSuccessTestCases
-            {
-                get
-                {
-                    yield return new TestCaseData(new RefundModel
-                    {
-                        Amount = 2.0m,
-                        ReceiptId = 34560,
-                        
-                    },
-                        @"{
-                            errorMessage : 'Your good to go!',
-                            errorType : '20'
-                        }",
-                        20).SetName("CollectionWithSuccess");
-                }
-            }
-
-            public static IEnumerable ValidateFailureTestCases
-            {
-                get
-                {
-                    yield return new TestCaseData(new RefundModel
-                    {
-                        Amount = 2.0m,
-                        ReceiptId = 34560,
-                        
-                    },
-                          @"    
-                        {
-                            message : 'Payment not made',
-                            modelErrors : [{
-                                            fieldName : 'receiptId',
-                                            message : 'To large',
-                                            detail : 'This field has to be at most 20 characters',
-                                            code : '0'
-                                          }],
-                            code : '200',
-                            category : '0'
-                        }",
-                        200).SetName("CollectionWithoutSuccess");
-                }
-            }
         }
 
 
@@ -209,60 +165,5 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(refundReceipt.Response);
             Assert.That(refundReceipt.Response.ReceiptId, Is.EqualTo(134567));
         }
-
-        [Test, TestCaseSource(typeof(RefundsTestSource), "ValidateSuccessTestCases")]
-        public void ValidateWithSuccess(RefundModel refund, string responseData, JudoApiError errorType)
-        {
-            var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
-            responseTask.SetResult(response);
-
-            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
-
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
-
-            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
-
-            var collectionValidationResult = judo.Refunds.Validate(refund).Result;
-
-            Assert.NotNull(collectionValidationResult);
-            Assert.IsFalse(collectionValidationResult.HasError);
-            Assert.NotNull(collectionValidationResult.Response);
-            Assert.AreEqual(errorType, collectionValidationResult.Response.ErrorType);
-        }
-
-        [Test, TestCaseSource(typeof(RefundsTestSource), "ValidateFailureTestCases")]
-        public void ValidateWithoutSuccess(RefundModel refund, string responseData, JudoApiError errorType)
-        {
-            var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                Content = new StringContent(responseData)
-            };
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
-            responseTask.SetResult(response);
-
-            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
-
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
-
-            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
-
-            var collectionValidationResult = judo.Refunds.Validate(refund).Result;
-
-            Assert.NotNull(collectionValidationResult);
-            Assert.IsTrue(collectionValidationResult.HasError);
-            Assert.IsNull(collectionValidationResult.Response);
-            Assert.IsNotNull(collectionValidationResult.Error);
-            Assert.AreEqual((int)errorType, collectionValidationResult.Error.Code);
-        }
-        
     }
 }

@@ -21,18 +21,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void ASimpleValidatePayment()
-        {
-            var paymentWithCard = GetCardPaymentModel("432438862");
-
-            var response = JudoPayApi.Payments.Validate(paymentWithCard).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-            Assert.AreEqual(JudoApiError.General_Error, response.Response.ErrorType);
-        }
-
-        [Test]
         public void ATokenPayment()
         {
             var consumerReference = Guid.NewGuid().ToString();

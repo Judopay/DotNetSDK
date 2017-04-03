@@ -36,18 +36,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void ADeclinedValidationOnCardPreAuth()
-        {
-            var paymentWithCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
-
-            var response = JudoPayApi.PreAuths.Validate(paymentWithCard).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-            Assert.AreEqual(JudoApiError.General_Error, response.Response.ErrorType);
-        }
-
-        [Test]
         public void ASimplePreAuthAndCollection()
         {
             var paymentWithCard = GetCardPaymentModel();
@@ -83,39 +71,6 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Success", receipt.Result);
             Assert.AreEqual("Collection", receipt.Type);
         }
-
-        [Test]
-        public void ASimplePreAuthAndValidateCollection()
-        {
-            var paymentWithCard = GetCardPaymentModel("432438862");
-
-            var response = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-
-            var receipt = response.Response as PaymentReceiptModel;
-
-            Assert.IsNotNull(receipt);
-
-            Assert.AreEqual("Success", receipt.Result);
-            Assert.AreEqual("PreAuth", receipt.Type);
-
-            var collection = new CollectionModel
-            {
-                Amount = 25,
-                ReceiptId = response.Response.ReceiptId,
-                
-            };
-
-            var validateResponse = JudoPayApi.Collections.Validate(collection).Result;
-
-            Assert.IsNotNull(validateResponse);
-            Assert.IsFalse(validateResponse.HasError);
-            Assert.AreEqual(JudoApiError.General_Error, validateResponse.Response.ErrorType);
-        }
-
-   
 
         [Test]
         public void AFailedSimplePreAuthAndValidateCollection()

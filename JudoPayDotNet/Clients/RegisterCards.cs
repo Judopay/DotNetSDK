@@ -1,33 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JudoPayDotNet.Errors;
+﻿using System.Threading.Tasks;
+using FluentValidation;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 
 namespace JudoPayDotNet.Clients
 {
-    internal class RegisterCards : BaseRegisterCards, IRegisterCards
+    internal class RegisterCards : JudoPayClient, IRegisterCards
     {
+        private readonly IValidator<CardPaymentModel> RegisterCardValidator = new CardPaymentValidator();
 
-        private const string CREATE_ADDRESS = "transactions/registercard";
-        private const string VALIDATE_ADDRESS = "transactions/registercard/validate";
+        private const string REGISTER_CARD_ADDRESS = "transactions/registercard";
 
-        private readonly string _validateAddress;
-
-        public RegisterCards(ILog logger, IClient client,bool deDuplicate=false )
-            : this(logger, client, CREATE_ADDRESS, VALIDATE_ADDRESS)
+        public RegisterCards(ILog logger, IClient client, bool deDuplicate = false)
+            : base(logger, client)
         {
             _deDuplicateTransactions = deDuplicate;
         }
 
-        private RegisterCards(ILog logger, IClient client, string createAddress, string validateAddress)
-            : base(logger, client, createAddress)
+        public Task<IResult<ITransactionResult>> Create(CardPaymentModel registerCard)
         {
-            _validateAddress = validateAddress;
+            var validationError = Validate<CardPaymentModel, ITransactionResult>(RegisterCardValidator, registerCard);
+            return validationError ?? PostInternal<CardPaymentModel, ITransactionResult>(REGISTER_CARD_ADDRESS, registerCard);
         }
     }
 }

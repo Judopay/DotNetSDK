@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using JudoPayDotNet.Errors;
 using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Clients
@@ -35,37 +34,9 @@ namespace JudoPayDotNet.Clients
         /// <summary>
         /// Creates the specified Android Pay pre authorization.
         /// </summary>
-        /// <param name="androidPayment">The Android Pay pre authorization.</param>
+        /// <param name="androidPreAuth">The Android Pay pre authorization.</param>
         /// <returns>The receipt for the created Android Pay pre authorization</returns>
         Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPreAuth);
-
-        /// <summary>
-        /// Validates the specified card pre authorization.
-        /// </summary>
-        /// <param name="cardPayment">The card payment.</param>
-        /// <returns>The result of validation of card pre authorization</returns>
-        Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPayment);
-
-        /// <summary>
-        /// Validates the specified token pre authorization.
-        /// </summary>
-        /// <param name="tokenPayment">The token payment.</param>
-        /// <returns>The result of validation of token pre authorization</returns>
-        Task<IResult<JudoApiErrorModel>> Validate(TokenPaymentModel tokenPayment);
-
-        /// <summary>
-        /// Validates the specified apple pre authorization.
-        /// </summary>
-        /// <param name="pkPreAuth">The apple  pre authorization.</param>
-        /// <returns>If the apple payment is valid</returns>
-        Task<IResult<JudoApiErrorModel>> Validate(PKPaymentModel pkPreAuth);
-
-        /// <summary>
-        /// Validates the specified Android Pay pre authorization.
-        /// </summary>
-        /// <param name="pkPreAuth">The Android Pay pre authorization.</param>
-        /// <returns>If the apple payment is valid</returns>
-        Task<IResult<JudoApiErrorModel>> Validate(AndroidPaymentModel androidPreAuth);
     }
     // ReSharper restore UnusedMember.Global
 }
