@@ -26,11 +26,18 @@ namespace JudoPayDotNetTests
             Assert.That(client, Is.Not.Null);
         }
 
-
         [Test]
         public void PassingDuplicateAgentDoesntCauseException()
         {
             var client = JudoPaymentsFactory.Create(JudoEnvironment.Sandbox, "abc", "def", new ProductInfoHeaderValue("DotNetSDK", "1.0.0.0"));
+
+            Assert.That(client, Is.Not.Null);
+        }
+
+        [Test]
+        public void TokenSecretUrlConstructorCreatesCLient()
+        {
+            var client = JudoPaymentsFactory.Create("token", "secret", "http://judo");
 
             Assert.That(client, Is.Not.Null);
         }

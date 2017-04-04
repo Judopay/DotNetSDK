@@ -1,53 +1,51 @@
-﻿using System;
-using System.Threading.Tasks;
-using JudoPayDotNet.Errors;
+﻿using System.Threading.Tasks;
+using FluentValidation;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 
 namespace JudoPayDotNet.Clients
 {
-    internal class Payments : BasePayments, IPayments
+    internal class Payments : JudoPayClient, IPayments
     {
+        private readonly IValidator<CardPaymentModel> CardPaymentValidator = new CardPaymentValidator();
+
+        private readonly IValidator<TokenPaymentModel> TokenPaymentValidator = new TokenPaymentValidator();
+
+        private readonly IValidator<PKPaymentModel> PKPaymentValidator = new PKPaymentValidator();
+
+        private readonly IValidator<AndroidPaymentModel> AndroidPaymentValidator = new AndroidPaymentValidator();
+
         private const string CREATE_ADDRESS = "transactions/payments";
-        private const string VALIDATE_ADDRESS = "transactions/payments/validate";
 
-        private readonly string _validateAddress;
-
-        public Payments(ILog logger, IClient client, bool deDuplicate=false,
-                            string createAddress = CREATE_ADDRESS, 
-                            string validateAddress = VALIDATE_ADDRESS) : base(logger, client, createAddress)
+        public Payments(ILog logger, IClient client, bool deDuplicate = false) : base(logger, client)
         {
-            _validateAddress = validateAddress;
             _deDuplicateTransactions = deDuplicate;
         }
 
-        public Task<IResult<JudoApiErrorModel>> Validate(AndroidPaymentModel androidPayment)
+        public Task<IResult<ITransactionResult>> Create(CardPaymentModel cardPayment)
         {
-            var validationError = Validate<AndroidPaymentModel, JudoApiErrorModel>(AndroidPaymentValidator, androidPayment);
-
-            return validationError ?? PostInternal<AndroidPaymentModel, JudoApiErrorModel>(_validateAddress, androidPayment);
+            var validationError = Validate<CardPaymentModel, ITransactionResult>(CardPaymentValidator, cardPayment);
+            return validationError ?? PostInternal<CardPaymentModel, ITransactionResult>(CREATE_ADDRESS, cardPayment);
         }
 
-        public Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPayment)
+        public Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPayment)
         {
-            var validationError = Validate<CardPaymentModel, JudoApiErrorModel>(CardPaymentValidator, cardPayment);
-
-            return validationError ?? PostInternal<CardPaymentModel, JudoApiErrorModel>(_validateAddress, cardPayment);
+            var validationError = Validate<TokenPaymentModel, ITransactionResult>(TokenPaymentValidator, tokenPayment);
+            return validationError ?? PostInternal<TokenPaymentModel, ITransactionResult>(CREATE_ADDRESS, tokenPayment);
         }
 
-        public Task<IResult<JudoApiErrorModel>> Validate(TokenPaymentModel tokenPayment)
+        public Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPayment)
         {
-            var validationError = Validate<TokenPaymentModel, JudoApiErrorModel>(TokenPaymentValidator, tokenPayment);
-
-            return validationError ?? PostInternal<TokenPaymentModel, JudoApiErrorModel>(_validateAddress, tokenPayment);
+            var validationError = Validate<PKPaymentModel, ITransactionResult>(PKPaymentValidator, pkPayment);
+            return validationError ?? PostInternal<PKPaymentModel, ITransactionResult>(CREATE_ADDRESS, pkPayment);
         }
 
-        public Task<IResult<JudoApiErrorModel>> Validate(PKPaymentModel pkPayment)
+        public Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPayment)
         {
-            var validationError = Validate<PKPaymentModel, JudoApiErrorModel>(PKPaymentValidator, pkPayment);
-
-            return validationError ?? PostInternal<PKPaymentModel, JudoApiErrorModel>(_validateAddress, pkPayment);
+            var validationError = Validate<AndroidPaymentModel, ITransactionResult>(AndroidPaymentValidator, androidPayment);
+            return validationError ?? PostInternal<AndroidPaymentModel, ITransactionResult>(CREATE_ADDRESS, androidPayment);
         }
     }
 }

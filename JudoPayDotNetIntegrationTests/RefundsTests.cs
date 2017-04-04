@@ -37,31 +37,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void ARefundValidate()
-        {
-            var paymentWithCard = GetCardPaymentModel("432438862");
-
-            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-
-            var refund = new RefundModel
-            {
-                Amount = 25,
-                ReceiptId = response.Response.ReceiptId,
-                
-            };
-
-            var validateResponse = JudoPayApi.Refunds.Validate(refund).Result;
-
-            Assert.IsNotNull(validateResponse);
-            Assert.IsFalse(validateResponse.HasError);
-            Assert.AreEqual(JudoApiError.General_Error, validateResponse.Response.ErrorType);
-        }
-
-        [Test]
         public void APreAuthTwoCollectionsAndTwoRefunds()
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
