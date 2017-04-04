@@ -158,32 +158,6 @@ namespace JudoPayDotNetTests.Clients
                 }
             }
 
-            public static IEnumerable ValidateSuccessTestCases
-            {
-                get
-                {
-                    yield return
-                        new TestCaseData(new CardPaymentModel
-                                             {
-                                                 Amount = 2.0m,
-                                                 CardAddress = new CardAddressModel { Line1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
-                                                 CardNumber = "348417606737499",
-                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
-                                                 CV2 = "420",
-                                                 EmailAddress = "testaccount@judo.com",
-                                                 ExpiryDate = "120615",
-                                                 JudoId = "14562",
-                                                 MobileNumber = "07745352515",
-                                                 YourConsumerReference = "User10"
-                                             },
-                            @"{
-                            errorMessage : 'Your good to go!',
-                            errorType : '20'
-                        }",
-                            JudoApiError.Validation_Passed).SetName("ValidateSuccess");
-                }
-            }
-
             public static IEnumerable ValidateFailureTestCases
             {
                 get
@@ -324,40 +298,6 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
             Assert.AreEqual((int)errorType, paymentReceiptResult.Error.Code);
-        }
-
-        [Test, TestCaseSource(typeof(PaymentsTestSource), "ValidateSuccessTestCases")]
-        public void ValidateWithSuccess(PaymentModel payment, string responseData, JudoApiError errorType)
-        {
-            var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
-            responseTask.SetResult(response);
-
-            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
-
-            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
-
-            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
-
-            IResult<JudoApiErrorModel> paymentValidateResult = null;
-
-            // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
-            if (payment is CardPaymentModel)
-            {
-                paymentValidateResult = judo.Payments.Validate((CardPaymentModel)payment).Result;
-            }
-            else if (payment is TokenPaymentModel)
-            {
-                paymentValidateResult = judo.Payments.Validate((TokenPaymentModel)payment).Result;
-            }
-            // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
-
-            Assert.NotNull(paymentValidateResult);
-            Assert.IsFalse(paymentValidateResult.HasError);
-            Assert.NotNull(paymentValidateResult.Response);
-            Assert.AreEqual(errorType, paymentValidateResult.Response.ErrorType);
         }
 
         [Test, TestCaseSource(typeof(PaymentsTestSource), "ValidateFailureTestCases")]

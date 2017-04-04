@@ -1,53 +1,52 @@
 ﻿using System.Threading.Tasks;
-using JudoPayDotNet.Errors;
+using FluentValidation;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 
 namespace JudoPayDotNet.Clients
 {
-    internal class PreAuths : BasePreAuth, IPreAuths
+    internal class PreAuths : JudoPayClient, IPreAuths
     {
+        private readonly IValidator<CardPaymentModel> CardPaymentValidator = new CardPaymentValidator();
+
+        private readonly IValidator<TokenPaymentModel> TokenPaymentValidator = new TokenPaymentValidator();
+
+        private readonly IValidator<PKPaymentModel> PKPaymentValidator = new PKPaymentValidator();
+
+        private readonly IValidator<AndroidPaymentModel> AndroidPaymentValidator = new AndroidPaymentValidator();
+
         private const string CREATE_PREAUTH_ADDRESS = "transactions/preauths";
-        private const string VALIDATE_PREAUTH_ADDRESS = "transactions/preauths/validate";
 
-        private readonly string _validatePreAuthAddress;
-
-        public PreAuths(ILog logger, IClient client,bool deDuplicate=false, 
-                            string createAddress = CREATE_PREAUTH_ADDRESS, 
-                            string validateAddress = VALIDATE_PREAUTH_ADDRESS)
-            : base(logger, client, createAddress)
+        public PreAuths(ILog logger, IClient client, bool deDuplicate = false)
+            : base(logger, client)
         {
-            _validatePreAuthAddress = validateAddress;
             _deDuplicateTransactions = deDuplicate;
         }
 
-        public Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPreAuth)
+        public Task<IResult<ITransactionResult>> Create(CardPaymentModel cardPreAuth)
         {
-            var validationError = Validate<CardPaymentModel, JudoApiErrorModel>(CardPaymentValidator, cardPreAuth);
-
-            return validationError ?? PostInternal<CardPaymentModel, JudoApiErrorModel>(_validatePreAuthAddress, cardPreAuth);
+            var validationError = Validate<CardPaymentModel, ITransactionResult>(CardPaymentValidator, cardPreAuth);
+            return validationError ?? PostInternal<CardPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, cardPreAuth);
         }
 
-        public Task<IResult<JudoApiErrorModel>> Validate(TokenPaymentModel tokenPreAuth)
+        public Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPreAuth)
         {
-            var validationError = Validate<TokenPaymentModel, JudoApiErrorModel>(TokenPaymentValidator, tokenPreAuth);
-
-            return validationError ?? PostInternal<TokenPaymentModel, JudoApiErrorModel>(_validatePreAuthAddress, tokenPreAuth);
+            var validationError = Validate<TokenPaymentModel, ITransactionResult>(TokenPaymentValidator, tokenPreAuth);
+            return validationError ?? PostInternal<TokenPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, tokenPreAuth);
         }
 
-        public Task<IResult<JudoApiErrorModel>> Validate(PKPaymentModel pkPreAuth)
+        public Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPreAuth)
         {
-            var validationError = Validate<PKPaymentModel, JudoApiErrorModel>(PKPaymentValidator, pkPreAuth);
-
-            return validationError ?? PostInternal<PKPaymentModel, JudoApiErrorModel>(_validatePreAuthAddress, pkPreAuth);
+            var validationError = Validate<PKPaymentModel, ITransactionResult>(PKPaymentValidator, pkPreAuth);
+            return validationError ?? PostInternal<PKPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, pkPreAuth);
         }
-    
-        public Task<IResult<JudoApiErrorModel>> Validate(AndroidPaymentModel androidPreAuth)
-        {
-            var validationError = Validate<AndroidPaymentModel, JudoApiErrorModel>(AndroidPaymentValidator, androidPreAuth);
 
-            return validationError ?? PostInternal<AndroidPaymentModel, JudoApiErrorModel>(_validatePreAuthAddress, androidPreAuth);
+        public Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPreAuth)
+        {
+            var validationError = Validate<AndroidPaymentModel, ITransactionResult>(AndroidPaymentValidator, androidPreAuth);
+            return validationError ?? PostInternal<AndroidPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, androidPreAuth);
         }
     }
 }

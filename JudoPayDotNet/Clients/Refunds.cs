@@ -1,31 +1,27 @@
 ﻿using System.Threading.Tasks;
-using JudoPayDotNet.Errors;
+using FluentValidation;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 
 namespace JudoPayDotNet.Clients
 {
-    internal class Refunds : BaseRefunds, IRefunds
+    internal class Refunds : JudoPayClient, IRefunds
     {
-        private const string Createrefundsaddress = "transactions/refunds";
-        private const string Validaterefundsaddress = "transactions/refunds/validate";
+        private readonly IValidator<RefundModel> RefundValidator = new RefundsValidator();
 
-        private readonly string _validateRefundAddress;
+        private const string CREATE_REFUNDS_ADDRESS = "transactions/refunds";
 
-        public Refunds(ILog logger, IClient client, 
-                        string createAddress = Createrefundsaddress, 
-                        string validateAddress = Validaterefundsaddress)
-            : base(logger, client, createAddress)
+        public Refunds(ILog logger, IClient client)
+            : base(logger, client)
         {
-            _validateRefundAddress = validateAddress;
         }
-
-        public Task<IResult<JudoApiErrorModel>> Validate(RefundModel refund)
+        
+        public Task<IResult<ITransactionResult>> Create(RefundModel refund)
         {
-            var validationError = Validate<RefundModel, JudoApiErrorModel>(RefundValidator, refund);
-
-            return validationError ?? PostInternal<RefundModel, JudoApiErrorModel>(_validateRefundAddress, refund);
+            var validationError = Validate<RefundModel, ITransactionResult>(RefundValidator, refund);
+            return validationError ?? PostInternal<RefundModel, ITransactionResult>(CREATE_REFUNDS_ADDRESS, refund);
         }
     }
 }
