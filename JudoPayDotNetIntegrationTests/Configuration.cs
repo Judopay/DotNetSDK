@@ -11,6 +11,6 @@ namespace JudoPayDotNetIntegrationTests
         public string ElevatedPrivilegesToken = ConfigurationManager.AppSettings["ElevatedPrivilegesToken"];
         public string Token = ConfigurationManager.AppSettings["Token"];
         public string Secret = ConfigurationManager.AppSettings["Secret"];
-        public JudoEnvironment JudoEnvironment = JudoEnvironment.Live;
+        public JudoEnvironment JudoEnvironment = JudoEnvironment.Sandbox;
     }
 }

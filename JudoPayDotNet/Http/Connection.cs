@@ -71,7 +71,7 @@ namespace JudoPayDotNet.Http
 
             if (parameters != null && parameters.Count > 0)
             {
-                queryString = String.Join("&", parameters.Select(kvp => kvp.Key + "=" + kvp.Value));
+                queryString = string.Join("&", parameters.Select(kvp => kvp.Key + "=" + kvp.Value));
             }
 
             var uri = new UriBuilder(_baseAddress);

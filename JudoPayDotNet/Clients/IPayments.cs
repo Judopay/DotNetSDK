@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using JudoPayDotNet.Errors;
 using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Clients
@@ -37,26 +36,5 @@ namespace JudoPayDotNet.Clients
         /// <param name="androidPayment">The Android Pay payment.</param>
         /// <returns>The receipt for the created Android Pay payment</returns>
         Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPayment);
-
-        /// <summary>
-        /// Validates the specified card payment.
-        /// </summary>
-        /// <param name="cardPayment">The card payment.</param>
-        /// <returns>If the card payment is valid</returns>
-        Task<IResult<JudoApiErrorModel>> Validate(CardPaymentModel cardPayment);
-
-        /// <summary>
-        /// Validates the specified token payment.
-        /// </summary>
-        /// <param name="tokenPayment">The token payment.</param>
-        /// <returns>If the token payment is valid</returns>
-        Task<IResult<JudoApiErrorModel>> Validate(TokenPaymentModel tokenPayment);
-
-        /// <summary>
-        /// Validates the specified apple payment.
-        /// </summary>
-        /// <param name="pkPayment">The apple payment.</param>
-        /// <returns>If the apple payment is valid</returns>
-        Task<IResult<JudoApiErrorModel>> Validate(PKPaymentModel pkPayment);
     }
 }

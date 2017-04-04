@@ -36,18 +36,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void ADeclinedValidationOnCardPreAuth()
-        {
-            var paymentWithCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
-
-            var response = JudoPayApi.PreAuths.Validate(paymentWithCard).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-            Assert.AreEqual(JudoApiError.General_Error, response.Response.ErrorType);
-        }
-
-        [Test]
         public void ASimplePreAuthAndCollection()
         {
             var paymentWithCard = GetCardPaymentModel();
@@ -85,39 +73,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void ASimplePreAuthAndValidateCollection()
-        {
-            var paymentWithCard = GetCardPaymentModel("432438862");
-
-            var response = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-
-            var receipt = response.Response as PaymentReceiptModel;
-
-            Assert.IsNotNull(receipt);
-
-            Assert.AreEqual("Success", receipt.Result);
-            Assert.AreEqual("PreAuth", receipt.Type);
-
-            var collection = new CollectionModel
-            {
-                Amount = 25,
-                ReceiptId = response.Response.ReceiptId,
-                
-            };
-
-            var validateResponse = JudoPayApi.Collections.Validate(collection).Result;
-
-            Assert.IsNotNull(validateResponse);
-            Assert.IsFalse(validateResponse.HasError);
-            Assert.AreEqual(JudoApiError.General_Error, validateResponse.Response.ErrorType);
-        }
-
-   
-
-        [Test]
         public void AFailedSimplePreAuthAndValidateCollection()
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
@@ -136,21 +91,22 @@ namespace JudoPayDotNetIntegrationTests
 
             var collection = new CollectionModel
             {
-                Amount = 1,
+                Amount = 20,
                 ReceiptId = response.Response.ReceiptId,
-                
             };
 
-            var test = JudoPayApi.Collections.Create(collection).Result;
-            collection.Amount = 30;
-            var validateResponse = JudoPayApi.Collections.Validate(collection).Result;
+            var collectionResponse = JudoPayApi.Collections.Create(collection).Result;
 
-            Assert.IsNotNull(validateResponse);
-            Assert.IsTrue(validateResponse.HasError);
-            Assert.True(string.Equals("Sorry, but the amount you're trying to collect is greater than the pre-auth", validateResponse.Error.Message));
-            Assert.True(46==validateResponse.Error.Code);
+            // The collection will go through since it is less than the preauth amount
+            Assert.That(collectionResponse.HasError, Is.False);
+            Assert.That(collectionResponse.Response.ReceiptId, Is.GreaterThan(0));
+
+            var validateResponse = JudoPayApi.Collections.Create(collection).Result;
+
+            Assert.That(validateResponse, Is.Not.Null);
+            Assert.That(validateResponse.HasError, Is.True);
+            Assert.That(validateResponse.Error.Message, Is.EqualTo("Sorry, but the amount you're trying to collect is greater than the pre-auth"));
+            Assert.That(validateResponse.Error.Code, Is.EqualTo(46));
         }
-
-
     }
 }
