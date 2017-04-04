@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Changes on 2017-04-04
+
+#### Updated
+- Added certificate pinning.
+- Removed Validate method from each endpoint, analysis of API requests over the last 90 days shows no live usage so no disruption is expected for any customers
+
 ## Changes on 2016-01-12
 
 #### Updated
