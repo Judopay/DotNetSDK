@@ -10,13 +10,13 @@ namespace JudoPayDotNet.Models
     public class Device
     {
         /// <summary>
-        /// Gets or sets the consumer token.
+        /// Gets or sets the device identity.
         /// </summary>
         /// <value>
-        /// The consumer token.
+        /// The devices identity.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
-        public string Identity { get; set; }
+        public string Identifier { get; set; }
 
         // ReSharper restore UnusedAutoPropertyAccessor.Global
     }
