@@ -42,11 +42,11 @@ namespace JudoPayDotNetIntegrationTests
             // Fetch the card token
             var cardToken = receipt.CardDetails.CardToken;
 
-            var paymentWithToken = GeTokenPaymentModel(cardToken, consumerReference, 26);
+            var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 26);
 
             response = JudoPayApi.Payments.Create(paymentWithToken).Result;
 
-            paymentWithToken = GeTokenPaymentModel(cardToken, consumerReference, 27);
+            paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27);
 
             response = JudoPayApi.Payments.Create(paymentWithToken).Result;
 

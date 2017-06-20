@@ -190,6 +190,15 @@ namespace JudoPayDotNet.Models
         public Consumer Consumer { get; set; }
 
         /// <summary>
+        /// Gets or sets the consumer.
+        /// </summary>
+        /// <value>
+        /// The consumer.
+        /// </value>
+        [DataMember]
+        public Device Device { get; set; }
+
+        /// <summary>
         /// Gets or sets the risk score.
         /// </summary>
         /// <value>

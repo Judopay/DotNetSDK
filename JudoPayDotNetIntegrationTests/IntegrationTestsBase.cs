@@ -41,7 +41,7 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        protected TokenPaymentModel GeTokenPaymentModel(string cardToken, string yourConsumerReference = null, decimal amount = 25)
+        protected TokenPaymentModel GetTokenPaymentModel(string cardToken, string yourConsumerReference = null, decimal amount = 25)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
                 yourConsumerReference = Guid.NewGuid().ToString();
