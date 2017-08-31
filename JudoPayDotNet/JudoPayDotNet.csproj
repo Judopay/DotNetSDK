@@ -102,6 +102,7 @@
     <Compile Include="Errors\ModelError.cs" />
     <Compile Include="Http\AuthType.cs" />
     <Compile Include="Models\CustomDeserializers\TransactionTypeConvertor.cs" />
+    <Compile Include="Models\Device.cs" />
     <Compile Include="Models\EncryptedPaymentMessage.cs" />
     <Compile Include="Models\IModelWithHttpHeaders.cs" />
     <Compile Include="Models\JudoApiError.cs" />
