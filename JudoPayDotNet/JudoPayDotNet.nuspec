@@ -28,6 +28,6 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="bin\release\JudoPayDotNet.dll" target="lib\portable-net45%2Bwin%2Bwpa81%2BMonoAndroid10%2Bxamarinios10%2BMonoTouch10" />
+        <file src="bin\release\JudoPayDotNet.dll" target="lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10" />
     </files>
 </package>
