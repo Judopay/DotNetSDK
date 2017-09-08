@@ -19,7 +19,7 @@ namespace JudoPayDotNetIntegrationTests
             JudoPayApiElevated = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
         }
 
-        protected CardPaymentModel GetCardPaymentModel(string yourConsumerReference = null, string cardNumber = "4976000000003436", string cv2 = "452")
+        protected CardPaymentModel GetCardPaymentModel(string yourConsumerReference = null, string cardNumber = "4976000000003436", string cv2 = "452", string postCode = "TR14 8PA")
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
                 yourConsumerReference = Guid.NewGuid().ToString();
@@ -34,9 +34,9 @@ namespace JudoPayDotNetIntegrationTests
                 ExpiryDate = "12/20",
                 CardAddress = new CardAddressModel
                 {
-                    Line1 = "Test Street",
-                    PostCode = "W40 9AU",
-                    Town = "Town"
+                    Line1 = "32 Edward Street",
+                    PostCode = postCode,
+                    Town = "Camborne"
                 }
             };
         }
