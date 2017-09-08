@@ -34,7 +34,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void FullPaymentWithThreedSecure()
         {
-            var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341");
+            var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341", "B42 1SX");
             paymentWithCard.MobileNumber = "07123456789";
             paymentWithCard.EmailAddress = "test@gmail.com";
             paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
