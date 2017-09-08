@@ -6,8 +6,8 @@ namespace JudoPayDotNet.Models.Validations
 	{
 		public TokenPaymentValidator()
 		{
-			RuleFor(model => model.ConsumerToken)
-				.NotEmpty().WithMessage("You must supply your consumer token");
+			RuleFor(model => model.YourConsumerReference)
+				.NotEmpty().WithMessage("You must supply your consumer reference");
 
 			RuleFor(model => model.CardToken)
 				.NotEmpty().WithMessage("You must supply your card token");
