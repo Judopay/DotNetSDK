@@ -29,6 +29,7 @@ namespace JudoPayDotNet
         public ICollections Collections { get; set; }
         public IThreeDs ThreeDs { get; set; }
         public IRegisterCards RegisterCards { get; set; }
+        public IVoids Voids { get; set; }
 
         public JudoPayApi(Func<Type, ILog> logger, IClient client)
         {
@@ -39,6 +40,7 @@ namespace JudoPayDotNet
             Collections = new Collections(logger(typeof(Collections)), client);
             ThreeDs = new ThreeDs(logger(typeof(ThreeDs)), client);
             RegisterCards = new RegisterCards(logger(typeof(RegisterCards)), client,true);
+            Voids = new Voids(logger(typeof(Voids)), client);
 
             WebPayments = new WebPayments
             {
