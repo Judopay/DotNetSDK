@@ -40,7 +40,7 @@ namespace JudoPayDotNet
             Collections = new Collections(logger(typeof(Collections)), client);
             ThreeDs = new ThreeDs(logger(typeof(ThreeDs)), client);
             RegisterCards = new RegisterCards(logger(typeof(RegisterCards)), client,true);
-            Voids = new Voids(logger(typeof(Collections)), client);
+            Voids = new Voids(logger(typeof(Voids)), client);
 
             WebPayments = new WebPayments
             {
