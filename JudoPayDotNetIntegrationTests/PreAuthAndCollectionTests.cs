@@ -108,5 +108,41 @@ namespace JudoPayDotNetIntegrationTests
             Assert.That(validateResponse.Error.Message, Is.EqualTo("Sorry, but the amount you're trying to collect is greater than the pre-auth"));
             Assert.That(validateResponse.Error.Code, Is.EqualTo(46));
         }
+
+        [Test]
+        public void ASimplePreAuthAndVoid()
+        {
+            var paymentWithCard = GetCardPaymentModel();
+
+            var response = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("PreAuth", receipt.Type);
+
+            var voidPreAuth = new VoidModel
+            {
+                Amount = 25,
+                ReceiptId = response.Response.ReceiptId,
+            };
+
+            response = JudoPayApi.Voids.Create(voidPreAuth).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+
+            receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("VOID", receipt.Type);
+        }
     }
 }
