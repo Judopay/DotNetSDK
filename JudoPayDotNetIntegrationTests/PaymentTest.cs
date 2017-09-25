@@ -21,6 +21,19 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
+        public void ARecurringPayment()
+        {
+            var paymentWithCard = GetCardPaymentModel(recurringPayment: true);
+
+            var result = JudoPayApi.Payments.Create(paymentWithCard);
+            var response = result.Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+        }
+
+        [Test]
         public void ATokenPayment()
         {
             var consumerReference = Guid.NewGuid().ToString();
@@ -52,6 +65,25 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
+        }
+
+        [Test]
+        public void ATokenRecurringPayment()
+        {
+            var consumerReference = Guid.NewGuid().ToString();
+
+            var paymentWithCard = GetCardPaymentModel(consumerReference, recurringPayment: true);
+
+            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
         }
 
         [Test]

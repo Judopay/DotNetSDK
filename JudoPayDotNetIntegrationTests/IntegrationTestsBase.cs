@@ -19,7 +19,7 @@ namespace JudoPayDotNetIntegrationTests
             JudoPayApiElevated = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
         }
 
-        protected CardPaymentModel GetCardPaymentModel(string yourConsumerReference = null, string cardNumber = "4976000000003436", string cv2 = "452", string postCode = "TR14 8PA")
+        protected CardPaymentModel GetCardPaymentModel(string yourConsumerReference = null, string cardNumber = "4976000000003436", string cv2 = "452", string postCode = "TR14 8PA", bool? recurringPayment = null)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
                 yourConsumerReference = Guid.NewGuid().ToString();
@@ -37,11 +37,12 @@ namespace JudoPayDotNetIntegrationTests
                     Line1 = "32 Edward Street",
                     PostCode = postCode,
                     Town = "Camborne"
-                }
+                },
+                RecurringPayment = recurringPayment
             };
         }
 
-        protected TokenPaymentModel GetTokenPaymentModel(string cardToken, string yourConsumerReference = null, decimal amount = 25)
+        protected TokenPaymentModel GetTokenPaymentModel(string cardToken, string yourConsumerReference = null, decimal amount = 25, bool? recurringPayment = null)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
                 yourConsumerReference = Guid.NewGuid().ToString();
@@ -53,7 +54,8 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = amount,
                 CardToken = cardToken,
                 CV2 = "452",
-                ConsumerToken = "ABSE"
+                ConsumerToken = "ABSE",
+                RecurringPayment = recurringPayment
             };
         }
 
