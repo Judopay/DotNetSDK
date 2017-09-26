@@ -19,14 +19,19 @@ namespace JudoPayDotNetIntegrationTests
             JudoPayApiElevated = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
         }
 
-        protected CardPaymentModel GetCardPaymentModel(string yourConsumerReference = null, string cardNumber = "4976000000003436", string cv2 = "452", string postCode = "TR14 8PA", bool? recurringPayment = null)
+        protected CardPaymentModel GetCardPaymentModel(string yourConsumerReference = null, 
+                                                            string cardNumber = "4976000000003436", 
+                                                            string cv2 = "452", 
+                                                            string postCode = "TR14 8PA", 
+                                                            bool? recurringPayment = null, 
+                                                            string judoId = null)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
                 yourConsumerReference = Guid.NewGuid().ToString();
 
             return new CardPaymentModel
             {
-                JudoId = Configuration.Judoid,
+                JudoId = judoId ?? Configuration.Judoid,
                 YourConsumerReference = yourConsumerReference,
                 Amount = 25,
                 CardNumber = cardNumber,
@@ -87,6 +92,11 @@ namespace JudoPayDotNetIntegrationTests
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325"
             };
+        }
+
+        protected JudoPayApi UseCybersourceGateway()
+        {
+            return JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Cybersource_Token, Configuration.Cybersource_Secret);
         }
     }
 }
