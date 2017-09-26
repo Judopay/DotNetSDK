@@ -226,6 +226,9 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public ThreeDSecureReceiptModel ThreeDSecure { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public bool? Recurring { get; set; }
     }
     // ReSharper restore UnusedMember.Global
     // ReSharper restore UnusedAutoPropertyAccessor.Global

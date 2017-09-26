@@ -21,6 +21,25 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
+        [Ignore("Till recurring flag is exposed on partnerapi")]
+        public void ARecurringPayment()
+        {
+            var paymentWithCard = GetCardPaymentModel(recurringPayment: true, judoId: Configuration.Cybersource_Judoid);
+
+            var judoPay = UseCybersourceGateway();
+
+            var result = judoPay.Payments.Create(paymentWithCard);
+            var response = result.Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+            var paymentReceipt = response.Response as PaymentReceiptModel;
+            Assert.IsInstanceOf<PaymentReceiptModel>(response.Response);
+            Assert.IsTrue(paymentReceipt.Recurring);
+        }
+
+        [Test]
         public void ATokenPayment()
         {
             var consumerReference = Guid.NewGuid().ToString();
@@ -52,6 +71,31 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
+        }
+
+        [Test]
+        [Ignore("Till recurring flag is exposed on partnerapi")]
+        public void ATokenRecurringPayment()
+        {
+            var consumerReference = Guid.NewGuid().ToString();
+
+            var paymentWithCard = GetCardPaymentModel(consumerReference, recurringPayment: true, judoId: Configuration.Cybersource_Judoid);
+
+            var judoPay = UseCybersourceGateway();
+
+            var response = judoPay.Payments.Create(paymentWithCard).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            var paymentReceipt = response.Response as PaymentReceiptModel;
+            Assert.IsInstanceOf<PaymentReceiptModel>(response.Response);
+            Assert.IsTrue(paymentReceipt.Recurring);
         }
 
         [Test]

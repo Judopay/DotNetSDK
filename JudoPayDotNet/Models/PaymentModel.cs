@@ -167,6 +167,9 @@ namespace JudoPayDotNet.Models
         public string AcceptHeaders { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
 
+        [DataMember(EmitDefaultValue = false)]
+        public bool? RecurringPayment { get; set; }
+
         /// <summary>
         /// Allows you to set HTTP headers on requests
         /// </summary>
