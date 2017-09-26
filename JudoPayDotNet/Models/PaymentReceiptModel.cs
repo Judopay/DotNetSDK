@@ -227,6 +227,9 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public ThreeDSecureReceiptModel ThreeDSecure { get; set; }
 
+        /// <summary>
+        /// Transaction processed with recurring authorization 
+        /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public bool? Recurring { get; set; }
     }

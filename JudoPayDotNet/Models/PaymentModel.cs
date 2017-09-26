@@ -167,6 +167,9 @@ namespace JudoPayDotNet.Models
         public string AcceptHeaders { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
 
+        /// <summary>
+        /// Indicates that the transaction has been given recurring authorization from the consumer
+        /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public bool? RecurringPayment { get; set; }
 
