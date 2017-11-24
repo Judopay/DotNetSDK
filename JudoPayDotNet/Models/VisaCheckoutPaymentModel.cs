@@ -5,10 +5,10 @@
 namespace JudoPayDotNet.Models
 {
     [DataContract]
-    public class AndroidPaymentModel : PaymentModel
+    public class VisaCheckoutPaymentModel : PaymentModel
     {
         [DataMember(IsRequired = true)]
-        public AndroidWalletModel Wallet { get; set; }
+        public VisaCheckoutWalletModel Wallet { get; set; }
 
     }
 }

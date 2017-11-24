@@ -36,5 +36,12 @@ namespace JudoPayDotNet.Clients
         /// <param name="androidPayment">The Android Pay payment.</param>
         /// <returns>The receipt for the created Android Pay payment</returns>
         Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPayment);
+
+        /// <summary>
+        /// Creates the specified Visa Checkout payment.
+        /// </summary>
+        /// <param name="visaCheckoutPayment">The Visa Checkout payload.</param>
+        /// <returns>The receipt for the created Visa Checkout payment</returns>
+        Task<IResult<ITransactionResult>> Create(VisaCheckoutPaymentModel visaCheckoutPayment);
     }
 }
