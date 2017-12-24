@@ -10,7 +10,7 @@ using JudoPayDotNet;
 using JudoPayDotNet.Clients.Consumer;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
-using JudoPayDotNetDotNet.Logging;
+using JudoPayDotNet.Logging;
 using NSubstitute;
 using NUnit.Framework;
 

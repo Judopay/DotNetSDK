@@ -7,7 +7,7 @@ using JudoPayDotNet;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
-using JudoPayDotNetDotNet.Logging;
+using JudoPayDotNet.Logging;
 using NSubstitute;
 using NUnit.Framework;
 
