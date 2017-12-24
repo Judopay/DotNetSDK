@@ -1,15 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <AssemblyTitle>JudoPayDotNet</AssemblyTitle>
+        
         <TargetFramework>netstandard2.0</TargetFramework>
         <!--Not sure if we should have this attribute and leave the properties in assembly info or move the properties into this file-->
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
+    </PropertyGroup>
+    <PropertyGroup Label="Package">
+        <PackageId>JudoPay.Net</PackageId>
+        <VersionPrefix>$version$</VersionPrefix>
+        <Authors>JudoPay</Authors>
+        <Description>A .Net client for our JudoPay API, allowing you to quickly and easily process payments</Description>
+        <Copyright>Copyright 2017</Copyright>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/JudoPay/DotNetSDK</PackageProjectUrl>
+        <PackageIconUrl>https://www.judopay.com/judo_nuget_icon.png</PackageIconUrl>
+        <RepositoryUrl>https://github.com/JudoPay/DotNetSDK</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>judo;judopaypayment;gateway;credit;cards;</PackageTags>
+        <PackageReleaseNotes>Updated to dotnet standard 2.0</PackageReleaseNotes>
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="FluentValidation" Version="7.3.3" />
       <PackageReference Include="log4net" Version="2.0.8" />
       <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
       <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
-      <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
     </ItemGroup>
 </Project>
