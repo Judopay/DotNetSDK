@@ -75,6 +75,7 @@
     <Reference Include="System.Net.Http.WebRequest" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clients\SaveCardsTests.cs" />
     <Compile Include="Clients\VoidsTests.cs" />
     <Compile Include="Clients\Consumers\ConsumerTransactionsTests.cs" />
     <Compile Include="Clients\RegisterCardsTests.cs" />

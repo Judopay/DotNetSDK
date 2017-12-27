@@ -72,8 +72,13 @@
   <ItemGroup>
     <Compile Include="Authentication\Credentials.cs" />
     <Compile Include="Authentication\ICredentials.cs" />
+    <Compile Include="Clients\ISaveCards.cs" />
+    <Compile Include="Clients\SaveCard.cs" />
     <Compile Include="Clients\Voids.cs" />
     <Compile Include="Clients\IVoids.cs" />
+    <Compile Include="Models\Validations\VisaCheckoutPaymentValidator.cs" />
+    <Compile Include="Models\VisaCheckoutWalletModel.cs" />
+    <Compile Include="Models\VisaCheckoutPaymentModel.cs" />
     <Compile Include="Models\AndroidPaymentModel.cs" />
     <Compile Include="Clients\Collections.cs" />
     <Compile Include="Clients\Consumer\BaseConsumer.cs" />

@@ -73,6 +73,7 @@
     <Compile Include="ConsumersTests.cs" />
     <Compile Include="IntegrationTestsBase.cs" />
     <Compile Include="JudoPaymentsFactoryTests.cs" />
+    <Compile Include="SaveCardTests.cs" />
     <Compile Include="RegisterCardTests.cs" />
     <Compile Include="PaymentTest.cs" />
     <Compile Include="PreAuthAndCollectionTests.cs" />

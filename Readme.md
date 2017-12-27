@@ -15,14 +15,14 @@ The .NET SDK is a client for our Judopay API, which provides card payment proces
 The Judopay SDK is distributed as a [NuGet package](https://www.nuget.org/packages/JudoPay.Net/) 
 using the package name of JudoPay.Net.
 
-####1. Integration
+#### 1. Integration
 You can install the SDK directly from within Visual Studio either using the NuGet package manager UI, or in the Package Manager Console:
 
 ```powershell
 Install-Package JudoPay.Net
 ```
 
-####2. Setup
+#### 2. Setup
 
 You configure you Judopay API client when invoking the JudoPaymentsFactory.Create method. This has
 three parameters; environment (Sandbox for development and testing, and Live for production), and api
@@ -33,7 +33,7 @@ after creating an account. You can create a testing account by clicking "Getting
 var client = JudoPaymentsFactory.Create(JudoPayDotNet.Enums.JudoEnvironment.Sandbox, "<TOKEN>", "<SECRET>");
 ```
 
-####3. Make a payment
+#### 3. Make a payment
 Once you have your API client, you can easily process a payment:
 
 ```c#
@@ -56,8 +56,8 @@ var cardPaymentModel = new CardPaymentModel
 ```
 **Note:** Please make sure that you are using a unique Consumer Reference for each different consumer.
 
-####4. Check the payment result
-```
+#### 4. Check the payment result
+```c#
 client.Payments.Create(cardPaymentModel).ContinueWith(result =>
 {
 	var paymentResult = result.Result;
