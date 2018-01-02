@@ -31,6 +31,9 @@ ipch/
 [Rr]elease*/
 Ankh.NoLoad
 
+#visual studio code
+.vs
+
 #MonoDevelop
 *.pidb
 *.userprefs

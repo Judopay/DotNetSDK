@@ -11,7 +11,7 @@ namespace JudoPayDotNetTests
     using JudoPayDotNet.Authentication;
     using JudoPayDotNet.Enums;
 
-    using JudoPayDotNetDotNet;
+    using JudoPayDotNet;
 
     using NUnit.Framework;
 

@@ -1,0 +1,31 @@
+version: 2.0.{build}
+image: Visual Studio 2017
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+before_build:
+- cmd: dotnet restore
+build:
+  publish_nuget: true
+  verbosity: minimal
+build_script:
+  - dotnet build
+deploy:
+- provider: NuGet
+  api_key:
+    secure: 7hCXGI9g/S/3iu00/OvfdiEJVLcQjSzpx6lB+5qsyvs6iLD6oFCQ8NzcRs7wg2bO
+  on:
+    branch: master
+notifications:
+- provider: Email
+  to:
+  - devteam@judopayments.com
+  subject: DotNetSdk build failed
+  message: Please check if this failure is due to changes in the platform - that would affect live customers!
+  on_build_success: false
+  on_build_failure: true
+  on_build_status_changed: false

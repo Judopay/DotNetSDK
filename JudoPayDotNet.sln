@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudoPayDotNet", "JudoPayDotNet\JudoPayDotNet.csproj", "{365D3FE1-5AA7-4C99-8AEF-0D780C28E842}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JudoPayDotNet", "JudoPayDotNet\JudoPayDotNet.csproj", "{365D3FE1-5AA7-4C99-8AEF-0D780C28E842}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudoPayDotNetTests", "JudoPayDotNetTests\JudoPayDotNetTests.csproj", "{835A54D3-2C86-4766-8CEC-6C4EEE9304C7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudoPayDotNetDotNet", "JudoPayDotNetDotNet\JudoPayDotNetDotNet.csproj", "{E98FD387-5142-42AB-A17C-03FF52A2161E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudoPayDotNetIntegrationTests", "JudoPayDotNetIntegrationTests\JudoPayDotNetIntegrationTests.csproj", "{D6F57848-85CD-44D1-A4AC-6C0E0E918061}"
 EndProject
@@ -37,14 +35,6 @@ Global
 		{835A54D3-2C86-4766-8CEC-6C4EEE9304C7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{835A54D3-2C86-4766-8CEC-6C4EEE9304C7}.Release|ARM.ActiveCfg = Release|Any CPU
 		{835A54D3-2C86-4766-8CEC-6C4EEE9304C7}.Release|x86.ActiveCfg = Release|Any CPU
-		{E98FD387-5142-42AB-A17C-03FF52A2161E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E98FD387-5142-42AB-A17C-03FF52A2161E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E98FD387-5142-42AB-A17C-03FF52A2161E}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{E98FD387-5142-42AB-A17C-03FF52A2161E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E98FD387-5142-42AB-A17C-03FF52A2161E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E98FD387-5142-42AB-A17C-03FF52A2161E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E98FD387-5142-42AB-A17C-03FF52A2161E}.Release|ARM.ActiveCfg = Release|Any CPU
-		{E98FD387-5142-42AB-A17C-03FF52A2161E}.Release|x86.ActiveCfg = Release|Any CPU
 		{D6F57848-85CD-44D1-A4AC-6C0E0E918061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6F57848-85CD-44D1-A4AC-6C0E0E918061}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6F57848-85CD-44D1-A4AC-6C0E0E918061}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -56,6 +46,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {264AC1F7-95CF-4DD3-98A3-74F0C8F5F8B3}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = AndroidDotNetSDK\AndroidDotNetSDK.csproj

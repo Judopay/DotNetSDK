@@ -2,7 +2,6 @@
 using System.Net;
 using JudoPayDotNet;
 using JudoPayDotNet.Models;
-using JudoPayDotNetDotNet;
 
 namespace JudoPayDotNetIntegrationTests
 {

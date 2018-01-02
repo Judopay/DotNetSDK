@@ -1,4 +1,4 @@
-﻿using JudoPayDotNetDotNet;
+﻿using JudoPayDotNet;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
