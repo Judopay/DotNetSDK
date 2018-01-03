@@ -2,6 +2,7 @@
     <PropertyGroup>
         <AssemblyTitle>JudoPayDotNet</AssemblyTitle>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
     <PropertyGroup Label="Package">
         <PackageId>JudoPay.Net</PackageId>
