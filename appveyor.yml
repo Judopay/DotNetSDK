@@ -16,6 +16,9 @@ build:
   verbosity: minimal
 build_script:
   - dotnet build
+test_script:
+  - cmd: dotnet test JudoPayDotNetTests --no-build
+  - cmd: dotnet test JudoPayDotNetIntegrationTests --no-build
 artifacts:
   - path: '**\*.nupkg'
 deploy:
