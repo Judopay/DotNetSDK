@@ -15,7 +15,8 @@ build:
 build_script:
   - dotnet build
 test_script:
-  - cmd: dotnet test JudoPayDotNetTests
+  - cmd: dotnet test JudoPayDotNetTests --no-build
+  - cmd: dotnet test JudoPayDotNetIntegrationTests --no-build
 deploy:
 - provider: NuGet
   api_key:
