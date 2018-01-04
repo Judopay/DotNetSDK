@@ -20,7 +20,7 @@
         <PackageReleaseNotes>Updated to dotnet standard 2.0</PackageReleaseNotes>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="7.3.3" />
+        <PackageReference Include="FluentValidation" Version="7.3.4" />
         <PackageReference Include="log4net" Version="2.0.8" />
         <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
