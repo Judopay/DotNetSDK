@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Changes on 2018-02-28
+- Added one time token payment
+
+
 ## Changes on 2017-04-04
 
 #### Updated

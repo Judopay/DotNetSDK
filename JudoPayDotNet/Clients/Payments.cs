@@ -19,6 +19,8 @@ namespace JudoPayDotNet.Clients
 
         private readonly IValidator<VisaCheckoutPaymentModel> VisaCheckoutPaymentValidator = new VisaCheckoutPaymentValidator();
 
+        private readonly IValidator<OneTimePaymentModel> OneTimePaymentValidator = new OneTimePaymentValidator();
+
         private const string CREATE_ADDRESS = "transactions/payments";
 
         public Payments(ILog logger, IClient client, bool deDuplicate = false) : base(logger, client)
@@ -54,6 +56,12 @@ namespace JudoPayDotNet.Clients
         {
             var validationError = Validate<VisaCheckoutPaymentModel, ITransactionResult>(VisaCheckoutPaymentValidator, visaCheckoutPayment);
             return validationError ?? PostInternal<VisaCheckoutPaymentModel, ITransactionResult>(CREATE_ADDRESS, visaCheckoutPayment);
+        }
+
+        public Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment)
+        {
+            var validationError = Validate<OneTimePaymentModel, ITransactionResult>(OneTimePaymentValidator, oneTimePayment);
+            return validationError ?? PostInternal<OneTimePaymentModel, ITransactionResult>(CREATE_ADDRESS, oneTimePayment);
         }
     }
 }

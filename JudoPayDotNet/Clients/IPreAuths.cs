@@ -37,6 +37,13 @@ namespace JudoPayDotNet.Clients
         /// <param name="androidPreAuth">The Android Pay pre authorization.</param>
         /// <returns>The receipt for the created Android Pay pre authorization</returns>
         Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPreAuth);
+
+        /// <summary>
+        /// Creates the specified One time pre authorization.
+        /// </summary>
+        /// <param name="oneTimePayment">The one time pre authorization payload.</param>
+        /// <returns>The receipt for the created pre authorization</returns>
+        Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment);
     }
     // ReSharper restore UnusedMember.Global
 }
