@@ -149,7 +149,7 @@ namespace JudoPayDotNetIntegrationTests
             // Forms - Post a form with credentials and cookie and form following variables:
             // url= /v1/Pay variables: CardNumber, ExpiryDate, Cv2, form variable: __RequestVerificationToken
 
-            var formField = doc.DocumentNode.SelectSingleNode("//input[@name='__RequestVerificationToken']");
+           var formField = doc.DocumentNode.SelectSingleNode("//input[@name='__RequestVerificationToken']");
 
             var requestVerificationToken = formField.GetAttributeValue("value", "");
 
@@ -165,7 +165,8 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("CardAddress.CountryCode", "826"), 
                 new KeyValuePair<string, string>("CardAddress.PostCode", "TR14 8PA"), 
                 new KeyValuePair<string, string>("ExpiryDate", "12/20"), 
-                new KeyValuePair<string, string>("Reference", reference)
+                new KeyValuePair<string, string>("Reference", reference),
+                new KeyValuePair<string, string>("YourConsumerReference", "4235325"), 
             });
 
             formRequest = CreateJudoApiRequest(Configuration.WebpaymentsUrl, HttpMethod.Post, "5.3.0.0", Configuration.ElevatedPrivilegesToken,
