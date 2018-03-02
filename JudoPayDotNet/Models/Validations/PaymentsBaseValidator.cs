@@ -17,7 +17,7 @@ namespace JudoPayDotNet.Models.Validations
                  .NotEmpty()
                  .WithErrorCode(((int)JudoModelErrorCode.Amount_Not_Valid).ToString())
                  .WithMessage("You must supply the amount you wish to pay.")
-                 .GreaterThanOrEqualTo(0.01M)
+                 .GreaterThanOrEqualTo(0.0M)
                  .WithErrorCode(((int)JudoModelErrorCode.Amount_Greater_Than_0).ToString())
                  .WithMessage("Sorry, this payment amount is not valid.");
 
