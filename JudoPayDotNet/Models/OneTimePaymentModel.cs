@@ -10,7 +10,7 @@ namespace JudoPayDotNet.Models
     public class OneTimePaymentModel : PaymentModel
     {
         /// <summary>
-        /// Gets or sets the card number.
+        /// Gets or sets the one use token.
         /// </summary>
         /// <value>
         /// The card number.
