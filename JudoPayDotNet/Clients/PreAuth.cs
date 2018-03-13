@@ -17,6 +17,8 @@ namespace JudoPayDotNet.Clients
 
         private readonly IValidator<AndroidPaymentModel> AndroidPaymentValidator = new AndroidPaymentValidator();
 
+        private readonly IValidator<OneTimePaymentModel> OneTimePaymentValidator = new OneTimePaymentValidator();
+
         private const string CREATE_PREAUTH_ADDRESS = "transactions/preauths";
 
         public PreAuths(ILog logger, IClient client, bool deDuplicate = false)
@@ -47,6 +49,12 @@ namespace JudoPayDotNet.Clients
         {
             var validationError = Validate<AndroidPaymentModel, ITransactionResult>(AndroidPaymentValidator, androidPreAuth);
             return validationError ?? PostInternal<AndroidPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, androidPreAuth);
+        }
+
+        public Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment)
+        {
+            var validationError = Validate<OneTimePaymentModel, ITransactionResult>(OneTimePaymentValidator, oneTimePayment);
+            return validationError ?? PostInternal<OneTimePaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, oneTimePayment);
         }
     }
 }
