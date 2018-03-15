@@ -1,4 +1,4 @@
-version: 2.0.{build}
+version: 2.0.{build}-beta
 image: Visual Studio 2017
 configuration: Release
 dotnet_csproj:
@@ -28,6 +28,11 @@ deploy:
     secure: 7hCXGI9g/S/3iu00/OvfdiEJVLcQjSzpx6lB+5qsyvs6iLD6oFCQ8NzcRs7wg2bO
   on:
     branch: master
+- provider: NuGet
+  artifact: /.*\.nupkg/
+  server: https://ci.appveyor.com/nuget/judopayments-wsh9uax8t416
+  on:
+    branch: TargettingMultipleFrameworks
 notifications:
 - provider: Email
   to:
