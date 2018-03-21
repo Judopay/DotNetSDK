@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
-using JudoPayDotNetDotNet.Logging;
+using JudoPayDotNet.Logging;
 using NSubstitute;
 using NUnit.Framework;
 

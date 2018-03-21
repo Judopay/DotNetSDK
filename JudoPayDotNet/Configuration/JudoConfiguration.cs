@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JudoPayDotNetDotNet.Configuration
+namespace JudoPayDotNet.Configuration
 {
     /// <summary>
     /// Default implementation of configuration settings that uses ConfigurationManager.AppSettings

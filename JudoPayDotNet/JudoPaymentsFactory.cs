@@ -3,14 +3,13 @@ using System.Configuration;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using JudoPayDotNet;
 using JudoPayDotNet.Authentication;
 using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
-using JudoPayDotNetDotNet.Configuration;
-using JudoPayDotNetDotNet.Logging;
+using JudoPayDotNet.Configuration;
+using JudoPayDotNet.Logging;
 
-namespace JudoPayDotNetDotNet
+namespace JudoPayDotNet
 {
     using System.Collections.Generic;
     using System.Net.Http.Headers;

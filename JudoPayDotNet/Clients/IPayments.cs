@@ -43,5 +43,12 @@ namespace JudoPayDotNet.Clients
         /// <param name="visaCheckoutPayment">The Visa Checkout payload.</param>
         /// <returns>The receipt for the created Visa Checkout payment</returns>
         Task<IResult<ITransactionResult>> Create(VisaCheckoutPaymentModel visaCheckoutPayment);
+
+        /// <summary>
+        /// Creates the specified One time payment.
+        /// </summary>
+        /// <param name="oneTimePayment">The one time payment payload.</param>
+        /// <returns>The receipt for the created payment</returns>
+        Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace JudoPayDotNetDotNet.Configuration
+﻿namespace JudoPayDotNet.Configuration
 {
     /// <summary>
     /// Defines a wrapping for configuration settings. This enables decoupling from ConfigurationManager and subsequent mocking of it.

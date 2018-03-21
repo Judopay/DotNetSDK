@@ -1,8 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.Versioning;
+using System.Text;
+using System.Threading.Tasks;
 using JudoPayDotNet;
+using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
-using JudoPayDotNetDotNet;
+using Newtonsoft.Json;
 
 namespace JudoPayDotNetIntegrationTests
 {
@@ -14,7 +21,7 @@ namespace JudoPayDotNetIntegrationTests
 
         protected IntegrationTestsBase() 
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             JudoPayApi = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Token, Configuration.Secret);
             JudoPayApiElevated = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
         }
@@ -62,6 +69,48 @@ namespace JudoPayDotNetIntegrationTests
                 ConsumerToken = "ABSE",
                 RecurringPayment = recurringPayment
             };
+        }
+
+        protected async Task<OneTimePaymentModel> GetOneTimePaymentModel()
+        {
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Api-Version", VersioningHandler.DEFAULT_API_VERSION);
+            client.DefaultRequestHeaders.Add("Authorization", $"Simple {Configuration.Token}");
+
+            var cardDetailsModel = new Dictionary<string, string>
+            {
+                { "cardNumber", "4976000000003436" },
+                { "expiryDate", "1220" },
+                { "cV2", "452" },
+            };
+            var message = new HttpRequestMessage
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(cardDetailsModel), Encoding.UTF8, "application/json"),
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(JudoPaymentsFactory.GetEnvironmentUrl(Configuration.JudoEnvironment) + "/encryptions/paymentdetails")
+            };
+
+            var response = await client.SendAsync(message);
+            var oneUseTokenModel = JsonConvert.DeserializeObject<OneUseTokenModel>(await response.Content.ReadAsStringAsync());
+
+            return new OneTimePaymentModel
+            {
+                OneUseToken = oneUseTokenModel.OneUseToken,
+                JudoId = Configuration.Judoid,
+                YourConsumerReference = Guid.NewGuid().ToString(),
+                Amount = 25,
+                CardAddress = new CardAddressModel
+                {
+                    Line1 = "32 Edward Street",
+                    PostCode = "TR14 8PA",
+                    Town = "Camborne"
+                }
+            };
+        }
+
+        class OneUseTokenModel
+        {
+            public string OneUseToken { get; set; }
         }
 
         protected WebPaymentRequestModel GetWebPaymentRequestModel()

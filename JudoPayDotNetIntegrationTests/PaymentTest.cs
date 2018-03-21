@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using JudoPayDotNet.Models;
 using NUnit.Framework;
 
@@ -94,6 +95,22 @@ namespace JudoPayDotNetIntegrationTests
             var paymentReceipt = response.Response as PaymentReceiptModel;
             Assert.IsInstanceOf<PaymentReceiptModel>(response.Response);
             Assert.IsTrue(paymentReceipt.Recurring);
+        }
+
+        [Test]
+        public void AOneTimePayment()
+        {
+            var oneTimePaymentModel = GetOneTimePaymentModel().Result;
+
+            var response = JudoPayApi.Payments.Create(oneTimePaymentModel).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+            Assert.AreEqual("Success", receipt.Result);
         }
 
         [Test]

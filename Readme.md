@@ -1,15 +1,12 @@
 # Judo .NET SDK
 
-<a href="https://scan.coverity.com/projects/judopaydotnetsdk">
-  <img alt="Coverity Scan Build Status"
-       src="https://img.shields.io/coverity/scan/6752.svg"/>
-</a>
+[![Build status](https://ci.appveyor.com/api/projects/status/63dbbef4dxrual5f?svg=true)](https://ci.appveyor.com/project/JudoPayments/dotnetsdk)
 
 The .NET SDK is a client for our Judopay API, which provides card payment processing for mobile apps and websites.
 
-##### **\*\*\*Due to industry-wide security updates, versions below 1.1.113 of this SDK will no longer be supported after 1st Oct 2016. For more information regarding these updates, please read our blog [here](http://hub.judopay.com/pci31-security-updates/).*****
-
 ## Requirements
+
+#### NB: Due to industry requirements only TLS 1.2 is supported
 
 ## Getting started
 The Judopay SDK is distributed as a [NuGet package](https://www.nuget.org/packages/JudoPay.Net/) 

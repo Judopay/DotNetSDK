@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet.Enums;
-using JudoPayDotNetDotNet;
-using JudoPayDotNetDotNet.Configuration;
+using JudoPayDotNet;
+using JudoPayDotNet.Configuration;
 using NSubstitute;
 using NUnit.Framework;
 
