@@ -1,4 +1,4 @@
-version: 2.0.{build}-beta
+version: 2.0.{build}
 image: Visual Studio 2017
 # if wanting to publish the package internally
 #nuget:
