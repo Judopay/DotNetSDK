@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <AssemblyTitle>JudoPayDotNet</AssemblyTitle>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
     <PropertyGroup Label="Package">
@@ -21,9 +21,18 @@
         <PackageReleaseNotes>Updated to dotnet standard 2.0</PackageReleaseNotes>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="7.3.4" />
+        <PackageReference Include="FluentValidation" Version="7.5.0" />
         <PackageReference Include="log4net" Version="2.0.8" />
         <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
     </ItemGroup>
+
+  <!-- .NET 4.6.1 references, compilation flags and build options -->
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461'">
+    <DefineConstants>NET461;NETFULL</DefineConstants>
+  </PropertyGroup>
 </Project>
