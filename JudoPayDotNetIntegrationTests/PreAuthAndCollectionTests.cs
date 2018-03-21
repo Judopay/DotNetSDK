@@ -23,6 +23,23 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("PreAuth", receipt.Type);
         }
 
+
+        [Test]
+        public void AOneTimePreAuth()
+        {
+            var oneTimePaymentModel = GetOneTimePaymentModel().Result;
+
+            var response = JudoPayApi.PreAuths.Create(oneTimePaymentModel).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+            Assert.AreEqual("Success", receipt.Result);
+        }
+
         [Test]
         public void ADeclinedCardPreAuth()
         {
