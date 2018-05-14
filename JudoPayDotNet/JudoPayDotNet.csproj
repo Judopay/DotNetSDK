@@ -18,8 +18,9 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>judo;judopaypayment;gateway;credit;cards;</PackageTags>
         <PackageReleaseNotes>
-          Changed CardType to CardBrand and CardFunding
-          Updated to dotnet standard 2.0
+          Added Risk information associated with the transaction.
+          Changed CardType to CardBrand and CardFunding.
+          Updated to dotnet standard 2.0.
         </PackageReleaseNotes>
     </PropertyGroup>
     <ItemGroup>
