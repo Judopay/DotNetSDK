@@ -6,11 +6,10 @@
     </PropertyGroup>
     <PropertyGroup Label="Package">
         <PackageId>JudoPay.Net</PackageId>
-        <VersionPrefix>2.0.0</VersionPrefix>
-        <Version>2.0.0</Version>
+        <Version>2.1.0</Version>
         <Authors>JudoPay</Authors>
         <Description>A .Net client for our JudoPay API, allowing you to quickly and easily process payments</Description>
-        <Copyright>Copyright 2017</Copyright>
+        <Copyright>Copyright 2018</Copyright>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
         <PackageProjectUrl>https://github.com/JudoPay/DotNetSDK</PackageProjectUrl>
@@ -18,7 +17,11 @@
         <RepositoryUrl>https://github.com/JudoPay/DotNetSDK</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>judo;judopaypayment;gateway;credit;cards;</PackageTags>
-        <PackageReleaseNotes>Updated to dotnet standard 2.0</PackageReleaseNotes>
+        <PackageReleaseNotes>
+          Added Risk information associated with the transaction.
+          Changed CardType to CardBrand and CardFunding.
+          Updated to dotnet standard 2.0.
+        </PackageReleaseNotes>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="FluentValidation" Version="7.5.2" />
