@@ -33,6 +33,9 @@ namespace JudoPayDotNetIntegrationTests
             Assert.That(receipt.NetAmount, Is.GreaterThan(0));
             Assert.That(receipt.Amount, Is.GreaterThan(0));
             Assert.That(receipt.Currency, Is.EqualTo("GBP"));
+
+            Assert.That(receipt.Risks.PostcodeCheck, Is.EqualTo("PASSED"));
+            Assert.That(receipt.Risks.MerchantSuggestion, Is.EqualTo("Allow"));
         }
 
         [Test]
@@ -94,6 +97,9 @@ namespace JudoPayDotNetIntegrationTests
             Assert.That(cardTokenReceipt.NetAmount, Is.GreaterThan(0));
             Assert.That(cardTokenReceipt.Amount, Is.GreaterThan(0));
             Assert.That(cardTokenReceipt.Currency, Is.EqualTo("GBP"));
+
+            Assert.That(receipt.Risks.PostcodeCheck, Is.EqualTo("PASSED"));
+            Assert.That(receipt.Risks.MerchantSuggestion, Is.EqualTo("Allow"));
         }
 
         [Test]
