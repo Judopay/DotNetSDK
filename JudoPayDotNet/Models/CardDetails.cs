@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
 {
@@ -43,7 +44,26 @@ namespace JudoPayDotNet.Models
         /// The type of the card.
         /// </value>
         [DataMember]
+        [Obsolete("Please use CardScheme and CardFunding instead")]
         public CardType CardType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the scheme of the card.
+        /// </summary>
+        /// <value>
+        /// Possible values are Visa, Mastercard etc
+        /// </value>
+        [DataMember]
+        public string CardScheme { get; set; }
+
+        /// <summary>
+        /// Gets or sets the funding type of the card.
+        /// </summary>
+        /// <value>
+        /// Possible values are Debit, Credit etc
+        /// </value>
+        [DataMember]
+        public string CardFunding { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }
