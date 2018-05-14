@@ -1,6 +1,5 @@
 # Judo .NET SDK
-
-[![Build status](https://ci.appveyor.com/api/projects/status/63dbbef4dxrual5f?svg=true)](https://ci.appveyor.com/project/JudoPayments/dotnetsdk)
+[![Build status](https://ci.appveyor.com/api/projects/status/63dbbef4dxrual5f/branch/master?svg=true)](https://ci.appveyor.com/project/JudoPayments/dotnetsdk/branch/master)
 
 The .NET SDK is a client for our Judopay API, which provides card payment processing for mobile apps and websites.
 

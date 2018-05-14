@@ -122,6 +122,22 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
+        public async Task AOneTimePayment()
+        {
+            var oneTimePaymentModel = GetOneTimePaymentModel().Result;
+
+            var response = await JudoPayApi.Payments.Create(oneTimePaymentModel);
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+            Assert.AreEqual("Success", receipt.Result);
+        }
+
+        [Test]
         public async Task ADeclinedCardPayment()
         {
             var paymentWithCard = GetCardPaymentModel("432438862", "4221690000004963", "125");

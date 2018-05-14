@@ -1,5 +1,10 @@
 version: 2.1.{build}
 image: Visual Studio 2017
+skip_branch_with_pr: true
+# if wanting to publish the package internally
+#nuget:
+#  account_feed: true
+#  project_feed: true
 configuration: Release
 dotnet_csproj:
   patch: true
