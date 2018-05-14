@@ -87,6 +87,8 @@ namespace JudoPayDotNet.Http
         /// <returns>The response from Judy Pay with information of errors if they have ocurred</returns>
         Task<IResponse> Delete(string address, Dictionary<string, string> parameters = null,
             Dictionary<string, string> extraHeaders = null);
+
+        Connection Connection { get; }
     }
     // ReSharper restore UnusedMember.Global
 }
