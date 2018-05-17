@@ -23,7 +23,7 @@ namespace JudoPayDotNet.Http
     {
         private readonly IHttpClient _httpClient;
 
-        public readonly Uri BaseAddress;
+        internal readonly Uri BaseAddress;
 
         private readonly ILog _log;
 
