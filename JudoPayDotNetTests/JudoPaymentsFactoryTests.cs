@@ -41,5 +41,16 @@ namespace JudoPayDotNetTests
 
             Assert.That(client, Is.Not.Null);
         }
+
+        [Test]
+        public void PassingBaseAndVersionCorrectlyCreatesClient()
+        {
+            var credentials = new Credentials("token", "secret");
+            var expectedBaseAddress = "http://test.judopay.com/";
+            var client = JudoPaymentsFactory.Create(credentials, expectedBaseAddress, "4.1.0");
+
+            Assert.That(client, Is.Not.Null);
+            Assert.That(client.Connection.BaseAddress.ToString(), Is.EqualTo(expectedBaseAddress));
+        }
     }
 }
