@@ -64,6 +64,24 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember]
         public string CardFunding { get; set; }
+
+        /// <summary>
+        /// Gets the category of the card.
+        /// </summary>
+        /// <value>
+        /// Possible values are Corporate, Classic, Platinum
+        /// </value>
+        [DataMember]
+        public string CardCategory { get; set; }
+
+        /// <summary>
+        /// Gets the country the card was issued from in ISO 3166-1 alpha-2 format (2 chararacters)
+        /// </summary>
+        /// <value>
+        /// Possible values are UK FR DE
+        /// </value>
+        [DataMember]
+        public string CardCountry { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

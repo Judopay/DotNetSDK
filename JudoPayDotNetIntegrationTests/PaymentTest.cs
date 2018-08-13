@@ -26,6 +26,8 @@ namespace JudoPayDotNetIntegrationTests
             Assert.That(receipt.CardDetails.EndDate, Is.Not.Empty);
             Assert.That(receipt.CardDetails.CardScheme, Is.EqualTo("Visa"));
             Assert.That(receipt.CardDetails.CardFunding, Is.EqualTo("Debit"));
+            Assert.That(receipt.CardDetails.CardCategory, Is.EqualTo("Classic"));
+            Assert.That(receipt.CardDetails.CardCountry, Is.EqualTo("FR"));
             Assert.That(receipt.Message, Does.Match("AuthCode: \\d{6}"), $"Result message on receipt not in correct format AuthCode: xxxxxx. Was {receipt.Message}");
             Assert.That(receipt.MerchantName, Is.Not.Empty);
             Assert.That(receipt.AppearsOnStatementAs, Is.Not.Empty);
@@ -90,6 +92,8 @@ namespace JudoPayDotNetIntegrationTests
             Assert.That(cardTokenReceipt.CardDetails.EndDate, Is.Not.Empty);
             Assert.That(cardTokenReceipt.CardDetails.CardScheme, Is.EqualTo("Visa"));
             Assert.That(cardTokenReceipt.CardDetails.CardFunding, Is.EqualTo("Debit"));
+            Assert.That(cardTokenReceipt.CardDetails.CardCategory, Is.EqualTo("Classic"));
+            Assert.That(cardTokenReceipt.CardDetails.CardCountry, Is.EqualTo("FR"));
             Assert.That(cardTokenReceipt.Message, Does.Match("AuthCode: \\d{6}"), $"Result message on receipt not in correct format AuthCode: xxxxxx. Was {cardTokenReceipt.Message}");
             Assert.That(cardTokenReceipt.MerchantName, Is.Not.Empty);
             Assert.That(cardTokenReceipt.AppearsOnStatementAs, Is.Not.Empty);
