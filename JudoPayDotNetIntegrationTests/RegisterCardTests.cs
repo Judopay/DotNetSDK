@@ -13,7 +13,7 @@ namespace JudoPayDotNetIntegrationTests
         public async Task RegisterCard()
         {
 
-            var registerCardModel = GetCardPaymentModel("432438862");
+            var registerCardModel = GetRegisterCardtModel("432438862");
 
             var response = await JudoPayApi.RegisterCards.Create(registerCardModel);
 
@@ -27,7 +27,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var consumerReference = Guid.NewGuid().ToString();
 
-            var registerCard = GetCardPaymentModel(consumerReference);
+            var registerCard = GetRegisterCardtModel(consumerReference);
 
             var response = await JudoPayApi.RegisterCards.Create(registerCard);
 
@@ -55,7 +55,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ADeclinedCardPayment()
         {
-            var registerCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
+            var registerCard = GetRegisterCardtModel("432438862", "4221690000004963", "125");
 
             var response = JudoPayApi.RegisterCards.Create(registerCard).Result;
 

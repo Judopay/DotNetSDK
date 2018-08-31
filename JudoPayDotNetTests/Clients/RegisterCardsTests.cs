@@ -28,9 +28,8 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new CardPaymentModel
+                    yield return new TestCaseData(new RegisterCardModel
                     {
-                        Amount = 2.0m,
                         CardAddress = new CardAddressModel
                         {
                             Line1 = "Test Street",
@@ -40,9 +39,7 @@ namespace JudoPayDotNetTests.Clients
                         CardNumber = "348417606737499",
                         ExpiryDate = "120615",
                         YourConsumerReference = "User10",
-                        CV2 = "420",
-                        JudoId = "14562",
-                        MobileNumber = "07745352515"
+                        CV2 = "420"
                     },
                         @"{
                         receiptId : '134567',
@@ -73,9 +70,8 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new CardPaymentModel
+                    yield return new TestCaseData(new RegisterCardModel
                     {
-                        Amount = 2.0m,
                         CardAddress = new CardAddressModel
                         {
                             Line1 = "Test Street",
@@ -84,9 +80,7 @@ namespace JudoPayDotNetTests.Clients
                         },
                         CardNumber = "348417606737499",
                         ExpiryDate = "120615",
-                        YourConsumerReference = "User10",
-                        JudoId = "14562",
-                        MobileNumber = "07745352515",
+                        YourConsumerReference = "User10"
                     },
                        @"    
                         {
@@ -161,7 +155,7 @@ namespace JudoPayDotNetTests.Clients
 
 
         [Test, TestCaseSource(typeof(RegisterCardsTestSource), "SuccessTestCases")]
-        public void RegisterCardWithSuccess(CardPaymentModel registerCard, string responseData, string receiptId)
+        public void RegisterCardWithSuccess(RegisterCardModel registerCard, string responseData, string receiptId)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
@@ -190,7 +184,7 @@ namespace JudoPayDotNetTests.Clients
         }
 
         [Test, TestCaseSource(typeof(RegisterCardsTestSource), "SuccessTestCases")]
-        public void ExtraHeadersAreSent(CardPaymentModel payment, string responseData, string receiptId)
+        public void ExtraHeadersAreSent(RegisterCardModel payment, string responseData, string receiptId)
         {
             const string EXTRA_HEADER_NAME = "X-Extra-Request-Header";
 
@@ -220,7 +214,7 @@ namespace JudoPayDotNetTests.Clients
         }
 
         [Test, TestCaseSource(typeof(global::JudoPayDotNetTests.Clients.RegisterCardsTests.RegisterCardsTestSource), "FailureTestCases")]
-        public void RegisterCardWithError(CardPaymentModel registerCard, string responseData, JudoApiError errorType)
+        public void RegisterCardWithError(RegisterCardModel registerCard, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.BadRequest)

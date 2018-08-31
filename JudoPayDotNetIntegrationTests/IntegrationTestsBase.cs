@@ -54,6 +54,31 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
+        protected RegisterCardModel GetRegisterCardtModel(string yourConsumerReference = null,
+            string cardNumber = "4976000000003436",
+            string cv2 = "452",
+            string postCode = "TR14 8PA",
+            bool? recurringPayment = null,
+            string judoId = null)
+        {
+            if (string.IsNullOrEmpty(yourConsumerReference))
+                yourConsumerReference = Guid.NewGuid().ToString();
+
+            return new RegisterCardModel
+            {
+                YourConsumerReference = yourConsumerReference,
+                CardNumber = cardNumber,
+                CV2 = cv2,
+                ExpiryDate = "12/20",
+                CardAddress = new CardAddressModel
+                {
+                    Line1 = "32 Edward Street",
+                    PostCode = postCode,
+                    Town = "Camborne"
+                }
+            };
+        }
+
         protected TokenPaymentModel GetTokenPaymentModel(string cardToken, string yourConsumerReference = null, decimal amount = 25, bool? recurringPayment = null)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))

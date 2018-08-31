@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Changes on 2018-08-31
+- Fixed register card endpoint mapping
+
 ## Changes on 2018-03-02
 - Added one time token payment
 
@@ -26,4 +29,3 @@ All notable changes to this project will be documented in this file.
 - [BREAKING CHANGE] removed UNKNOWN from TransactionType Enum
 
 ---
-
