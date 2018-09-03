@@ -39,7 +39,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        [Ignore("Till recurring flag is exposed on partnerapi")]
         public async Task ARecurringPayment()
         {
             var paymentWithCard = GetCardPaymentModel(recurringPayment: true, judoId: Configuration.Cybersource_Judoid);
@@ -103,7 +102,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        [Ignore("Till recurring flag is exposed on partnerapi")]
         public async Task ATokenRecurringPayment()
         {
             var consumerReference = Guid.NewGuid().ToString();

@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
 {
@@ -7,8 +9,25 @@ namespace JudoPayDotNet.Models
     /// </summary>
     [DataContract]
 // ReSharper disable UnusedMember.Global
-    public class RegisterCardModel
+    public class RegisterCardModel : IModelWithHttpHeaders
     {
+        public RegisterCardModel()
+        {
+            YourPaymentReference = Guid.NewGuid().ToString();
+            HttpHeaders = new Dictionary<string, string>();
+        }
+
+        /// <summary>
+        /// Gets your payment reference.
+        /// </summary>
+        /// <value>
+        /// Your payment reference.
+        /// PLEASE NOTE!!!! there is a reflection call within JudoPayClient.cs that gets this property via a string call. update in both places
+        /// including  other model instances of yourPaymentReference ********************
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public string YourPaymentReference { get; internal set; }
+
         /// <summary>
         /// Gets or sets the CV2.
         /// </summary>
@@ -71,6 +90,12 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string YourConsumerReference { get; set; }
+
+        /// <summary>
+        /// Allows you to set HTTP headers on requests
+        /// </summary>
+        [IgnoreDataMember]
+        public Dictionary<string, string> HttpHeaders { get; private set; }
     }
     // ReSharper restore UnusedMember.Global
 }
