@@ -96,6 +96,10 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [IgnoreDataMember]
         public Dictionary<string, string> HttpHeaders { get; private set; }
+
+        public string JudoId { get; set; }
+
+        public string Currency { get; set; }
     }
     // ReSharper restore UnusedMember.Global
 }
