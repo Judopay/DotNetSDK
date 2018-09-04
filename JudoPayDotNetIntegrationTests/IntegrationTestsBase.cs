@@ -54,7 +54,7 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        protected RegisterCardModel GetRegisterCardtModel(string yourConsumerReference = null,
+        protected RegisterCardModel GetRegisterCardModel(string yourConsumerReference = null,
             string cardNumber = "4976000000003436",
             string cv2 = "452",
             string postCode = "TR14 8PA",
