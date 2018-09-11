@@ -78,10 +78,20 @@ namespace JudoPayDotNet.Models
         /// Gets the country the card was issued from in ISO 3166-1 alpha-2 format (2 chararacters)
         /// </summary>
         /// <value>
-        /// Possible values are UK FR DE
+        /// Possible values are UK, FR, DE
         /// </value>
         [DataMember]
         public string CardCountry { get; set; }
+
+
+        /// <summary>
+        /// Gets the bank the card was issued from.
+        /// </summary>
+        /// <value>
+        /// Possible values are Credit Industriel Et Commercial, Barclays, Bank of America
+        /// </value>
+        [DataMember]
+        public string Bank { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }
