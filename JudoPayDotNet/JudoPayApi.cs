@@ -28,8 +28,6 @@ namespace JudoPayDotNet
         public ITransactions Transactions { get; set; }
         public ICollections Collections { get; set; }
         public IThreeDs ThreeDs { get; set; }
-
-        [Obsolete("Register card is currently doing an authorisation to check that the card is valid. We now have two new methods. One is the save card, which doesnt check that a card is valid and check card, which checks if a card is valid. Neither do an authorisation")]
         public IRegisterCards RegisterCards { get; set; }
         public ISaveCard SaveCards { get; set; }
         public IVoids Voids { get; set; }
