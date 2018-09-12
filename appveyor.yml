@@ -26,8 +26,6 @@ test_script:
   - cmd: dotnet test JudoPayDotNetIntegrationTests --no-build
 artifacts:
   - path: '**\*.nupkg'
-  on:
-    branch: master
 deploy:
 - provider: NuGet
   artifact: /.*\.nupkg/
