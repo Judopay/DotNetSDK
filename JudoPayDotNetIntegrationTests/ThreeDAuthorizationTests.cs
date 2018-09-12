@@ -19,7 +19,7 @@ namespace JudoPayDotNetIntegrationTests
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             paymentWithCard.DeviceCategory = "Mobile";
 
-            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
+            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -41,7 +41,7 @@ namespace JudoPayDotNetIntegrationTests
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             paymentWithCard.DeviceCategory = "Mobile";
             
-            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
+            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -74,7 +74,7 @@ namespace JudoPayDotNetIntegrationTests
 
                 Assert.That(paResValue, Is.Not.Empty);
 
-                var threeDResult = JudoPayApi.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel { PaRes = paResValue }).Result;
+                var threeDResult = JudoPayApiIridium.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel { PaRes = paResValue }).Result;
 
                 Assert.IsNotNull(threeDResult);
                 Assert.IsFalse(threeDResult.HasError);

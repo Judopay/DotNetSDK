@@ -12,7 +12,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var registerCardModel = GetCardPaymentModel("432438862");
 
-            var response = JudoPayApi.SaveCards.Create(registerCardModel).Result;
+            var response = JudoPayApiIridium.SaveCards.Create(registerCardModel).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -24,7 +24,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var registerCardModel = GetCardPaymentModel("432438862", "4976000000003436", null);
 
-            var response = JudoPayApi.SaveCards.Create(registerCardModel).Result;
+            var response = JudoPayApiIridium.SaveCards.Create(registerCardModel).Result;
 
             Assert.IsNotNull(response);
             Assert.IsTrue(response.HasError);
@@ -37,7 +37,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var registerCard = GetCardPaymentModel(consumerReference);
 
-            var response = JudoPayApi.SaveCards.Create(registerCard).Result;
+            var response = JudoPayApiIridium.SaveCards.Create(registerCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -53,11 +53,11 @@ namespace JudoPayDotNetIntegrationTests
 
             var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 26);
 
-            response = JudoPayApi.Payments.Create(paymentWithToken).Result;
+            response = JudoPayApiIridium.Payments.Create(paymentWithToken).Result;
 
             paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27);
 
-            response = JudoPayApi.Payments.Create(paymentWithToken).Result;
+            response = JudoPayApiIridium.Payments.Create(paymentWithToken).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
