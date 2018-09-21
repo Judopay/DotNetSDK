@@ -5,9 +5,16 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JudoPayDotNet", "JudoPayDotNet\JudoPayDotNet.csproj", "{365D3FE1-5AA7-4C99-8AEF-0D780C28E842}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudoPayDotNetTests", "JudoPayDotNetTests\JudoPayDotNetTests.csproj", "{835A54D3-2C86-4766-8CEC-6C4EEE9304C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JudoPayDotNetTests", "JudoPayDotNetTests\JudoPayDotNetTests.csproj", "{835A54D3-2C86-4766-8CEC-6C4EEE9304C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudoPayDotNetIntegrationTests", "JudoPayDotNetIntegrationTests\JudoPayDotNetIntegrationTests.csproj", "{D6F57848-85CD-44D1-A4AC-6C0E0E918061}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JudoPayDotNetIntegrationTests", "JudoPayDotNetIntegrationTests\JudoPayDotNetIntegrationTests.csproj", "{D6F57848-85CD-44D1-A4AC-6C0E0E918061}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{D7ADBA82-2B45-4BDF-8725-63A9ABF7A9E9}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		CHANGELOG.md = CHANGELOG.md
+		Deploy.md = Deploy.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

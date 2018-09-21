@@ -32,7 +32,7 @@ deploy:
   api_key:
     secure: 7hCXGI9g/S/3iu00/OvfdiEJVLcQjSzpx6lB+5qsyvs6iLD6oFCQ8NzcRs7wg2bO
   on:
-    branch: master
+    APPVEYOR_REPO_TAG: true
 notifications:
 - provider: Email
   to:
