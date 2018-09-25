@@ -18,6 +18,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>judo;judopaypayment;gateway;credit;cards;</PackageTags>
         <PackageReleaseNotes>
+          Added two new fields on cardDetails. These are card category and card country.
           Added Risk information associated with the transaction.
           Changed CardType to CardBrand and CardFunding.
           Updated to dotnet standard 2.0.
