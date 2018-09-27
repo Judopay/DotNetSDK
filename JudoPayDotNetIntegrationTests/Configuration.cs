@@ -11,9 +11,9 @@ namespace JudoPayDotNetIntegrationTests
         public string ElevatedPrivilegesToken = "90GEiHrgjEuHnbAt";
         public string Token = "Izx9omsBR15LatAl";
         public string Secret = "b5787124845533d8e68d12a586fa3713871b876b528600ebfdc037afec880cd6";
-        public string Cybersource_Judoid = "100986934";
-        public string Cybersource_Token = "os92LSyQe0Ywp2tE";
-        public string Cybersource_Secret = "d6110e7becd1a4f4b8d5d00e8cefbbf4342bf981270ea79325d73e68fb6e7d23";
+        public string Cybersource_Judoid = "100882208";
+        public string Cybersource_Token = "4jLqa8a5yoAZCir8";
+        public string Cybersource_Secret = "fce18777f015eee2f73abb7961b23320177994623fcc95643a7b39b8b155311f";
         public JudoEnvironment JudoEnvironment = JudoEnvironment.Sandbox;
     }
 }

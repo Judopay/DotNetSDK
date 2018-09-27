@@ -120,7 +120,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var request = GetWebPaymentRequestModel();
 
-            var result = JudoPayApi.WebPayments.Payments.Create(request).Result;
+            var result = JudoPayApiIridium.WebPayments.Payments.Create(request).Result;
 
             var reference = result.Response.Reference;
 
@@ -188,7 +188,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var receiptId = formField.GetAttributeValue("value", "");
 
-            var webRequest = JudoPayApi.WebPayments.Transactions.GetByReceipt(receiptId).Result;
+            var webRequest = JudoPayApiIridium.WebPayments.Transactions.GetByReceipt(receiptId).Result;
 
             Assert.NotNull(webRequest);
             Assert.IsFalse(webRequest.HasError);

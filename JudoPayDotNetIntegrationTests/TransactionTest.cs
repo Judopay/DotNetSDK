@@ -12,13 +12,13 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
+            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
 
-            var transaction = JudoPayApi.Transactions.Get(response.Response.ReceiptId).Result;
+            var transaction = JudoPayApiIridium.Transactions.Get(response.Response.ReceiptId).Result;
 
             Assert.IsNotNull(transaction);
             Assert.IsFalse(transaction.HasError);
@@ -31,7 +31,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel();
 
-            var response = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
+            var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -44,10 +44,10 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var collectionResult = JudoPayApi.Collections.Create(collection).Result;
-            collectionResult = JudoPayApi.Collections.Create(collection).Result;
+            var collectionResult = JudoPayApiIridium.Collections.Create(collection).Result;
+            collectionResult = JudoPayApiIridium.Collections.Create(collection).Result;
 
-            var transaction = JudoPayApi.Transactions.Get(response.Response.ReceiptId).Result;
+            var transaction = JudoPayApiIridium.Transactions.Get(response.Response.ReceiptId).Result;
 
             var payment = transaction.Response as PaymentReceiptModel;
 
@@ -64,13 +64,13 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("66666666");
 
-            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
+            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
             System.Threading.Thread.Sleep(1000);
-            var transaction = JudoPayApi.Transactions.Get().Result;
+            var transaction = JudoPayApiIridium.Transactions.Get().Result;
 
             Assert.IsNotNull(transaction);
             Assert.IsFalse(transaction.HasError);
@@ -83,13 +83,13 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
+            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
             System.Threading.Thread.Sleep(1000);
-            var transaction = JudoPayApi.Transactions.Get(TransactionType.PAYMENT).Result;
+            var transaction = JudoPayApiIridium.Transactions.Get(TransactionType.PAYMENT).Result;
 
             Assert.IsNotNull(transaction);
             Assert.IsFalse(transaction.HasError);

@@ -13,7 +13,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel();
 
-            var response = await JudoPayApi.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -46,15 +46,14 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel(recurringPayment: true, judoId: Configuration.Cybersource_Judoid);
 
-            var judoPay = UseCybersourceGateway();
-
-            var response = await judoPay.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiCyberSource.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
+
             var paymentReceipt = response.Response as PaymentReceiptModel;
-            Assert.IsInstanceOf<PaymentReceiptModel>(response.Response);
+            Assert.IsNotNull(paymentReceipt);
             Assert.IsTrue(paymentReceipt.Recurring);
         }
 
@@ -64,7 +63,7 @@ namespace JudoPayDotNetIntegrationTests
             var consumerReference = Guid.NewGuid().ToString();
             var paymentWithCard = GetCardPaymentModel(consumerReference);
 
-            var response = await JudoPayApi.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -79,7 +78,7 @@ namespace JudoPayDotNetIntegrationTests
             var cardToken = receipt.CardDetails.CardToken;
 
             var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 26);
-            response = await JudoPayApi.Payments.Create(paymentWithToken);
+            response = await JudoPayApiIridium.Payments.Create(paymentWithToken);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -114,9 +113,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var paymentWithCard = GetCardPaymentModel(consumerReference, recurringPayment: true, judoId: Configuration.Cybersource_Judoid);
 
-            var judoPay = UseCybersourceGateway();
-
-            var response = await judoPay.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiCyberSource.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -136,7 +133,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var oneTimePaymentModel = GetOneTimePaymentModel().Result;
 
-            var response = await JudoPayApi.Payments.Create(oneTimePaymentModel);
+            var response = await JudoPayApiIridium.Payments.Create(oneTimePaymentModel);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -152,7 +149,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
 
-            var response = await JudoPayApi.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -164,9 +161,9 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response1 = await JudoPayApi.Payments.Create(paymentWithCard);
+            var response1 = await JudoPayApiIridium.Payments.Create(paymentWithCard);
 
-            var response2 = await JudoPayApi.Payments.Create(paymentWithCard);
+            var response2 = await JudoPayApiIridium.Payments.Create(paymentWithCard);
 
             Assert.AreEqual(response1.Response.ReceiptId, response2.Response.ReceiptId);
         }
@@ -179,7 +176,7 @@ namespace JudoPayDotNetIntegrationTests
             var encPaymentData = "EuWD12Sem0WTNRbIsCG6ATsABxssMvbPvFbR8SqK1Jj7YeU6a7s9Bs2Gk7I94E9p6ghEvl/wePm9nhamebj7vBzdLj/ezOqBgl41JUNq+uhRfS5zB9+7nAZkldwpT9TaLECbb+4JY1W9osUoZXL7XtnKz+OTeBG3apnjDomVf9kaNpbu0RkQFzclTyoeeODTDtpoZ+lqumR1E7yr/LsG5JtM+GvAdoULSgX3Xc4IaCRCWbGwKZaTm8PadXuyPiZXpcRCZd0I0KBDj8RGHW7wl3rPfpx4SxB4YMBieJNFbdj/AU2hWnU8fYEtgPaWKaA31a4csHFvQSBsmGAuJLEQ7CKb63k1EZV7rMJR/If/jNz17gtVHWjaEb/SNHybHe7MzDkmjhODfFR+ceaHb9b/NwD1X9QGBXSwrXwMZR06vdyao//T44NbhhfPngGORSz47sHx2o40ECIfo5HGB/BbZO48Sl61pNKommEjEj0JabbzOqNEdA7IJkf1I1eO0bPTW41Vd84Fgofe2aKy2987lPhMnJdHFaslo6DS8cclF7LySQWYjOZNSL+0tW9hLLV1DO1H0xvYA7CsvHyutyDxTVtiOkl5+MKeAzRsaWQTC4sbxrgWZjYbxGCeWOWED+xQRSeJmY1J4hpUjB7jwGymekBXVfiHvwM9sAgZ2+EU95j6kRYciKhLOMgYH68wRJqHR4wR4rjxiHrjwZARqnG/5vwYZ9qvJxyKUkE+lcMNLK8x18tT4N1nm2oPW08GnbkRXmr2SFnv3RwuxbIOyaKIJrNjeQ0ybG4+taQcdRyllNpKwY04sxN3seC5w4/85x302oVzpaJAM22SIqawTn20kKIQylJI3X/w+LoPHthrGdT56mLAntjIB0P4Wnz1l2APaXfgtvKyX5HoM7acgTucEFKfiWEeBMcamu9XqSBQWELTXQls6CDTNrcAM2X4oEJSUaacTarCVWUmrluuNr+AO3YF9NMil35ES+P6+/Z0ikWqi5OFxNTy3milrsyjwEakmRS7J3/hMhAkcVmG7vUeBqSYmqa+p3KcL+0R1pjv//eh6Zw5gj7LHmgEmsuNmdUyW/kw19ekCU2ToLUpFtS64PUUB0lvFXP/abX2zEjzEYmYwhtr1Bgt3AAlc+z4LucUFm9m2jYWW+dbv5ivHHlGcLD8qJi455rQGzu316mFYUeAQ6nQmza6MYWQ2UvaCm38f5F7VOzMWrW447whNtKpXAb8DUDGUiXglwChXeEyc7UEmYDuy2XD1iEt3x8s38pOGjePXVu5ItyD2IV4jD/U4DwzYvByRzErQLZglLeWoqoeGsINXecu4PIoNgfnt8VLVjVwsI54IuNkkjk9KPQ/BqYQoPV2SzAhGDV69BK9KntnlKhPsdLcPNLEXLHn9nYLobFpFj4Gha1oxSQ4KwU8oNYvypXWZ17cp2LPbbYeRpjygHGwIVait8x8ztF9EXDBFC28V6WpQKjlKpKcAQooZs3JjYPXqhaUrMEgpBCRthtB434SXQo3v82CltQYOXQiOgvrWWjf67vVSOojqJRzqzNqC2v7HNvAzjKXccCfO1SzomzHKan86hvDJBmjPR7UhV/qtNuIFL9bh/WBHZEKRDdNuGQMzAl9vO7V096tuCCtOlqjy4ICXY/eC7M3mtydSFyVrKShcUHwmBOaB2bnQcXd8sQaT9kcihjmRWd+P8t2O53vAavMmUSdGu0Hb+BS5uw/yW41ne3kUbhm6L6bFy/BiNEwNsKLyen4K1lvGsTgwFUD64lpPurWWzFTXhffqSKPIPqWxhoDMBWU46DmxsBXevzUNsq2mR5zWcB1kGpuR3uJHEZ4zc+CThqAPsKchFC+uGahCE+jldbcvGQE3RCzdzZRmyjxe4jttuExhLE=";
             var paymentWithCard = GetVisaCheckoutPaymentModel(callId, encKey, encPaymentData);
 
-            var response = await JudoPayApi.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
