@@ -8,6 +8,7 @@ namespace JudoPayDotNet.Models
     /// Data to register a credit card
     /// </summary>
     [DataContract]
+    [KnownType(typeof(CheckEncryptedCardModel))]
     // ReSharper disable UnusedMember.Global
     public class CheckCardModel : IModelWithHttpHeaders
     {
