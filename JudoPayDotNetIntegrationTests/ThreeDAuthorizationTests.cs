@@ -9,23 +9,30 @@ namespace JudoPayDotNetIntegrationTests
     [TestFixture]
     public class ThreeDAuthorizationTests : IntegrationTestsBase
     {
-        [Test]
-        public void PaymentWithThreedSecure()
+        private static string[] _testCases =
         {
-            var paymentWithCard = GetCardPaymentModel(
-                Configuration.Iridium_Judoid,
-                "432438862", 
-                "4976350000006891", 
-                "341"
-            );
+            "iridium",
+            "cybersource"
+        };
 
+        [Test]
+        [TestCaseSource(nameof(_testCases))]
+        public void PaymentWithThreedSecure(string gatewayName)
+        {
+            var judoId = GetJudoId(gatewayName);
+            var client = GetClient(gatewayName);
+
+            // Different card depending on the gateway
+            var paymentWithCard = GetCardPaymentModelForGateway(gatewayName);
+            paymentWithCard.YourConsumerReference = "432438862";
+            
             paymentWithCard.MobileNumber = "07123456789";
             paymentWithCard.EmailAddress = "test@gmail.com";
             paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             paymentWithCard.DeviceCategory = "Mobile";
 
-            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
+            var response = client.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -38,10 +45,14 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void FullPaymentWithThreedSecure()
+        [TestCaseSource(nameof(_testCases))]
+        public void FullPaymentWithThreedSecure(string gatewayName)
         {
+            var judoId = GetJudoId(gatewayName);
+            var client = GetClient(gatewayName);
+
             var paymentWithCard = GetCardPaymentModel(
-                Configuration.Iridium_Judoid,
+                judoId,
                 yourConsumerReference: "432438862",
                 cardNumber: "4976350000006891", 
                 cv2: "341",
@@ -54,7 +65,7 @@ namespace JudoPayDotNetIntegrationTests
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             paymentWithCard.DeviceCategory = "Mobile";
             
-            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
+            var response = client.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -87,12 +98,11 @@ namespace JudoPayDotNetIntegrationTests
 
                 Assert.That(paResValue, Is.Not.Empty);
 
-                var threeDResult = JudoPayApiIridium.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel { PaRes = paResValue }).Result;
+                var threeDResult = client.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel { PaRes = paResValue }).Result;
 
                 Assert.IsNotNull(threeDResult);
                 Assert.IsFalse(threeDResult.HasError);
                 Assert.AreEqual("Success", threeDResult.Response.Result);
-
             });
 
             taskSendMDandPaReqToAcsServer.Wait();

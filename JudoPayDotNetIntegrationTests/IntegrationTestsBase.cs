@@ -15,10 +15,10 @@ namespace JudoPayDotNetIntegrationTests
 {
     public abstract class IntegrationTestsBase
     {
-        protected JudoPayApi JudoPayApiIridium;
-        protected JudoPayApi JudoPayApiCyberSource;
+        protected static JudoPayApi JudoPayApiIridium;
+        protected static JudoPayApi JudoPayApiCyberSource;
         protected JudoPayApi JudoPayApiElevated;
-        protected readonly Configuration Configuration = new Configuration();
+        protected static readonly Configuration Configuration = new Configuration();
 
         protected IntegrationTestsBase() 
         {
@@ -41,6 +41,57 @@ namespace JudoPayDotNetIntegrationTests
                 Configuration.ElevatedPrivilegesToken, 
                 Configuration.ElevatedPrivilegesSecret
             );
+        }
+        
+        protected JudoPayApi GetClient(string gatewayName)
+        {
+            switch (gatewayName)
+            {
+                case "iridium":
+                    return JudoPayApiIridium;
+                case "cybersource":
+                    return JudoPayApiCyberSource;
+                default:
+                    return null;
+            }
+        }
+
+        protected string GetJudoId(string gatewayName)
+        {
+            switch (gatewayName)
+            {
+                case "iridium":
+                    return Configuration.Iridium_Judoid;
+                case "cybersource":
+                    return Configuration.Cybersource_Judoid;
+                default:
+                    return "";
+            }
+        }
+
+        protected CardPaymentModel GetCardPaymentModelForGateway(string gatewayName)
+        {
+            switch (gatewayName)
+            {
+                case "iridium":
+                    return GetCardPaymentModel(
+                        GetJudoId(gatewayName),
+                        yourConsumerReference: null,
+                        cardNumber: "4976350000006891",
+                        cv2: "341",
+                        postCode: "TR14 8PA"
+                    );
+                case "cybersource":
+                    return GetCardPaymentModel(
+                        GetJudoId(gatewayName),
+                        yourConsumerReference: null,
+                        cardNumber: "4000000000000028",
+                        cv2: "452",
+                        postCode: "TR14 8PA"
+                    );
+                default:
+                    return null;
+            }
         }
 
         protected CardPaymentModel GetCardPaymentModel(

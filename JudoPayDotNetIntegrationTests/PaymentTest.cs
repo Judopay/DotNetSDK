@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
+using JudoPayDotNet;
 using JudoPayDotNet.Models;
 using NUnit.Framework;
 
@@ -8,6 +10,12 @@ namespace JudoPayDotNetIntegrationTests
     [TestFixture]
     public class PaymentTest : IntegrationTestsBase
     {
+        private static string[] _testCases =
+        {
+            "iridium",
+            "cybersource"
+        };
+
         [Test]
         public async Task ASimplePayment()
         {
@@ -44,12 +52,15 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public async Task ARecurringPayment()
         {
+            var judoId = GetJudoId("cybersource");
+            var client = GetClient("cybersource");
+
             var paymentWithCard = GetCardPaymentModel(
-                judoId: Configuration.Cybersource_Judoid,
+                judoId: judoId,
                 recurringPayment: true
             );
 
-            var response = await JudoPayApiCyberSource.Payments.Create(paymentWithCard);
+            var response = await client.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -61,15 +72,16 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public async Task ATokenPayment()
+        [TestCaseSource(nameof(_testCases))]
+        public async Task ATokenPayment(string gatewayName)
         {
-            var consumerReference = Guid.NewGuid().ToString();
-            var paymentWithCard = GetCardPaymentModel(
-                Configuration.Iridium_Judoid,
-                consumerReference
-            );
+            var judoId = GetJudoId(gatewayName);
+            var client = GetClient(gatewayName);
 
-            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
+            var consumerReference = Guid.NewGuid().ToString();
+            var paymentWithCard = GetCardPaymentModel(judoId,consumerReference);
+
+            var response = await client.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -85,12 +97,12 @@ namespace JudoPayDotNetIntegrationTests
 
             var paymentWithToken = GetTokenPaymentModel(
                 cardToken,
-                Configuration.Iridium_Judoid,
+                judoId,
                 consumerReference, 
                 26
             );
 
-            response = await JudoPayApiIridium.Payments.Create(paymentWithToken);
+            response = await client.Payments.Create(paymentWithToken);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -195,7 +207,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual(response1.Response.ReceiptId, response2.Response.ReceiptId);
         }
 
-        [Test, Explicit]
+        [Explicit]
         public async Task VisaCheckoutPayment()
         {
             var callId = "2535293917395986901";
