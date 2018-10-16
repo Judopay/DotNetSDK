@@ -11,9 +11,14 @@ namespace JudoPayDotNetIntegrationTests
         public void TestProjectOnlyCreateMethod()
         {
             // Given I create a new Judo client with a custom version number
-            var judo = JudoPaymentsFactory.Create(new Credentials(Configuration.Token, Configuration.Secret), Configuration.JudoEnvironment, "5.0");
+            var judo = JudoPaymentsFactory.Create(
+                new Credentials(
+                    Configuration.Iridium_Token, Configuration.Iridium_Secret), 
+                    Configuration.JudoEnvironment, 
+                    "5.0"
+            );
 
-            var paymentWithCard = GetCardPaymentModel("432438862");
+            var paymentWithCard = GetCardPaymentModel(Configuration.Iridium_Judoid, "432438862");
 
             // When I make a call to an api endpoint
             var response = judo.Payments.Create(paymentWithCard).Result;

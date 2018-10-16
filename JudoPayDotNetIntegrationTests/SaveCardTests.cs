@@ -10,7 +10,10 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void SaveCard()
         {
-            var registerCardModel = GetCardPaymentModel("432438862");
+            var registerCardModel = GetCardPaymentModel(
+                Configuration.Iridium_Judoid,
+                "432438862"
+            );
 
             var response = JudoPayApiIridium.SaveCards.Create(registerCardModel).Result;
 
@@ -22,7 +25,12 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void SaveCardRequiresCv2()
         {
-            var registerCardModel = GetCardPaymentModel("432438862", "4976000000003436", null);
+            var registerCardModel = GetCardPaymentModel(
+                Configuration.Iridium_Judoid,
+                "432438862", 
+                "4976000000003436", 
+                null
+            );
 
             var response = JudoPayApiIridium.SaveCards.Create(registerCardModel).Result;
 
@@ -35,7 +43,10 @@ namespace JudoPayDotNetIntegrationTests
         {
             var consumerReference = Guid.NewGuid().ToString();
 
-            var registerCard = GetCardPaymentModel(consumerReference);
+            var registerCard = GetCardPaymentModel(
+                Configuration.Iridium_Judoid,
+                consumerReference
+            );
 
             var response = JudoPayApiIridium.SaveCards.Create(registerCard).Result;
 
@@ -51,11 +62,21 @@ namespace JudoPayDotNetIntegrationTests
             // Fetch the card token
             var cardToken = receipt.CardDetails.CardToken;
 
-            var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 26);
+            var paymentWithToken = GetTokenPaymentModel(
+                cardToken,
+                Configuration.Iridium_Judoid,
+                consumerReference, 
+                26
+            );
 
             response = JudoPayApiIridium.Payments.Create(paymentWithToken).Result;
 
-            paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27);
+            paymentWithToken = GetTokenPaymentModel(
+                cardToken,
+                Configuration.Iridium_Judoid,
+                consumerReference, 
+                27
+            );
 
             response = JudoPayApiIridium.Payments.Create(paymentWithToken).Result;
 

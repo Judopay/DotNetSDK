@@ -10,7 +10,10 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void GetTransaction()
         {
-            var paymentWithCard = GetCardPaymentModel("432438862");
+            var paymentWithCard = GetCardPaymentModel(
+                Configuration.Iridium_Judoid,
+                "432438862"
+            );
 
             var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
@@ -29,7 +32,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void GetTransactionAfterPreAuthAndTwoCollections()
         {
-            var paymentWithCard = GetCardPaymentModel();
+            var paymentWithCard = GetCardPaymentModel(Configuration.Iridium_Judoid);
 
             var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
 
@@ -45,6 +48,8 @@ namespace JudoPayDotNetIntegrationTests
             };
 
             var collectionResult = JudoPayApiIridium.Collections.Create(collection).Result;
+
+            // We try a second collection
             collectionResult = JudoPayApiIridium.Collections.Create(collection).Result;
 
             var transaction = JudoPayApiIridium.Transactions.Get(response.Response.ReceiptId).Result;
@@ -62,7 +67,10 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void GetAllTransaction()
         {
-            var paymentWithCard = GetCardPaymentModel("66666666");
+            var paymentWithCard = GetCardPaymentModel(
+                Configuration.Iridium_Judoid,
+                "66666666"
+            );
 
             var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
@@ -81,7 +89,10 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void GetPaymentTransactions()
         {
-            var paymentWithCard = GetCardPaymentModel("432438862");
+            var paymentWithCard = GetCardPaymentModel(
+                Configuration.Iridium_Judoid, 
+                "432438862"
+            );
 
             var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 

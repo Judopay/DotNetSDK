@@ -13,7 +13,10 @@ namespace JudoPayDotNetIntegrationTests
         public async Task RegisterCard()
         {
 
-            var registerCardModel = GetRegisterCardModel("432438862");
+            var registerCardModel = GetRegisterCardModel(
+                Configuration.Iridium_Judoid,
+                "432438862"
+            );
 
             var response = await JudoPayApiIridium.RegisterCards.Create(registerCardModel);
 
@@ -27,7 +30,10 @@ namespace JudoPayDotNetIntegrationTests
         {
             var consumerReference = Guid.NewGuid().ToString();
 
-            var registerCard = GetRegisterCardModel(consumerReference);
+            var registerCard = GetRegisterCardModel(
+                Configuration.Iridium_Judoid,
+                consumerReference
+            );
 
             var response = await JudoPayApiIridium.RegisterCards.Create(registerCard);
 
@@ -43,7 +49,12 @@ namespace JudoPayDotNetIntegrationTests
             // Fetch the card token
             var cardToken = receipt.CardDetails.CardToken;
 
-            var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27);
+            var paymentWithToken = GetTokenPaymentModel(
+                cardToken,
+                Configuration.Iridium_Judoid,
+                consumerReference, 
+                27
+            );
 
             response = await JudoPayApiIridium.Payments.Create(paymentWithToken);
 
@@ -55,7 +66,12 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ADeclinedCardPayment()
         {
-            var registerCard = GetRegisterCardModel("432438862", "4221690000004963", "125");
+            var registerCard = GetRegisterCardModel(
+                Configuration.Iridium_Judoid,
+                "432438862", 
+                "4221690000004963", 
+                "125"
+            );
 
             var response = JudoPayApiIridium.RegisterCards.Create(registerCard).Result;
 

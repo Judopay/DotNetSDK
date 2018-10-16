@@ -15,7 +15,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void PaymentCreate()
         {
-            var request = GetWebPaymentRequestModel();
+            var request = GetWebPaymentRequestModel(Configuration.Iridium_Judoid);
 
             var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
 
@@ -29,7 +29,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void PaymentUpdate()
         {
-            var request = GetWebPaymentRequestModel();
+            var request = GetWebPaymentRequestModel(Configuration.Iridium_Judoid);
 
             var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
 
@@ -55,7 +55,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void PreAuthCreate()
         {
-            var request = GetWebPaymentRequestModel();
+            var request = GetWebPaymentRequestModel(Configuration.Iridium_Judoid);
 
             var result = JudoPayApiElevated.WebPayments.PreAuths.Create(request).Result;
 
@@ -69,7 +69,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void PreAuthUpdate()
         {
-            var request = GetWebPaymentRequestModel();
+            var request = GetWebPaymentRequestModel(Configuration.Iridium_Judoid);
 
             var result = JudoPayApiElevated.WebPayments.PreAuths.Create(request).Result;
 
@@ -95,7 +95,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void TransactionsGetByReference()
         {
-            var request = GetWebPaymentRequestModel();
+            var request = GetWebPaymentRequestModel(Configuration.Iridium_Judoid);
 
             var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
 
@@ -118,7 +118,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void TransactionsGetByReceiptId()
         {
-            var request = GetWebPaymentRequestModel();
+            var request = GetWebPaymentRequestModel(Configuration.Iridium_Judoid);
 
             var result = JudoPayApiIridium.WebPayments.Payments.Create(request).Result;
 

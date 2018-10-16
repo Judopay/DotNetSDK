@@ -42,7 +42,13 @@ namespace JudoPayDotNetIntegrationTests
             // Fetch the card token
             var cardToken = receipt.CardDetails.CardToken;
             var consumerReference = receipt.Consumer.YourConsumerReference;
-            var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27, judoId: Configuration.Cybersource_Judoid);
+
+            var paymentWithToken = GetTokenPaymentModel(
+                cardToken,
+                Configuration.Cybersource_Judoid,
+                consumerReference, 
+                27
+            );
 
             response = await JudoPayApiCyberSource.Payments.Create(paymentWithToken);
 

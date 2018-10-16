@@ -9,7 +9,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ASimplePaymentAndRefund()
         {
-            var paymentWithCard = GetCardPaymentModel();
+            var paymentWithCard = GetCardPaymentModel(Configuration.Iridium_Judoid);
             var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
@@ -39,7 +39,10 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void APreAuthTwoCollectionsAndTwoRefunds()
         {
-            var paymentWithCard = GetCardPaymentModel("432438862");
+            var paymentWithCard = GetCardPaymentModel(
+                judoId: Configuration.Iridium_Judoid,
+                yourConsumerReference: "432438862"
+            );
 
             var preAuthResponse = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
 

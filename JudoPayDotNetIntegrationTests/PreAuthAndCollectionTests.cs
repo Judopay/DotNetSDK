@@ -9,11 +9,15 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ASimplePreAuth()
         {
-            var paymentWithCard = GetCardPaymentModel("432438862");
+            var paymentWithCard = GetCardPaymentModel(
+                Configuration.Iridium_Judoid,
+                "432438862"
+            );
 
             var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
+
             Assert.IsFalse(response.HasError);
 
             var receipt = response.Response as PaymentReceiptModel;
@@ -27,7 +31,10 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void AOneTimePreAuth()
         {
-            var oneTimePaymentModel = GetOneTimePaymentModel().Result;
+            var oneTimePaymentModel = GetOneTimePaymentModel(
+                Configuration.Iridium_Judoid,
+                Configuration.Iridium_Token)
+                .Result;
 
             var response = JudoPayApiIridium.PreAuths.Create(oneTimePaymentModel).Result;
 
@@ -43,7 +50,12 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ADeclinedCardPreAuth()
         {
-            var paymentWithCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
+            var paymentWithCard = GetCardPaymentModel(
+                judoId: Configuration.Iridium_Judoid,
+                yourConsumerReference: "432438862",
+                cardNumber: "4221690000004963", 
+                cv2: "125"
+            );
 
             var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
 
@@ -55,7 +67,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ASimplePreAuthAndCollection()
         {
-            var paymentWithCard = GetCardPaymentModel();
+            var paymentWithCard = GetCardPaymentModel(Configuration.Iridium_Judoid);
 
             var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
 
@@ -92,7 +104,10 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void AFailedSimplePreAuthAndValidateCollection()
         {
-            var paymentWithCard = GetCardPaymentModel("432438862");
+            var paymentWithCard = GetCardPaymentModel(
+                Configuration.Iridium_Judoid,
+                "432438862"
+            );
 
             var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
 
@@ -129,7 +144,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ASimplePreAuthAndVoid()
         {
-            var paymentWithCard = GetCardPaymentModel();
+            var paymentWithCard = GetCardPaymentModel(Configuration.Iridium_Judoid);
 
             var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
 

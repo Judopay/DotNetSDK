@@ -23,24 +23,42 @@ namespace JudoPayDotNetIntegrationTests
         protected IntegrationTestsBase() 
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            JudoPayApiIridium = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Token, Configuration.Secret);
-            JudoPayApiCyberSource = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Cybersource_Token, Configuration.Cybersource_Secret);
-            JudoPayApiElevated = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
+
+            JudoPayApiIridium = JudoPaymentsFactory.Create(
+                Configuration.JudoEnvironment, 
+                Configuration.Iridium_Token, 
+                Configuration.Iridium_Secret
+            );
+
+            JudoPayApiCyberSource = JudoPaymentsFactory.Create(
+                Configuration.JudoEnvironment, 
+                Configuration.Cybersource_Token, 
+                Configuration.Cybersource_Secret
+            );
+
+            JudoPayApiElevated = JudoPaymentsFactory.Create(
+                Configuration.JudoEnvironment, 
+                Configuration.ElevatedPrivilegesToken, 
+                Configuration.ElevatedPrivilegesSecret
+            );
         }
 
-        protected CardPaymentModel GetCardPaymentModel(string yourConsumerReference = null, 
-                                                            string cardNumber = "4976000000003436", 
-                                                            string cv2 = "452", 
-                                                            string postCode = "TR14 8PA", 
-                                                            bool? recurringPayment = null, 
-                                                            string judoId = null)
+        protected CardPaymentModel GetCardPaymentModel(
+            string judoId,
+            string yourConsumerReference = null, 
+            string cardNumber = "4976000000003436", 
+            string cv2 = "452", 
+            string postCode = "TR14 8PA", 
+            bool? recurringPayment = null)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
+            {
                 yourConsumerReference = Guid.NewGuid().ToString();
+            }
 
             return new CardPaymentModel
             {
-                JudoId = judoId ?? Configuration.Judoid,
+                JudoId = judoId,
                 YourConsumerReference = yourConsumerReference,
                 Amount = 25,
                 CardNumber = cardNumber,
@@ -56,18 +74,23 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        protected RegisterCardModel GetRegisterCardModel(string yourConsumerReference = null,
+        protected RegisterCardModel GetRegisterCardModel(
+            string judoId,
+            string yourConsumerReference = null,
             string cardNumber = "4976000000003436",
             string cv2 = "452",
             string postCode = "TR14 8PA",
-            bool? recurringPayment = null,
-            string judoId = null)
+            bool? recurringPayment = null
+            )
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
+            {
                 yourConsumerReference = Guid.NewGuid().ToString();
+            }
 
             return new RegisterCardModel
             {
+                JudoId = judoId,
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
                 CV2 = cv2,
@@ -81,15 +104,21 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        protected TokenPaymentModel GetTokenPaymentModel(string cardToken, string yourConsumerReference = null, decimal amount = 25,
-            bool? recurringPayment = null, string judoId = null)
+        protected TokenPaymentModel GetTokenPaymentModel(
+            string cardToken,
+            string judoId,
+            string yourConsumerReference = null, 
+            decimal amount = 25,
+            bool? recurringPayment = null)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
+            {
                 yourConsumerReference = Guid.NewGuid().ToString();
+            }
 
             return new TokenPaymentModel
             {
-                JudoId = judoId ?? Configuration.Judoid,
+                JudoId = judoId,
                 YourConsumerReference = yourConsumerReference,
                 Amount = amount,
                 CardToken = cardToken,
@@ -99,13 +128,16 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        protected CheckCardModel GetCheckCardModel(string judoId = null, string cardNumber = "4976000000003436", string cv2 = "452")
+        protected CheckCardModel GetCheckCardModel(
+            string judoId, 
+            string cardNumber = "4976000000003436", 
+            string cv2 = "452")
         {
            var yourConsumerReference = Guid.NewGuid().ToString();
 
             return new CheckCardModel
             {
-                JudoId = judoId ?? Configuration.Judoid,
+                JudoId = judoId,
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
                 CV2 = cv2,
@@ -119,14 +151,14 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        protected async Task<OneTimePaymentModel> GetOneTimePaymentModel()
+        protected async Task<OneTimePaymentModel> GetOneTimePaymentModel(string judoId, string authorisationToken)
         {
-            var oneUseTokenModel = await GetOneUseToken();
+            var oneUseTokenModel = await GetOneUseToken(authorisationToken);
 
             return new OneTimePaymentModel
             {
                 OneUseToken = oneUseTokenModel.OneUseToken,
-                JudoId = Configuration.Judoid,
+                JudoId = judoId,
                 YourConsumerReference = Guid.NewGuid().ToString(),
                 Amount = 25,
                 CardAddress = new CardAddressModel
@@ -138,11 +170,11 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        private async Task<OneUseTokenModel> GetOneUseToken()
+        private async Task<OneUseTokenModel> GetOneUseToken(string token)
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("Api-Version", VersioningHandler.DEFAULT_API_VERSION);
-            client.DefaultRequestHeaders.Add("Authorization", $"Simple {Configuration.Token}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Simple {token}");
 
             var cardDetailsModel = new Dictionary<string, string>
             {
@@ -167,7 +199,7 @@ namespace JudoPayDotNetIntegrationTests
             public string OneUseToken { get; set; }
         }
 
-        protected WebPaymentRequestModel GetWebPaymentRequestModel()
+        protected WebPaymentRequestModel GetWebPaymentRequestModel(string judoId)
         {
             return new WebPaymentRequestModel
             {
@@ -186,7 +218,7 @@ namespace JudoPayDotNetIntegrationTests
                 CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now,
-                JudoId = Configuration.Judoid,
+                JudoId = judoId,
                 PartnerServiceFee = 10,
                 PaymentCancelUrl = "http://test.com",
                 PaymentSuccessUrl = "http://test.com",
@@ -197,11 +229,16 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        protected VisaCheckoutPaymentModel GetVisaCheckoutPaymentModel(string callId, string encKey, string encPaymentData, string yourConsumerReference = "Consumer1")
+        protected VisaCheckoutPaymentModel GetVisaCheckoutPaymentModel(
+            string judoId,
+            string callId, 
+            string encKey, 
+            string encPaymentData, 
+            string yourConsumerReference = "Consumer1")
         {
             return new VisaCheckoutPaymentModel
             {
-                JudoId = Configuration.Judoid,
+                JudoId = judoId,
                 YourConsumerReference = yourConsumerReference,
                 Amount = 25,
                 Wallet = new VisaCheckoutWalletModel
