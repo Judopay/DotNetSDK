@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
+using NUnit.Framework;
 
 namespace JudoPayDotNetTests.Headers
 {
-    using System.Net.Http;
-    using System.Net.Http.Headers;
-
-    using JudoPayDotNet.Http;
-
-    using NUnit.Framework;
-
     [TestFixture]
     public class UserAgentTests
     {
@@ -33,7 +26,14 @@ namespace JudoPayDotNetTests.Headers
         {
             var platformUserAgent = new ProductInfoHeaderValue(Environment.OSVersion.Platform.ToString(), Environment.OSVersion.Version.ToString());
 
-            Assert.That(platformUserAgent.Product.Name, Does.Contain("Win"));
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Assert.That(platformUserAgent.Product.Name, Does.Contain("Win"));
+            }
+            else
+            {
+                Assert.That(platformUserAgent.Product.Name, Does.Contain("Unix"));
+            }
         }
     }
 }

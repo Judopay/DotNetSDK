@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using HtmlAgilityPack;
+using JudoPayDotNet;
 using JudoPayDotNet.Models;
 using NUnit.Framework;
 
@@ -12,14 +13,15 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void PaymentWithThreedSecure()
         {
-            var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341");
+            var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341", judoId: "100411420");
             paymentWithCard.MobileNumber = "07123456789";
             paymentWithCard.EmailAddress = "test@gmail.com";
             paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             paymentWithCard.DeviceCategory = "Mobile";
 
-            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
+            var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, "FufJTAUyXnUIbcVS", "124b090c608ed0e7668dc4d99614ee3099c5fec8d01d0c7ac8b536a30ef8e988");
+            var response = paymentsFactory.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -34,14 +36,15 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void FullPaymentWithThreedSecure()
         {
-            var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341", "B42 1SX");
+            var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341", "B42 1SX", judoId: "100411420");
             paymentWithCard.MobileNumber = "07123456789";
             paymentWithCard.EmailAddress = "test@gmail.com";
             paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             paymentWithCard.DeviceCategory = "Mobile";
-            
-            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
+
+            var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, "FufJTAUyXnUIbcVS", "124b090c608ed0e7668dc4d99614ee3099c5fec8d01d0c7ac8b536a30ef8e988");
+            var response = paymentsFactory.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -74,7 +77,7 @@ namespace JudoPayDotNetIntegrationTests
 
                 Assert.That(paResValue, Is.Not.Empty);
 
-                var threeDResult = JudoPayApiIridium.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel { PaRes = paResValue }).Result;
+                var threeDResult = paymentsFactory.ThreeDs.Complete3DSecure(receipt.ReceiptId, new ThreeDResultModel { PaRes = paResValue, Md = receipt.Md }).Result;
 
                 Assert.IsNotNull(threeDResult);
                 Assert.IsFalse(threeDResult.HasError);
