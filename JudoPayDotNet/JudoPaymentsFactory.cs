@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Configuration;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using JudoPayDotNet.Authentication;
 using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
-using JudoPayDotNet.Configuration;
 using JudoPayDotNet.Logging;
 
 namespace JudoPayDotNet
@@ -22,24 +20,10 @@ namespace JudoPayDotNet
     /// </summary>
     public static class JudoPaymentsFactory
     {
-        private const string ApiVersionKey = "ApiVersion";
-
-        private const string SandboxUrlKey = "SandboxUrl";
-
-        private const string LiveUrlKey = "LiveUrl";
-
         private const string DEFAULT_SANDBOX_URL = "https://gw1.judopay-sandbox.com/";
 
         private const string DEFAULT_LIVE_URL = "https://gw1.judopay.com/";
-
-        private static readonly IJudoConfiguration defaultConfigurationAccess = new JudoConfiguration();
-
-        private static readonly Func<string, string, IJudoConfiguration, string> GetConfigValue = (key, defaultValue, configuration) =>
-            {
-                string configurationSetting;
-                return string.IsNullOrWhiteSpace(configurationSetting = configuration[key]) ? defaultValue : configurationSetting;
-            };
-
+        
         private const string LiveCertificatePublicKey = "MIIBCgKCAQEAqyx7Fg8FkI7Q2yaai//AXURuithFkoPfBliXOpGQ8O8vo+foXTLVpWmStnCUfzhm5dIJEgKn/FVK+/M5vGQSJ+aqhAL6A9Eq+UazOY2X65QweOQiQmcC6WELYBO+wx8oXQLp/PVYLlAfaljFRBqo3c4kfeLwd4VISJuFs941B7vTrkgZ0t6TSbnwUZNpSLr53pNyR4QJ/OSPsoxtdec7z+38dPUW0Ah9tscXa4lns5h3FvqEaY6bduYl7xQwO7LGGVaaYFmj4kMLn1Fyd+gw8vdRBd4NC7VCRJ2NxshMHdKwW4sS5YK+MT+s/3yAXlkhj9vXPczJAXBVNjn3jX4CWQIDAQAB";
 
         private const string SandboxCertificatePublicKey = "MIIBCgKCAQEAmMrGJkxm/vvfZ/IU0EuhljWlgxzdRnkgWzkzB1NGpOoZw1AJWYq3Lg1uOvphltQ+oq3athGIhoXYuQrOh7BsMpw2vXj1VTwGP9/1AkNOXXCzTVKATw+AwuBwdIYg0yOqTB4wImvLqDVFuuO6f0SnFZ3ntqlNFvOBzxGHKlr6Y20fsiXzv95vRfkwtb5exNUy9bnKn81GyPONWVeLgqFEM7TQO7eUbLEMcnEwgPCvMhYKggSN/i99wqcMomEBlfsfFxcYG7R6P8GmiXBkHKaPO2JXf4OMOMcLOmG7kyRZYBPWNTlQsUsgatTUTO1oFJuMYRIcUE+G51C2FLraCH2YqQIDAQAB";
@@ -74,9 +58,10 @@ namespace JudoPayDotNet
             return new JudoPayApi(DotNetLoggerFactory.Create, client);
         }
 
-        private static JudoPayApi Create(Credentials credentials, string baseUrl, IJudoConfiguration configuration, ProductInfoHeaderValue userAgent)
+        private static JudoPayApi Create(Credentials credentials, string baseUrl, ProductInfoHeaderValue userAgent)
         {
-            var apiVersion = GetConfigValue(ApiVersionKey, VersioningHandler.DEFAULT_API_VERSION, configuration);
+            //var apiVersion = GetConfigValue(ApiVersionKey, VersioningHandler.DEFAULT_API_VERSION, configuration);
+            var apiVersion = VersioningHandler.DEFAULT_API_VERSION;
             return Create(credentials, baseUrl, apiVersion, userAgent);
         }
 
@@ -97,24 +82,21 @@ namespace JudoPayDotNet
             return Create(credentials, GetEnvironmentUrl(judoEnvironment), apiVersion, null);
         }
 
-        internal static string GetEnvironmentUrl(JudoEnvironment judoEnvironment, IJudoConfiguration configuration = null)
+        internal static string GetEnvironmentUrl(JudoEnvironment judoEnvironment)
         {
-            string key = null;
             string defaultValue = null;
 
             switch (judoEnvironment)
             {
                 case JudoEnvironment.Sandbox:
-                    key = SandboxUrlKey;
                     defaultValue = DEFAULT_SANDBOX_URL;
                     break;
                 case JudoEnvironment.Live:
-                    key = LiveUrlKey;
                     defaultValue = DEFAULT_LIVE_URL;
                     break;
             }
 
-            return GetConfigValue(key, defaultValue, configuration ?? defaultConfigurationAccess);
+            return defaultValue;
         }
 
         private static bool PinPublicKey(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
@@ -159,7 +141,7 @@ namespace JudoPayDotNet
         /// <returns>Initialized instance of the Judopay api client</returns>
         public static JudoPayApi Create(JudoEnvironment judoEnvironment, string token, string secret)
         {
-            return Create(token, secret, GetEnvironmentUrl(judoEnvironment), defaultConfigurationAccess);
+            return Create(token, secret, GetEnvironmentUrl(judoEnvironment));
         }
 
         /// <summary>
@@ -172,20 +154,7 @@ namespace JudoPayDotNet
         /// <returns>Initialized instance of the Judopay api client</returns>
         public static JudoPayApi Create(JudoEnvironment judoEnvironment, string token, string secret, ProductInfoHeaderValue userAgent)
         {
-            return Create(new Credentials(token, secret), GetEnvironmentUrl(judoEnvironment), defaultConfigurationAccess, userAgent);
-        }
-
-        /// <summary>
-        /// Creates an instance of the judopay api client with a custom base url, that will authenticate with your api token and secret.
-        /// </summary>
-        /// <remarks>This is intented for development/sandbox environments</remarks>
-        /// <param name="token">Your API token (from our merchant dashboard)</param>
-        /// <param name="secret">Your API secret (from our merchant dashboard)</param>
-        /// <param name="baseUrl">Base URL for the Judopay api</param>
-        /// <returns>Initialized instance of the Judopay api client</returns>
-        public static JudoPayApi Create(string token, string secret, string baseUrl)
-        {
-            return Create(token, secret, baseUrl, defaultConfigurationAccess);
+            return Create(new Credentials(token, secret), GetEnvironmentUrl(judoEnvironment), userAgent);
         }
 
         /// <summary>
@@ -195,12 +164,11 @@ namespace JudoPayDotNet
         /// <param name="token">Your API token (from our merchant dashboard)</param>
         /// <param name="secret">Your API secret (from our merchant dashboard)</param>
         /// <param name="baseUrl">Base URL for the Judopay api</param>
-        /// <param name="configuration">Application configuration accessor</param>
         /// <returns>Initialized instance of the Judopay api client</returns>
-        public static JudoPayApi Create(string token, string secret, string baseUrl, IJudoConfiguration configuration = null)
+        public static JudoPayApi Create(string token, string secret, string baseUrl)
         {
             var credentials = new Credentials(token, secret);
-            return Create(credentials, baseUrl, configuration ?? defaultConfigurationAccess, null);
+            return Create(credentials, baseUrl, (ProductInfoHeaderValue)null);
         }
     }
 

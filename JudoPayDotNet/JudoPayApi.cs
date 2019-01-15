@@ -31,6 +31,8 @@ namespace JudoPayDotNet
         public IRegisterCards RegisterCards { get; set; }
         public ISaveCard SaveCards { get; set; }
         public IVoids Voids { get; set; }
+        public Connection Connection { get; }
+        public ICheckCard CheckCards { get; set; }
 
         public JudoPayApi(Func<Type, ILog> logger, IClient client)
         {
@@ -41,6 +43,7 @@ namespace JudoPayDotNet
             Collections = new Collections(logger(typeof(Collections)), client);
             ThreeDs = new ThreeDs(logger(typeof(ThreeDs)), client);
             RegisterCards = new RegisterCards(logger(typeof(RegisterCards)), client, true);
+            CheckCards = new CheckCards(logger(typeof(CheckCards)), client, true);
             SaveCards = new SaveCard(logger(typeof(SaveCard)), client);
             Voids = new Voids(logger(typeof(Voids)), client);
 
@@ -52,6 +55,7 @@ namespace JudoPayDotNet
             };
 
             Consumers = new Consumers(logger(typeof(Consumers)), client);
+            Connection = client.Connection;
         }
 
     }

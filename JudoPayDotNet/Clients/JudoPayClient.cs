@@ -17,7 +17,7 @@ namespace JudoPayDotNet.Clients
     /// </summary>
     public abstract class JudoPayClient
     {
-        private readonly IClient _client;
+        internal readonly IClient _client;
 
         private readonly ILog _logger;
 

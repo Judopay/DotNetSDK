@@ -8,11 +8,11 @@ namespace JudoPayDotNet.Models
     /// Data to register a credit card
     /// </summary>
     [DataContract]
-    [KnownType(typeof(RegisterEncryptedCardModel))]
+    [KnownType(typeof(CheckEncryptedCardModel))]
     // ReSharper disable UnusedMember.Global
-    public class RegisterCardModel : IModelWithHttpHeaders
+    public class CheckCardModel : IModelWithHttpHeaders
     {
-        public RegisterCardModel()
+        public CheckCardModel()
         {
             YourPaymentReference = Guid.NewGuid().ToString();
             HttpHeaders = new Dictionary<string, string>();
@@ -98,9 +98,21 @@ namespace JudoPayDotNet.Models
         [IgnoreDataMember]
         public Dictionary<string, string> HttpHeaders { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the judo identifier. This is the identifier that you can get from our portal
+        /// </summary>
+        /// <value>
+        /// This will be 6 or 9 digits
+        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string JudoId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the iso 3 character currency to be used in the transaction.
+        /// </summary>
+        /// <value>
+        /// GBP, EUR, USD
+        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string Currency { get; set; }
     }

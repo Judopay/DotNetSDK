@@ -1,6 +1,7 @@
 ﻿using JudoPayDotNet.Clients;
 using JudoPayDotNet.Clients.Consumer;
 using JudoPayDotNet.Clients.WebPayments;
+using JudoPayDotNet.Http;
 using IPayments = JudoPayDotNet.Clients.IPayments;
 using IPreAuths = JudoPayDotNet.Clients.IPreAuths;
 using ITransactions = JudoPayDotNet.Clients.ITransactions;
@@ -14,14 +15,12 @@ namespace JudoPayDotNet
     // ReSharper disable UnusedMemberInSuper.Global
     public interface IJudoPayApi
     {
-		/// <summary>
-		/// Provides payment operations and visibility into your judo Marketplace
-		/// </summary>
-		/// 
-		/// Temporarily removing this till we support market operations again
-        //IMarket Market { get; set; }
+        /// <summary>
+        /// Details about the connection used to interact with the judopay api
+        /// </summary>
+        Connection Connection { get; }
 
-		/// <summary>
+        /// <summary>
 		/// Provides operations for webpayments
 		/// </summary>
         IWebPayments WebPayments { get; set; }

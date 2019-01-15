@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Linq;
 
@@ -66,6 +67,16 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public JObject ClientDetails { get; set; }
+
+        /// <summary>
+        /// Gets or sets your payment meta data.
+        /// </summary>
+        /// <value>
+        /// Your payment meta data.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public IDictionary<string, string> YourPaymentMetaData { get; set; }
+
     }
     // ReSharper restore UnusedMember.Global
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using JudoPayDotNet.Models;
 using NUnit.Framework;
 
@@ -9,12 +10,12 @@ namespace JudoPayDotNetIntegrationTests
     {
 
         [Test]
-        public void RegisterCard()
+        public async Task RegisterCard()
         {
 
-            var registerCardModel = GetCardPaymentModel("432438862");
+            var registerCardModel = GetRegisterCardModel("432438862");
 
-            var response = JudoPayApi.RegisterCards.Create(registerCardModel).Result;
+            var response = await JudoPayApiIridium.RegisterCards.Create(registerCardModel);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -22,13 +23,13 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void RegisterCardAndATokenPayment()
+        public async Task RegisterCardAndATokenPayment()
         {
             var consumerReference = Guid.NewGuid().ToString();
 
-            var registerCard = GetCardPaymentModel(consumerReference);
+            var registerCard = GetRegisterCardModel(consumerReference);
 
-            var response = JudoPayApi.RegisterCards.Create(registerCard).Result;
+            var response = await JudoPayApiIridium.RegisterCards.Create(registerCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -42,13 +43,9 @@ namespace JudoPayDotNetIntegrationTests
             // Fetch the card token
             var cardToken = receipt.CardDetails.CardToken;
 
-            var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 26);
+            var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27);
 
-            response = JudoPayApi.Payments.Create(paymentWithToken).Result;
-
-            paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27);
-
-            response = JudoPayApi.Payments.Create(paymentWithToken).Result;
+            response = await JudoPayApiIridium.Payments.Create(paymentWithToken);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -58,9 +55,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ADeclinedCardPayment()
         {
-            var registerCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
+            var registerCard = GetRegisterCardModel("432438862", "4221690000004963", "125");
 
-            var response = JudoPayApi.RegisterCards.Create(registerCard).Result;
+            var response = JudoPayApiIridium.RegisterCards.Create(registerCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);

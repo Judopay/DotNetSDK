@@ -16,6 +16,6 @@ namespace JudoPayDotNet.Clients
         /// </summary>
         /// <param name="registerCard">The card to register.</param>
         /// <returns>The result of the registration of the card</returns>
-        Task<IResult<ITransactionResult>> Create(CardPaymentModel registerCard);
+        Task<IResult<ITransactionResult>> Create(RegisterCardModel registerCard);
     }
 }

@@ -190,11 +190,8 @@ namespace JudoPayDotNet.Models
         public Consumer Consumer { get; set; }
 
         /// <summary>
-        /// Gets or sets the consumer.
+        /// Gets or sets the Device information.
         /// </summary>
-        /// <value>
-        /// The consumer.
-        /// </value>
         [DataMember]
         public Device Device { get; set; }
 
@@ -232,7 +229,14 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public bool? Recurring { get; set; }
+
+        /// <summary>
+        /// Information about the risks associated with the transaction
+        /// </summary>
+        [DataMember]
+        public RiskModel Risks { get; set; }
     }
+
     // ReSharper restore UnusedMember.Global
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

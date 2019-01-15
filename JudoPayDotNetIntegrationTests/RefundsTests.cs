@@ -10,7 +10,7 @@ namespace JudoPayDotNetIntegrationTests
         public void ASimplePaymentAndRefund()
         {
             var paymentWithCard = GetCardPaymentModel();
-            var response = JudoPayApi.Payments.Create(paymentWithCard).Result;
+            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -23,7 +23,7 @@ namespace JudoPayDotNetIntegrationTests
                
             };
 
-            response = JudoPayApi.Refunds.Create(refund).Result;
+            response = JudoPayApiIridium.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -41,7 +41,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var preAuthResponse = JudoPayApi.PreAuths.Create(paymentWithCard).Result;
+            var preAuthResponse = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(preAuthResponse);
             Assert.IsFalse(preAuthResponse.HasError);
@@ -54,7 +54,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var collection1Response = JudoPayApi.Collections.Create(collection).Result;
+            var collection1Response = JudoPayApiIridium.Collections.Create(collection).Result;
 
             Assert.IsNotNull(collection1Response);
             Assert.IsFalse(collection1Response.HasError);
@@ -73,7 +73,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var collection2Response = JudoPayApi.Collections.Create(collection).Result;
+            var collection2Response = JudoPayApiIridium.Collections.Create(collection).Result;
 
             Assert.IsNotNull(collection2Response);
             Assert.IsFalse(collection2Response.HasError);
@@ -92,7 +92,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var response = JudoPayApi.Refunds.Create(refund).Result;
+            var response = JudoPayApiIridium.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -111,7 +111,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            response = JudoPayApi.Refunds.Create(refund).Result;
+            response = JudoPayApiIridium.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);

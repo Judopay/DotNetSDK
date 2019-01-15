@@ -1,16 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <AssemblyTitle>JudoPayDotNet</AssemblyTitle>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
     <PropertyGroup Label="Package">
         <PackageId>JudoPay.Net</PackageId>
-        <VersionPrefix>2.0.0</VersionPrefix>
-        <Version>2.0.0</Version>
+        <Version>2.1.0</Version>
         <Authors>JudoPay</Authors>
         <Description>A .Net client for our JudoPay API, allowing you to quickly and easily process payments</Description>
-        <Copyright>Copyright 2017</Copyright>
+        <Copyright>Copyright 2018</Copyright>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
         <PackageProjectUrl>https://github.com/JudoPay/DotNetSDK</PackageProjectUrl>
@@ -18,12 +17,25 @@
         <RepositoryUrl>https://github.com/JudoPay/DotNetSDK</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>judo;judopaypayment;gateway;credit;cards;</PackageTags>
-        <PackageReleaseNotes>Updated to dotnet standard 2.0</PackageReleaseNotes>
+        <PackageReleaseNotes>
+          Added two new fields on cardDetails. These are card category and card country.
+          Added Risk information associated with the transaction.
+          Changed CardType to CardBrand and CardFunding.
+          Updated to dotnet standard 2.0.
+        </PackageReleaseNotes>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="7.3.4" />
+        <PackageReference Include="FluentValidation" Version="8.1.2" />
         <PackageReference Include="log4net" Version="2.0.8" />
-        <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     </ItemGroup>
+
+  <!-- .NET 4.6.1 references, compilation flags and build options -->
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461'">
+    <DefineConstants>NET461;NETFULL</DefineConstants>
+  </PropertyGroup>
 </Project>

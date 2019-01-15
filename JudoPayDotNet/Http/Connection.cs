@@ -23,7 +23,7 @@ namespace JudoPayDotNet.Http
     {
         private readonly IHttpClient _httpClient;
 
-        private readonly Uri _baseAddress;
+        internal readonly Uri BaseAddress;
 
         private readonly ILog _log;
 
@@ -41,7 +41,7 @@ namespace JudoPayDotNet.Http
                 baseAddress += "/";
             }
 
-            _baseAddress = new Uri(baseAddress);
+            BaseAddress = new Uri(baseAddress);
             _log = log(GetType());
 
             _settings = new JsonSerializerSettings
@@ -74,7 +74,7 @@ namespace JudoPayDotNet.Http
                 queryString = string.Join("&", parameters.Select(kvp => kvp.Key + "=" + kvp.Value));
             }
 
-            var uri = new UriBuilder(_baseAddress);
+            var uri = new UriBuilder(BaseAddress);
             uri.Path += address;
             uri.Query += queryString;
 

@@ -1,5 +1,10 @@
-version: 2.0.{build}
+version: 2.1.{build}
 image: Visual Studio 2017
+skip_branch_with_pr: true
+# if wanting to publish the package internally
+#nuget:
+#  account_feed: true
+#  project_feed: true
 configuration: Release
 dotnet_csproj:
   patch: true
@@ -27,7 +32,7 @@ deploy:
   api_key:
     secure: 7hCXGI9g/S/3iu00/OvfdiEJVLcQjSzpx6lB+5qsyvs6iLD6oFCQ8NzcRs7wg2bO
   on:
-    branch: master
+    APPVEYOR_REPO_TAG: true
 notifications:
 - provider: Email
   to:
