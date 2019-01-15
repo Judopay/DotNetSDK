@@ -44,7 +44,6 @@ namespace JudoPayDotNet.Models
         /// The type of the card.
         /// </value>
         [DataMember]
-        [Obsolete("Please use CardScheme and CardFunding instead")]
         public CardType CardType { get; set; }
 
         /// <summary>
