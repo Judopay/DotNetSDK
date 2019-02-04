@@ -212,5 +212,34 @@ namespace JudoPayDotNetIntegrationTests
                 }
             };
         }
+
+        protected CardPaymentModel GetPrimaryAccountPaymentModel(string yourConsumerReference = null)
+        {
+            if (string.IsNullOrEmpty(yourConsumerReference))
+            {
+                yourConsumerReference = Guid.NewGuid().ToString();
+            }
+
+            PrimaryAccountDetails accountDetails = new PrimaryAccountDetails
+            {
+                Name = "Judo Pay",
+                AccountNumber = "1234567",
+                DateOfBirth = "2000-12-31",
+                PostCode = "EC2A 4DP"
+            };
+
+            if (string.IsNullOrEmpty(yourConsumerReference))
+            {
+                yourConsumerReference = Guid.NewGuid().ToString();
+            }
+
+            CardPaymentModel paymentModel = GetCardPaymentModel(yourConsumerReference);
+            
+            paymentModel.PrimaryAccountDetails = accountDetails;
+
+            return paymentModel;
+        }
+
+
     }
 }
