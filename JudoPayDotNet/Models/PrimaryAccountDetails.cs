@@ -32,7 +32,5 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember]
         public string PostCode { get; set; }
-
-
     }
 }
