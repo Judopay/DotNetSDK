@@ -149,7 +149,7 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable once UnusedMember.Global
-        public JObject PrimaryAccountDetails { get; set; }
+        public PrimaryAccountDetails PrimaryAccountDetails { get; set; }
 
         /// <summary>
         /// The end consumers browser useragent for 3D secure
