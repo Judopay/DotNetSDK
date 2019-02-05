@@ -9,7 +9,7 @@ namespace JudoPayDotNet.Models
     /// </summary>
     [DataContract]
     // ReSharper disable UnusedMember.Global
-    public abstract class RegisterEncryptedCardModel : RegisterCardModel
+    public class RegisterEncryptedCardModel : RegisterCardModel
     {
         /// <summary>
         /// Gets or sets the one use token.
