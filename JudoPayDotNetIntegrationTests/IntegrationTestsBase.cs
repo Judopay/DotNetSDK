@@ -220,7 +220,7 @@ namespace JudoPayDotNetIntegrationTests
                 yourConsumerReference = Guid.NewGuid().ToString();
             }
 
-            PrimaryAccountDetails accountDetails = new PrimaryAccountDetails
+            PrimaryAccountDetailsModel accountDetails = new PrimaryAccountDetailsModel
             {
                 Name = "Judo Pay",
                 AccountNumber = "1234567",
