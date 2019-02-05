@@ -6,7 +6,7 @@ namespace JudoPayDotNet.Models
     /// Properties used for MCC 6012 payments only
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
-    public class PrimaryAccountDetails
+    public class PrimaryAccountDetailsModel
     {
         /// <summary>
         /// Gets or sets the Name of the Primary Account Holder
