@@ -182,5 +182,16 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
         }
+
+        [Test]
+        public async Task PrimaryAccountDetailsPayment()
+        {
+            var paymentWithCard = GetPrimaryAccountPaymentModel();
+
+            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);}
     }
 }

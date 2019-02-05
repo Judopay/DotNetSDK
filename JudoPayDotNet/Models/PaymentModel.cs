@@ -145,6 +145,13 @@ namespace JudoPayDotNet.Models
         public JObject ClientDetails { get; set; }
 
         /// <summary>
+        /// Details needed for MCC 6012 transactions
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+// ReSharper disable once UnusedMember.Global
+        public PrimaryAccountDetails PrimaryAccountDetails { get; set; }
+
+        /// <summary>
         /// The end consumers browser useragent for 3D secure
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
