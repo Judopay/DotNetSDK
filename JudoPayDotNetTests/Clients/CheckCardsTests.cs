@@ -19,16 +19,16 @@ namespace JudoPayDotNetTests.Clients
 {
 
     [TestFixture]
-    public class SaveCardsTests
+    public class CheckCardsTests
     {
         //Test data
-        private class SaveCardsTestSource
+        private class CheckCardsTestSource
         {
             public static IEnumerable SuccessTestCases
             {
                 get
                 {
-                    yield return new TestCaseData(new SaveCardModel
+                    yield return new TestCaseData(new CheckCardModel
                     {
                         CardAddress = new CardAddressModel
                         {
@@ -63,7 +63,7 @@ namespace JudoPayDotNetTests.Clients
                                 yourConsumerReference : 'Consumer1'
                             }
                         }",
-                            "134567").SetName("SaveCardWithSuccess");
+                            "134567").SetName("CheckCardWithSuccess");
                 }
             }
 
@@ -71,7 +71,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new SaveCardModel
+                    yield return new TestCaseData(new CheckCardModel
                     {
                         CardAddress = new CardAddressModel
                         {
@@ -96,7 +96,7 @@ namespace JudoPayDotNetTests.Clients
                             code : '1',
                             category : '0'
                         }",
-                        1).SetName("SaveCardWithoutSuccess");
+                        1).SetName("CheckCardWithoutSuccess");
                 }
             }
 
@@ -104,7 +104,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new SaveCardModel
+                    yield return new TestCaseData(new CheckCardModel
                     {
                         CardAddress = new CardAddressModel
                         {
@@ -128,7 +128,7 @@ namespace JudoPayDotNetTests.Clients
             {
                 get
                 {
-                    yield return new TestCaseData(new SaveCardModel
+                    yield return new TestCaseData(new CheckCardModel
                     {
                         CardAddress = new CardAddressModel
                         {
@@ -156,8 +156,8 @@ namespace JudoPayDotNetTests.Clients
         }
 
 
-        [Test, TestCaseSource(typeof(SaveCardsTestSource), nameof(SaveCardsTestSource.SuccessTestCases))]
-        public void SaveCardWithSuccess(SaveCardModel saveCard, string responseData, string receiptId)
+        [Test, TestCaseSource(typeof(CheckCardsTestSource), nameof(CheckCardsTestSource.SuccessTestCases))]
+        public void CheckCardWithSuccess(CheckCardModel checkCard, string responseData, string receiptId)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
@@ -178,7 +178,7 @@ namespace JudoPayDotNetTests.Clients
             IResult<ITransactionResult> paymentReceiptResult = null;
 
             // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
-            paymentReceiptResult = judo.SaveCards.Create(saveCard).Result;
+            paymentReceiptResult = judo.CheckCards.Create(checkCard).Result;
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
             Assert.NotNull(paymentReceiptResult);
@@ -187,8 +187,8 @@ namespace JudoPayDotNetTests.Clients
             Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
         }
 
-        [Test, TestCaseSource(typeof(SaveCardsTestSource), nameof(SaveCardsTestSource.SuccessTestCases))]
-        public void ExtraHeadersAreSent(SaveCardModel payment, string responseData, string receiptId)
+        [Test, TestCaseSource(typeof(CheckCardsTestSource), nameof(CheckCardsTestSource.SuccessTestCases))]
+        public void ExtraHeadersAreSent(CheckCardModel payment, string responseData, string receiptId)
         {
             const string EXTRA_HEADER_NAME = "X-Extra-Request-Header";
 
@@ -211,7 +211,7 @@ namespace JudoPayDotNetTests.Clients
 
             payment.HttpHeaders.Add(EXTRA_HEADER_NAME, "some random value");
 
-             IResult<ITransactionResult> paymentReceiptResult = judo.SaveCards.Create(payment).Result;
+             IResult<ITransactionResult> paymentReceiptResult = judo.CheckCards.Create(payment).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
@@ -219,8 +219,8 @@ namespace JudoPayDotNetTests.Clients
             Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
         }
 
-        [Test, TestCaseSource(typeof(SaveCardsTestSource), nameof(SaveCardsTestSource.FailureTestCases))]
-        public void SaveCardWithError(SaveCardModel saveCard, string responseData, JudoApiError errorType)
+        [Test, TestCaseSource(typeof(CheckCardsTestSource), nameof(CheckCardsTestSource.FailureTestCases))]
+        public void CheckCardWithError(CheckCardModel checkCard, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
@@ -244,7 +244,7 @@ namespace JudoPayDotNetTests.Clients
             IResult<ITransactionResult> paymentReceiptResult = null;
 
             // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
-            paymentReceiptResult = judo.SaveCards.Create(saveCard).Result;
+            paymentReceiptResult = judo.CheckCards.Create(checkCard).Result;
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
             Assert.NotNull(paymentReceiptResult);

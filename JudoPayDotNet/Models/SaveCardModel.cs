@@ -5,14 +5,14 @@ using System.Runtime.Serialization;
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Data to check a card
+    /// Data to save a card
     /// </summary>
     [DataContract]
-    [KnownType(typeof(CheckEncryptedCardModel))]
+    [KnownType(typeof(SaveEncryptedCardModel))]
     // ReSharper disable UnusedMember.Global
-    public class CheckCardModel : IModelWithHttpHeaders
+    public class SaveCardModel : IModelWithHttpHeaders
     {
-        public CheckCardModel()
+        public SaveCardModel()
         {
             YourPaymentReference = Guid.NewGuid().ToString();
             HttpHeaders = new Dictionary<string, string>();

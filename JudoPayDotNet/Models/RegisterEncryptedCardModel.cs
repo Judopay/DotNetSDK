@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Data to register a credit card
+    /// Data to register a card using a OneUseToken
     /// </summary>
     [DataContract]
     // ReSharper disable UnusedMember.Global

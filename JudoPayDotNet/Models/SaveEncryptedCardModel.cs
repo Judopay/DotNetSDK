@@ -5,11 +5,11 @@ using System.Runtime.Serialization;
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Data to check a card using a OneUseToken
+    /// Data to save a card using a OneUseToken
     /// </summary>
     [DataContract]
     // ReSharper disable UnusedMember.Global
-    public class CheckEncryptedCardModel : CheckCardModel
+    public class SaveEncryptedCardModel : SaveCardModel
     {
         /// <summary>
         /// Gets or sets the one use token.

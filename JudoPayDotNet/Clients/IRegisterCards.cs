@@ -17,5 +17,12 @@ namespace JudoPayDotNet.Clients
         /// <param name="registerCard">The card to register.</param>
         /// <returns>The result of the registration of the card</returns>
         Task<IResult<ITransactionResult>> Create(RegisterCardModel registerCard);
+
+        /// <summary>
+        /// Registers a consumer card using a One Use Token
+        /// </summary>
+        /// <param name="registerEncryptedCard">The card to register.</param>
+        /// <returns>The result of the registration of the card</returns>
+        Task<IResult<ITransactionResult>> Create(RegisterEncryptedCardModel registerEncryptedCard);
     }
 }

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Data to register a credit card
+    /// Data to register a card
     /// </summary>
     [DataContract]
     [KnownType(typeof(RegisterEncryptedCardModel))]
@@ -103,6 +103,15 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public string Currency { get; set; }
+
+        /// <summary>
+        /// Gets or sets your payment meta data.
+        /// </summary>
+        /// <value>
+        /// Your payment meta data.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public IDictionary<string, string> YourPaymentMetaData { get; set; }
     }
     // ReSharper restore UnusedMember.Global
 }

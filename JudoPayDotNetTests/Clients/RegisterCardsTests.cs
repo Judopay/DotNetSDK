@@ -154,7 +154,7 @@ namespace JudoPayDotNetTests.Clients
         }
 
 
-        [Test, TestCaseSource(typeof(RegisterCardsTestSource), "SuccessTestCases")]
+        [Test, TestCaseSource(typeof(RegisterCardsTestSource), nameof(RegisterCardsTestSource.SuccessTestCases))]
         public void RegisterCardWithSuccess(RegisterCardModel registerCard, string responseData, string receiptId)
         {
             var httpClient = Substitute.For<IHttpClient>();
@@ -165,9 +165,11 @@ namespace JudoPayDotNetTests.Clients
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(
+                httpClient,
+                DotNetLoggerFactory.Create,
+                "http://something.com")
+            );
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
@@ -183,7 +185,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
         }
 
-        [Test, TestCaseSource(typeof(RegisterCardsTestSource), "SuccessTestCases")]
+        [Test, TestCaseSource(typeof(RegisterCardsTestSource), nameof(RegisterCardsTestSource.SuccessTestCases))]
         public void ExtraHeadersAreSent(RegisterCardModel payment, string responseData, string receiptId)
         {
             const string EXTRA_HEADER_NAME = "X-Extra-Request-Header";
@@ -197,9 +199,11 @@ namespace JudoPayDotNetTests.Clients
             httpClient.SendAsync(Arg.Is<HttpRequestMessage>(r => r.Headers.Contains(EXTRA_HEADER_NAME)))
                 .Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(
+                httpClient,
+                DotNetLoggerFactory.Create,
+                "http://something.com")
+            );
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
@@ -213,7 +217,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
         }
 
-        [Test, TestCaseSource(typeof(global::JudoPayDotNetTests.Clients.RegisterCardsTests.RegisterCardsTestSource), "FailureTestCases")]
+        [Test, TestCaseSource(typeof(RegisterCardsTestSource), nameof(RegisterCardsTestSource.FailureTestCases))]
         public void RegisterCardWithError(RegisterCardModel registerCard, string responseData, JudoApiError errorType)
         {
             var httpClient = Substitute.For<IHttpClient>();
@@ -227,9 +231,11 @@ namespace JudoPayDotNetTests.Clients
 
             httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
 
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
+            var client = new Client(new Connection(
+                httpClient,
+                DotNetLoggerFactory.Create,
+                "http://something.com")
+            );
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 

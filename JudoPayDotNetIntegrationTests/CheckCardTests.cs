@@ -25,6 +25,18 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
+        public void CheckEncryptedCard()
+        {
+            var checkEncryptedCardModel = GetCheckEncryptedCardModel(Configuration.Cybersource_Judoid).Result;
+
+            var response = JudoPayApiCyberSource.CheckCards.Create(checkEncryptedCardModel).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+        }
+
+        [Test]
         public async Task CheckCardAndATokenPayment()
         {
             var checkCardModel = GetCheckCardModel(Configuration.Cybersource_Judoid);
