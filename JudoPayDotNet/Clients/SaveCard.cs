@@ -9,7 +9,9 @@ namespace JudoPayDotNet.Clients
 {
     internal class SaveCard : JudoPayClient, ISaveCard
     {
-        private readonly IValidator<CardPaymentModel> SaveCardValidator = new CardPaymentValidator();
+        private readonly IValidator<SaveCardModel> _validator = new SaveCardValidator();
+        private readonly IValidator<SaveEncryptedCardModel> _encryptedValidator = new SaveEncryptedCardValidator();
+
 
         private const string SAVE_CARD_ADDRESS = "transactions/savecard";
 
@@ -19,10 +21,16 @@ namespace JudoPayDotNet.Clients
             _deDuplicateTransactions = deDuplicate;
         }
 
-        public Task<IResult<ITransactionResult>> Create(CardPaymentModel saveCard)
+        public Task<IResult<ITransactionResult>> Create(SaveCardModel saveCard)
         {
-            var validationError = Validate<CardPaymentModel, ITransactionResult>(SaveCardValidator, saveCard);
-            return validationError ?? PostInternal<CardPaymentModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveCard);
+            var validationError = Validate<SaveCardModel, ITransactionResult>(_validator, saveCard);
+            return validationError ?? PostInternal<SaveCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveCard);
+        }
+
+        public Task<IResult<ITransactionResult>> Create(SaveEncryptedCardModel saveEncryptedCard)
+        {
+            var validationError = Validate<SaveEncryptedCardModel, ITransactionResult>(_encryptedValidator, saveEncryptedCard);
+            return validationError ?? PostInternal<SaveEncryptedCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveEncryptedCard);
         }
     }
 }

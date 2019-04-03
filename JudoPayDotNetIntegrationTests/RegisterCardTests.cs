@@ -23,6 +23,18 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
+        public void RegisterEncryptedCard()
+        {
+            var registerEncryptedCardModel = GetRegisterEncryptedCardModel().Result;
+
+            var response = JudoPayApiIridium.RegisterCards.Create(registerEncryptedCardModel).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+        }
+
+        [Test]
         public async Task RegisterCardAndATokenPayment()
         {
             var consumerReference = Guid.NewGuid().ToString();
