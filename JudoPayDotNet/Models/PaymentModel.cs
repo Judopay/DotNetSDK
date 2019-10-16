@@ -181,6 +181,12 @@ namespace JudoPayDotNet.Models
         public bool? RecurringPayment { get; set; }
 
         /// <summary>
+        /// Allows a custom Dynamic Descriptor instead of the auto-generated one
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string DynamicDescriptor { get; set; }
+
+        /// <summary>
         /// Allows you to set HTTP headers on requests
         /// </summary>
         [IgnoreDataMember]
