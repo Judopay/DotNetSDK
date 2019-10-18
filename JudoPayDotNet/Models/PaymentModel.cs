@@ -50,6 +50,15 @@ namespace JudoPayDotNet.Models
         public IDictionary<string, string> YourPaymentMetaData { get; set; }
 
         /// <summary>
+        /// Gets or sets the payment meta data.
+        /// </summary>
+        /// <value>
+        /// Payment meta data.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public IDictionary<string, string> PaymentMetaData { get; set; }
+
+        /// <summary>
         /// Gets or sets the judo identifier.
         /// </summary>
         /// <value>
