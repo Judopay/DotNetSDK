@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Changes on 2020-06-05
+#### Added
+- PostCodeCheckResult, KountTransactionId, AcquirerTransactionId, ExternalBankResponseCode and BillingAddress to PaymentReceiptModel
+
 ## Changes on 2018-08-31
 - Fixed register card endpoint mapping
 

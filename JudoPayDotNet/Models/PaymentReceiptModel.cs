@@ -235,6 +235,21 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember]
         public RiskModel Risks { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string PostCodeCheckResult { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string KountTransactionId { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string AcquirerTransactionId { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string ExternalBankResponseCode { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public CardAddressModel BillingAddress { get; set; }
     }
 
     // ReSharper restore UnusedMember.Global
