@@ -8,7 +8,6 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using JudoPayDotNet;
 using JudoPayDotNet.Clients;
-using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Logging;
@@ -68,30 +67,71 @@ namespace JudoPayDotNetTests.Clients
         }
 
         [Test]
-        public void GetTransationsForReceipt()
+        public void GetTransactionForReceipt()
         {
+            var receiptId = 585759301407084544;
+            var acquirerTransactionId = "31746852808191501395";
+            var externalBankResponseCode = "12345";
+            var postCodeCheckResult = "Passed";
+            var addressLine1 = "1 Market House";
+            var addressLine2 = "Market Street";
+            var town = "MarketTown";
+            var postcode = "TR14 8PA";
+
             var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
-                            receiptId : '134567',
-                            type : 'Create',
-                            judoId : '12456',
-                            originalAmount : 20,
-                            amount : 20,
-                            netAmount : 20,
-                            cardDetails :
-                                {
-                                    cardLastfour : '1345',
-                                    endDate : '1214',
-                                    cardToken : 'ASb345AE',
-                                    cardType : 'VISA'
-                                },
-                            currency : 'GBP',
-                            consumer : 
-                                {
-                                    consumerToken : 'B245SEB',
-                                    yourConsumerReference : 'Consumer1'
-                                }
-                            }")};
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent($@"{{
+                                receiptId : '{receiptId}',
+                                yourPaymentReference: '1d10a1ee-e5a1-4f3b-b7c9-acbb3fc71bee',
+                                type : 'Payment',
+                                createdAt : '2020-06-04T10:18:20.2767+01:00',
+                                result : 'Success',
+                                message : 'AuthCode: 229444',
+                                judoId : '100915867',
+                                merchantName : 'PF Testing',
+                                appearsOnStatementAs : 'APL*/PFTesting          ',
+                                originalAmount : 1,
+                                amount : 1,
+                                netAmount : 1,
+                                currency : 'GBP',
+                                cardDetails :
+                                    {{
+                                        cardLastfour : '3436',
+                                        endDate : '1220',
+                                        cardToken : 'XTuS7p7sQ3EZiy1e7oqKPAOCQ1gWOQk9',
+                                        cardType : '11',
+                                        cardScheme : 'Visa',
+                                        cardFunding : 'Debit',
+                                        cardCategory : 'Classic',
+                                        cardQualifier : 0,
+                                        cardCountry : 'FR',
+                                        bank : 'Credit Industriel Et Commercial'
+                                    }},
+                                consumer :
+                                    {{
+                                        consumerToken : 'vpii5CUSUSt84zpL',
+                                        yourConsumerReference : 'cv2 test'
+                                    }},
+                                device :
+                                    {{
+                                        identifier : 'd73b4a7b58ce4e54a3bd73b7eda061e6'
+                                    }},
+                                yourPaymentMetaData :
+                                    {{
+                                        driver : '338',
+                                        bookingId : '97848631'
+                                    }},
+                                postCodeCheckResult : '{postCodeCheckResult}',
+                                acquirerTransactionId : '{acquirerTransactionId}',
+                                externalBankResponseCode : '{externalBankResponseCode}',
+                                billingAddress :
+                                    {{
+                                        line1 : '{addressLine1}',
+                                        line2 : '{addressLine2}',
+                                        town : '{town}',
+                                        postcode : '{postcode}'
+                                    }}
+                             }}") };
+
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
@@ -104,14 +144,22 @@ namespace JudoPayDotNetTests.Clients
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
-            const long receiptId = 1245;
-
             var paymentReceiptResult = judo.Transactions.Get(receiptId).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
+            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(receiptId));
+
+            var receipt = (PaymentReceiptModel)paymentReceiptResult.Response;
+            //New attributes added for JR-3931
+            Assert.That(receipt.AcquirerTransactionId, Is.EqualTo(acquirerTransactionId));
+            Assert.That(receipt.ExternalBankResponseCode, Is.EqualTo(externalBankResponseCode));
+            Assert.That(receipt.PostCodeCheckResult, Is.EqualTo(postCodeCheckResult));
+            Assert.That(receipt.BillingAddress.Line1, Is.EqualTo(addressLine1));
+            Assert.That(receipt.BillingAddress.Line2, Is.EqualTo(addressLine2));
+            Assert.That(receipt.BillingAddress.Town, Is.EqualTo(town));
+            Assert.That(receipt.BillingAddress.PostCode, Is.EqualTo(postcode));
         }
 
         [Test, TestCaseSource(typeof(TransactionsTestSource),"TestData")]
