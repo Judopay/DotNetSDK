@@ -41,11 +41,14 @@ namespace JudoPayDotNetIntegrationTests
             {
                 Amount = 5,
                 ReceiptId = response.Response.ReceiptId
-                
             };
-
+            var collection2 = new CollectionModel()
+            {
+                Amount = 5,
+                ReceiptId = response.Response.ReceiptId
+            };
             var collectionResult = JudoPayApiIridium.Collections.Create(collection).Result;
-            collectionResult = JudoPayApiIridium.Collections.Create(collection).Result;
+            collectionResult = JudoPayApiIridium.Collections.Create(collection2).Result;
 
             var transaction = JudoPayApiIridium.Transactions.Get(response.Response.ReceiptId).Result;
 

@@ -111,14 +111,18 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 20,
                 ReceiptId = response.Response.ReceiptId,
             };
-
+            var collection2 = new CollectionModel
+            {
+                Amount = 20,
+                ReceiptId = response.Response.ReceiptId,
+            };
             var collectionResponse = JudoPayApiIridium.Collections.Create(collection).Result;
 
             // The collection will go through since it is less than the preauth amount
             Assert.That(collectionResponse.HasError, Is.False);
             Assert.That(collectionResponse.Response.ReceiptId, Is.GreaterThan(0));
 
-            var validateResponse = JudoPayApiIridium.Collections.Create(collection).Result;
+            var validateResponse = JudoPayApiIridium.Collections.Create(collection2).Result;
 
             Assert.That(validateResponse, Is.Not.Null);
             Assert.That(validateResponse.HasError, Is.True);
