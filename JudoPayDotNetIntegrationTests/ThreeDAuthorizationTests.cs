@@ -13,14 +13,14 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void PaymentWithThreedSecure()
         {
-            var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341", judoId: "100411420");
+            var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341", judoId: Configuration.Judoid);
             paymentWithCard.MobileNumber = "07123456789";
             paymentWithCard.EmailAddress = "test@gmail.com";
             paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             paymentWithCard.DeviceCategory = "Mobile";
 
-            var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, "FufJTAUyXnUIbcVS", "124b090c608ed0e7668dc4d99614ee3099c5fec8d01d0c7ac8b536a30ef8e988");
+            var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Token, Configuration.Secret);
             var response = paymentsFactory.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
@@ -36,14 +36,14 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void FullPaymentWithThreedSecure()
         {
-            var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341", "B42 1SX", judoId: "100411420");
+            var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341", "B42 1SX", judoId: Configuration.Judoid);
             paymentWithCard.MobileNumber = "07123456789";
             paymentWithCard.EmailAddress = "test@gmail.com";
             paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             paymentWithCard.DeviceCategory = "Mobile";
 
-            var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, "FufJTAUyXnUIbcVS", "124b090c608ed0e7668dc4d99614ee3099c5fec8d01d0c7ac8b536a30ef8e988");
+            var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Token, Configuration.Secret);
             var response = paymentsFactory.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
