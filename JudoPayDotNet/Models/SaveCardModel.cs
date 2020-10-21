@@ -27,7 +27,7 @@ namespace JudoPayDotNet.Models
         /// including  other model instances of yourPaymentReference ********************
         /// </value>
         [DataMember(EmitDefaultValue = false)]
-        public string YourPaymentReference { get; internal set; }
+        public string YourPaymentReference { get; set; }
 
         /// <summary>
         /// Gets or sets the CV2.
