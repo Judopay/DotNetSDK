@@ -30,7 +30,7 @@ deploy:
 - provider: NuGet
   artifact: /.*\.nupkg/
   api_key:
-    secure: Xrdb/1KMY1mzzgXpW+/pnHel151dczxcPWmWrrhJBzF+HMjNIdM+3C2QqWECA6ns
+    secure: mR1ud9c45mPSRe/IxGe87MOnlvsyPhHqw9N/vXV24rgTkLaW6jKs2+eSt17ZOtvr
   on:
     APPVEYOR_REPO_TAG: true
 notifications:
