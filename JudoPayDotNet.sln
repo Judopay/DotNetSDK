@@ -14,7 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		appveyor.yml = appveyor.yml
 		CHANGELOG.md = CHANGELOG.md
 		Deploy.md = Deploy.md
+		Readme.md = Readme.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudoPayDotNetSampleApp", "JudoPayDotNetSampleApp\JudoPayDotNetSampleApp.csproj", "{69122E3D-120B-43CD-A710-5091792CF323}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +53,18 @@ Global
 		{D6F57848-85CD-44D1-A4AC-6C0E0E918061}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6F57848-85CD-44D1-A4AC-6C0E0E918061}.Release|ARM.ActiveCfg = Release|Any CPU
 		{D6F57848-85CD-44D1-A4AC-6C0E0E918061}.Release|x86.ActiveCfg = Release|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Debug|ARM.Build.0 = Debug|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Debug|x86.Build.0 = Debug|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Release|ARM.ActiveCfg = Release|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Release|ARM.Build.0 = Release|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Release|x86.ActiveCfg = Release|Any CPU
+		{69122E3D-120B-43CD-A710-5091792CF323}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

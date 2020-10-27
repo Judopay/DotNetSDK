@@ -12,25 +12,39 @@ namespace JudoPayDotNet
     using System.Collections.Generic;
     using System.Net.Http.Headers;
 
-    using JudoPayDotNet.Clients;
-
     // ReSharper disable UnusedMember.Global
     /// <summary>
     /// This factory creates an instance of the JudoPay client using the supplied credentials
     /// </summary>
     public static class JudoPaymentsFactory
     {
-        private const string DEFAULT_SANDBOX_URL = "https://gw1.judopay-sandbox.com/";
+        // Future state will use https://api-sandbox.judopay.com/ with *.judopay.com certificate
+        private const string DefaultSandboxUrl = "https://gw1.judopay-sandbox.com/";
 
-        private const string DEFAULT_LIVE_URL = "https://gw1.judopay.com/";
+        // Future state will use https://api.judopay.com/ with *.judopay.com certificate
+        private const string DefaultLiveUrl = "https://gw1.judopay.com/";
         
-        private const string LiveCertificatePublicKey = "MIIBCgKCAQEAqyx7Fg8FkI7Q2yaai//AXURuithFkoPfBliXOpGQ8O8vo+foXTLVpWmStnCUfzhm5dIJEgKn/FVK+/M5vGQSJ+aqhAL6A9Eq+UazOY2X65QweOQiQmcC6WELYBO+wx8oXQLp/PVYLlAfaljFRBqo3c4kfeLwd4VISJuFs941B7vTrkgZ0t6TSbnwUZNpSLr53pNyR4QJ/OSPsoxtdec7z+38dPUW0Ah9tscXa4lns5h3FvqEaY6bduYl7xQwO7LGGVaaYFmj4kMLn1Fyd+gw8vdRBd4NC7VCRJ2NxshMHdKwW4sS5YK+MT+s/3yAXlkhj9vXPczJAXBVNjn3jX4CWQIDAQAB";
+        private static readonly List<string> LiveCertificatePublicKeys = new List<string>
+        {
+            // Public key for gw1.judopay.com
+            "MIIBCgKCAQEAqyx7Fg8FkI7Q2yaai//AXURuithFkoPfBliXOpGQ8O8vo+foXTLVpWmStnCUfzhm5dIJEgKn/FVK+/M5vGQSJ+aqhAL6A9Eq+UazOY2X65QweOQiQmcC6WELYBO+wx8oXQLp/PVYLlAfaljFRBqo3c4kfeLwd4VISJuFs941B7vTrkgZ0t6TSbnwUZNpSLr53pNyR4QJ/OSPsoxtdec7z+38dPUW0Ah9tscXa4lns5h3FvqEaY6bduYl7xQwO7LGGVaaYFmj4kMLn1Fyd+gw8vdRBd4NC7VCRJ2NxshMHdKwW4sS5YK+MT+s/3yAXlkhj9vXPczJAXBVNjn3jX4CWQIDAQAB",
+            // Fallback public key for gw1.judopay.com
+            "MIIBCAKCAQEAn5miKk6Db6bAofUTUU4BMfbQ5YL8OqzwVxbTqsbebECh+NdkB1v38+2yLll3brjF1fGPqgHYHmKO90ZLrgOh/CYAnhNH472v4+UAr0xFTQUEcZe0oTjI5wvRBnQeOZk182n5DaZvyOoOdDhZ6l8nfrAX58fO2DmRduQ0+GFBSrnh6dbzc4Z9XmmomLR6YOVF9AFe4ns0lP7uEW0wdh7p5sGRXqwQXhpfXHS+gZkgp4zPgpD7iHtaO+DlzJTMBZKDF8jVaGeFYO2Tj4s244TbeM8dClSr8oosAsu+5t5zXgZYrn0XkcQv2kyjnZ3wfs9j2OKbTzj1xNw8JSf7MOcnIwIBJQ==",
+            // Public key for *.judopay.com
+            "MIIBCgKCAQEAqyx7Fg8FkI7Q2yaai//AXURuithFkoPfBliXOpGQ8O8vo+foXTLVpWmStnCUfzhm5dIJEgKn/FVK+/M5vGQSJ+aqhAL6A9Eq+UazOY2X65QweOQiQmcC6WELYBO+wx8oXQLp/PVYLlAfaljFRBqo3c4kfeLwd4VISJuFs941B7vTrkgZ0t6TSbnwUZNpSLr53pNyR4QJ/OSPsoxtdec7z+38dPUW0Ah9tscXa4lns5h3FvqEaY6bduYl7xQwO7LGGVaaYFmj4kMLn1Fyd+gw8vdRBd4NC7VCRJ2NxshMHdKwW4sS5YK+MT+s/3yAXlkhj9vXPczJAXBVNjn3jX4CWQIDAQAB"
+        };
 
-        private const string SandboxCertificatePublicKey = "MIIBCgKCAQEAmMrGJkxm/vvfZ/IU0EuhljWlgxzdRnkgWzkzB1NGpOoZw1AJWYq3Lg1uOvphltQ+oq3athGIhoXYuQrOh7BsMpw2vXj1VTwGP9/1AkNOXXCzTVKATw+AwuBwdIYg0yOqTB4wImvLqDVFuuO6f0SnFZ3ntqlNFvOBzxGHKlr6Y20fsiXzv95vRfkwtb5exNUy9bnKn81GyPONWVeLgqFEM7TQO7eUbLEMcnEwgPCvMhYKggSN/i99wqcMomEBlfsfFxcYG7R6P8GmiXBkHKaPO2JXf4OMOMcLOmG7kyRZYBPWNTlQsUsgatTUTO1oFJuMYRIcUE+G51C2FLraCH2YqQIDAQAB";
+        private static readonly List<string> SandboxCertificatePublicKeys = new List<string>
+        {
+            // Public key for *.judopay-sandbox.com used by gw1.judopay-sandbox.com 
+            "MIIBCgKCAQEAmMrGJkxm/vvfZ/IU0EuhljWlgxzdRnkgWzkzB1NGpOoZw1AJWYq3Lg1uOvphltQ+oq3athGIhoXYuQrOh7BsMpw2vXj1VTwGP9/1AkNOXXCzTVKATw+AwuBwdIYg0yOqTB4wImvLqDVFuuO6f0SnFZ3ntqlNFvOBzxGHKlr6Y20fsiXzv95vRfkwtb5exNUy9bnKn81GyPONWVeLgqFEM7TQO7eUbLEMcnEwgPCvMhYKggSN/i99wqcMomEBlfsfFxcYG7R6P8GmiXBkHKaPO2JXf4OMOMcLOmG7kyRZYBPWNTlQsUsgatTUTO1oFJuMYRIcUE+G51C2FLraCH2YqQIDAQAB",
+            // Public key for *.judopay.com
+            "MIIBCgKCAQEAqyx7Fg8FkI7Q2yaai//AXURuithFkoPfBliXOpGQ8O8vo+foXTLVpWmStnCUfzhm5dIJEgKn/FVK+/M5vGQSJ+aqhAL6A9Eq+UazOY2X65QweOQiQmcC6WELYBO+wx8oXQLp/PVYLlAfaljFRBqo3c4kfeLwd4VISJuFs941B7vTrkgZ0t6TSbnwUZNpSLr53pNyR4QJ/OSPsoxtdec7z+38dPUW0Ah9tscXa4lns5h3FvqEaY6bduYl7xQwO7LGGVaaYFmj4kMLn1Fyd+gw8vdRBd4NC7VCRJ2NxshMHdKwW4sS5YK+MT+s/3yAXlkhj9vXPczJAXBVNjn3jX4CWQIDAQAB"
+        };
 
         static JudoPaymentsFactory()
         {
-            ServicePointManager.ServerCertificateValidationCallback += PinPublicKey;
+            ServicePointManager.ServerCertificateValidationCallback = PinPublicKey;
         }
 
         /// <summary>
@@ -89,46 +103,44 @@ namespace JudoPayDotNet
             switch (judoEnvironment)
             {
                 case JudoEnvironment.Sandbox:
-                    defaultValue = DEFAULT_SANDBOX_URL;
+                    defaultValue = DefaultSandboxUrl;
                     break;
                 case JudoEnvironment.Live:
-                    defaultValue = DEFAULT_LIVE_URL;
+                    defaultValue = DefaultLiveUrl;
                     break;
             }
 
             return defaultValue;
         }
 
-        private static bool PinPublicKey(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        internal static bool PinPublicKey(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             if (null == certificate)
                 return false;
 
-            var webRequest = sender as HttpWebRequest;
-            if (webRequest != null)
+            if (sender is HttpWebRequest webRequest)
             {
-                // If we're connecting to the live system vault
-                if (webRequest.Address.ToString().StartsWith(DEFAULT_LIVE_URL, StringComparison.InvariantCultureIgnoreCase))
+                // If we're connecting to the live environment
+                if (webRequest.Address.ToString().StartsWith(DefaultLiveUrl, StringComparison.InvariantCultureIgnoreCase))
                 {
                     var serviceKey = Convert.ToBase64String(certificate.GetPublicKey());
 
                     // If the certifcate public key doesn't match fail the validation
-                    if (serviceKey != LiveCertificatePublicKey)
+                    if (!LiveCertificatePublicKeys.Contains(serviceKey))
                         return false;
                 }
-
-                // If we're connecting to the live system vault
-                if (webRequest.Address.ToString().StartsWith(DEFAULT_SANDBOX_URL, StringComparison.InvariantCultureIgnoreCase))
+                // If we're connecting to the sandbox environment
+                else if (webRequest.Address.ToString().StartsWith(DefaultSandboxUrl, StringComparison.InvariantCultureIgnoreCase))
                 {
                     var serviceKey = Convert.ToBase64String(certificate.GetPublicKey());
 
-                    // If the certifcate public key doesn't match fail the validation
-                    if (serviceKey != SandboxCertificatePublicKey)
+                    // If the certificate public key doesn't match fail the validation
+                    if (!SandboxCertificatePublicKeys.Contains(serviceKey))
                         return false;
                 }
             }
 
-            // Propogate any previous errors
+            // Propagate any previous errors
             return sslPolicyErrors == SslPolicyErrors.None;
         }
 
