@@ -5,15 +5,13 @@ using JudoPayDotNet.Models;
 
 namespace JudoPayDotNetSampleApp
 {
-    class Program
+    class JudoPayDotNetFrameworkSampleApp
     {
         private static string ApiToken = "Izx9omsBR15LatAl";
         private static readonly string ApiSecret = "b5787124845533d8e68d12a586fa3713871b876b528600ebfdc037afec880cd6";
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting CardPayment call");
-
             var client = JudoPaymentsFactory.Create(JudoPayDotNet.Enums.JudoEnvironment.Sandbox, ApiToken, ApiSecret);
             var cardPaymentModel = new CardPaymentModel
             {
@@ -34,22 +32,30 @@ namespace JudoPayDotNetSampleApp
 
             client.Payments.Create(cardPaymentModel).ContinueWith(result =>
             {
-                var paymentResult = result.Result;
-
-                if (!paymentResult.HasError && paymentResult.Response.Result == "Success")
+                if (result.IsFaulted)
                 {
-                    Console.WriteLine($"Payment successful. Transaction Reference {paymentResult.Response.ReceiptId}");
+                    Console.WriteLine($"Payment request failed, exception={result.Exception.InnerExceptions[0].Message}");
                 }
                 else
                 {
-                    Console.WriteLine("Payment failed");
+                    var paymentResult = result.Result;
+
+                    if (!paymentResult.HasError && paymentResult.Response.Result == "Success")
+                    {
+                        Console.WriteLine($"Payment successful. Transaction Reference {paymentResult.Response.ReceiptId}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Payment failed");
+                    }
                 }
-                Console.WriteLine("Finished!");
-
             });
+            Console.WriteLine("Payment request sent");
+            Thread.Sleep(2000);
 
-            Thread.Sleep(5000);
+            // Wait for the user to respond before closing.
+            Console.WriteLine("Press any key to close the app...");
+            Console.ReadKey();
         }
-
     }
 }
