@@ -126,7 +126,7 @@ namespace JudoPayDotNet
             {
                 var serviceKey = Convert.ToBase64String(certificate.GetPublicKey());
                 var publicKeys = GetPublicKeys(webRequest.Address.ToString());
-                if (!publicKeys.Contains(serviceKey))
+                if (publicKeys.Count > 0 && !publicKeys.Contains(serviceKey))
                     return false;
             }
 
