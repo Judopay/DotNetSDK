@@ -1,7 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## Changes on 2020-06-05
+## Changes for (v3.0)
+- Update default base Urls with certificate pinning checks
+
+## Changes on 2020-10-21 (v2.1.237)
+- Updated the following models to allow custom values for YourPaymentReference (1 to 50 characters)
+	- PaymentModel
+	- SaveCardModel
+	- CheckCardModel
+	- RegisterCardModel
+
+## Changes on 2020-06-05 (v2.1.223)
 #### Added
 - PostCodeCheckResult, KountTransactionId, AcquirerTransactionId, ExternalBankResponseCode and BillingAddress to PaymentReceiptModel
 
@@ -12,7 +22,7 @@ All notable changes to this project will be documented in this file.
 - Added one time token payment
 
 ## Changes on 2018-03-01
-- Removed cliend side validation for transactions with 0 amount
+- Removed client side validation for transactions with 0 amount
 
 ## Changes on 2017-04-04
 

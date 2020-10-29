@@ -8,8 +8,8 @@ namespace JudoPayDotNetTests.Configuration
     public class JudoSettingsTests
     {
         [Test]
-        [TestCase(JudoEnvironment.Sandbox, "https://gw1.judopay-sandbox.com/")]
-        [TestCase(JudoEnvironment.Live, "https://gw1.judopay.com/")]
+        [TestCase(JudoEnvironment.Sandbox, "https://api-sandbox.judopay.com/")]
+        [TestCase(JudoEnvironment.Live, "https://api.judopay.com/")]
 
         public void GetEnvironmentUrl(JudoEnvironment judoEnvironment, string expectedUrl)
         {

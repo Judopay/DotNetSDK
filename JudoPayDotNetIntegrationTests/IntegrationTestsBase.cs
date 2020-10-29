@@ -302,7 +302,7 @@ namespace JudoPayDotNetIntegrationTests
                 ClientIpAddress = "127.0.0.1",
                 CompanyName = "Test",
                 Currency = "GBP",
-                ExpiryDate = DateTimeOffset.Now,
+                ExpiryDate = DateTimeOffset.Now.AddMinutes(5),
                 JudoId = Configuration.Judoid,
                 PartnerServiceFee = 10,
                 PaymentCancelUrl = "http://test.com",
