@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 #### Added
 - InitialRecurringPayment, RecurringPaymentType and RelatedReceiptId added to PaymentModel
 - Increase Api-Version from 5.6 to 5.7
+#### Removed
+- VisaCheckout APIs
 
 ## Changes on 2020-06-05
 #### Added
