@@ -32,7 +32,7 @@ namespace JudoPayDotNet.Http
         public HttpClientWrapper(params DelegatingHandler[] handlers) : this(null, handlers) { }
 
         /// <summary>
-        /// Initializes a new instance of the HttpWrapper class for senidng messages to the api
+        /// Initializes a new instance of the HttpWrapper class for sending messages to the api
         /// </summary>
         /// <param name="userAgent">Details of the client calling the api, should be in the form PRODUCT/VERSION</param>
         /// <param name="handlers">a list of custom handlers</param>
