@@ -7,6 +7,7 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using Newtonsoft.Json;
@@ -29,11 +30,15 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         protected CardPaymentModel GetCardPaymentModel(
-            string yourConsumerReference = null, 
-            string cardNumber = "4976000000003436", 
-            string cv2 = "452", 
-            string postCode = "TR14 8PA", 
-            bool? recurringPayment = null, 
+            string yourConsumerReference = null,
+            string cardNumber = "4976000000003436",
+            string cv2 = "452",
+            string postCode = "TR14 8PA",
+            bool? initialRecurringPayment = null,
+            bool? recurringPayment = null,
+            string relatedReceiptId = null,
+            RecurringPaymentType? recurringPaymentType = null,
+
             string judoId = null)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
@@ -41,7 +46,7 @@ namespace JudoPayDotNetIntegrationTests
                 yourConsumerReference = Guid.NewGuid().ToString();
             }
 
-            return new CardPaymentModel
+            var ret = new CardPaymentModel
             {
                 JudoId = judoId ?? Configuration.Judoid,
                 YourConsumerReference = yourConsumerReference,
@@ -54,9 +59,25 @@ namespace JudoPayDotNetIntegrationTests
                     Line1 = "32 Edward Street",
                     PostCode = postCode,
                     Town = "Camborne"
-                },
-                RecurringPayment = recurringPayment
+                }
             };
+            if (initialRecurringPayment != null)
+            {
+                ret.InitialRecurringPayment = initialRecurringPayment;
+            }
+            if (recurringPayment != null)
+            {
+                ret.RecurringPayment = recurringPayment;
+            }
+            if (relatedReceiptId != null)
+            {
+                ret.RelatedReceiptId = relatedReceiptId;
+            }
+            if (recurringPaymentType != null)
+            {
+                ret.RecurringPaymentType = recurringPaymentType;
+            }
+            return ret;
         }
 
         protected TokenPaymentModel GetTokenPaymentModel(

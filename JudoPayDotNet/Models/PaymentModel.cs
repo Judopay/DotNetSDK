@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using JudoPayDotNet.Clients;
+using JudoPayDotNet.Enums;
 using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models
@@ -184,6 +184,16 @@ namespace JudoPayDotNet.Models
         // ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
+        /// Is this transaction the first transaction of a series (has continuous authority
+        /// been granted to the merchant by the card holder).
+        /// </summary>
+        /// <remarks>Mastercard requires that when dealing with continuous authority
+        /// payments this flag identifies the transaction where the card holder gave permission for
+        /// repeat charges.</remarks>
+        [DataMember(EmitDefaultValue = false)]
+        public bool? InitialRecurringPayment { get; set; }
+
+        /// <summary>
         /// Indicates that the transaction has been given recurring authorization from the consumer
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
@@ -194,6 +204,18 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string DynamicDescriptor { get; set; }
+
+        /// <summary>
+        /// Enum for Regular Payments (recurring)
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public RecurringPaymentType? RecurringPaymentType { get; set; }
+
+        /// <summary>
+        /// Receipt ID of original authenticated transaction (for recurring payments)
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string RelatedReceiptId { get; set; }
 
         /// <summary>
         /// Allows you to set HTTP headers on requests

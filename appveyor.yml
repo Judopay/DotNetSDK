@@ -1,4 +1,4 @@
-version: 2.1.{build}
+version: 2.2.{build}
 image: Visual Studio 2017
 skip_branch_with_pr: true
 # if wanting to publish the package internally
