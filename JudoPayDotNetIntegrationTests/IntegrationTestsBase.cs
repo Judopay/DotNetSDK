@@ -314,22 +314,6 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        protected VisaCheckoutPaymentModel GetVisaCheckoutPaymentModel(string callId, string encKey, string encPaymentData, string yourConsumerReference = "Consumer1")
-        {
-            return new VisaCheckoutPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = yourConsumerReference,
-                Amount = 25,
-                Wallet = new VisaCheckoutWalletModel
-                {
-                    CallId = callId,
-                    EncryptedKey = encKey,
-                    EncryptedPaymentData = encPaymentData
-                }
-            };
-        }
-
         protected CardPaymentModel GetPrimaryAccountPaymentModel(string yourConsumerReference = null)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
