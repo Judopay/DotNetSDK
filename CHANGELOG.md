@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## 2.2 Changes on 2020-12-01
 #### Added
 - InitialRecurringPayment, RecurringPaymentType and RelatedReceiptId added to PaymentModel
+- Increase Api-Version from 5.6 to 5.7
 
 ## Changes on 2020-06-05
 #### Added

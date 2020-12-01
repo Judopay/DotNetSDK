@@ -69,7 +69,6 @@ namespace JudoPayDotNetIntegrationTests
             var recurringPaymentReceipt = recurringResponse.Response as PaymentReceiptModel;
             Assert.IsNotNull(recurringPaymentReceipt);
             Assert.IsTrue(recurringPaymentReceipt.Recurring);
-            //Assert.AreEqual(recurringPaymentReceipt.OriginalReceiptId, initialPaymentReceipt.ReceiptId);
         }
 
         [Test]
@@ -99,7 +98,6 @@ namespace JudoPayDotNetIntegrationTests
             var mitPaymentReceipt = mitResponse.Response as PaymentReceiptModel;
             Assert.IsNotNull(mitPaymentReceipt);
             Assert.IsTrue(mitPaymentReceipt.Recurring);
-            //Assert.AreEqual(initialPaymentReceipt.ReceiptId, mitPaymentReceipt.OriginalReceiptId);
         }
 
         [Test]
