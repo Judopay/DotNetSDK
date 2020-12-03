@@ -13,7 +13,7 @@ namespace JudoPayDotNet.Http
     {
         public const string API_VERSION_HEADER = "api-version";
 
-        internal const string DEFAULT_API_VERSION = "5.6.0.0";
+        internal const string DEFAULT_API_VERSION = "5.7.0.0";
 
         private readonly string _apiVersionValue;
 

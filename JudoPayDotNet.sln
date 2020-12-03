@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		appveyor.yml = appveyor.yml
 		CHANGELOG.md = CHANGELOG.md
 		Deploy.md = Deploy.md
+		Readme.md = Readme.md
 	EndProjectSection
 EndProject
 Global
