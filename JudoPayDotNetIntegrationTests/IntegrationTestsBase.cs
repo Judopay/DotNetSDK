@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
@@ -323,7 +321,7 @@ namespace JudoPayDotNetIntegrationTests
                 ClientIpAddress = "127.0.0.1",
                 CompanyName = "Test",
                 Currency = "GBP",
-                ExpiryDate = DateTimeOffset.Now,
+                ExpiryDate = DateTimeOffset.Now.AddMinutes(30),
                 JudoId = Configuration.Judoid,
                 PartnerServiceFee = 10,
                 PaymentCancelUrl = "http://test.com",
