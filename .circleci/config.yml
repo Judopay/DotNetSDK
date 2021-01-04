@@ -37,7 +37,11 @@ jobs:
             - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
       - run:
           name: Dotnet Test
-          command: dotnet test JudoPayDotNetTests --no-build --collect:"XPlat Code Coverage"
+          command: dotnet test JudoPayDotNetTests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      - persist_to_workspace:
+          root: .
+          paths:
+            - JudoPayDotNetTests/TestResults
   integration_test_sdk:
     executor: win/default
     steps:
@@ -47,7 +51,11 @@ jobs:
             - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
       - run:
           name: Dotnet Test
-          command: dotnet test JudoPayDotNetIntegrationTests --no-build --collect:"XPlat Code Coverage"
+          command: dotnet test JudoPayDotNetIntegrationTests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      - persist_to_workspace:
+          root: .
+          paths:
+            - JudoPayDotNetIntegrationTests/TestResults
   sonar_scan:
     executor: win/default
     steps:
@@ -55,6 +63,8 @@ jobs:
       - restore_cache:
           keys:
             - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+      - attach_workspace:
+          at: ~/project
       - run:
           name: Install Sonar Scanner
           shell: cmd.exe
