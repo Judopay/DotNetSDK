@@ -155,7 +155,7 @@ namespace JudoPayDotNetIntegrationTests
 
                 // CardNumber = "4976000000003436",
                 // CV2 = "452",
-                // ExpiryDate = "12/20",
+                // ExpiryDate = "12/25",
 
             formContent = new FormUrlEncodedContent(new[] 
             {
@@ -164,7 +164,7 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("Cv2", "452"), 
                 new KeyValuePair<string, string>("CardAddress.CountryCode", "826"), 
                 new KeyValuePair<string, string>("CardAddress.PostCode", "TR14 8PA"), 
-                new KeyValuePair<string, string>("ExpiryDate", "12/20"), 
+                new KeyValuePair<string, string>("ExpiryDate", "12/25"), 
                 new KeyValuePair<string, string>("Reference", reference),
                 new KeyValuePair<string, string>("YourConsumerReference", "4235325"), 
             });
