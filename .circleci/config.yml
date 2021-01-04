@@ -25,34 +25,9 @@ jobs:
           keys:
             - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
       - run:
-          name: Install Sonar Scanner
+          name: Dotnet Build
           shell: cmd.exe
-          command: choco install sonarscanner-msbuild-net46 -y
-      - run:
-          name: Build SDK
-          shell: powershell.exe
-          command: |
-            if (!($env:APPVEYOR_PULL_REQUEST_NUMBER)) {
-              &SonarScanner.MSBuild.exe begin \
-                /k:"DotNetSDK" \
-                /o:"judopay" \
-                /d:"sonar.host.url=https://sonarcloud.io" \
-                /d:"sonar.login=$env:SONARCLOUD_TOKEN" \
-            } Else {
-              &SonarScanner.MSBuild.exe begin \
-                /k:"DotNetSDK" \
-                /o:"judopay" \
-                /d:"sonar.host.url=https://sonarcloud.io" \
-                /d:"sonar.login=$env:SONARCLOUD_TOKEN" \
-                /d:"sonar.pullrequest.base=$env:APPVEYOR_REPO_BRANCH" \
-                /d:"sonar.pullrequest.key=$env:APPVEYOR_PULL_REQUEST_NUMBER" \
-                /d:"sonar.pullrequest.branch=$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH" \
-                /d:"sonar.pullrequest.provider=GitHub" \
-                /d:"sonar.github.repository=$env:APPVEYOR_REPO_NAME" \
-            }
-            &dotnet build JudoPayDotNet
-            &SonarScanner.MSBuild.exe end \
-              /d:"sonar.login=$env:SONARCLOUD_TOKEN"
+          command: dotnet build JudoPayDotNet
   unit_test_sdk:
     executor: win/default
     steps:
@@ -62,7 +37,7 @@ jobs:
             - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
       - run:
           name: Dotnet Test
-          command: dotnet test JudoPayDotNetTests --no-build
+          command: dotnet test JudoPayDotNetTests --no-build --collect:"XPlat Code Coverage"
   integration_test_sdk:
     executor: win/default
     steps:
@@ -72,7 +47,40 @@ jobs:
             - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
       - run:
           name: Dotnet Test
-          command: dotnet test JudoPayDotNetIntegrationTests --no-build
+          command: dotnet test JudoPayDotNetIntegrationTests --no-build --collect:"XPlat Code Coverage"
+  sonar_scan:
+    executor: win/default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+      - run:
+          name: Install Sonar Scanner
+          shell: cmd.exe
+          command: | 
+            dotnet tool install --global dotnet-sonarscanner
+      - run:
+          name: Sonar Scan
+          shell: powershell.exe
+          command: |
+            $params = @("/k:Judopay_DotNetSDK")
+            $params += "/o:judopay"
+            $params += "/d:sonar.host.url=https://sonarcloud.io"
+            $params += "/d:sonar.login=$env:SONARCLOUD_TOKEN"
+            if ($env:CIRCLE_PR_NUMBER) {
+              $params += "/d:sonar.pullrequest.base=master"
+              $params += "/d:sonar.pullrequest.key=$env:CIRCLE_PR_NUMBER"
+              $params += "/d:sonar.pullrequest.branch=$env:CIRCLE_BRANCH"
+              $params += "/d:sonar.pullrequest.provider=GitHub"
+              $params += "/d:sonar.github.repository=$env:CIRCLE_PROJECT_USERNAME/$env:CIRCLE_PROJECT_REPONAME"
+            } elseif ($env:CIRCLE_BRANCH -ne "master") {
+              $params += "/d:sonar.branch.name=$CIRCLE_BRANCH"
+              $params += "/d:sonar.branch.target=master"
+            }
+            &dotnet sonarscanner begin $params
+            &dotnet build JudoPayDotNet
+            &dotnet sonarscanner end /d:"sonar.login=$env:SONARCLOUD_TOKEN"
   release_sdk:
     executor: win/default
     steps:
@@ -110,7 +118,6 @@ workflows:
               only:
                 - /^v[0-9]+(\.[0-9]+)*$/
       - build_sdk:
-          context: shared-secrets
           requires:
             - dotnet_restore
           filters:
@@ -123,6 +130,11 @@ workflows:
       - integration_test_sdk:
           requires:
             - build_sdk
+      - sonar_scan:
+          context: shared-secrets
+          requires:
+            - unit_test_sdk
+            - integration_test_sdk
       - release_sdk:
           context: shared-secrets
           requires:
