@@ -8,33 +8,26 @@ jobs:
     executor: win/default
     steps:
       - checkout
-      # - restore_cache:
-      #     keys:
-      #       - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}
-      #       - judokit-dotnet-tests-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}
-      #       - judokit-dotnet-integrationtests-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+      - restore_cache:
+          keys:
+            - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
       - run:
           name: Dotnet Restore
           command: dotnet restore
-      # - save_cache:
-      #     key: judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}
-      #     paths:
-      # - save_cache:
-      #     key: judokit-dotnet-tests-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}
-      #     paths:
-      # - save_cache:
-      #     key: judokit-dotnet-integrationtests-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+      - save_cache:
+          key: judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+          paths: ~/.nuget/packages
   build_sdk:
     executor: win/default
     steps:
       - checkout
-      # - restore_cache:
-      #     keys:
-      #       - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}
+      - restore_cache:
+          keys:
+            - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
       - run:
           name: Install Sonar Scanner
           shell: cmd.exe
-          command: choco install "sonarscanner-msbuild-net46" -y
+          command: choco install sonarscanner-msbuild-net46 -y
       - run:
           name: Build SDK
           shell: powershell.exe
@@ -64,9 +57,9 @@ jobs:
     executor: win/default
     steps:
       - checkout
-      # - restore_cache:
-      #     keys:
-      #       - judokit-dotnet-tests-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}
+      - restore_cache:
+          keys:
+            - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
       - run:
           name: Dotnet Test
           command: dotnet test JudoPayDotNetTests --no-build
@@ -74,9 +67,9 @@ jobs:
     executor: win/default
     steps:
       - checkout
-      # - restore_cache:
-      #     keys:
-      #       - judokit-dotnet-integrationtests-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+      - restore_cache:
+          keys:
+            - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
       - run:
           name: Dotnet Test
           command: dotnet test JudoPayDotNetIntegrationTests --no-build
