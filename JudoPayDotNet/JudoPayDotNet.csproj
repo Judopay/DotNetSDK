@@ -6,7 +6,7 @@
     </PropertyGroup>
     <PropertyGroup Label="Package">
         <PackageId>JudoPay.Net</PackageId>
-        <Version>2.1.0</Version>
+        <Version></Version>
         <Authors>JudoPay</Authors>
         <Description>A .Net client for our JudoPay API, allowing you to quickly and easily process payments</Description>
         <Copyright>Copyright 2018</Copyright>
@@ -17,12 +17,7 @@
         <RepositoryUrl>https://github.com/JudoPay/DotNetSDK</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>judo;judopaypayment;gateway;credit;cards;</PackageTags>
-        <PackageReleaseNotes>
-          Added two new fields on cardDetails. These are card category and card country.
-          Added Risk information associated with the transaction.
-          Changed CardType to CardBrand and CardFunding.
-          Updated to dotnet standard 2.0.
-        </PackageReleaseNotes>
+        <PackageReleaseNotes></PackageReleaseNotes>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="FluentValidation" Version="8.1.2" />
