@@ -27,7 +27,11 @@ jobs:
       - run:
           name: Dotnet Build
           shell: cmd.exe
-          command: dotnet build JudoPayDotNet
+          command: dotnet build JudoPayDotNet -c Release
+      - persist_to_workspace:
+          root: .
+          paths:
+            - JudoPayDotNet/bin
   unit_test_sdk:
     executor: win/default
     steps:
@@ -85,8 +89,12 @@ jobs:
               $params += "/d:sonar.pullrequest.provider=GitHub"
               $params += "/d:sonar.github.repository=$env:CIRCLE_PROJECT_USERNAME/$env:CIRCLE_PROJECT_REPONAME"
             } elseif ($env:CIRCLE_BRANCH -ne "master") {
-              $params += "/d:sonar.branch.name=$CIRCLE_BRANCH"
+              $params += "/d:sonar.branch.name=$env:CIRCLE_BRANCH"
               $params += "/d:sonar.branch.target=master"
+            }
+            $coverageReports = (Get-ChildItem -Path . -Include "coverage.opencover.xml" -Recurse).FullName -join ","
+            If ($coverageReports) {
+              $params += "/d:sonar.cs.opencover.reportsPaths=$coverageReports"
             }
             &dotnet sonarscanner begin $params
             &dotnet build JudoPayDotNet
@@ -95,12 +103,15 @@ jobs:
     executor: win/default
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/project
       - run:
-          name: Transform csproj File
-          command: echo "test"
-      - run:
-          name: Dotnet Nuget Push
-          command: dotnet nuget push --api-key %NUGET_API_KEY%
+          name: Dotnet Pack
+          shell: powershell.exe
+          command: |
+            $version = $env:CIRCLE_TAG -replace "v",""
+            &dotnet pack -c Release -p:PackageVersion=$version
+            &dotnet nuget push --api-key $env:NUGET_API_KEY
   report_to_jira:
     docker:
       - image: gcr.io/opnf-management/deployer:latest
