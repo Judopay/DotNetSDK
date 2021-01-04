@@ -51,7 +51,7 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/20",
+                ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "32 Edward Street",
@@ -120,7 +120,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/20",
+                ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "32 Edward Street",
@@ -173,7 +173,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/20",
+                ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "32 Edward Street",
@@ -219,7 +219,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = Guid.NewGuid().ToString(),
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/20",
+                ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "32 Edward Street",
@@ -283,7 +283,7 @@ namespace JudoPayDotNetIntegrationTests
             var cardDetailsModel = new Dictionary<string, string>
             {
                 {"cardNumber", "4976000000003436"},
-                {"expiryDate", "12/20"},
+                {"expiryDate", "12/25"},
                 {"cV2", "452"},
             };
             var message = new HttpRequestMessage
