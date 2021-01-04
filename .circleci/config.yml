@@ -41,7 +41,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - JudoPayDotNetTests/TestResults
+            - JudoPayDotNetTests/coverage.opencover.xml
   integration_test_sdk:
     executor: win/default
     steps:
@@ -55,7 +55,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - JudoPayDotNetIntegrationTests/TestResults
+            - JudoPayDotNetIntegrationTests/coverage.opencover.xml
   sonar_scan:
     executor: win/default
     steps:
