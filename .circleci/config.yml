@@ -1,0 +1,178 @@
+version: 2.1
+
+orbs:
+  win: circleci/windows@2.2.0
+
+jobs:
+  dotnet_restore:
+    executor: win/default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+      - run:
+          name: Dotnet Restore
+          command: dotnet restore
+      - save_cache:
+          key: judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+          paths: ~/.nuget/packages
+  build_sdk:
+    executor: win/default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+      - run:
+          name: Dotnet Build
+          shell: cmd.exe
+          command: dotnet build JudoPayDotNet -c Release
+      - persist_to_workspace:
+          root: .
+          paths:
+            - JudoPayDotNet/bin
+  unit_test_sdk:
+    executor: win/default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+      - run:
+          name: Dotnet Test
+          command: dotnet test JudoPayDotNetTests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      - persist_to_workspace:
+          root: .
+          paths:
+            - JudoPayDotNetTests/coverage.opencover.xml
+  integration_test_sdk:
+    executor: win/default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+      - run:
+          name: Dotnet Test
+          command: dotnet test JudoPayDotNetIntegrationTests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      - persist_to_workspace:
+          root: .
+          paths:
+            - JudoPayDotNetIntegrationTests/coverage.opencover.xml
+  sonar_scan:
+    executor: win/default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Install Sonar Scanner
+          shell: cmd.exe
+          command: | 
+            dotnet tool install --global dotnet-sonarscanner
+      - run:
+          name: Sonar Scan
+          shell: powershell.exe
+          command: |
+            $params = @("/k:Judopay_DotNetSDK")
+            $params += "/o:judopay"
+            $params += "/d:sonar.host.url=https://sonarcloud.io"
+            $params += "/d:sonar.login=$env:SONARCLOUD_TOKEN"
+            if ($env:CIRCLE_PR_NUMBER) {
+              $params += "/d:sonar.pullrequest.base=master"
+              $params += "/d:sonar.pullrequest.key=$env:CIRCLE_PR_NUMBER"
+              $params += "/d:sonar.pullrequest.branch=$env:CIRCLE_BRANCH"
+              $params += "/d:sonar.pullrequest.provider=GitHub"
+              $params += "/d:sonar.github.repository=$env:CIRCLE_PROJECT_USERNAME/$env:CIRCLE_PROJECT_REPONAME"
+            } elseif ($env:CIRCLE_BRANCH -ne "master") {
+              $params += "/d:sonar.branch.name=$env:CIRCLE_BRANCH"
+              $params += "/d:sonar.branch.target=master"
+            }
+            $coverageReports = (Get-ChildItem -Path . -Include "coverage.opencover.xml" -Recurse).FullName -join ","
+            If ($coverageReports) {
+              $params += "/d:sonar.cs.opencover.reportsPaths=$coverageReports"
+            }
+            &dotnet sonarscanner begin $params
+            &dotnet build JudoPayDotNet
+            &dotnet sonarscanner end /d:"sonar.login=$env:SONARCLOUD_TOKEN"
+  release_sdk:
+    executor: win/default
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Dotnet Pack
+          shell: powershell.exe
+          command: |
+            $version = $env:CIRCLE_TAG -replace "v",""
+            &dotnet pack -c Release -p:PackageVersion=$version
+            &dotnet nuget push --api-key $env:NUGET_API_KEY
+  report_to_jira:
+    docker:
+      - image: gcr.io/opnf-management/deployer:latest
+        auth:
+          username: _json_key
+          password: $GCLOUD_SERVICE_KEY
+    parameters:
+      environment:
+        type: string
+    steps:
+      - checkout
+      - run:
+          name: Report Deployment to Jira
+          environment:
+            ENVIRONMENT: << parameters.environment >>
+          command: /resources/scripts/report-status-to-jira.sh
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - dotnet_restore:
+          filters:
+            tags:
+              only:
+                - /^v[0-9]+(\.[0-9]+)*$/
+      - build_sdk:
+          requires:
+            - dotnet_restore
+          filters:
+            tags:
+              only:
+                - /^v[0-9]+(\.[0-9]+)*$/
+      - unit_test_sdk:
+          requires:
+            - build_sdk
+      - integration_test_sdk:
+          requires:
+            - build_sdk
+      - sonar_scan:
+          context: shared-secrets
+          requires:
+            - unit_test_sdk
+            - integration_test_sdk
+      - release_sdk:
+          context: shared-secrets
+          requires:
+            - build_sdk
+          filters:
+            branches:
+              ignore:
+                - /.*/
+            tags:
+              only:
+                - /^v[0-9]+(\.[0-9]+)*$/
+      - report_to_jira:
+          context: shared-secrets
+          environment: prod
+          requires:
+            - release_sdk
+          filters:
+            tags:
+              only:
+                - /^v[0-9]+(\.[0-9]+)*$/
