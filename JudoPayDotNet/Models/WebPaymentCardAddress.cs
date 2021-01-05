@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Web payment card address information
+    /// Web payment card address information 
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract]
