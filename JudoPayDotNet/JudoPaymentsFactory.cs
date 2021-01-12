@@ -63,8 +63,14 @@ namespace JudoPayDotNet
 
         private static JudoPayApi Create(Credentials credentials, string baseUrl, ProductInfoHeaderValue userAgent)
         {
-            //var apiVersion = GetConfigValue(ApiVersionKey, VersioningHandler.DEFAULT_API_VERSION, configuration);
             var apiVersion = VersioningHandler.DEFAULT_API_VERSION;
+            //var apiVersion = GetConfigValue(ApiVersionKey, VersioningHandler.DEFAULT_API_VERSION, configuration);
+
+            if (!string.IsNullOrEmpty(credentials.PaymentSession))
+            {
+                apiVersion = VersioningHandler.PAYMENT_SESSION_API_VERSION;
+            }
+
             return Create(credentials, baseUrl, apiVersion, userAgent);
         }
 
@@ -141,11 +147,22 @@ namespace JudoPayDotNet
         /// <param name="judoEnvironment">Either the sandbox (development/testing) or live environments</param>
         /// <param name="token">Your API token (from our merchant dashboard)</param>
         /// <param name="secret">Your API secret (from our merchant dashboard)</param>
-        /// <param name="paymentSession">Your optional one-time payment session created with the same API token (replaces the API secret) </param>
         /// <returns>Initialized instance of the Judopay api client</returns>
-        public static JudoPayApi Create(JudoEnvironment judoEnvironment, string token, string secret, string paymentSession = null)
+        public static JudoPayApi Create(JudoEnvironment judoEnvironment, string token, string secret)
         {
-            return Create(token, secret, GetEnvironmentUrl(judoEnvironment), paymentSession);
+            return Create(token, secret, GetEnvironmentUrl(judoEnvironment));
+        }
+
+        /// <summary>
+        /// Creates an instance of the judopay api client with a custom base url, that will authenticate with your api token and payment session.
+        /// </summary>
+        /// <param name="judoEnvironment">Either the sandbox (development/testing) or live environments</param>
+        /// <param name="token">Your API token (from our merchant dashboard)</param>
+        /// <param name="paymentSession">Your one-time payment session created with the same API token </param>
+        /// <returns>Initialized instance of the Judopay api client</returns>
+        public static JudoPayApi CreateWithPaymentSession(JudoEnvironment judoEnvironment, string token, string paymentSession)
+        {
+            return CreateWithPaymentSession(token, paymentSession, GetEnvironmentUrl(judoEnvironment));
         }
 
         /// <summary>
@@ -155,13 +172,10 @@ namespace JudoPayDotNet
         /// <param name="token">Your API token (from our merchant dashboard)</param>
         /// <param name="secret">Your API secret (from our merchant dashboard)</param>
         /// <param name="userAgent">The name and version number of the calling application, should be in the form PRODUCT/VERSION</param>
-        /// <param name="paymentSession">Your optional one-time payment session created with the same API token (replaces the API secret) </param>
         /// <returns>Initialized instance of the Judopay api client</returns>
-        public static JudoPayApi Create(JudoEnvironment judoEnvironment, string token, string secret, ProductInfoHeaderValue userAgent, string paymentSession = null)
+        public static JudoPayApi Create(JudoEnvironment judoEnvironment, string token, string secret, ProductInfoHeaderValue userAgent)
         {
             var credentials = new Credentials(token, secret);
-            credentials.SetPaymentSession(paymentSession);
-
             return Create(credentials, GetEnvironmentUrl(judoEnvironment), userAgent);
         }
 
@@ -172,13 +186,25 @@ namespace JudoPayDotNet
         /// <param name="token">Your API token (from our merchant dashboard)</param>
         /// <param name="secret">Your API secret (from our merchant dashboard)</param>
         /// <param name="baseUrl">Base URL for the Judopay api</param>
-        /// <param name="paymentSession">Your optional one-time payment session created with the same API token (replaces the API secret) </param>
         /// <returns>Initialized instance of the Judopay api client</returns>
-        public static JudoPayApi Create(string token, string secret, string baseUrl, string paymentSession = null)
+        public static JudoPayApi Create(string token, string secret, string baseUrl)
         {
             var credentials = new Credentials(token, secret);
-            credentials.SetPaymentSession(paymentSession);
+            return Create(credentials, baseUrl, (ProductInfoHeaderValue)null);
+        }
 
+        /// <summary>
+        /// Creates an instance of the judopay API client with a custom base url, that will authenticate with your API token and payment session.
+        /// </summary>
+        /// <remarks>This is intended for development/sandbox environments</remarks>
+        /// <param name="token">Your API token (from our merchant dashboard)</param>
+        /// <param name="paymentSession">Your one-time payment session created with the same API token </param>
+        /// <param name="baseUrl">Base URL for the Judopay api</param>
+        /// <returns>Initialized instance of the Judopay api client</returns>
+        public static JudoPayApi CreateWithPaymentSession(string token, string paymentSession, string baseUrl)
+        {
+            var credentials = new Credentials(token, null);
+            credentials.SetPaymentSession(paymentSession);
             return Create(credentials, baseUrl, (ProductInfoHeaderValue)null);
         }
     }
