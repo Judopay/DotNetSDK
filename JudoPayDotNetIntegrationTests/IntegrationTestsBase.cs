@@ -311,12 +311,12 @@ namespace JudoPayDotNetIntegrationTests
                 CardAddress = new WebPaymentCardAddress
                 {
                     CardHolderName = "Test User",
-                    Line1 = "Test Street",
-                    Line2 = "Test Street",
-                    Line3 = "Test Street",
+                    Address1 = "Test Street",
+                    Address2 = "Test Street",
+                    Address3 = "Test Street",
                     Town = "London",
                     PostCode = "W31 4HS",
-                    Country = "England"
+                    CountryCode = 826
                 },
                 ClientIpAddress = "127.0.0.1",
                 CompanyName = "Test",
