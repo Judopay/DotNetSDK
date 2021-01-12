@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2 Changes on 2021-01-11
+- PaymentSession added to Credentials
+
 ## 2.2 Changes on 2020-12-01
 #### Added
 - InitialRecurringPayment, RecurringPaymentType and RelatedReceiptId added to PaymentModel
