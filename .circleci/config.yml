@@ -111,7 +111,7 @@ jobs:
           command: |
             $version = $env:CIRCLE_TAG -replace "v",""
             &dotnet pack -c Release -p:PackageVersion=$version
-            &dotnet nuget push --api-key $env:NUGET_API_KEY
+            &dotnet nuget push JudoPayDotNet\bin\Release\JudoPay.Net.$($version).nupkg --api-key $env:NUGET_API_KEY
   report_to_jira:
     docker:
       - image: gcr.io/opnf-management/deployer:latest
