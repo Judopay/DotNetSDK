@@ -9,7 +9,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// Generic information about a payment
     /// </summary>
-    // ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedMember.Global
     [DataContract]
     public abstract class PaymentModel : IModelWithHttpHeaders
     {
@@ -181,7 +181,7 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable UnusedAutoPropertyAccessor.Global
         public string AcceptHeaders { get; set; }
-        // ReSharper restore UnusedAutoPropertyAccessor.Global
+// ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         /// Is this transaction the first transaction of a series (has continuous authority
@@ -222,6 +222,12 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [IgnoreDataMember]
         public Dictionary<string, string> HttpHeaders { get; private set; }
+
+        /// <summary>
+        /// Information needed for ThreeDSecure2 payments
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public ThreeDSecureModel ThreeDSecure { get; set; }
     }
-    // ReSharper restore UnusedMember.Global
+// ReSharper restore UnusedMember.Global
 }

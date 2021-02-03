@@ -10,6 +10,7 @@ namespace JudoPayDotNetIntegrationTests
     [TestFixture]
     public class ThreeDAuthorizationTests : IntegrationTestsBase
     {
+        // Prod Sandbox transaction
         [Test]
         public void PaymentWithThreedSecure()
         {
@@ -86,6 +87,12 @@ namespace JudoPayDotNetIntegrationTests
             });
 
             taskSendMDandPaReqToAcsServer.Wait();
+        }
+
+        [Test]
+        public void PaymentWithThreedSecureTwo()
+        {
+            //TODO write when the correct API application has been created
         }
     }
 }

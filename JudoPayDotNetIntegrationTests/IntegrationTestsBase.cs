@@ -24,7 +24,9 @@ namespace JudoPayDotNetIntegrationTests
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             JudoPayApiIridium = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Token, Configuration.Secret);
             JudoPayApiCyberSource = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Cybersource_Token, Configuration.Cybersource_Secret);
+            JudoPayApiSafecharge = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
             JudoPayApiElevated = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
+
         }
 
         protected CardPaymentModel GetCardPaymentModel(

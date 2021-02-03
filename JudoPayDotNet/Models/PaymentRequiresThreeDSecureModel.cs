@@ -3,65 +3,24 @@
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// The information required to complete 3D secure authorization on a transaction (payment or preauth)
+    /// The information required to complete ThreeDSecure Two authorization on a transaction (payment or preauth)
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract(Name = "ThreeDRequired", Namespace = "")]
-    public class PaymentRequiresThreeDSecureModel : ITransactionResult
+    public class PaymentRequiresThreeDSecureTwoModel : PaymentRequiresThreeDSecureModel
     {
-        /// <summary>
-        /// Gets or sets the transaction identifier.
-        /// </summary>
-        /// <value>
-        /// The transaction identifier.
-        /// </value>
         [DataMember]
-        public long ReceiptId { get; set; }
+        public string MethodUrl { get; set; }
 
-        /// <summary>
-        /// Gets or sets the result.
-        /// </summary>
-        /// <value>
-        /// The result.
-        /// </value>
         [DataMember]
-        public string Result { get; set; }
+        public string ChallengeUrl { get; set; }
 
-        /// <summary>
-        /// Gets or sets the message.
-        /// </summary>
-        /// <value>
-        /// The message.
-        /// </value>
+        // Base64 encoded value from result.authentication.encodedChallengeRequestMessage in Authentication response
         [DataMember]
-        public string Message { get; set; }
+        public string CReq { get; set; }
 
-        /// <summary>
-        /// Gets or sets the AcsUrl.
-        /// </summary>
-        /// <value>
-        /// The acs URL.
-        /// </value>
         [DataMember]
-        public string AcsUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Md.
-        /// </summary>
-        /// <value>
-        /// The md.
-        /// </value>
-        [DataMember]
-        public string Md { get; set; }
-
-        /// <summary>
-        /// Gets or sets the PaReq.
-        /// </summary>
-        /// <value>
-        /// The pa req.
-        /// </value>
-        [DataMember]
-        public string PaReq { get; set; }
+        public string Version { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }
