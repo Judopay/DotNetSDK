@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 namespace JudoPayDotNet.Http
 {
-    using System;
     using System.Collections.Generic;
     using System.Net.Http.Headers;
     using System.Reflection;
@@ -67,7 +66,13 @@ namespace JudoPayDotNet.Http
             }
 
             // This is the default delegating handler that actually does the http request
-            currentHandler.InnerHandler = new HttpClientHandler();
+            var delegatingHttpHandler = new HttpClientHandler();
+#if !NETFRAMEWORK
+            // If we are not running a .NET framework app then ServicePointManager.ServerCertificateValidationCallback
+            // won't be picked up, so we need to set the server certificate validation callback here
+            delegatingHttpHandler.ServerCertificateCustomValidationCallback = JudoPaymentsFactory.PinPublicKey;
+#endif
+            currentHandler.InnerHandler = delegatingHttpHandler;
             return CreateHttpClient(firstHandler, userAgent);
         }
 

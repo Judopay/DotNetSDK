@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using JudoPayDotNet.Authentication;
@@ -111,21 +112,35 @@ namespace JudoPayDotNet
             return defaultValue;
         }
 
-        private static bool PinPublicKey(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        internal static bool PinPublicKey(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             if (null == certificate)
                 return false;
 
+            var serviceKey = Convert.ToBase64String(certificate.GetPublicKey());
             if (sender is HttpWebRequest webRequest)
             {
-                var serviceKey = Convert.ToBase64String(certificate.GetPublicKey());
-                var publicKeys = GetPublicKeys(webRequest.Address.ToString());
-                if (publicKeys.Count > 0 && !publicKeys.Contains(serviceKey))
+                // Called from a .NET Framework app
+                if (!CheckPublicKeys(webRequest.Address.ToString(), serviceKey))
+                    return false;
+            }
+            else if (sender is HttpRequestMessage requestMessage)
+            {
+                // Called from a .NET Core app
+                if (!CheckPublicKeys(requestMessage.RequestUri.ToString(), serviceKey))
                     return false;
             }
 
             // Propagate any previous errors
             return sslPolicyErrors == SslPolicyErrors.None;
+        }
+
+        private static bool CheckPublicKeys(string baseUrl, string serviceKey)
+        {
+            var publicKeys = GetPublicKeys(baseUrl);
+            if (publicKeys.Count > 0 && !publicKeys.Contains(serviceKey))
+                return false;
+            return true;
         }
 
         private static List<string> GetPublicKeys(string baseUrl)
