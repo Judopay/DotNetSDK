@@ -1,9 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization; 
 
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Web payment card address information
+    /// Web payment card address information 
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract]
@@ -19,29 +20,30 @@ namespace JudoPayDotNet.Models
         public string CardHolderName { get; set; }
 
         /// <summary>
-        /// Gets or sets the line1.
+        /// Gets or sets the Address1
         /// </summary>
-        /// <value>
-        /// The line1.
-        /// </value>
+        public string Address1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Address2
+        /// </summary>
+        public string Address2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Address3
+        /// </summary>
+        public string Address3 { get; set; }
+
+        [Obsolete("This property is obsolete. Please use Address1 instead.", false)]
         [DataMember(EmitDefaultValue = false, IsRequired = false)]
         public string Line1 { get; set; }
 
-        /// <summary>
-        /// Gets or sets the line2.
-        /// </summary>
-        /// <value>
-        /// The line2.
-        /// </value>
+
+        [Obsolete("This property is obsolete. Please use Address2 instead.", false)]
         [DataMember(EmitDefaultValue = false, IsRequired = false)]
         public string Line2 { get; set; }
 
-        /// <summary>
-        /// Gets or sets the line3.
-        /// </summary>
-        /// <value>
-        /// The line3.
-        /// </value>
+        [Obsolete("This property is obsolete. Please use Address3 instead.", false)]
         [DataMember(EmitDefaultValue = false, IsRequired = false)]
         public string Line3 { get; set; }
 
@@ -64,13 +66,12 @@ namespace JudoPayDotNet.Models
         public string PostCode { get; set; }
 
         /// <summary>
-        /// Gets or sets the country.
+        /// The optional country code (ISO 3166-1) for this address.
         /// </summary>
-        /// <value>
-        /// The country.
-        /// </value>
+        /// <remarks>UK is 826</remarks>
         [DataMember(EmitDefaultValue = false, IsRequired = false)]
-        public string Country { get; set; }
+        public int? CountryCode { get; set; }
+
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

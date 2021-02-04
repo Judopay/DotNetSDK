@@ -23,7 +23,7 @@ Install-Package JudoPay.Net
 You configure you Judopay API client when invoking the JudoPaymentsFactory.Create method. This has
 three parameters; environment (Sandbox for development and testing, and Live for production), and api
 token and secret. You set you API token and secret up through our [management dashboard](https://portal.judopay.com)
-after creating an account. You can create a testing account by clicking "Getting Started" in our [documentation](https://docs.judopay.com/en/introduction/getting-started-with-judopay.html)
+after creating an account. You can create a testing account from [Apply for a Sandbox Account](https://www.judopay.com/apply-sandbox-account)
 
 ```c#
 var client = JudoPaymentsFactory.Create(JudoPayDotNet.Enums.JudoEnvironment.Sandbox, "<TOKEN>", "<SECRET>");
@@ -43,10 +43,10 @@ var cardPaymentModel = new CardPaymentModel
 
 	// card details
 	CardNumber = "4976000000000036",
-	ExpiryDate = "1215",
+	ExpiryDate = "12/25",
 	CV2 = "452",
 
-	// an identifier for your customer
+	// a unique identifier for your customer
 	YourConsumerReference = "MyCustomer004",
 };
 ```
@@ -60,7 +60,7 @@ client.Payments.Create(cardPaymentModel).ContinueWith(result =>
 
 	if (!paymentResult.HasError && paymentResult.Response.Result == "Success")
 	{
-		Console.WriteLine("Payment successful. Transaction Reference {0}", paymentResult.Response.ReceiptId);
+		Console.WriteLine($"Payment successful. Transaction Receipt ID {paymentResult.Response.ReceiptId}");
 	}
 
 });

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using Newtonsoft.Json;
@@ -29,11 +28,15 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         protected CardPaymentModel GetCardPaymentModel(
-            string yourConsumerReference = null, 
-            string cardNumber = "4976000000003436", 
-            string cv2 = "452", 
-            string postCode = "TR14 8PA", 
-            bool? recurringPayment = null, 
+            string yourConsumerReference = null,
+            string cardNumber = "4976000000003436",
+            string cv2 = "452",
+            string postCode = "TR14 8PA",
+            bool? initialRecurringPayment = null,
+            bool? recurringPayment = null,
+            string relatedReceiptId = null,
+            RecurringPaymentType? recurringPaymentType = null,
+
             string judoId = null)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
@@ -41,22 +44,38 @@ namespace JudoPayDotNetIntegrationTests
                 yourConsumerReference = Guid.NewGuid().ToString();
             }
 
-            return new CardPaymentModel
+            var ret = new CardPaymentModel
             {
                 JudoId = judoId ?? Configuration.Judoid,
                 YourConsumerReference = yourConsumerReference,
                 Amount = 25,
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/20",
+                ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "32 Edward Street",
                     PostCode = postCode,
                     Town = "Camborne"
-                },
-                RecurringPayment = recurringPayment
+                }
             };
+            if (initialRecurringPayment != null)
+            {
+                ret.InitialRecurringPayment = initialRecurringPayment;
+            }
+            if (recurringPayment != null)
+            {
+                ret.RecurringPayment = recurringPayment;
+            }
+            if (relatedReceiptId != null)
+            {
+                ret.RelatedReceiptId = relatedReceiptId;
+            }
+            if (recurringPaymentType != null)
+            {
+                ret.RecurringPaymentType = recurringPaymentType;
+            }
+            return ret;
         }
 
         protected TokenPaymentModel GetTokenPaymentModel(
@@ -101,7 +120,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/20",
+                ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "32 Edward Street",
@@ -154,7 +173,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/20",
+                ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "32 Edward Street",
@@ -200,7 +219,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = Guid.NewGuid().ToString(),
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/20",
+                ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
                     Line1 = "32 Edward Street",
@@ -264,7 +283,7 @@ namespace JudoPayDotNetIntegrationTests
             var cardDetailsModel = new Dictionary<string, string>
             {
                 {"cardNumber", "4976000000003436"},
-                {"expiryDate", "12/20"},
+                {"expiryDate", "12/25"},
                 {"cV2", "452"},
             };
             var message = new HttpRequestMessage
@@ -292,17 +311,17 @@ namespace JudoPayDotNetIntegrationTests
                 CardAddress = new WebPaymentCardAddress
                 {
                     CardHolderName = "Test User",
-                    Line1 = "Test Street",
-                    Line2 = "Test Street",
-                    Line3 = "Test Street",
+                    Address1 = "Test Street",
+                    Address2 = "Test Street",
+                    Address3 = "Test Street",
                     Town = "London",
                     PostCode = "W31 4HS",
-                    Country = "England"
+                    CountryCode = 826
                 },
                 ClientIpAddress = "127.0.0.1",
                 CompanyName = "Test",
                 Currency = "GBP",
-                ExpiryDate = DateTimeOffset.Now.AddMinutes(5),
+                ExpiryDate = DateTimeOffset.Now.AddMinutes(30),
                 JudoId = Configuration.Judoid,
                 PartnerServiceFee = 10,
                 PaymentCancelUrl = "http://test.com",
@@ -311,22 +330,6 @@ namespace JudoPayDotNetIntegrationTests
                 Status = WebPaymentStatus.Open,
                 TransactionType = TransactionType.PAYMENT,
                 YourConsumerReference = "4235325"
-            };
-        }
-
-        protected VisaCheckoutPaymentModel GetVisaCheckoutPaymentModel(string callId, string encKey, string encPaymentData, string yourConsumerReference = "Consumer1")
-        {
-            return new VisaCheckoutPaymentModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = yourConsumerReference,
-                Amount = 25,
-                Wallet = new VisaCheckoutWalletModel
-                {
-                    CallId = callId,
-                    EncryptedKey = encKey,
-                    EncryptedPaymentData = encPaymentData
-                }
             };
         }
 
