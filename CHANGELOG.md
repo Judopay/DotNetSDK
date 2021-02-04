@@ -1,17 +1,27 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## Changes for (v3.0)
+## 3.0 Changes
 - Update default base Urls with certificate pinning checks
 
-## Changes on 2020-10-21 (v2.1.237)
+## 2.2 Changes on 2021-01-11
+- PaymentSession added to Credentials
+
+## 2.2 Changes on 2020-12-01
+#### Added
+- InitialRecurringPayment, RecurringPaymentType and RelatedReceiptId added to PaymentModel
+- Increase Api-Version from 5.6 to 5.7
+#### Removed
+- VisaCheckout APIs
+
+## 2.1.237 Changes on 2020-10-21
 - Updated the following models to allow custom values for YourPaymentReference (1 to 50 characters)
 	- PaymentModel
 	- SaveCardModel
 	- CheckCardModel
 	- RegisterCardModel
 
-## Changes on 2020-06-05 (v2.1.223)
+## 2.1.223 Changes on 2020-06-05
 #### Added
 - PostCodeCheckResult, KountTransactionId, AcquirerTransactionId, ExternalBankResponseCode and BillingAddress to PaymentReceiptModel
 
