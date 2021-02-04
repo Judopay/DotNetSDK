@@ -3,7 +3,7 @@ using System.Threading;
 using JudoPayDotNet;
 using JudoPayDotNet.Models;
 
-namespace JudoPayDotNetSampleCoreApp
+namespace JudoPayDotNetFrameworkSampleApp
 {
     class JudoPayDotNetFrameworkSampleApp
     {
@@ -23,7 +23,7 @@ namespace JudoPayDotNetSampleCoreApp
 
                 // card details
                 CardNumber = "4976000000003436",
-                ExpiryDate = "1220",
+                ExpiryDate = "1225",
                 CV2 = "452",
 
                 // an identifier for your customer
@@ -58,5 +58,4 @@ namespace JudoPayDotNetSampleCoreApp
             Console.ReadKey();
         }
     }
-
 }

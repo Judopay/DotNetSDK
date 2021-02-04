@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudoPayDotNetSampleApp", "JudoPayDotNetSampleApp\JudoPayDotNetSampleApp.csproj", "{69122E3D-120B-43CD-A710-5091792CF323}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudoPayDotNetFrameworkSampleApp", "JudoPayDotNetFrameworkSampleApp\JudoPayDotNetFrameworkSampleApp.csproj", "{69122E3D-120B-43CD-A710-5091792CF323}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudoPayDotNetSampleCoreApp", "JudoPayDotNetSampleCoreApp\JudoPayDotNetSampleCoreApp.csproj", "{35B18FBE-06BB-413F-B3A8-23635AE0929F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JudoPayDotNetCoreSampleApp", "JudoPayDotNetCoreSampleApp\JudoPayDotNetCoreSampleApp.csproj", "{35B18FBE-06BB-413F-B3A8-23635AE0929F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

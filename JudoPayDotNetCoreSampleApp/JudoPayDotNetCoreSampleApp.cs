@@ -3,9 +3,9 @@ using System.Threading;
 using JudoPayDotNet;
 using JudoPayDotNet.Models;
 
-namespace JudoPayDotNetSampleApp
+namespace JudoPayDotNetCoreSampleApp
 {
-    class JudoPayDotNetFrameworkSampleApp
+    class JudoPayDotNetCoreSampleApp
     {
         private static string ApiToken = "Izx9omsBR15LatAl";
         private static readonly string ApiSecret = "b5787124845533d8e68d12a586fa3713871b876b528600ebfdc037afec880cd6";
@@ -23,7 +23,7 @@ namespace JudoPayDotNetSampleApp
 
                 // card details
                 CardNumber = "4976000000003436",
-                ExpiryDate = "1220",
+                ExpiryDate = "1225",
                 CV2 = "452",
 
                 // an identifier for your customer
@@ -58,4 +58,5 @@ namespace JudoPayDotNetSampleApp
             Console.ReadKey();
         }
     }
+
 }
