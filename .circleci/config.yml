@@ -53,6 +53,10 @@ jobs:
       - restore_cache:
           keys:
             - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
+      - run: 
+          name: Set API Credentials 
+          command: | 
+            git grep -l '_baseJudoId' | xargs sed -i $BASE_JUDOID ; git grep -l '_baseToken' | xargs sed -i $BASE_TOKEN ; git grep -l '_baseSecret' | xargs sed -i $BASE_SECRET ; git grep -l '_baseElevatedToken' | xargs sed -i $BASE_TOKEN_ELEVATED ; git grep -l '_baseElevatedSecret' | xargs sed -i $BASE_SECRET_ELEVATED ; git grep -l '_cybJudoId' | xargs sed -i $CYB_JUDOID ; git grep -l '_cybToken' | xargs sed -i $CYB_TOKEN ; git grep -l '_cybSecret' | xargs sed -i $CYB_SECRET ; git grep -l '_scJudoId' | xargs sed -i $SC_JUDOID ; git grep -l '_scToken' | xargs sed -i $SC_TOKEN ; git grep -l '_scSecret' | xargs sed -i $SC_SECRET
       - run:
           name: Dotnet Test
           command: dotnet test JudoPayDotNetIntegrationTests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
@@ -111,7 +115,9 @@ jobs:
           command: |
             $version = $env:CIRCLE_TAG -replace "v",""
             &dotnet pack -c Release -p:PackageVersion=$version
-            &dotnet nuget push --api-key $env:NUGET_API_KEY
+            &dotnet nuget push JudoPayDotNet\bin\Release\JudoPay.Net.$($version).nupkg `
+              --api-key $env:NUGET_API_KEY `
+              --source https://api.nuget.org/v3/index.json
   report_to_jira:
     docker:
       - image: gcr.io/opnf-management/deployer:latest

@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using JudoPayDotNet.Enums;
+﻿using JudoPayDotNet.Enums;
 
 namespace JudoPayDotNetIntegrationTests
 {
@@ -7,15 +6,20 @@ namespace JudoPayDotNetIntegrationTests
     {
         public string WebpaymentsUrl = "https://pay.judopay-sandbox.com/v1/Pay";
 
-        public string Judoid = "100915867";
-        public string ElevatedPrivilegesSecret = "cc9274f05a6e558f4ed8be5ad0429f7edbb05a594d56f851c2b8a53fedfce3d9";
-        public string ElevatedPrivilegesToken = "90GEiHrgjEuHnbAt";
-        public string Token = "Izx9omsBR15LatAl";
-        public string Secret = "b5787124845533d8e68d12a586fa3713871b876b528600ebfdc037afec880cd6";
+        public string Judoid = "_baseJudoId";
+        public string Token = "_baseToken";
+        public string Secret = "_baseSecret";
+        public string ElevatedPrivilegesSecret = "_baseElevatedToken";
+        public string ElevatedPrivilegesToken = "_baseElevatedSecret";
 
-        public string Cybersource_Judoid = "100491943";
-        public string Cybersource_Token = "XaUfb2lcOmFiryoC";
-        public string Cybersource_Secret = "da3a45a406994c0b52b057232515ceba9e172a8cf60465ecdcaf42dd1408826b";
+
+        public string Cybersource_Judoid = "_cybJudoId";
+        public string Cybersource_Token = "_cybToken";
+        public string Cybersource_Secret = "_cybSecret";
+
+        public string SafeCharge_Judoid = "_scJudoId";
+        public string SafeCharge_Token = "_scToken";
+        public string SafeCharge_Secret = "_scSecret";
 
         public JudoEnvironment JudoEnvironment = JudoEnvironment.Sandbox;
     }
