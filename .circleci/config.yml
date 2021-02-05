@@ -54,9 +54,13 @@ jobs:
           keys:
             - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
       - run: 
-          name: Set API Credentials 
-          command: | 
-            git grep -l '_baseJudoId' | xargs sed -i $BASE_JUDOID ; git grep -l '_baseToken' | xargs sed -i $BASE_TOKEN ; git grep -l '_baseSecret' | xargs sed -i $BASE_SECRET ; git grep -l '_baseElevatedToken' | xargs sed -i $BASE_TOKEN_ELEVATED ; git grep -l '_baseElevatedSecret' | xargs sed -i $BASE_SECRET_ELEVATED ; git grep -l '_cybJudoId' | xargs sed -i $CYB_JUDOID ; git grep -l '_cybToken' | xargs sed -i $CYB_TOKEN ; git grep -l '_cybSecret' | xargs sed -i $CYB_SECRET ; git grep -l '_scJudoId' | xargs sed -i $SC_JUDOID ; git grep -l '_scToken' | xargs sed -i $SC_TOKEN ; git grep -l '_scSecret' | xargs sed -i $SC_SECRET
+          name: Set API Credentials
+          shell: powershell.exe 
+          command: |
+            $file = "JudoPayDotNetIntegrationTests/Configuration.cs"
+            $creds = @("_baseJudoId", "_baseToken", "_baseSecret", "_baseElevatedToken", "_baseElevatedSecret", "_cybJudoId", "_cybToken", "_cybSecret", "_scJudoId", "_scToken", "_scSecret")
+            $env = @("$BASE_JUDOID", "$BASE_TOKEN", "$BASE_SECRET", "$BASE_TOKEN_ELEVATED", "$BASE_SECRET_ELEVATED", "$CYB_JUDOID", "$CYB_TOKEN", "$CYB_SECRET", "$SC_JUDOID", "$SC_TOKEN", "$SC_SECRET")
+            for($i = 0; $i -le $creds.length -1; $i++){(Get-Content $file).Replace($creds[$i],$env[$i]) | Set-Content $file}
       - run:
           name: Dotnet Test
           command: dotnet test JudoPayDotNetIntegrationTests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
