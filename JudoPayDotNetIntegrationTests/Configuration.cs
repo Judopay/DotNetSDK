@@ -9,8 +9,8 @@ namespace JudoPayDotNetIntegrationTests
         public string Judoid = "_baseJudoId";
         public string Token = "_baseToken";
         public string Secret = "_baseSecret";
-        public string ElevatedPrivilegesSecret = "_baseElevatedToken";
-        public string ElevatedPrivilegesToken = "_baseElevatedSecret";
+        public string ElevatedPrivilegesToken = "_baseElevatedToken";
+        public string ElevatedPrivilegesSecret = "_baseElevatedSecret";
 
 
         public string Cybersource_Judoid = "_cybJudoId";
