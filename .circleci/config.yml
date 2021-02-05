@@ -59,8 +59,9 @@ jobs:
           command: |
             $file = "JudoPayDotNetIntegrationTests/Configuration.cs"
             $creds = @("_baseJudoId", "_baseToken", "_baseSecret", "_baseElevatedToken", "_baseElevatedSecret", "_cybJudoId", "_cybToken", "_cybSecret", "_scJudoId", "_scToken", "_scSecret")
-            $env = @(${BASE_JUDOID}, ${BASE_TOKEN}, ${BASE_SECRET}, ${BASE_TOKEN_ELEVATED}, ${BASE_SECRET_ELEVATED}, ${CYB_JUDOID}, ${CYB_TOKEN}, ${CYB_SECRET}, ${SC_JUDOID}, ${SC_TOKEN}, ${SC_SECRET})
+            $env = @(${BASE_JUDOID}, {BASE_TOKEN}, BASE_SECRET, "${BASE_TOKEN_ELEVATED}", "{BASE_SECRET_ELEVATED}", "CYB_JUDOID", ${CYB_TOKEN}, ${CYB_SECRET}, ${SC_JUDOID}, ${SC_TOKEN}, ${SC_SECRET})
             for($i = 0; $i -le $creds.length -1; $i++){(Get-Content $file).Replace($creds[$i],$env[$i]) | Set-Content $file}
+            echo $env[0] $env[1] $env[2] $env[3] $env[4] $env[5] 
       - run:
           name: Dotnet Test
           command: dotnet test JudoPayDotNetIntegrationTests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
