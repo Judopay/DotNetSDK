@@ -1,22 +1,57 @@
-﻿using System.Configuration;
+﻿using System.IO;
 using JudoPayDotNet.Enums;
+using Microsoft.Extensions.Configuration;
 
 namespace JudoPayDotNetIntegrationTests
 {
     public class Configuration
     {
-        public string WebpaymentsUrl = "https://pay.judopay-sandbox.com/v1/Pay";
+        private IConfigurationRoot Config { get; }
 
-        public string Judoid = "100915867";
-        public string ElevatedPrivilegesSecret = "cc9274f05a6e558f4ed8be5ad0429f7edbb05a594d56f851c2b8a53fedfce3d9";
-        public string ElevatedPrivilegesToken = "90GEiHrgjEuHnbAt";
-        public string Token = "Izx9omsBR15LatAl";
-        public string Secret = "b5787124845533d8e68d12a586fa3713871b876b528600ebfdc037afec880cd6";
+        public string WebpaymentsUrl;
 
-        public string Cybersource_Judoid = "100491943";
-        public string Cybersource_Token = "XaUfb2lcOmFiryoC";
-        public string Cybersource_Secret = "da3a45a406994c0b52b057232515ceba9e172a8cf60465ecdcaf42dd1408826b";
+        public string Judoid;
+        public string Token;
+        public string Secret;
+        public string ElevatedPrivilegesToken;
+        public string ElevatedPrivilegesSecret;
+
+        public string Cybersource_Judoid;
+        public string Cybersource_Token;
+        public string Cybersource_Secret;
+
+        public string SafeCharge_Judoid;
+        public string SafeCharge_Token;
+        public string SafeCharge_Secret;
 
         public JudoEnvironment JudoEnvironment = JudoEnvironment.Sandbox;
+        
+        /*
+         * Read credentials from file
+         */
+        public Configuration()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", false, true);
+
+            Config = builder.Build();
+
+            WebpaymentsUrl = Config["WebpaymentsUrl"] ?? "https://pay.judopay-sandbox.com/v1/Pay";
+
+            Judoid = Config["Credentials:Base:JudoId"];
+            Token = Config["Credentials:Base:Token"];
+            Secret = Config["Credentials:Base:Secret"];
+            ElevatedPrivilegesToken = Config["Credentials:Base:ElevatedPrivilegesToken"];
+            ElevatedPrivilegesSecret = Config["Credentials:Base:ElevatedPrivilegesSecret"];
+
+            Cybersource_Judoid = Config["Credentials:Cybersource:JudoId"];
+            Cybersource_Token = Config["Credentials:Cybersource:Token"];
+            Cybersource_Secret = Config["Credentials:Cybersource:Secret"];
+
+            SafeCharge_Judoid = Config["Credentials:SafeCharge:JudoId"];
+            SafeCharge_Token = Config["Credentials:SafeCharge:Token"];
+            SafeCharge_Secret = Config["Credentials:SafeCharge:Secret"];
+        }
     }
 }

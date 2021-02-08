@@ -15,6 +15,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack" Version="1.8.12" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="NUnit" Version="3.11.0" />
     <PackageReference Include="NUnit.ConsoleRunner" Version="3.9.0" />
@@ -24,5 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JudoPayDotNet\JudoPayDotNet.csproj" />
+    <None Include="appsettings.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 </Project>
