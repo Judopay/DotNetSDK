@@ -13,8 +13,6 @@ namespace JudoPayDotNetIntegrationTests
         public string Judoid;
         public string Token;
         public string Secret;
-        public string ElevatedPrivilegesToken;
-        public string ElevatedPrivilegesSecret;
 
         public string Cybersource_Judoid;
         public string Cybersource_Token;
@@ -42,8 +40,6 @@ namespace JudoPayDotNetIntegrationTests
             Judoid = Config["Credentials:Base:JudoId"];
             Token = Config["Credentials:Base:Token"];
             Secret = Config["Credentials:Base:Secret"];
-            ElevatedPrivilegesToken = Config["Credentials:Base:ElevatedPrivilegesToken"];
-            ElevatedPrivilegesSecret = Config["Credentials:Base:ElevatedPrivilegesSecret"];
 
             Cybersource_Judoid = Config["Credentials:Cybersource:JudoId"];
             Cybersource_Token = Config["Credentials:Cybersource:Token"];
