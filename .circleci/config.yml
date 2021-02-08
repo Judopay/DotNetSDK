@@ -110,7 +110,7 @@ jobs:
             &dotnet sonarscanner begin $params
             &dotnet build JudoPayDotNet
             &dotnet sonarscanner end /d:"sonar.login=$env:SONARCLOUD_TOKEN"
-  release_sdk:bbbbbbbbbbg
+  release_sdk:
     executor: win/default
     steps:
       - checkout
