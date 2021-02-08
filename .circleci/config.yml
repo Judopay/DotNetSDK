@@ -61,7 +61,7 @@ jobs:
             $varNames = @("BASE_JUDOID", "BASE_TOKEN", "BASE_SECRET", "BASE_TOKEN_ELEVATED", "BASE_SECRET_ELEVATED", "CYB_JUDOID", "CYB_TOKEN", "CYB_SECRET", "SC_JUDOID", "SC_TOKEN", "SC_SECRET")
             $configContents = Get-Content $file
             ForEach ($varName in $varNames) {
-              $configContents = $configContents.Replace("_$varName}",[System.Environment]::GetEnvironmentVariable("$varName"))
+              $configContents = $configContents.Replace("{$varName}",[System.Environment]::GetEnvironmentVariable("$varName"))
             }
             Set-Content -Value $configContents -Path $file
       - run:

@@ -6,20 +6,20 @@ namespace JudoPayDotNetIntegrationTests
     {
         public string WebpaymentsUrl = "https://pay.judopay-sandbox.com/v1/Pay";
 
-        public string Judoid = "_BASE_JUDOID";
-        public string Token = "_BASE_TOKEN";
-        public string Secret = "_BASE_SECRET";
-        public string ElevatedPrivilegesToken = "_BASE_TOKEN_ELEVATED";
-        public string ElevatedPrivilegesSecret = "_BASE_SECRET_ELEVATED";
+        public string Judoid = "{BASE_JUDOID}";
+        public string Token = "{BASE_TOKEN}";
+        public string Secret = "{BASE_SECRET}";
+        public string ElevatedPrivilegesToken = "{BASE_TOKEN_ELEVATED}";
+        public string ElevatedPrivilegesSecret = "{BASE_SECRET_ELEVATED}";
 
 
-        public string Cybersource_Judoid = "_CYB_JUDOID";
-        public string Cybersource_Token = "_CYB_TOKEN";
-        public string Cybersource_Secret = "_CYB_SECRET";
+        public string Cybersource_Judoid = "{CYB_JUDOID}";
+        public string Cybersource_Token = "{CYB_TOKEN}";
+        public string Cybersource_Secret = "{CYB_SECRET}";
 
-        public string SafeCharge_Judoid = "_SC_JUDOID";
-        public string SafeCharge_Token = "_SC_TOKEN";
-        public string SafeCharge_Secret = "_SC_SECRET";
+        public string SafeCharge_Judoid = "{SC_JUDOID}";
+        public string SafeCharge_Token = "{SC_TOKEN}";
+        public string SafeCharge_Secret = "{SC_SECRET}";
 
         public JudoEnvironment JudoEnvironment = JudoEnvironment.Sandbox;
     }
