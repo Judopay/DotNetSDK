@@ -67,7 +67,7 @@ jobs:
           keys:
             - judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
       - run: 
-          name: Set API Credentials
+          name: Set API Credentials 
           shell: powershell.exe 
           command: |
             $file = "JudoPayDotNetIntegrationTests/appsettings.json"
