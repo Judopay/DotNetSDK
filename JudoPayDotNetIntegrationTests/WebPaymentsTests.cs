@@ -132,8 +132,7 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("Reference", reference)
             });
 
-            var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "5.3.0.0", Configuration.ElevatedPrivilegesToken,
-                Configuration.ElevatedPrivilegesSecret);
+            var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "5.3.0.0", Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
 
             formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             formRequest.Content = formContent;
@@ -169,8 +168,7 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("YourConsumerReference", "4235325"), 
             });
 
-            formRequest = CreateJudoApiRequest(Configuration.WebpaymentsUrl, HttpMethod.Post, "5.3.0.0", Configuration.ElevatedPrivilegesToken,
-                Configuration.ElevatedPrivilegesSecret);
+            formRequest = CreateJudoApiRequest(Configuration.WebpaymentsUrl, HttpMethod.Post, "5.3.0.0", Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
 
             formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             formRequest.Content = formContent;
