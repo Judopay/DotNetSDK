@@ -68,3 +68,4 @@ _ReSharper*/
 
 Configuration.cs
 packages/
+/JudoPayDotNetIntegrationTests/appsettings.json
