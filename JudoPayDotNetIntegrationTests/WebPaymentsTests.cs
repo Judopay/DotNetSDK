@@ -17,7 +17,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var request = GetWebPaymentRequestModel();
 
-            var result = JudoPayApiIridium.WebPayments.Payments.Create(request).Result;
+            var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
 
             Assert.NotNull(result);
             Assert.IsFalse(result.HasError);
@@ -31,7 +31,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var request = GetWebPaymentRequestModel();
 
-            var result = JudoPayApiIridium.WebPayments.Payments.Create(request).Result;
+            var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
 
             Assert.NotNull(result);
             Assert.IsFalse(result.HasError);
@@ -42,7 +42,7 @@ namespace JudoPayDotNetIntegrationTests
             request.Status = WebPaymentStatus.Success;
             request.Reference = result.Response.Reference;
 
-            var resultUpdate = JudoPayApiIridium.WebPayments.Payments.Update(request).Result;
+            var resultUpdate = JudoPayApiElevated.WebPayments.Payments.Update(request).Result;
 
             Assert.NotNull(resultUpdate);
             Assert.IsFalse(resultUpdate.HasError);
@@ -57,7 +57,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var request = GetWebPaymentRequestModel();
 
-            var result = JudoPayApiIridium.WebPayments.PreAuths.Create(request).Result;
+            var result = JudoPayApiElevated.WebPayments.PreAuths.Create(request).Result;
 
             Assert.NotNull(result);
             Assert.IsFalse(result.HasError);
@@ -71,7 +71,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var request = GetWebPaymentRequestModel();
 
-            var result = JudoPayApiIridium.WebPayments.PreAuths.Create(request).Result;
+            var result = JudoPayApiElevated.WebPayments.PreAuths.Create(request).Result;
 
             Assert.NotNull(result);
             Assert.IsFalse(result.HasError);
@@ -82,7 +82,7 @@ namespace JudoPayDotNetIntegrationTests
             request.Status = WebPaymentStatus.Success;
             request.Reference = result.Response.Reference;
 
-            var resultUpdate = JudoPayApiIridium.WebPayments.PreAuths.Update(request).Result;
+            var resultUpdate = JudoPayApiElevated.WebPayments.PreAuths.Update(request).Result;
 
             Assert.NotNull(resultUpdate);
             Assert.IsFalse(resultUpdate.HasError);
@@ -97,7 +97,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var request = GetWebPaymentRequestModel();
 
-            var result = JudoPayApiIridium.WebPayments.Payments.Create(request).Result;
+            var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
 
             Assert.NotNull(result);
             Assert.IsFalse(result.HasError);
@@ -105,7 +105,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.NotNull(result.Response.Reference);
             Assert.NotNull(result.Response.PostUrl);
 
-            var webRequest = JudoPayApiIridium.WebPayments.Transactions.Get(result.Response.Reference).Result;
+            var webRequest = JudoPayApiElevated.WebPayments.Transactions.Get(result.Response.Reference).Result;
 
             Assert.NotNull(webRequest);
             Assert.IsFalse(webRequest.HasError);
@@ -132,8 +132,7 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("Reference", reference)
             });
 
-            var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "5.3.0.0", Configuration.Token,
-                Configuration.Secret);
+            var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "5.3.0.0", Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
 
             formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             formRequest.Content = formContent;
@@ -169,8 +168,7 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("YourConsumerReference", "4235325"), 
             });
 
-            formRequest = CreateJudoApiRequest(Configuration.WebpaymentsUrl, HttpMethod.Post, "5.3.0.0", Configuration.Token,
-                Configuration.Secret);
+            formRequest = CreateJudoApiRequest(Configuration.WebpaymentsUrl, HttpMethod.Post, "5.3.0.0", Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
 
             formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             formRequest.Content = formContent;
