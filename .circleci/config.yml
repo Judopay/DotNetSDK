@@ -58,11 +58,12 @@ jobs:
           shell: powershell.exe 
           command: |
             $file = "JudoPayDotNetIntegrationTests/Configuration.cs"
-            $creds = @("_baseJudoId", "_baseToken", "_baseSecret", "_baseElevatedToken", "_baseElevatedSecret", "_cybJudoId", "_cybToken", "_cybSecret", "_scJudoId", "_scToken", "_scSecret")
-            $env = @(${BASE_JUDOID}, ${BASE_TOKEN}, ${BASE_SECRET}, ${BASE_TOKEN_ELEVATED}, ${BASE_SECRET_ELEVATED}, ${CYB_JUDOID}, ${CYB_TOKEN}, ${CYB_SECRET}, ${SC_JUDOID}, ${SC_TOKEN}, ${SC_SECRET})
-            for($i = 0; $i -le $creds.length -1; $i++){(Get-Content $file).Replace($creds[$i],$env[$i]) | Set-Content $file}
-            echo (Get-Content $file)
-            echo $BASE_JUDOID
+            $varNames = @("BASE_JUDOID", "BASE_TOKEN", "BASE_SECRET", "BASE_TOKEN_ELEVATED", "BASE_SECRET_ELEVATED", "CYB_JUDOID", "CYB_TOKEN", "CYB_SECRET", "SC_JUDOID", "SC_TOKEN", "SC_SECRET")
+            $configContents = Get-Content $file
+            ForEach ($varName in $varNames) {
+              $configContents = $configContents.Replace("_$varName}",[System.Environment]::GetEnvironmentVariable("$varName"))
+            }
+            Set-Content -Value $configContents -Path $file
       - run:
           name: Dotnet Test
           command: dotnet test JudoPayDotNetIntegrationTests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
@@ -109,7 +110,7 @@ jobs:
             &dotnet sonarscanner begin $params
             &dotnet build JudoPayDotNet
             &dotnet sonarscanner end /d:"sonar.login=$env:SONARCLOUD_TOKEN"
-  release_sdk:
+  release_sdk:bbbbbbbbbbg
     executor: win/default
     steps:
       - checkout
