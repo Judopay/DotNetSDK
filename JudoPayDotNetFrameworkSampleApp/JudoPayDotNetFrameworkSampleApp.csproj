@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{69122E3D-120B-43CD-A710-5091792CF323}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>JudoPayDotNetSampleApp</RootNamespace>
-    <AssemblyName>JudoPayDotNetSampleApp</AssemblyName>
+    <RootNamespace>JudoPayDotNetFrameworkSampleApp</RootNamespace>
+    <AssemblyName>JudoPayDotNetFrameworkSampleApp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

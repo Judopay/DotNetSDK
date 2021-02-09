@@ -19,27 +19,31 @@ namespace JudoPayDotNet
     /// </summary>
     public static class JudoPaymentsFactory
     {
-        private const string DefaultSandboxUrl = "https://api-sandbox.judopay.com/"; // Uses *.judopay.com certificate
-        private const string LegacySandboxUrl = "https://gw1.judopay-sandbox.com/"; // Uses *.judopay-sandbox.com certificate
+        internal const string DefaultSandboxUrl = "https://api-sandbox.judopay.com/"; // Uses *.judopay.com certificate
+        internal const string LegacySandboxUrl = "https://gw1.judopay-sandbox.com/"; // Uses *.judopay-sandbox.com certificate
 
-        private const string DefaultLiveUrl = "https://api.judopay.com/"; // Uses *.judopay.com certificate
-        private const string LegacyLiveUrl = "https://gw1.judopay.com/"; // Uses gw1.judopay.com certificate
+        internal const string DefaultLiveUrl = "https://api.judopay.com/"; // Uses *.judopay.com certificate
+        internal const string LegacyLiveUrl = "https://gw1.judopay.com/"; // Uses gw1.judopay.com certificate
+
+        // Public key for *.judopay.com (also used for gw1.judopay.com)
+        internal const string PrimaryLivePublicKey =
+            "MIIBCgKCAQEAqyx7Fg8FkI7Q2yaai//AXURuithFkoPfBliXOpGQ8O8vo+foXTLVpWmStnCUfzhm5dIJEgKn/FVK+/M5vGQSJ+aqhAL6A9Eq+UazOY2X65QweOQiQmcC6WELYBO+wx8oXQLp/PVYLlAfaljFRBqo3c4kfeLwd4VISJuFs941B7vTrkgZ0t6TSbnwUZNpSLr53pNyR4QJ/OSPsoxtdec7z+38dPUW0Ah9tscXa4lns5h3FvqEaY6bduYl7xQwO7LGGVaaYFmj4kMLn1Fyd+gw8vdRBd4NC7VCRJ2NxshMHdKwW4sS5YK+MT+s/3yAXlkhj9vXPczJAXBVNjn3jX4CWQIDAQAB";
+        // Public key for *.judopay.com (also used for gw1.judopay.com)
+        internal const string FallbackLivePublicKey =
+            "MIIBCAKCAQEAn5miKk6Db6bAofUTUU4BMfbQ5YL8OqzwVxbTqsbebECh+NdkB1v38+2yLll3brjF1fGPqgHYHmKO90ZLrgOh/CYAnhNH472v4+UAr0xFTQUEcZe0oTjI5wvRBnQeOZk182n5DaZvyOoOdDhZ6l8nfrAX58fO2DmRduQ0+GFBSrnh6dbzc4Z9XmmomLR6YOVF9AFe4ns0lP7uEW0wdh7p5sGRXqwQXhpfXHS+gZkgp4zPgpD7iHtaO+DlzJTMBZKDF8jVaGeFYO2Tj4s244TbeM8dClSr8oosAsu+5t5zXgZYrn0XkcQv2kyjnZ3wfs9j2OKbTzj1xNw8JSf7MOcnIwIBJQ==";
+
+        // Public key for *.judopay-sandbox.com used by gw1.judopay-sandbox.com
+        internal const string PrimaryLegacyPublicKey =
+            "MIIBCgKCAQEAmMrGJkxm/vvfZ/IU0EuhljWlgxzdRnkgWzkzB1NGpOoZw1AJWYq3Lg1uOvphltQ+oq3athGIhoXYuQrOh7BsMpw2vXj1VTwGP9/1AkNOXXCzTVKATw+AwuBwdIYg0yOqTB4wImvLqDVFuuO6f0SnFZ3ntqlNFvOBzxGHKlr6Y20fsiXzv95vRfkwtb5exNUy9bnKn81GyPONWVeLgqFEM7TQO7eUbLEMcnEwgPCvMhYKggSN/i99wqcMomEBlfsfFxcYG7R6P8GmiXBkHKaPO2JXf4OMOMcLOmG7kyRZYBPWNTlQsUsgatTUTO1oFJuMYRIcUE+G51C2FLraCH2YqQIDAQAB";
+        // Fallback public key for *.judopay-sandbox.com used by gw1.judopay-sandbox.com
+        internal const string FallbackLegacyPublicKey =
+            "MIIBCAKCAQEA4J29vB5RqkGKubPT4wjTn8Ww8StXSOAIP36d0YantOb03X1aiC/+WZQo3/z1D3H1anGn7gqJicdMNAJPC+JIpI2ov1cbCjSN+6Gm5j0+igi8Q8MWY/IdCPQjOVxdQb6P8wEaImieQQdJEeHZlSt3hVb+dIi9EhMX182GfSjXVhv1lnCjxvFYcZviMNF3zA6DcjBsLxoKWU0AbHF8VXvemp15WV+jAq0IeTTzr97vE+hGEeGIZfWqamms4nSTYXUlnFD3NgqhBmzBeBorr/MzWhUz5+qdmZYGcbUjNwKovZvR/TXGIwz9mE2IWjrbxhQllH5VDo2iHT5gLMUSCkefjwIBJQ==";
 
         private static readonly List<string> ApiCertificatePublicKeys = new List<string>
-        {
-            // Public key for *.judopay.com (also used for gw1.judopay.com)
-            "MIIBCgKCAQEAqyx7Fg8FkI7Q2yaai//AXURuithFkoPfBliXOpGQ8O8vo+foXTLVpWmStnCUfzhm5dIJEgKn/FVK+/M5vGQSJ+aqhAL6A9Eq+UazOY2X65QweOQiQmcC6WELYBO+wx8oXQLp/PVYLlAfaljFRBqo3c4kfeLwd4VISJuFs941B7vTrkgZ0t6TSbnwUZNpSLr53pNyR4QJ/OSPsoxtdec7z+38dPUW0Ah9tscXa4lns5h3FvqEaY6bduYl7xQwO7LGGVaaYFmj4kMLn1Fyd+gw8vdRBd4NC7VCRJ2NxshMHdKwW4sS5YK+MT+s/3yAXlkhj9vXPczJAXBVNjn3jX4CWQIDAQAB",
-            // Fallback public key for *.judopay.com (also used for gw1.judopay.com)
-            "MIIBCAKCAQEAn5miKk6Db6bAofUTUU4BMfbQ5YL8OqzwVxbTqsbebECh+NdkB1v38+2yLll3brjF1fGPqgHYHmKO90ZLrgOh/CYAnhNH472v4+UAr0xFTQUEcZe0oTjI5wvRBnQeOZk182n5DaZvyOoOdDhZ6l8nfrAX58fO2DmRduQ0+GFBSrnh6dbzc4Z9XmmomLR6YOVF9AFe4ns0lP7uEW0wdh7p5sGRXqwQXhpfXHS+gZkgp4zPgpD7iHtaO+DlzJTMBZKDF8jVaGeFYO2Tj4s244TbeM8dClSr8oosAsu+5t5zXgZYrn0XkcQv2kyjnZ3wfs9j2OKbTzj1xNw8JSf7MOcnIwIBJQ=="
-        };
+            { PrimaryLivePublicKey, FallbackLivePublicKey };
 
         private static readonly List<string> LegacySandboxCertificatePublicKeys = new List<string>
-        {
-            // Public key for *.judopay-sandbox.com used by gw1.judopay-sandbox.com
-            "MIIBCgKCAQEAmMrGJkxm/vvfZ/IU0EuhljWlgxzdRnkgWzkzB1NGpOoZw1AJWYq3Lg1uOvphltQ+oq3athGIhoXYuQrOh7BsMpw2vXj1VTwGP9/1AkNOXXCzTVKATw+AwuBwdIYg0yOqTB4wImvLqDVFuuO6f0SnFZ3ntqlNFvOBzxGHKlr6Y20fsiXzv95vRfkwtb5exNUy9bnKn81GyPONWVeLgqFEM7TQO7eUbLEMcnEwgPCvMhYKggSN/i99wqcMomEBlfsfFxcYG7R6P8GmiXBkHKaPO2JXf4OMOMcLOmG7kyRZYBPWNTlQsUsgatTUTO1oFJuMYRIcUE+G51C2FLraCH2YqQIDAQAB",
-            // Fallback public key for *.judopay-sandbox.com used by gw1.judopay-sandbox.com
-            "MIIBCAKCAQEA4J29vB5RqkGKubPT4wjTn8Ww8StXSOAIP36d0YantOb03X1aiC/+WZQo3/z1D3H1anGn7gqJicdMNAJPC+JIpI2ov1cbCjSN+6Gm5j0+igi8Q8MWY/IdCPQjOVxdQb6P8wEaImieQQdJEeHZlSt3hVb+dIi9EhMX182GfSjXVhv1lnCjxvFYcZviMNF3zA6DcjBsLxoKWU0AbHF8VXvemp15WV+jAq0IeTTzr97vE+hGEeGIZfWqamms4nSTYXUlnFD3NgqhBmzBeBorr/MzWhUz5+qdmZYGcbUjNwKovZvR/TXGIwz9mE2IWjrbxhQllH5VDo2iHT5gLMUSCkefjwIBJQ=="
-        };
+            { PrimaryLegacyPublicKey, FallbackLegacyPublicKey };
 
         static JudoPaymentsFactory()
         {

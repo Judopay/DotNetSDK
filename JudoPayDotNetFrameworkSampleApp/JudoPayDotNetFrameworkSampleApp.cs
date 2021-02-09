@@ -7,8 +7,8 @@ namespace JudoPayDotNetFrameworkSampleApp
 {
     class JudoPayDotNetFrameworkSampleApp
     {
-        private static string ApiToken = "Izx9omsBR15LatAl";
-        private static readonly string ApiSecret = "b5787124845533d8e68d12a586fa3713871b876b528600ebfdc037afec880cd6";
+        private static string ApiToken = "{BASE_TOKEN}";
+        private static readonly string ApiSecret = "{SECRET}";
 
         static void Main(string[] args)
         {
