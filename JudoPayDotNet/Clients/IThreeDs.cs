@@ -20,7 +20,23 @@ namespace JudoPayDotNet.Clients
         /// </summary>
 		/// <param name="receiptId">The transaction identifier.</param>
         /// <param name="model">The model.</param>
-        /// <returns></returns>
+        /// <returns>Payment Receipt Model</returns>
         Task<IResult<PaymentReceiptModel>> Complete3DSecure(long receiptId, ThreeDResultModel model);
+
+        /// <summary>
+        /// Resume a 3DS2 authorization. 
+        /// </summary>
+        /// <param name="receiptId">The transaction identifier.</param>
+        /// <param name="model">The model.</param>
+        /// <returns>Payment Receipt Model</returns>
+        Task<IResult<ITransactionResult>> Resume3DSecureTwo(long receiptId, ResumeThreeDSecureModel model);
+
+        /// <summary>
+        /// Complete a 3DS2 authorization.
+        /// </summary>
+        /// <param name="receiptId">The transaction identifier.</param>
+        /// <param name="model">The model.</param>
+        /// <returns>Payment Receipt Model</returns>
+        Task<IResult<PaymentReceiptModel>> Complete3DSecureTwo(long receiptId, CompleteThreeDSecureModel model);
     }
 }

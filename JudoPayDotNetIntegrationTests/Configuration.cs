@@ -24,10 +24,6 @@ namespace JudoPayDotNetIntegrationTests
         public string SafeCharge_Token;
         public string SafeCharge_Secret;
 
-        public string SafeCharge_JudoId = "";
-        public string SafeCharge_Token = "";
-        public string SafeCharge_Secret = "";
-
         public JudoEnvironment JudoEnvironment = JudoEnvironment.Sandbox;
         
         /*

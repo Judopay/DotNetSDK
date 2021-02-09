@@ -55,14 +55,14 @@ namespace JudoPayDotNet.Clients
         /*
          *  To be called after device details gathering following the Issuer ACS request for a ThreeDSecure Two transaction
          */
-        public Task<IResult<PaymentReceiptModel>> Resume3DSecureTwo(long receiptId, ResumeThreeDSecureModel model)
+        public Task<IResult<ITransactionResult>> Resume3DSecureTwo(long receiptId, ResumeThreeDSecureModel model)
         {
-            var validationError = Validate<ResumeThreeDSecureModel, PaymentReceiptModel>(_resumeThreeDSecureValidator, model);
+            var validationError = Validate<ResumeThreeDSecureModel, ITransactionResult>(_resumeThreeDSecureValidator, model);
 
             var address = $"transactions/{receiptId}/{ResumeThreeDSecureTwoAddress}";
 
             // Do not call the API if validation fail 
-            return validationError ?? PutInternal<ResumeThreeDSecureModel, PaymentReceiptModel>(address, model);
+            return validationError ?? PutInternal<ResumeThreeDSecureModel, ITransactionResult>(address, model);
         }
 
         /*
