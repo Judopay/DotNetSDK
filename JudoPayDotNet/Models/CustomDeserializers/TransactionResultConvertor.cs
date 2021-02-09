@@ -15,7 +15,7 @@ namespace JudoPayDotNet.Models.CustomDeserializers
                 return new PaymentReceiptModel();
             }
 
-            if (jObject.Value<string>("methodUrl") == null)
+            if (jObject.Value<string>("methodUrl") == null && jObject.Value<string>("challengeUrl") == null)
             {
                 return new PaymentRequiresThreeDSecureModel();
             }

@@ -90,8 +90,7 @@ namespace JudoPayDotNetIntegrationTests
             taskSendMDandPaReqToAcsServer.Wait();
         }
 
-        [Test]
-        public void PaymentWithThreedSecureTwoRequiresDeviceDetailsCheck()
+        public CardPaymentModel PrepareThreeDSecureCardPayment()
         {
             var paymentWithCard = GetCardPaymentModel("DotNetASC123", "4000023104662535", "452", judoId: Configuration.SafeCharge_Judoid);
 
@@ -111,48 +110,35 @@ namespace JudoPayDotNetIntegrationTests
                 MethodCompletion = MethodCompletion.No
             };
 
+            return paymentWithCard;
+        }
+
+        [Test]
+        public void PaymentWithThreedSecureTwoRequiresDeviceDetailsCheck()
+        {
             var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
-            var response = paymentsFactory.Payments.Create(paymentWithCard).Result;
+            var paymentResponse = paymentsFactory.Payments.Create(PrepareThreeDSecureCardPayment()).Result;
 
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
+            Assert.IsNotNull(paymentResponse);
+            Assert.IsFalse(paymentResponse.HasError);
 
-            var receipt = response.Response as PaymentRequiresThreeDSecureTwoModel;
+            var receipt = paymentResponse.Response as PaymentRequiresThreeDSecureTwoModel;
 
             Assert.IsNotNull(receipt);
             Assert.AreEqual("Additional device data is needed for 3D Secure 2", receipt.Result);
             Assert.AreEqual("Issuer ACS has requested additional device data gathering", receipt.Message);
+            Assert.IsNotNull(receipt.MethodUrl);
             Assert.IsNotNull(receipt.Md);
             Assert.IsNotNull(receipt.Version);
-            Assert.IsNotNull(receipt.MethodUrl);
+
+            Assert.IsNull(receipt.ChallengeUrl);
         }
 
         [Test]
         public void PaymentWithThreedSecureTwoResumeRequest()
         {
-            // Create the payment factory
             var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
-
-            // Prepare the initial payment request 
-            var paymentWithCard = GetCardPaymentModel("DotNetASC123", "4000023104662535", "452", judoId: Configuration.SafeCharge_Judoid);
-
-            paymentWithCard.CardHolderName = "CHALLENGE";
-            paymentWithCard.MobileNumber = "07999999999";
-            paymentWithCard.EmailAddress = "contact@judopay.com";
-
-            paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
-            paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
-            paymentWithCard.DeviceCategory = "Mobile";
-
-            paymentWithCard.ThreeDSecure = new ThreeDSecureModel
-            {
-                AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
-                MethodNotificationUrl = "https://www.test.com",
-                ChallengeNotificationUrl = "https://www.test.com",
-                MethodCompletion = MethodCompletion.No
-            };
-
-            var paymentResponse = paymentsFactory.Payments.Create(paymentWithCard).Result;
+            var paymentResponse = paymentsFactory.Payments.Create(PrepareThreeDSecureCardPayment()).Result;
 
             Assert.IsNotNull(paymentResponse);
             Assert.IsFalse(paymentResponse.HasError);
@@ -160,16 +146,10 @@ namespace JudoPayDotNetIntegrationTests
             var paymentReceipt = paymentResponse.Response as PaymentRequiresThreeDSecureTwoModel;
 
             Assert.IsNotNull(paymentReceipt);
-            Assert.IsNotNull(paymentReceipt.ReceiptId);
             Assert.AreEqual("Additional device data is needed for 3D Secure 2", paymentReceipt.Result);
 
             // Prepare the resume request once device details gathering happened 
-            var resumeRequest = new ResumeThreeDSecureModel
-            {
-                CV2 = "452",
-                ThreeDSecure = new ThreeDSecureModel {MethodCompletion = MethodCompletion.Yes}
-            };
-
+            var resumeRequest = new ResumeThreeDSecureModel {CV2 = "452", ThreeDSecure = new ThreeDSecureModel {MethodCompletion = MethodCompletion.Yes}};
             var resumeResponse = paymentsFactory.ThreeDs.Resume3DSecureTwo(paymentReceipt.ReceiptId, resumeRequest).Result;
 
             Assert.IsNotNull(resumeResponse);
@@ -178,6 +158,55 @@ namespace JudoPayDotNetIntegrationTests
             var resumeReceipt = resumeResponse.Response as PaymentRequiresThreeDSecureTwoModel;
 
             Assert.IsNotNull(resumeReceipt);
+            Assert.AreEqual("Challenge completion is needed for 3D Secure 2", resumeReceipt.Result);
+            Assert.AreEqual("Issuer ACS has responded with a Challenge URL", resumeReceipt.Message);
+            Assert.IsNotNull(resumeReceipt.ChallengeUrl);
+            Assert.IsNotNull(resumeReceipt.Md);
+            Assert.IsNotNull(resumeReceipt.Version);
+            Assert.IsNotNull(resumeReceipt.CReq);
+
+            Assert.IsNull(resumeReceipt.MethodUrl);
+        }
+
+        [Explicit]
+        public void PaymentWithThreedSecureTwoCompleteRequest()
+        {
+            var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
+            var paymentResponse = paymentsFactory.Payments.Create(PrepareThreeDSecureCardPayment()).Result;
+
+            Assert.IsNotNull(paymentResponse);
+            Assert.IsFalse(paymentResponse.HasError);
+
+            var paymentReceipt = paymentResponse.Response as PaymentRequiresThreeDSecureTwoModel;
+
+            Assert.IsNotNull(paymentReceipt);
+            Assert.AreEqual("Additional device data is needed for 3D Secure 2", paymentReceipt.Result);
+
+            // Prepare the resume request once device details gathering happened 
+            var resumeRequest = new ResumeThreeDSecureModel { CV2 = "452", ThreeDSecure = new ThreeDSecureModel { MethodCompletion = MethodCompletion.Yes } };
+            var resumeResponse = paymentsFactory.ThreeDs.Resume3DSecureTwo(paymentReceipt.ReceiptId, resumeRequest).Result;
+
+            Assert.IsNotNull(resumeResponse);
+            Assert.IsFalse(resumeResponse.HasError);
+
+            var resumeReceipt = resumeResponse.Response as PaymentRequiresThreeDSecureTwoModel;
+
+            Assert.IsNotNull(resumeReceipt);
+            Assert.AreEqual("Challenge completion is needed for 3D Secure 2", resumeReceipt.Result);
+
+            // Perform the challenge on the web browser using the information from the Resume
+
+            // Then prepare the Complete request 
+            var completeRequest = new CompleteThreeDSecureModel { CV2 = "452", Version = paymentReceipt.Version};
+            var completeResponse = paymentsFactory.ThreeDs.Complete3DSecureTwo(paymentReceipt.ReceiptId, completeRequest).Result;
+
+            Assert.IsNotNull(completeResponse);
+            Assert.IsFalse(completeResponse.HasError);
+
+            var completeReceipt = resumeResponse.Response as PaymentReceiptModel;
+            Assert.IsNotNull(completeReceipt);
+            Assert.IsNotNull(completeReceipt.JudoId);
+            Assert.AreEqual("Success", completeReceipt.Result);
         }
     }
 }
