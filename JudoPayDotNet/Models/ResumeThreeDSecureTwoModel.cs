@@ -3,16 +3,16 @@
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Fields to resume a ThreeDSecure transaction
+    /// Fields to resume a ThreeDSecure Two transaction
     /// </summary>
-    [DataContract(Name = "ResumeThreeDSecureModel", Namespace = "")]
-    public class ResumeThreeDSecureModel
+    [DataContract(Name = "ResumeThreeDSecureTwoModel", Namespace = "")]
+    public class ResumeThreeDSecureTwoModel
     {
         /// <summary>
         /// Information needed for ThreeDSecure2 payments
         /// </summary>
         [DataMember]
-        public ThreeDSecureModel ThreeDSecure { get; set; }
+        public ThreeDSecureTwoModel ThreeDSecure { get; set; }
 
         /// <summary>
         /// Gets or sets the CV2.
@@ -22,6 +22,5 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string CV2 { get; set; }
-
     }
 }

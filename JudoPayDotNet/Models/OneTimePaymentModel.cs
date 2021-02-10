@@ -7,7 +7,7 @@ namespace JudoPayDotNet.Models
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract]
-    public class OneTimePaymentModel : PaymentModel
+    public class OneTimePaymentModel : ThreeDSecureTwoPaymentModel
     {
         /// <summary>
         /// Gets or sets the one use token.

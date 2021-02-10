@@ -6,8 +6,8 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// 3D verification result
     /// </summary>
-    [DataContract(Name = "ThreeDSecure", Namespace = "")]
-    public class ThreeDSecureModel
+    [DataContract(Name = "ThreeDSecureTwo", Namespace = "")]
+    public class ThreeDSecureTwoModel
     {
         [DataMember(EmitDefaultValue = false)]
         public ThreeDSecureTwoAuthenticationSource AuthenticationSource { get; set; }

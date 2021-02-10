@@ -9,11 +9,8 @@ namespace JudoPayDotNet.Clients
 {
     internal class ThreeDs : JudoPayClient, IThreeDs
     {
-        private const string GetThreeDAuthorizationAddress = "transactions/threedauthorisations";
-
         private const string CompleteThreeDAuthorizationAddress = "transactions";
 
-        
         private const string ResumeThreeDSecureTwoAddress = "resume3ds";
 
         private const string CompleteThreeDSecureTwoAddress = "complete3ds";
@@ -21,20 +18,13 @@ namespace JudoPayDotNet.Clients
 
         private readonly IValidator<ThreeDResultModel> _threeDResultValidator = new InlineValidator<ThreeDResultModel>();
 
-        private readonly IValidator<ResumeThreeDSecureModel> _resumeThreeDSecureValidator = new InlineValidator<ResumeThreeDSecureModel>();
+        private readonly IValidator<ResumeThreeDSecureTwoModel> _resumeThreeDSecureValidator = new InlineValidator<ResumeThreeDSecureTwoModel>();
 
-        private readonly IValidator<CompleteThreeDSecureModel> _completeThreeDSecureValidator = new InlineValidator<CompleteThreeDSecureModel>();
+        private readonly IValidator<CompleteThreeDSecureTwoModel> _completeThreeDSecureValidator = new InlineValidator<CompleteThreeDSecureTwoModel>();
 
         public ThreeDs(ILog logger, IClient client)
             : base(logger, client)
         {
-        }
-
-        public Task<IResult<PaymentRequiresThreeDSecureModel>> GetThreeDAuthorization(string md)
-        {
-            var address = $"{GetThreeDAuthorizationAddress}/{md}";
-
-            return GetInternal<PaymentRequiresThreeDSecureModel>(address, new Dictionary<string, string> { { "md", md } });
         }
 
         /*
@@ -50,32 +40,30 @@ namespace JudoPayDotNet.Clients
             return validationError ?? PutInternal<ThreeDResultModel, PaymentReceiptModel>(address, model);
         }
 
-
-
         /*
          *  To be called after device details gathering following the Issuer ACS request for a ThreeDSecure Two transaction
          */
-        public Task<IResult<ITransactionResult>> Resume3DSecureTwo(long receiptId, ResumeThreeDSecureModel model)
+        public Task<IResult<ITransactionResult>> Resume3DSecureTwo(long receiptId, ResumeThreeDSecureTwoModel model)
         {
-            var validationError = Validate<ResumeThreeDSecureModel, ITransactionResult>(_resumeThreeDSecureValidator, model);
+            var validationError = Validate<ResumeThreeDSecureTwoModel, ITransactionResult>(_resumeThreeDSecureValidator, model);
 
             var address = $"transactions/{receiptId}/{ResumeThreeDSecureTwoAddress}";
 
             // Do not call the API if validation fail 
-            return validationError ?? PutInternal<ResumeThreeDSecureModel, ITransactionResult>(address, model);
+            return validationError ?? PutInternal<ResumeThreeDSecureTwoModel, ITransactionResult>(address, model);
         }
 
         /*
         *  To be called after the Issuer ACS challenge has been completed for a ThreeDSecure Two transaction
         */
-        public Task<IResult<PaymentReceiptModel>> Complete3DSecureTwo(long receiptId, CompleteThreeDSecureModel model)
+        public Task<IResult<PaymentReceiptModel>> Complete3DSecureTwo(long receiptId, CompleteThreeDSecureTwoModel model)
         {
-            var validationError = Validate<CompleteThreeDSecureModel, PaymentReceiptModel>(_completeThreeDSecureValidator, model);
+            var validationError = Validate<CompleteThreeDSecureTwoModel, PaymentReceiptModel>(_completeThreeDSecureValidator, model);
 
             var address = $"transactions/{receiptId}/{CompleteThreeDSecureTwoAddress}";
 
             // Do not call the API if validation fail 
-            return validationError ?? PutInternal<CompleteThreeDSecureModel, PaymentReceiptModel>(address, model);
+            return validationError ?? PutInternal<CompleteThreeDSecureTwoModel, PaymentReceiptModel>(address, model);
         }
     }
 }

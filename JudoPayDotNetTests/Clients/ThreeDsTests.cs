@@ -123,59 +123,6 @@ namespace JudoPayDotNetTests.Clients
             }
         }
 
-        [Test, TestCaseSource(typeof(ThreeDCaseSources), "GetSuccessTestCases")]
-        public void GetThreeDsAuthorizationsWithSuccess(string md, string responseData)
-        {
-            var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
-            responseTask.SetResult(response);
-
-            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
-
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
-
-            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
-
-            var paymentRequiresThreeD = 
-                                            judo.ThreeDs.GetThreeDAuthorization(md).Result;
-
-            Assert.NotNull(paymentRequiresThreeD);
-            Assert.IsFalse(paymentRequiresThreeD.HasError);
-            Assert.NotNull(paymentRequiresThreeD.Response);
-            Assert.That(paymentRequiresThreeD.Response.ReceiptId, Is.EqualTo(134567));
-        }
-
-        [Test, TestCaseSource(typeof(ThreeDCaseSources), "GetFailureTestCases")]
-        public void GetThreeDsAuthorizationsFail(string md, string responseData)
-        {
-            var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-            {
-                Content = new StringContent(responseData)
-            };
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
-            responseTask.SetResult(response);
-
-            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
-
-            var client = new Client(new Connection(httpClient,
-                                                    DotNetLoggerFactory.Create,
-                                                    "http://something.com"));
-
-            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
-
-            var paymentReceiptResult = 
-                                judo.ThreeDs.GetThreeDAuthorization(md).Result;
-
-            Assert.NotNull(paymentReceiptResult);
-            Assert.IsTrue(paymentReceiptResult.HasError);
-        }
-
         [Test, TestCaseSource(typeof(ThreeDCaseSources), "CompleteSuccessTestCases")]
         public void CompleteThreeDsWithSuccess(long receiptId, ThreeDResultModel threeDResult, 
                                                 string responseData)

@@ -7,7 +7,7 @@ namespace JudoPayDotNet.Models
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract]
-    public class CardPaymentModel : PaymentModel
+    public class CardPaymentModel : ThreeDSecureTwoPaymentModel
     {
         /// <summary>
         /// Gets or sets the card number.
@@ -53,15 +53,6 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public CardAddressModel CardAddress { get; set; }
-
-        /// <summary>
-        /// Gets or sets the full card holder name.
-        /// </summary>
-        /// <value>
-        /// The card holder name.
-        /// </value>
-        [DataMember(IsRequired = false)]
-        public string CardHolderName { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

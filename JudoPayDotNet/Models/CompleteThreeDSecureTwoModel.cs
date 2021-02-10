@@ -5,8 +5,8 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// Fields to complete a ThreeDSecure Two transaction
     /// </summary>
-    [DataContract(Name = "CompleteThreeDSecureModel", Namespace = "")]
-    public class CompleteThreeDSecureModel
+    [DataContract(Name = "CompleteThreeDSecureTwoModel", Namespace = "")]
+    public class CompleteThreeDSecureTwoModel
     {
         /// <summary>
         /// Gets or sets the CV2.

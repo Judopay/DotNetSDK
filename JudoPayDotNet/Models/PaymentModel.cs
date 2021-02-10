@@ -112,7 +112,6 @@ namespace JudoPayDotNet.Models
 // ReSharper restore InconsistentNaming
 // ReSharper restore UnusedAutoPropertyAccessor.Global
 
-
         /// <summary>
         /// Gets or sets the consumer location.
         /// </summary>
@@ -122,29 +121,7 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable UnusedAutoPropertyAccessor.Global
         public ConsumerLocationModel ConsumerLocation { get; set; }
-// ReSharper restore UnusedAutoPropertyAccessor.Global
-
-        /// <summary>
-        /// Gets or sets the mobile number.
-        /// </summary>
-        /// <value>
-        /// The mobile number.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-        public string MobileNumber { get; set; }
-// ReSharper restore UnusedAutoPropertyAccessor.Global
-
-        /// <summary>
-        /// Gets or sets the email address.
-        /// </summary>
-        /// <value>
-        /// The email address.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-        public string EmailAddress { get; set; }
-// ReSharper restore UnusedAutoPropertyAccessor.Global
+        // ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         /// This is a set of fraud signals sent by the mobile SDKs
@@ -222,12 +199,6 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [IgnoreDataMember]
         public Dictionary<string, string> HttpHeaders { get; private set; }
-
-        /// <summary>
-        /// Information needed for ThreeDSecure2 payments
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public ThreeDSecureModel ThreeDSecure { get; set; }
     }
 // ReSharper restore UnusedMember.Global
 }

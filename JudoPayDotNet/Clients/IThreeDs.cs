@@ -9,13 +9,6 @@ namespace JudoPayDotNet.Clients
     public interface IThreeDs
     {
         /// <summary>
-        /// Get 3D Authorization data.
-        /// </summary>
-        /// <param name="md">The md parameter. This is a unique reference to your 3D secure authorization.</param>
-        /// <returns>3D Authorization data.</returns>
-        Task<IResult<PaymentRequiresThreeDSecureModel>> GetThreeDAuthorization(string md);
-
-        /// <summary>
         /// Complete a 3D authorization.
         /// </summary>
 		/// <param name="receiptId">The transaction identifier.</param>
@@ -29,7 +22,7 @@ namespace JudoPayDotNet.Clients
         /// <param name="receiptId">The transaction identifier.</param>
         /// <param name="model">The model.</param>
         /// <returns>Payment Receipt Model</returns>
-        Task<IResult<ITransactionResult>> Resume3DSecureTwo(long receiptId, ResumeThreeDSecureModel model);
+        Task<IResult<ITransactionResult>> Resume3DSecureTwo(long receiptId, ResumeThreeDSecureTwoModel model);
 
         /// <summary>
         /// Complete a 3DS2 authorization.
@@ -37,6 +30,6 @@ namespace JudoPayDotNet.Clients
         /// <param name="receiptId">The transaction identifier.</param>
         /// <param name="model">The model.</param>
         /// <returns>Payment Receipt Model</returns>
-        Task<IResult<PaymentReceiptModel>> Complete3DSecureTwo(long receiptId, CompleteThreeDSecureModel model);
+        Task<IResult<PaymentReceiptModel>> Complete3DSecureTwo(long receiptId, CompleteThreeDSecureTwoModel model);
     }
 }
