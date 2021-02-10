@@ -209,7 +209,7 @@ namespace JudoPayDotNetTests.Clients
 
             payment.HttpHeaders.Add(EXTRA_HEADER_NAME, "some random value");
 
-             IResult<ITransactionResult> paymentReceiptResult = judo.RegisterCards.Create(payment).Result;
+            IResult<ITransactionResult> paymentReceiptResult = judo.RegisterCards.Create(payment).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);

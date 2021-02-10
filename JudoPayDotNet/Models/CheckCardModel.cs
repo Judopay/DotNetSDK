@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
 {
@@ -12,9 +10,6 @@ namespace JudoPayDotNet.Models
     // ReSharper disable UnusedMember.Global
     public class CheckCardModel : RegisterCardModel
     {
-        public CheckCardModel() : base()
-        {
-        }
     }
     // ReSharper restore UnusedMember.Global
 }

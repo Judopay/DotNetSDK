@@ -12,12 +12,6 @@ namespace JudoPayDotNet.Models
     // ReSharper disable UnusedMember.Global
     public class RegisterCardModel : ThreeDSecureTwoPaymentModel
     {
-        public RegisterCardModel()
-        {
-            YourPaymentReference = Guid.NewGuid().ToString();
-            HttpHeaders = new Dictionary<string, string>();
-        }
-
         /// <summary>
         /// Gets or sets the card number.
         /// </summary>
@@ -62,12 +56,6 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public CardAddressModel CardAddress { get; set; }
-
-        /// <summary>
-        /// Allows you to set HTTP headers on requests
-        /// </summary>
-        [IgnoreDataMember]
-        public Dictionary<string, string> HttpHeaders { get; private set; }
     }
     // ReSharper restore UnusedMember.Global
 }
