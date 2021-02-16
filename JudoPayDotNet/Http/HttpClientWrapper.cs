@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 namespace JudoPayDotNet.Http
 {
-    using System;
     using System.Collections.Generic;
     using System.Net.Http.Headers;
     using System.Reflection;
@@ -32,7 +31,7 @@ namespace JudoPayDotNet.Http
         public HttpClientWrapper(params DelegatingHandler[] handlers) : this(null, handlers) { }
 
         /// <summary>
-        /// Initializes a new instance of the HttpWrapper class for senidng messages to the api
+        /// Initializes a new instance of the HttpWrapper class for sending messages to the api
         /// </summary>
         /// <param name="userAgent">Details of the client calling the api, should be in the form PRODUCT/VERSION</param>
         /// <param name="handlers">a list of custom handlers</param>
@@ -67,7 +66,13 @@ namespace JudoPayDotNet.Http
             }
 
             // This is the default delegating handler that actually does the http request
-            currentHandler.InnerHandler = new HttpClientHandler();
+            var delegatingHttpHandler = new HttpClientHandler();
+#if !NETFRAMEWORK
+            // If we are not running a .NET framework app then ServicePointManager.ServerCertificateValidationCallback
+            // won't be picked up, so we need to set the server certificate validation callback here
+            delegatingHttpHandler.ServerCertificateCustomValidationCallback = JudoPaymentsFactory.PinPublicKey;
+#endif
+            currentHandler.InnerHandler = delegatingHttpHandler;
             return CreateHttpClient(firstHandler, userAgent);
         }
 

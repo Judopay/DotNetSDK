@@ -4,10 +4,8 @@ using System.Threading.Tasks;
 
 namespace JudoPayDotNet.Http
 {
-    using System.Reflection;
-
     /// <summary>
-    /// The JudoPay API supports multiple api versions, this handler adds the "API-Version" header to requests
+    /// The JudoPay API supports multiple API versions, this handler adds the "API-Version" header to requests
     /// </summary>
     internal class VersioningHandler : DelegatingHandler
     {
