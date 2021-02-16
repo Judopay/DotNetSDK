@@ -1,0 +1,44 @@
+version: 3.0.{build}
+image: Visual Studio 2017
+skip_branch_with_pr: true
+# if wanting to publish the package internally
+#nuget:
+#  account_feed: true
+#  project_feed: true
+configuration: Release
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+before_build:
+- cmd: dotnet restore
+build:
+  publish_nuget: true
+  verbosity: minimal
+build_script:
+  - dotnet build
+test_script:
+  - cmd: dotnet test JudoPayDotNetTests --no-build
+  - cmd: dotnet test JudoPayDotNetIntegrationTests --no-build
+artifacts:
+  - path: '**\*.nupkg'
+deploy:
+- provider: NuGet
+  artifact: /.*\.nupkg/
+  api_key:
+    secure: mR1ud9c45mPSRe/IxGe87MOnlvsyPhHqw9N/vXV24rgTkLaW6jKs2+eSt17ZOtvr
+  on:
+    APPVEYOR_REPO_TAG: true
+notifications:
+- provider: Email
+  to:
+  - devteam@judopayments.com
+  subject: DotNetSdk build failed
+  message: Please check if this failure is due to changes in the platform - that would affect live customers!
+  on_build_success: false
+  on_build_failure: true
+  on_build_status_changed: false

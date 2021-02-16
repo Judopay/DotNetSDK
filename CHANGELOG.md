@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.0 Changes
+- Update default base Urls with certificate pinning checks
+
 ## 2.2 Changes on 2021-01-11
 - PaymentSession added to Credentials
 
@@ -11,7 +14,14 @@ All notable changes to this project will be documented in this file.
 #### Removed
 - VisaCheckout APIs
 
-## Changes on 2020-06-05
+## 2.1.237 Changes on 2020-10-21
+- Updated the following models to allow custom values for YourPaymentReference (1 to 50 characters)
+	- PaymentModel
+	- SaveCardModel
+	- CheckCardModel
+	- RegisterCardModel
+
+## 2.1.223 Changes on 2020-06-05
 #### Added
 - PostCodeCheckResult, KountTransactionId, AcquirerTransactionId, ExternalBankResponseCode and BillingAddress to PaymentReceiptModel
 
@@ -22,7 +32,7 @@ All notable changes to this project will be documented in this file.
 - Added one time token payment
 
 ## Changes on 2018-03-01
-- Removed cliend side validation for transactions with 0 amount
+- Removed client side validation for transactions with 0 amount
 
 ## Changes on 2017-04-04
 

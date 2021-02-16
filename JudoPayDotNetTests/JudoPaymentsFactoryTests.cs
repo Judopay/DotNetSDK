@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
+using System.Net.Http;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using NSubstitute;
 
 namespace JudoPayDotNetTests
 {
@@ -51,6 +52,79 @@ namespace JudoPayDotNetTests
 
             Assert.That(client, Is.Not.Null);
             Assert.That(client.Connection.BaseAddress.ToString(), Is.EqualTo(expectedBaseAddress));
+        }
+
+
+        [Test]
+        [TestCase(JudoPaymentsFactory.DefaultLiveUrl, JudoPaymentsFactory.PrimaryLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.DefaultLiveUrl, JudoPaymentsFactory.FallbackLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.LegacyLiveUrl, JudoPaymentsFactory.PrimaryLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.LegacyLiveUrl, JudoPaymentsFactory.FallbackLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.DefaultSandboxUrl, JudoPaymentsFactory.PrimaryLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.DefaultSandboxUrl, JudoPaymentsFactory.FallbackLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.LegacySandboxUrl, JudoPaymentsFactory.PrimaryLegacyPublicKey)]
+        [TestCase(JudoPaymentsFactory.LegacySandboxUrl, JudoPaymentsFactory.FallbackLegacyPublicKey)]
+        public void TestCertificatePinningDotNetFrameworkWithValidCert(string baseUrl, string publicKey)
+        {
+            var sender = WebRequest.Create(baseUrl);
+            var certificate = Substitute.For<X509Certificate>();
+            certificate.GetPublicKey().Returns(Convert.FromBase64String(publicKey));
+            var chain = Substitute.For<X509Chain>();
+            var sslPolicyErrors = SslPolicyErrors.None;
+
+            var ret = JudoPaymentsFactory.PinPublicKey(sender, certificate, chain, sslPolicyErrors);
+            Assert.That(ret, Is.True);
+        }
+
+        [Test]
+        [TestCase(JudoPaymentsFactory.DefaultLiveUrl, JudoPaymentsFactory.PrimaryLegacyPublicKey)]
+        [TestCase(JudoPaymentsFactory.DefaultLiveUrl, JudoPaymentsFactory.FallbackLegacyPublicKey)]
+        public void TestCertificatePinningDotNetFrameworkWithInvalidCert(string baseUrl, string publicKey)
+        {
+            var sender = WebRequest.Create(baseUrl);
+            var certificate = Substitute.For<X509Certificate>();
+            certificate.GetPublicKey().Returns(Convert.FromBase64String(publicKey));
+            var chain = Substitute.For<X509Chain>();
+            var sslPolicyErrors = SslPolicyErrors.None;
+
+            var ret = JudoPaymentsFactory.PinPublicKey(sender, certificate, chain, sslPolicyErrors);
+            Assert.That(ret, Is.False);
+        }
+
+        [Test]
+        [TestCase(JudoPaymentsFactory.DefaultLiveUrl, JudoPaymentsFactory.PrimaryLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.DefaultLiveUrl, JudoPaymentsFactory.FallbackLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.LegacyLiveUrl, JudoPaymentsFactory.PrimaryLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.LegacyLiveUrl, JudoPaymentsFactory.FallbackLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.DefaultSandboxUrl, JudoPaymentsFactory.PrimaryLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.DefaultSandboxUrl, JudoPaymentsFactory.FallbackLivePublicKey)]
+        [TestCase(JudoPaymentsFactory.LegacySandboxUrl, JudoPaymentsFactory.PrimaryLegacyPublicKey)]
+        [TestCase(JudoPaymentsFactory.LegacySandboxUrl, JudoPaymentsFactory.FallbackLegacyPublicKey)]
+        public void TestCertificatePinningDotNetCoreWithValidCert(string baseUrl, string publicKey)
+        {
+            var sender = new HttpRequestMessage(HttpMethod.Get, baseUrl);
+            var certificate = Substitute.For<X509Certificate>();
+            certificate.GetPublicKey().Returns(Convert.FromBase64String(publicKey));
+            var chain = Substitute.For<X509Chain>();
+            var sslPolicyErrors = SslPolicyErrors.None;
+
+            var ret = JudoPaymentsFactory.PinPublicKey(sender, certificate, chain, sslPolicyErrors);
+            Assert.That(ret, Is.True);
+        }
+
+        [Test]
+        [TestCase(JudoPaymentsFactory.DefaultLiveUrl, JudoPaymentsFactory.PrimaryLegacyPublicKey)]
+        [TestCase(JudoPaymentsFactory.DefaultLiveUrl, JudoPaymentsFactory.FallbackLegacyPublicKey)]
+        public void TestCertificatePinningDotNetCoreWithInvalidCert(string baseUrl, string publicKey)
+        {
+            var sender = new HttpRequestMessage(HttpMethod.Get, baseUrl);
+            var certificate = Substitute.For<X509Certificate>();
+            certificate.GetPublicKey().Returns(Convert.FromBase64String(publicKey));
+            var chain = Substitute.For<X509Chain>();
+            var sslPolicyErrors = SslPolicyErrors.None;
+
+            var ret = JudoPaymentsFactory.PinPublicKey(sender, certificate, chain, sslPolicyErrors);
+            Assert.That(ret, Is.False);
         }
     }
 }
