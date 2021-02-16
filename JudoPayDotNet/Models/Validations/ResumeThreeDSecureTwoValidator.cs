@@ -3,10 +3,10 @@
 namespace JudoPayDotNet.Models.Validations
 {
 // ReSharper disable UnusedMember.Global
-	internal class ResumeThreeDSecureValidator : AbstractValidator<ResumeThreeDSecureTwoModel>
+	internal class ResumeThreeDSecureTwoValidator : AbstractValidator<ResumeThreeDSecureTwoModel>
 // ReSharper restore UnusedMember.Global
     {
-        public ResumeThreeDSecureValidator()
+        public ResumeThreeDSecureTwoValidator()
         {
             RuleFor(model => model.CV2)
                 .NotEmpty().WithMessage("You must supply your card CV2");
@@ -18,7 +18,6 @@ namespace JudoPayDotNet.Models.Validations
                 RuleFor(model => model.ThreeDSecure.MethodCompletion)
                     .NotNull().WithMessage("You must supply a value for methodCompletion");
             });
-
         }
     }
 }
