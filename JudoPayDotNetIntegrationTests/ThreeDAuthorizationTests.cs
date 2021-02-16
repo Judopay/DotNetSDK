@@ -210,5 +210,35 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(completeReceipt.JudoId);
             Assert.AreEqual("Success", completeReceipt.Result);
         }
+
+        [Test]
+        public void CheckCardWithThreedSecureTwoRequiresDeviceDetailsCheck()
+        {
+            var checkCardPayment = GetCheckCardModel(Configuration.SafeCharge_Judoid, "4976000000003436", "452");
+
+            checkCardPayment.CardHolderName = "CHALLENGE";
+            checkCardPayment.MobileNumber = "07999999999";
+            checkCardPayment.EmailAddress = "contact@judopay.com";
+            checkCardPayment.Currency = "GBP";
+
+            checkCardPayment.InitialRecurringPayment = false;
+            checkCardPayment.RecurringPayment = false;
+            checkCardPayment.RecurringPaymentType = RecurringPaymentType.Unknown;
+            checkCardPayment.RelatedReceiptId = string.Empty;
+            
+            checkCardPayment.ThreeDSecure = new ThreeDSecureTwoModel
+            {
+                AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
+                MethodNotificationUrl = "https://www.test.com",
+                ChallengeNotificationUrl = "https://www.test.com",
+                MethodCompletion = MethodCompletion.No
+            };
+
+            var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
+            var paymentResponse = paymentsFactory.RegisterCards.Create(checkCardPayment).Result;
+
+            Assert.IsNotNull(paymentResponse);
+            Assert.IsTrue(paymentResponse.HasError); // An error is expected as the API is pending a release to support 3DS2 on CheckCard
+        }
     }
 }
