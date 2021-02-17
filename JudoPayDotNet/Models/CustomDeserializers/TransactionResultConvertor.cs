@@ -2,11 +2,11 @@
 
 namespace JudoPayDotNet.Models.CustomDeserializers
 {
-	/// <summary>
-	/// Creates either the <see cref="PaymentReceiptModel"/> or <see cref="PaymentRequiresThreeDSecureModel"/> as needed
-	/// </summary>
-	/// <remarks>If you have 3D secure enabled, the API may return a 3D secure result. So we need to create an instance of the correct type.</remarks>
-	internal class TransactionResultConvertor : JsonCreationConverter<ITransactionResult>
+    /// <summary>
+    /// Creates either the <see cref="PaymentReceiptModel"/>, <see cref="PaymentRequiresThreeDSecureModel"/> or <see cref="PaymentRequiresThreeDSecureTwoModel"/> as needed
+    /// </summary>
+    /// <remarks>If you have 3D secure enabled, the API may return a 3D secure result. So we need to create an instance of the correct type.</remarks>
+    internal class TransactionResultConvertor : JsonCreationConverter<ITransactionResult>
     {
         protected override ITransactionResult Create(JObject jObject)
         {
@@ -14,7 +14,13 @@ namespace JudoPayDotNet.Models.CustomDeserializers
             {
                 return new PaymentReceiptModel();
             }
-            return new PaymentRequiresThreeDSecureModel();
+
+            if (jObject.Value<string>("methodUrl") == null && jObject.Value<string>("challengeUrl") == null)
+            {
+                return new PaymentRequiresThreeDSecureModel();
+            }
+
+            return new PaymentRequiresThreeDSecureTwoModel();
         }
     }
 }

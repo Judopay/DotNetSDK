@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
 {
@@ -9,31 +10,44 @@ namespace JudoPayDotNet.Models
     [DataContract]
     public class CardAddressModel
     {
+
         /// <summary>
-        /// Gets or sets the address line1.
+        /// Gets or sets the Address1
         /// </summary>
         /// <value>
-        /// The line1.
+        /// The Address1.
         /// </value>
         [DataMember(IsRequired = false)]
+        public string Address1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Address2
+        /// </summary>
+        /// <value>
+        /// The Address2.
+        /// </value>
+        [DataMember(IsRequired = false)]
+        public string Address2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Address3
+        /// </summary>
+        /// <value>
+        /// The Address1.
+        /// </value>
+        [DataMember(IsRequired = false)]
+        public string Address3 { get; set; }
+
+        [Obsolete("This property is obsolete. Please use Address1 instead.", false)]
+        [DataMember(EmitDefaultValue = false, IsRequired = false)]
         public string Line1 { get; set; }
 
-        /// <summary>
-        /// Gets or sets the address line2.
-        /// </summary>
-        /// <value>
-        /// The line2.
-        /// </value>
-        [DataMember(IsRequired = false)]
+        [Obsolete("This property is obsolete. Please use Address2 instead.", false)]
+        [DataMember(EmitDefaultValue = false, IsRequired = false)]
         public string Line2 { get; set; }
 
-        /// <summary>
-        /// Gets or sets the address line3.
-        /// </summary>
-        /// <value>
-        /// The line3.
-        /// </value>
-        [DataMember(IsRequired = false)]
+        [Obsolete("This property is obsolete. Please use Address3 instead.", false)]
+        [DataMember(EmitDefaultValue = false, IsRequired = false)]
         public string Line3 { get; set; }
 
         /// <summary>

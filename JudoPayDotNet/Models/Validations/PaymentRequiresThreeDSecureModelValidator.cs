@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace JudoPayDotNet.Models.Validations
 {
-	internal class PaymentRequiresThreeDSecureModelValidation : TransactionResultBaseValidation<PaymentRequiresThreeDSecureModel>
+	internal class PaymentRequiresThreeDSecureModelValidator : TransactionResultBaseValidation<PaymentRequiresThreeDSecureModel>
 	{
-		public PaymentRequiresThreeDSecureModelValidation()
+		public PaymentRequiresThreeDSecureModelValidator()
 		{
 			RuleFor(model => model.AcsUrl)
 				.NotEmpty().WithMessage("The response must contain an AcsUrl");

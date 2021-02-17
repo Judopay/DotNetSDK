@@ -7,7 +7,7 @@ namespace JudoPayDotNet.Models
     /// </summary>
     /// <remarks>Used to process additional transactions with a saved card. Requires both the Card and Consumer Tokens</remarks>
     [DataContract]
-    public class TokenPaymentModel : PaymentModel
+    public class TokenPaymentModel : ThreeDSecureTwoPaymentModel
     {
         /// <summary>
         /// Gets or sets the consumer token.

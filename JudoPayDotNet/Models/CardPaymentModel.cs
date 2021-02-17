@@ -7,7 +7,7 @@ namespace JudoPayDotNet.Models
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract]
-    public class CardPaymentModel : PaymentModel
+    public class CardPaymentModel : ThreeDSecureTwoPaymentModel
     {
         /// <summary>
         /// Gets or sets the card number.

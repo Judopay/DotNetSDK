@@ -9,7 +9,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// Generic information about a payment
     /// </summary>
-    // ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedMember.Global
     [DataContract]
     public abstract class PaymentModel : IModelWithHttpHeaders
     {
@@ -112,7 +112,6 @@ namespace JudoPayDotNet.Models
 // ReSharper restore InconsistentNaming
 // ReSharper restore UnusedAutoPropertyAccessor.Global
 
-
         /// <summary>
         /// Gets or sets the consumer location.
         /// </summary>
@@ -122,29 +121,7 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable UnusedAutoPropertyAccessor.Global
         public ConsumerLocationModel ConsumerLocation { get; set; }
-// ReSharper restore UnusedAutoPropertyAccessor.Global
-
-        /// <summary>
-        /// Gets or sets the mobile number.
-        /// </summary>
-        /// <value>
-        /// The mobile number.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-        public string MobileNumber { get; set; }
-// ReSharper restore UnusedAutoPropertyAccessor.Global
-
-        /// <summary>
-        /// Gets or sets the email address.
-        /// </summary>
-        /// <value>
-        /// The email address.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-        public string EmailAddress { get; set; }
-// ReSharper restore UnusedAutoPropertyAccessor.Global
+        // ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         /// This is a set of fraud signals sent by the mobile SDKs
@@ -181,7 +158,7 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable UnusedAutoPropertyAccessor.Global
         public string AcceptHeaders { get; set; }
-        // ReSharper restore UnusedAutoPropertyAccessor.Global
+// ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         /// Is this transaction the first transaction of a series (has continuous authority
@@ -223,5 +200,5 @@ namespace JudoPayDotNet.Models
         [IgnoreDataMember]
         public Dictionary<string, string> HttpHeaders { get; private set; }
     }
-    // ReSharper restore UnusedMember.Global
+// ReSharper restore UnusedMember.Global
 }
