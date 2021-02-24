@@ -37,10 +37,10 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "120615",
+                        ExpiryDate = "12/25",
                         YourConsumerReference = "User10",
                         CV2 = "420",
-                        JudoId = "14562"
+                        JudoId = "100200300"
                     },
                         @"{
                         receiptId : '134567',
@@ -80,9 +80,9 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "120615",
+                        ExpiryDate = "12/25",
                         YourConsumerReference = "User10",
-                        JudoId = "14562"
+                        JudoId = "100200300"
                     },
                        @"    
                         {
@@ -113,7 +113,7 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "120615",
+                        ExpiryDate = "12/25",
                         YourConsumerReference = "User10",
                     },
                         @"{
@@ -137,7 +137,7 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "120615",
+                        ExpiryDate = "12/25",
                         YourConsumerReference = "User10",
                     },
                             @"    
