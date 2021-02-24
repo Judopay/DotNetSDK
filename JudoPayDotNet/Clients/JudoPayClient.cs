@@ -18,12 +18,12 @@ namespace JudoPayDotNet.Clients
     public abstract class JudoPayClient
     {
         internal readonly IClient _client;
-
+         
         private readonly ILog _logger;
 
         private readonly Dictionary<string, IResponse> _uniqueResponses;
 
-        public bool _deDuplicateTransactions = false;
+        protected bool _deDuplicateTransactions = false;
 
         protected JudoPayClient(ILog logger, IClient client)
         {
@@ -237,7 +237,7 @@ namespace JudoPayDotNet.Clients
                 return Task.FromResult<IResult<R>>(new Result<R>(null, CreateValidationErrorMessage(validation)));
             }
 
-            return null;
+            return Task.FromResult<IResult<R>>(null);
         }
     }
 

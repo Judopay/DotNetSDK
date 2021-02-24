@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
@@ -21,13 +20,13 @@ namespace JudoPayDotNet.Clients
 
         public Task<IResult<ITransactionResult>> Get(long receiptId)
         {
-            var address = string.Format("{0}/{1}", _usedAddress, receiptId);
+            var address = $"{_usedAddress}/{receiptId}";
             return GetInternal<ITransactionResult>(address);
         }
 
         // ReSharper disable once MethodOverloadWithOptionalParameter
         public Task<IResult<PaymentReceiptResults>> Get(TransactionType? transactionType = null, 
-                                                        long? pageSize = 10, 
+                                                        long? pageSize = null,
                                                         long? offset = null, 
                                                         TransactionListSorts? sort = null)
         {
@@ -35,7 +34,7 @@ namespace JudoPayDotNet.Clients
 
             if (transactionType.HasValue)
             {
-                address = string.Format("{0}/{1}", _usedAddress, transactionType.ToString().ToLower() + "s");
+                address = $"{_usedAddress}/{transactionType.ToString().ToLower() + "s"}";
             }
 
             var parameters = new Dictionary<string, string>();

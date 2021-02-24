@@ -3,6 +3,7 @@ using System.Net.Http;
 
 namespace JudoPayDotNet.Errors
 {
+    [Serializable]
     public class BadResponseError : Error
     {
         public BadResponseError(HttpResponseMessage response)

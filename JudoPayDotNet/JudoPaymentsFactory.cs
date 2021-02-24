@@ -81,8 +81,6 @@ namespace JudoPayDotNet
         private static JudoPayApi Create(Credentials credentials, string baseUrl, ProductInfoHeaderValue userAgent)
         {
             var apiVersion = VersioningHandler.DEFAULT_API_VERSION;
-            //var apiVersion = GetConfigValue(ApiVersionKey, VersioningHandler.DEFAULT_API_VERSION, configuration);
-
             if (!string.IsNullOrEmpty(credentials.PaymentSession))
             {
                 apiVersion = VersioningHandler.PAYMENT_SESSION_API_VERSION;
