@@ -228,16 +228,11 @@ namespace JudoPayDotNet.Clients
         /// <param name="validator">The validator.</param>
         /// <param name="instance">The instance.</param>
         /// <returns>A result encapsulating the validation error or <c>null</c> if validation was successful</returns>
-        protected Task<IResult<R>> Validate<T, R>(IValidator<T> validator, T instance) where R : class
+        protected IResult<R> Validate<T, R>(IValidator<T> validator, T instance) where R : class
         {
             var validation = validator.Validate(instance);
 
-            if (!validation.IsValid)
-            {
-                return Task.FromResult<IResult<R>>(new Result<R>(null, CreateValidationErrorMessage(validation)));
-            }
-
-            return Task.FromResult<IResult<R>>(null);
+            return !validation.IsValid ? new Result<R>(null, CreateValidationErrorMessage(validation)) : null;
         }
     }
 
