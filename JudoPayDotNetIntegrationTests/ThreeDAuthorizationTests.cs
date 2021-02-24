@@ -106,8 +106,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
                 MethodNotificationUrl = "https://www.test.com",
-                ChallengeNotificationUrl = "https://www.test.com",
-                MethodCompletion = MethodCompletion.No
+                ChallengeNotificationUrl = "https://www.test.com"
             };
 
             return paymentWithCard;
@@ -151,7 +150,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Additional device data is needed for 3D Secure 2", paymentReceipt.Result);
 
             // Prepare the resume request once device details gathering happened 
-            var resumeRequest = new ResumeThreeDSecureTwoModel {CV2 = "452", ThreeDSecure = new ThreeDSecureTwoModel {MethodCompletion = MethodCompletion.Yes}};
+            var resumeRequest = new ResumeThreeDSecureTwoModel {CV2 = "452", MethodCompletion = MethodCompletion.Yes};
             var resumeResponse = paymentsFactory.ThreeDs.Resume3DSecureTwo(paymentReceipt.ReceiptId, resumeRequest).Result;
 
             Assert.IsNotNull(resumeResponse);
@@ -185,7 +184,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Additional device data is needed for 3D Secure 2", paymentReceipt.Result);
 
             // Prepare the resume request once device details gathering happened 
-            var resumeRequest = new ResumeThreeDSecureTwoModel { CV2 = "452", ThreeDSecure = new ThreeDSecureTwoModel { MethodCompletion = MethodCompletion.Yes } };
+            var resumeRequest = new ResumeThreeDSecureTwoModel { CV2 = "452", MethodCompletion = MethodCompletion.Yes };
             var resumeResponse = paymentsFactory.ThreeDs.Resume3DSecureTwo(paymentReceipt.ReceiptId, resumeRequest).Result;
 
             Assert.IsNotNull(resumeResponse);
@@ -230,8 +229,7 @@ namespace JudoPayDotNetIntegrationTests
             {
                 AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
                 MethodNotificationUrl = "https://www.test.com",
-                ChallengeNotificationUrl = "https://www.test.com",
-                MethodCompletion = MethodCompletion.No
+                ChallengeNotificationUrl = "https://www.test.com"
             };
 
             var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);

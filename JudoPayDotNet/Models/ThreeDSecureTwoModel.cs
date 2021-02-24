@@ -17,8 +17,5 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public string ChallengeNotificationUrl { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public MethodCompletion MethodCompletion { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using JudoPayDotNet.Enums;
 
 namespace JudoPayDotNet.Models
 {
@@ -9,12 +10,6 @@ namespace JudoPayDotNet.Models
     public class ResumeThreeDSecureTwoModel
     {
         /// <summary>
-        /// Information needed for ThreeDSecure2 payments
-        /// </summary>
-        [DataMember]
-        public ThreeDSecureTwoModel ThreeDSecure { get; set; }
-
-        /// <summary>
         /// Gets or sets the CV2.
         /// </summary>
         /// <value>
@@ -22,5 +17,9 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string CV2 { get; set; }
+
+
+        [DataMember(EmitDefaultValue = false)]
+        public MethodCompletion MethodCompletion { get; set; }
     }
 }

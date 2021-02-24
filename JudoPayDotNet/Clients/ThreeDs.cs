@@ -4,6 +4,7 @@ using FluentValidation;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Internal;
 
 namespace JudoPayDotNet.Clients
 {
@@ -49,8 +50,11 @@ namespace JudoPayDotNet.Clients
 
             var address = $"transactions/{receiptId}/{ResumeThreeDSecureTwoAddress}";
 
+            // Convert SDK model to internal model
+            var internalResumeThreeDSecureTwoModel = InternalResumeThreeDSecureTwoModel.From(model);
+
             // Do not call the API if validation fail 
-            return validationError ?? PutInternal<ResumeThreeDSecureTwoModel, ITransactionResult>(address, model);
+            return validationError ?? PutInternal<InternalResumeThreeDSecureTwoModel, ITransactionResult>(address, internalResumeThreeDSecureTwoModel);
         }
 
         /*
