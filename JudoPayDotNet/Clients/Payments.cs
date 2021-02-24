@@ -47,13 +47,6 @@ namespace JudoPayDotNet.Clients
                 PostInternal<PKPaymentModel, ITransactionResult>(CREATE_ADDRESS, pkPayment);
         }
 
-        public Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPayment)
-        {
-            var validationError = Validate<AndroidPaymentModel, ITransactionResult>(AndroidPaymentValidator, androidPayment);
-            return validationError != null ? Task.FromResult(validationError) :
-                PostInternal<AndroidPaymentModel, ITransactionResult>(CREATE_ADDRESS, androidPayment);
-        }
-
         public Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment)
         {
             var validationError = Validate<OneTimePaymentModel, ITransactionResult>(OneTimePaymentValidator, oneTimePayment);
