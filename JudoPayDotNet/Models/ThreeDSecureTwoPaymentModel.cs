@@ -27,6 +27,15 @@ namespace JudoPayDotNet.Models
         public string MobileNumber { get; set; }
 
         /// <summary>
+        /// Gets or sets the phone country code.
+        /// </summary>
+        /// <value>
+        /// The phone country code.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public string PhoneCountryCode { get; set; }
+
+        /// <summary>
         /// Gets or sets the email address.
         /// </summary>
         /// <value>

@@ -217,6 +217,7 @@ namespace JudoPayDotNetIntegrationTests
 
             checkCardPayment.CardHolderName = "CHALLENGE";
             checkCardPayment.MobileNumber = "07999999999";
+            checkCardPayment.PhoneCountryCode = "34";
             checkCardPayment.EmailAddress = "contact@judopay.com";
             checkCardPayment.Currency = "GBP";
 
@@ -233,10 +234,16 @@ namespace JudoPayDotNetIntegrationTests
             };
 
             var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
-            var paymentResponse = paymentsFactory.RegisterCards.Create(checkCardPayment).Result;
+            var checkCardResponse = paymentsFactory.CheckCards.Create(checkCardPayment).Result;
 
-            Assert.IsNotNull(paymentResponse);
-            Assert.IsTrue(paymentResponse.HasError); // An error is expected as the API is pending a release to support 3DS2 on CheckCard
+            Assert.IsNotNull(checkCardResponse);
+            Assert.IsFalse(checkCardResponse.HasError);
+
+            // Then a response indicating a 3DS2 device details check is required is received
+            var deviceDetailsResponse = checkCardResponse.Response as PaymentRequiresThreeDSecureTwoModel;
+            Assert.IsNotNull(deviceDetailsResponse);
+            Assert.IsNotNull(deviceDetailsResponse.ReceiptId);
+            Assert.IsNotNull(deviceDetailsResponse.Md);
         }
     }
 }
