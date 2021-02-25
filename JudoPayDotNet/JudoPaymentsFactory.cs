@@ -80,13 +80,7 @@ namespace JudoPayDotNet
 
         private static JudoPayApi Create(Credentials credentials, string baseUrl, ProductInfoHeaderValue userAgent)
         {
-            var apiVersion = VersioningHandler.DEFAULT_API_VERSION;
-            if (!string.IsNullOrEmpty(credentials.PaymentSession))
-            {
-                apiVersion = VersioningHandler.PAYMENT_SESSION_API_VERSION;
-            }
-
-            return Create(credentials, baseUrl, apiVersion, userAgent);
+            return Create(credentials, baseUrl, VersioningHandler.DEFAULT_API_VERSION, userAgent);
         }
 
         /// <summary>
