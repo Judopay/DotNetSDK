@@ -126,5 +126,18 @@ namespace JudoPayDotNetTests
             var ret = JudoPaymentsFactory.PinPublicKey(sender, certificate, chain, sslPolicyErrors);
             Assert.That(ret, Is.False);
         }
+
+        [Test]
+        [TestCase(JudoPaymentsFactory.DefaultLiveUrl)]
+        [TestCase(JudoPaymentsFactory.DefaultSandboxUrl)]
+        public void TestCertificatePinningWithNullCertificate(string baseUrl)
+        {
+            var sender = new HttpRequestMessage(HttpMethod.Get, baseUrl);
+            var chain = Substitute.For<X509Chain>();
+            var sslPolicyErrors = SslPolicyErrors.None;
+
+            var ret = JudoPaymentsFactory.PinPublicKey(sender, null, chain, sslPolicyErrors);
+            Assert.That(ret, Is.False);
+        }
     }
 }

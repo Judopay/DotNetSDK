@@ -286,6 +286,14 @@ namespace JudoPayDotNetTests.Clients
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
             }
+            else if (payment is OneTimePaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((OneTimePaymentModel)payment).Result;
+            }
+            else if (payment is PKPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((PKPaymentModel)payment).Result;
+            }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
             Assert.NotNull(paymentReceiptResult);

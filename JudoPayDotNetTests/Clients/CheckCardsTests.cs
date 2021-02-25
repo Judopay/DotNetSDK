@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
-using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Logging;
@@ -136,19 +131,21 @@ namespace JudoPayDotNetTests.Clients
                             PostCode = "W40 9AU",
                             Town = "Town"
                         },
-                        CardNumber = "348417606737499",
+                        CardNumber = "",
                         ExpiryDate = "12/25",
                         YourConsumerReference = "User10",
                     },
                             @"    
                     {
-                        errorMessage : 'Payment not made',
-                        modelErrors : [{
-                                        fieldName : 'receiptId',
-                                        errorMessage : 'To large',
-                                        detailErrorMessage : 'This field has to be at most 20 characters'
-                                        }],
-                        errorType : '1'
+                            message : 'Sorry, we're unable to process your request. Please check your details and try again.',
+                            modelErrors : [{
+                                            fieldName : 'CardNumber',
+                                            message : 'Sorry, but you need to specify a card number for this request.',
+                                            detail : 'Sorry, we're currently unable to process this request.',
+                                            code : '28'
+                                          }],
+                            code : '1',
+                            category : '2'
                     }",
                             1).SetName("ValidateWithoutSuccess");
                 }
@@ -252,6 +249,30 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
             Assert.AreEqual((int)errorType, paymentReceiptResult.Error.Code);
+        }
+
+        [Test, TestCaseSource(typeof(CheckCardsTestSource), "ValidateFailureTestCases")]
+        public void ValidateWithoutSuccess(CheckCardModel checkCard, string responseData, JudoApiError errorType)
+        {
+            var httpClient = Substitute.For<IHttpClient>();
+            var response = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(responseData) };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
+            responseTask.SetResult(response);
+
+            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
+
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
+
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
+
+            IResult<ITransactionResult> checkCardReceiptResult = judo.CheckCards.Create(checkCard).Result;
+
+            Assert.NotNull(checkCardReceiptResult);
+            Assert.IsTrue(checkCardReceiptResult.HasError);
+            Assert.IsNull(checkCardReceiptResult.Response);
+            Assert.IsNotNull(checkCardReceiptResult.Error);
+            Assert.AreEqual((int)errorType, checkCardReceiptResult.Error.Code);
         }
     }
 }

@@ -15,8 +15,6 @@ namespace JudoPayDotNet.Clients
 
         private readonly IValidator<PKPaymentModel> PKPaymentValidator = new PKPaymentValidator();
 
-        private readonly IValidator<AndroidPaymentModel> AndroidPaymentValidator = new AndroidPaymentValidator();
-
         private readonly IValidator<OneTimePaymentModel> OneTimePaymentValidator = new OneTimePaymentValidator();
 
         private const string CREATE_PREAUTH_ADDRESS = "transactions/preauths";

@@ -4,7 +4,7 @@ using JudoPayDotNet.Enums;
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Data to register a card
+    /// Data to register a card (pre-auth with a pre-configured amount)
     /// </summary>
     [DataContract]
     [KnownType(typeof(RegisterEncryptedCardModel))]

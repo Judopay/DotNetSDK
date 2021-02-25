@@ -210,7 +210,7 @@ namespace JudoPayDotNetTests.Clients
                             code : '12',
                             category : '0'
                         }",
-                            JudoApiError.Payment_Failed).SetName("ValidateWithoutSuccess");
+                            JudoApiError.Payment_Failed).SetName("ValidatePreAuthsWithoutSuccess");
                     new TestCaseData(new TokenPaymentModel
                     {
                         Amount = 2.0m,
@@ -234,7 +234,7 @@ namespace JudoPayDotNetTests.Clients
                             code : '1',
                             category : '2'
                         }",
-                        JudoApiError.Payment_Failed).SetName("ValidateWithoutSuccess");
+                        JudoApiError.Payment_Failed).SetName("ValidatePreAuthsWithoutSuccess");
                     new TestCaseData(new OneTimePaymentModel
                     {
                         Amount = 2.0m,
@@ -257,7 +257,7 @@ namespace JudoPayDotNetTests.Clients
                             code : '1',
                             category : '2'
                         }",
-                        JudoApiError.Payment_Failed).SetName("ValidateWithoutSuccess");
+                        JudoApiError.Payment_Failed).SetName("ValidatePreAuthsWithoutSuccess");
                     new TestCaseData(new PKPaymentModel
                     {
                         Amount = 2.0m,
@@ -278,7 +278,7 @@ namespace JudoPayDotNetTests.Clients
                             code : '61',
                             category : '2'
                         }",
-                        JudoApiError.Payment_Failed).SetName("ValidateWithoutSuccess");
+                        JudoApiError.Payment_Failed).SetName("ValidatePreAuthsWithoutSuccess");
                 }
             }
         }
@@ -426,6 +426,14 @@ namespace JudoPayDotNetTests.Clients
             else if (preauth is TokenPaymentModel)
             {
                 preAuthReceiptResult = judo.PreAuths.Create((TokenPaymentModel)preauth).Result;
+            }
+            else if (preauth is OneTimePaymentModel)
+            {
+                preAuthReceiptResult = judo.PreAuths.Create((OneTimePaymentModel)preauth).Result;
+            }
+            else if (preauth is PKPaymentModel)
+            {
+                preAuthReceiptResult = judo.PreAuths.Create((PKPaymentModel)preauth).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
