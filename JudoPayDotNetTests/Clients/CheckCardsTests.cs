@@ -286,8 +286,15 @@ namespace JudoPayDotNetTests.Clients
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
-            IResult<ITransactionResult> checkCardReceiptResult = judo.CheckCards.Create(checkCard).Result;
-
+            IResult<ITransactionResult> checkCardReceiptResult;
+            if (checkCard is CheckEncryptedCardModel)
+            {
+                checkCardReceiptResult = judo.CheckCards.Create((CheckEncryptedCardModel)checkCard).Result;
+            }
+            else
+            {
+                checkCardReceiptResult = judo.CheckCards.Create(checkCard).Result;
+            }
             Assert.NotNull(checkCardReceiptResult);
             Assert.IsTrue(checkCardReceiptResult.HasError);
             Assert.IsNull(checkCardReceiptResult.Response);

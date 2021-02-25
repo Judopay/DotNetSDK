@@ -287,7 +287,15 @@ namespace JudoPayDotNetTests.Clients
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
-            IResult<ITransactionResult> registerCardReceiptResult = judo.RegisterCards.Create(register).Result;
+            IResult<ITransactionResult> registerCardReceiptResult;
+            if (register is RegisterEncryptedCardModel)
+            {
+                registerCardReceiptResult = judo.RegisterCards.Create((RegisterEncryptedCardModel)register).Result;
+            }
+            else
+            {
+                registerCardReceiptResult = judo.RegisterCards.Create(register).Result;
+            }
 
             Assert.NotNull(registerCardReceiptResult);
             Assert.IsTrue(registerCardReceiptResult.HasError);

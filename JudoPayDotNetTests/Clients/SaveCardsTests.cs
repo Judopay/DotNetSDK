@@ -153,7 +153,7 @@ namespace JudoPayDotNetTests.Clients
                         category : '2'
                     }",
                             1).SetName("ValidateCardNumberWithoutSuccess");
-                    yield return new TestCaseData(new SaveCardModel
+                    yield return new TestCaseData(new SaveEncryptedCardModel
                         {
                             CardAddress = new CardAddressModel
                             {
@@ -297,9 +297,15 @@ namespace JudoPayDotNetTests.Clients
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
-            IResult<ITransactionResult> saveCardReceiptResult = judo.SaveCards.Create(save).Result;
-
-            // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
+            IResult<ITransactionResult> saveCardReceiptResult;
+            if (save is SaveEncryptedCardModel)
+            {
+                saveCardReceiptResult = judo.SaveCards.Create((SaveEncryptedCardModel)save).Result;
+            }
+            else
+            {
+                saveCardReceiptResult = judo.SaveCards.Create((SaveCardModel)save).Result;
+            }
 
             Assert.NotNull(saveCardReceiptResult);
             Assert.IsTrue(saveCardReceiptResult.HasError);
