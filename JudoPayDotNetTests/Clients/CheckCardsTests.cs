@@ -146,8 +146,28 @@ namespace JudoPayDotNetTests.Clients
                                           }],
                             code : '1',
                             category : '2'
-                    }",
-                            1).SetName("ValidateWithoutSuccess");
+                    }", JudoApiError.General_Model_Error).SetName("ValidateWithoutSuccess");
+                    yield return new TestCaseData(new CheckEncryptedCardModel
+                        {
+                            CardAddress = new CardAddressModel
+                            {
+                                Line1 = "Test Street",
+                                PostCode = "W40 9AU",
+                                Town = "Town"
+                            },
+                            OneUseToken = "",
+                            YourConsumerReference = "User10",
+                        },
+                        @"    
+                    {
+                            message : 'Sorry, we're unable to process your request. Please check your details and try again.',
+                            modelErrors : [{
+                                            fieldName : 'OneUseToken',
+                                            code : '970'
+                                          }],
+                            code : '1',
+                            category : '2'
+                    }", JudoApiError.General_Model_Error).SetName("ValidateOneUseTokenWithoutSuccess");
                 }
             }
         }

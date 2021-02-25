@@ -187,7 +187,7 @@ namespace JudoPayDotNetTests.Clients
                             code : '12',
                             category : '0'
                         }",
-                            JudoApiError.Payment_Failed).SetName("ValidateWithoutSuccess");
+                            JudoApiError.Payment_Failed).SetName("ValidateCardPaymentWithoutSuccess");
                     new TestCaseData(new TokenPaymentModel
                         {
                             Amount = 2.0m,
@@ -211,7 +211,7 @@ namespace JudoPayDotNetTests.Clients
                             code : '1',
                             category : '2'
                         }",
-                        JudoApiError.Payment_Failed).SetName("ValidateWithoutSuccess");
+                        JudoApiError.Payment_Failed).SetName("ValidateCardTokenWithoutSuccess");
                     new TestCaseData(new OneTimePaymentModel
                         {
                             Amount = 2.0m,
@@ -234,28 +234,7 @@ namespace JudoPayDotNetTests.Clients
                             code : '1',
                             category : '2'
                         }",
-                        JudoApiError.Payment_Failed).SetName("ValidateWithoutSuccess");
-                    new TestCaseData(new PKPaymentModel
-                        {
-                            Amount = 2.0m,
-                            PkPayment = new PKPaymentInnerModel
-                            {
-                                Token = new PKPaymentTokenModel
-                                {
-                                    PaymentData = {}
-                                }
-                            },
-                            ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
-                            JudoId = "100200300",
-                            YourConsumerReference = "User10"
-                        },
-                        @"
-                        {
-                            message : 'We've been unable to decrypt the supplied Apple Pay token. Please check your API client configuration in the dashboard.',
-                            code : '61',
-                            category : '2'
-                        }",
-                        JudoApiError.Payment_Failed).SetName("ValidateWithoutSuccess");
+                        JudoApiError.Payment_Failed).SetName("ValidateOneTimeTokenWithoutSuccess");
                 }
             }
         }
@@ -400,6 +379,14 @@ namespace JudoPayDotNetTests.Clients
             else if (payment is TokenPaymentModel)
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
+            }
+            else if (payment is OneTimePaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((OneTimePaymentModel)payment).Result;
+            }
+            else if (payment is PKPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((PKPaymentModel)payment).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 

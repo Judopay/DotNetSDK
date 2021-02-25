@@ -210,8 +210,8 @@ namespace JudoPayDotNetTests.Clients
                             code : '12',
                             category : '0'
                         }",
-                            JudoApiError.Payment_Failed).SetName("ValidatePreAuthsWithoutSuccess");
-                    new TestCaseData(new TokenPaymentModel
+                            JudoApiError.Payment_Failed).SetName("ValidatePreAuthsCardWithoutSuccess");
+                    yield return new TestCaseData(new TokenPaymentModel
                     {
                         Amount = 2.0m,
                         CardToken = "",
@@ -234,8 +234,8 @@ namespace JudoPayDotNetTests.Clients
                             code : '1',
                             category : '2'
                         }",
-                        JudoApiError.Payment_Failed).SetName("ValidatePreAuthsWithoutSuccess");
-                    new TestCaseData(new OneTimePaymentModel
+                        JudoApiError.General_Model_Error).SetName("ValidatePreAuthsTokenWithoutSuccess");
+                    yield return new TestCaseData(new OneTimePaymentModel
                     {
                         Amount = 2.0m,
                         OneUseToken = "",
@@ -257,28 +257,7 @@ namespace JudoPayDotNetTests.Clients
                             code : '1',
                             category : '2'
                         }",
-                        JudoApiError.Payment_Failed).SetName("ValidatePreAuthsWithoutSuccess");
-                    new TestCaseData(new PKPaymentModel
-                    {
-                        Amount = 2.0m,
-                        PkPayment = new PKPaymentInnerModel
-                        {
-                            Token = new PKPaymentTokenModel
-                            {
-                                PaymentData = { }
-                            }
-                        },
-                        ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
-                        JudoId = "100200300",
-                        YourConsumerReference = "User10"
-                    },
-                        @"
-                        {
-                            message : 'We've been unable to decrypt the supplied Apple Pay token. Please check your API client configuration in the dashboard.',
-                            code : '61',
-                            category : '2'
-                        }",
-                        JudoApiError.Payment_Failed).SetName("ValidatePreAuthsWithoutSuccess");
+                        JudoApiError.General_Model_Error).SetName("ValidatePreAuthsOneTimeWithoutSuccess");
                 }
             }
         }
