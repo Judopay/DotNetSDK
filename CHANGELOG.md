@@ -4,14 +4,15 @@ All notable changes to this project will be documented in this file.
 ## 3.0 Changes on 2021-03
 - Update default base Urls with certificate pinning checks
 - Update Api-Version to 6.2
+- Add Address1/Address2/Address3 to CardAddressModel (deprecate Line1/Line2/Line3)
 - Update CardPaymentModel, TokenPaymentModel, OneTimePaymentModel, RegisterCardModel, RegisterEncryptedCardModel, CheckCardModel, CheckEncryptedCardModel to expose additional request attribute required for 3DSecure 2.
 - Add new PaymentRequiresThreeDSecureTwoModel which will be returned with MethodUrl populated if a device details check is required, or ChallengeUrl populated if a consumer challenge is required.
 - Add new Resume3DSecureTwo (to be called after device details check) and Complete3DSecureTwo (to be called after consumer challenge) methods to IThreeDS
 
 ## 2.3.0 Changes on 2021-01-11
 - PaymentSession added to Credentials
-- Add Address1/Address2/Address3 to CardAddressModel (deprecate Line1/Line2/Line3)
-- Remove Country string from CardAddressModel and add int CountryCode
+- Add Address1/Address2/Address3 to WebPaymentCardAddress (deprecate Line1/Line2/Line3)
+- Remove Country string from WebPaymentCardAddress and add int CountryCode
 
 ## 2.2.264 Changes on 2020-12-01
 #### Added
