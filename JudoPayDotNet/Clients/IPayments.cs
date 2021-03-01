@@ -31,13 +31,6 @@ namespace JudoPayDotNet.Clients
         Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPayment);
 
         /// <summary>
-        /// Creates the specified Android Pay payment.
-        /// </summary>
-        /// <param name="androidPayment">The Android Pay payment.</param>
-        /// <returns>The receipt for the created Android Pay payment</returns>
-        Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPayment);
-
-        /// <summary>
         /// Creates the specified One time payment.
         /// </summary>
         /// <param name="oneTimePayment">The one time payment payload.</param>
