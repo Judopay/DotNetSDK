@@ -213,6 +213,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void CheckCardWithThreedSecureTwoRequiresDeviceDetailsCheck()
         {
+            // Given a CheckCard request model
             var checkCardPayment = GetCheckCardModel(Configuration.SafeCharge_Judoid, "4976000000003436", "452");
 
             checkCardPayment.CardHolderName = "CHALLENGE";
@@ -224,7 +225,7 @@ namespace JudoPayDotNetIntegrationTests
             checkCardPayment.RecurringPayment = false;
             checkCardPayment.RecurringPaymentType = RecurringPaymentType.Unknown;
             checkCardPayment.RelatedReceiptId = string.Empty;
-            
+
             checkCardPayment.ThreeDSecure = new ThreeDSecureTwoModel
             {
                 AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
@@ -232,11 +233,19 @@ namespace JudoPayDotNetIntegrationTests
                 ChallengeNotificationUrl = "https://www.test.com"
             };
 
+            // When a request to the CheckCards endpoint is made with a CardHolderName
+            // that requires a device details check
             var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
-            var paymentResponse = paymentsFactory.RegisterCards.Create(checkCardPayment).Result;
+            var checkCardResponse = paymentsFactory.CheckCards.Create(checkCardPayment).Result;
 
-            Assert.IsNotNull(paymentResponse);
-            Assert.IsTrue(paymentResponse.HasError); // An error is expected as the API is pending a release to support 3DS2 on CheckCard
+            Assert.IsNotNull(checkCardResponse);
+            Assert.IsFalse(checkCardResponse.HasError);
+
+            // Then a response indicating a 3DS2 device details check is required is received
+            var deviceDetailsResponse = checkCardResponse.Response as PaymentRequiresThreeDSecureTwoModel;
+            Assert.IsNotNull(deviceDetailsResponse);
+            Assert.IsNotNull(deviceDetailsResponse.ReceiptId);
+            Assert.IsNotNull(deviceDetailsResponse.Md);
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using JudoPayDotNet;
-using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Logging;
@@ -33,9 +32,9 @@ namespace JudoPayDotNetTests.Clients
                                                  ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  EmailAddress = "testaccount@judo.com",
-                                                 ExpiryDate = "120615",
-                                                 JudoId = "14562",
-                                                 MobileNumber = "07745352515",
+                                                 ExpiryDate = "12/25",
+                                                 JudoId = "100200300",
+                                                 MobileNumber = "07999999999",
                                                  YourConsumerReference = "User10"
                                              },
                             @"{
@@ -68,8 +67,8 @@ namespace JudoPayDotNetTests.Clients
                                                  CV2 = "420",
                                                  CardToken = "A24BS2",
                                                  EmailAddress = "testaccount@judo.com",
-                                                 JudoId = "14562",
-                                                 MobileNumber = "07745352515",
+                                                 JudoId = "100200300",
+                                                 MobileNumber = "07999999999",
                                                  YourConsumerReference = "User10",
                                                  ConsumerToken = "ABAS"
                                              },
@@ -111,9 +110,9 @@ namespace JudoPayDotNetTests.Clients
                                                  ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  EmailAddress = "testaccount@judo.com",
-                                                 ExpiryDate = "120615",
-                                                 JudoId = "14562",
-                                                 MobileNumber = "07745352515",
+                                                 ExpiryDate = "12/25",
+                                                 JudoId = "100200300",
+                                                 MobileNumber = "07999999999",
                                                  YourConsumerReference = "User10"
                                              },
                             @"    
@@ -137,8 +136,8 @@ namespace JudoPayDotNetTests.Clients
                                                  CV2 = "420",
                                                  CardToken = "A24BS2",
                                                  EmailAddress = "testaccount@judo.com",
-                                                 JudoId = "14562",
-                                                 MobileNumber = "07745352515",
+                                                 JudoId = "100200300",
+                                                 MobileNumber = "07999999999",
                                                  YourConsumerReference = "User10",
                                                  ConsumerToken = "ABAS"
                                              },
@@ -171,9 +170,9 @@ namespace JudoPayDotNetTests.Clients
                                                  ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  EmailAddress = "testaccount@judo.com",
-                                                 ExpiryDate = "120615",
-                                                 JudoId = "14562",
-                                                 MobileNumber = "07745352515",
+                                                 ExpiryDate = "12/25",
+                                                 JudoId = "100200300",
+                                                 MobileNumber = "07999999999",
                                                  YourConsumerReference = "User10"
                                              },
                             @"    
@@ -188,7 +187,54 @@ namespace JudoPayDotNetTests.Clients
                             code : '12',
                             category : '0'
                         }",
-                            JudoApiError.Payment_Failed).SetName("ValidateWithoutSuccess");
+                            JudoApiError.Payment_Failed).SetName("ValidateCardPaymentWithoutSuccess");
+                    new TestCaseData(new TokenPaymentModel
+                        {
+                            Amount = 2.0m,
+                            CardToken = "",
+                            ConsumerLocation = new ConsumerLocationModel {Latitude = 40m, Longitude = 14m},
+                            CV2 = "420",
+                            EmailAddress = "testaccount@judo.com",
+                            JudoId = "100200300",
+                            MobileNumber = "07999999999",
+                            YourConsumerReference = "User10"
+                        },
+                        @"
+                        {
+                            message : 'Sorry, we're unable to process your request. Please check your details and try again.',
+                            modelErrors : [{
+                                            fieldName : 'CardToken',
+                                            message : 'Sorry, but for this transaction a card token must be supplied. Please check your details and try again.',
+                                            detail : 'Sorry, we are unable to process your request at this time.',
+                                            code : '52'
+                                          }],
+                            code : '1',
+                            category : '2'
+                        }",
+                        JudoApiError.Payment_Failed).SetName("ValidateCardTokenWithoutSuccess");
+                    new TestCaseData(new OneTimePaymentModel
+                        {
+                            Amount = 2.0m,
+                            OneUseToken = "",
+                            ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
+                            EmailAddress = "testaccount@judo.com",
+                            JudoId = "100200300",
+                            MobileNumber = "07999999999",
+                            YourConsumerReference = "User10"
+                        },
+                        @"
+                        {
+                            message : 'Sorry, we're unable to process your request. Please check your details and try again.',
+                            modelErrors : [{
+                                            fieldName : 'OneUseToken',
+                                            message : 'Sorry, but for this transaction a card token must be supplied. Please check your details and try again.',
+                                            detail : 'Sorry, we are unable to process your request at this time.',
+                                            code : '970'
+                                          }],
+                            code : '1',
+                            category : '2'
+                        }",
+                        JudoApiError.Payment_Failed).SetName("ValidateOneTimeTokenWithoutSuccess");
                 }
             }
         }
@@ -218,6 +264,14 @@ namespace JudoPayDotNetTests.Clients
             else if (payment is TokenPaymentModel)
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
+            }
+            else if (payment is OneTimePaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((OneTimePaymentModel)payment).Result;
+            }
+            else if (payment is PKPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((PKPaymentModel)payment).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
@@ -325,6 +379,14 @@ namespace JudoPayDotNetTests.Clients
             else if (payment is TokenPaymentModel)
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
+            }
+            else if (payment is OneTimePaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((OneTimePaymentModel)payment).Result;
+            }
+            else if (payment is PKPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((PKPaymentModel)payment).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 

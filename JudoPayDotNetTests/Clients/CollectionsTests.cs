@@ -64,6 +64,25 @@ namespace JudoPayDotNetTests.Clients
                         }", JudoApiError.Payment_Declined).SetName("CollectionWithoutSuccess");
                 }
             }
+
+            public static IEnumerable ValidateFailureTestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(new CollectionModel {ReceiptId = 34560 }, @"    
+                        {
+                            message : 'Sorry, we're unable to process your request. Please check your details and try again.',
+                            modelErrors : [{
+                                            fieldName : 'Amount',
+                                            message : 'Sorry, but you need to specify the amount you wish to process.',
+                                            detail : 'Sorry, we're currently unable to process this request.',
+                                            code : '5'
+                                          }],
+                            code : '1',
+                            category : '2'
+                        }", JudoApiError.General_Model_Error).SetName("ValidateWithoutSuccess");
+                }
+            }
         }
 
 
@@ -140,6 +159,32 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
             Assert.AreEqual((int)error, paymentReceiptResult.Error.Code);
+        }
+
+        [Test, TestCaseSource(typeof(CollectionsTestSource), "ValidateFailureTestCases")]
+        public void ValidateWithoutSuccess(CollectionModel collection, string responseData, JudoApiError errorType)
+        {
+            var httpClient = Substitute.For<IHttpClient>();
+            var response = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(responseData) };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
+            responseTask.SetResult(response);
+
+            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
+
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
+
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
+
+            IResult<ITransactionResult> collectionReceiptResult = judo.Collections.Create(collection).Result;
+
+            // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
+
+            Assert.NotNull(collectionReceiptResult);
+            Assert.IsTrue(collectionReceiptResult.HasError);
+            Assert.IsNull(collectionReceiptResult.Response);
+            Assert.IsNotNull(collectionReceiptResult.Error);
+            Assert.AreEqual((int)errorType, collectionReceiptResult.Error.Code);
         }
     }
 }

@@ -18,12 +18,12 @@ namespace JudoPayDotNet.Clients
     public abstract class JudoPayClient
     {
         internal readonly IClient _client;
-
+         
         private readonly ILog _logger;
 
         private readonly Dictionary<string, IResponse> _uniqueResponses;
 
-        public bool _deDuplicateTransactions = false;
+        protected bool _deDuplicateTransactions = false;
 
         protected JudoPayClient(ILog logger, IClient client)
         {
@@ -196,8 +196,8 @@ namespace JudoPayDotNet.Clients
                 return null;
             }
 
-            var invalidRequestModel = new ModelError()
-                                          {
+            var invalidRequestModel = new ModelError
+            {
                                               Code = (int)JudoApiError.General_Model_Error,
                                               Message = "Sorry, we're unable to process your request. Please check your details and try again",
                                               ModelErrors = new List<FieldError>(result.Errors.Count)
@@ -205,15 +205,18 @@ namespace JudoPayDotNet.Clients
 
             foreach (var validationFailure in result.Errors)
             {
-                _logger.DebugFormat("Model validation error {0} {1}", validationFailure.PropertyName, validationFailure.ErrorMessage);
+                var detailMessage = $"Model validation error {validationFailure.PropertyName} {validationFailure.ErrorMessage}";
+                _logger.Warn(detailMessage);
+                // Some of the DotNet validators do not set an explicit error code
+                int.TryParse(validationFailure.ErrorCode, out var errorCodeInt);
                 invalidRequestModel.ModelErrors.Add(
                     new FieldError
-                        {
-                            FieldName = validationFailure.PropertyName,
-                            Message = validationFailure.ErrorMessage,
-                            Code = (validationFailure.ErrorCode != null ? Int32.Parse(validationFailure.ErrorCode) : 0),
-                            Detail = string.Format("Model validation error {0} {1}", validationFailure.PropertyName, validationFailure.ErrorMessage)
-                        });
+                    {
+                        FieldName = validationFailure.PropertyName,
+                        Message = validationFailure.ErrorMessage,
+                        Code = errorCodeInt,
+                        Detail = detailMessage
+                    });
             }
 
             return invalidRequestModel;
@@ -228,16 +231,11 @@ namespace JudoPayDotNet.Clients
         /// <param name="validator">The validator.</param>
         /// <param name="instance">The instance.</param>
         /// <returns>A result encapsulating the validation error or <c>null</c> if validation was successful</returns>
-        protected Task<IResult<R>> Validate<T, R>(IValidator<T> validator, T instance) where R : class
+        protected IResult<R> Validate<T, R>(IValidator<T> validator, T instance) where R : class
         {
             var validation = validator.Validate(instance);
 
-            if (!validation.IsValid)
-            {
-                return Task.FromResult<IResult<R>>(new Result<R>(null, CreateValidationErrorMessage(validation)));
-            }
-
-            return null;
+            return !validation.IsValid ? new Result<R>(null, CreateValidationErrorMessage(validation)) : null;
         }
     }
 

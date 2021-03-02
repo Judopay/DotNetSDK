@@ -40,8 +40,8 @@ namespace JudoPayDotNetTests.Validation
                         },
                         CV2 = "420",
                         EmailAddress = "testaccount@judo.com",
-                        ExpiryDate = "120615",
-                        MobileNumber = "07745352515",
+                        ExpiryDate = "12/25",
+                        MobileNumber = "07999999999",
                         YourConsumerReference = "User10"
                     },
                         @"{
