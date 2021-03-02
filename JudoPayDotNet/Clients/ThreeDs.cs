@@ -1,10 +1,10 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentValidation;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.Internal;
+using JudoPayDotNet.Models.Validations;
 
 namespace JudoPayDotNet.Clients
 {
@@ -19,9 +19,9 @@ namespace JudoPayDotNet.Clients
 
         private readonly IValidator<ThreeDResultModel> _threeDResultValidator = new InlineValidator<ThreeDResultModel>();
 
-        private readonly IValidator<ResumeThreeDSecureTwoModel> _resumeThreeDSecureValidator = new InlineValidator<ResumeThreeDSecureTwoModel>();
+        private readonly IValidator<ResumeThreeDSecureTwoModel> _resumeThreeDSecureValidator = new ResumeThreeDSecureTwoValidator();
 
-        private readonly IValidator<CompleteThreeDSecureTwoModel> _completeThreeDSecureValidator = new InlineValidator<CompleteThreeDSecureTwoModel>();
+        private readonly IValidator<CompleteThreeDSecureTwoModel> _completeThreeDSecureValidator = new CompleteThreeDSecureTwoValidator();
 
         public ThreeDs(ILog logger, IClient client)
             : base(logger, client)
@@ -47,6 +47,8 @@ namespace JudoPayDotNet.Clients
          */
         public Task<IResult<ITransactionResult>> Resume3DSecureTwo(long receiptId, ResumeThreeDSecureTwoModel model)
         {
+
+            // Validate in DotNetSDK until JR-4706 is released
             var validationError = Validate<ResumeThreeDSecureTwoModel, ITransactionResult>(_resumeThreeDSecureValidator, model);
 
             var address = $"transactions/{receiptId}/{ResumeThreeDSecureTwoAddress}";
@@ -64,6 +66,7 @@ namespace JudoPayDotNet.Clients
         */
         public Task<IResult<PaymentReceiptModel>> Complete3DSecureTwo(long receiptId, CompleteThreeDSecureTwoModel model)
         {
+            // Validate in DotNetSDK until JR-4706 is released
             var validationError = Validate<CompleteThreeDSecureTwoModel, PaymentReceiptModel>(_completeThreeDSecureValidator, model);
 
             var address = $"transactions/{receiptId}/{CompleteThreeDSecureTwoAddress}";
