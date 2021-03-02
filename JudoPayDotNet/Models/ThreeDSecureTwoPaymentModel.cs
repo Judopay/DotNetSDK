@@ -3,11 +3,25 @@
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Information about a ThreeDSecureTwo Two payment 
+    /// Information about a ThreeDSecureTwo payment 
     /// </summary>
     [DataContract]
     public abstract class ThreeDSecureTwoPaymentModel : PaymentModel
     {
+        // Not explicitly assocated with 3DS2, but moved here from PaymentModel to avoid the wallet payment types inheriting it
+        /// <summary>
+        /// Gets or sets the CV2.
+        /// </summary>
+        /// <value>
+        /// The CV2.
+        /// </value>
+        [DataMember(IsRequired = true)]
+        // ReSharper disable UnusedAutoPropertyAccessor.Global
+        // ReSharper disable InconsistentNaming
+        public string CV2 { get; set; }
+        // ReSharper restore InconsistentNaming
+        // ReSharper restore UnusedAutoPropertyAccessor.Global
+
         /// <summary>
         /// Gets or sets the full card holder name.
         /// </summary>
