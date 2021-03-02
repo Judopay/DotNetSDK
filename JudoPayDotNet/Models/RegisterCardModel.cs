@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using JudoPayDotNet.Enums;
+using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models
 {
@@ -80,6 +81,13 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public ThreeDSecureTwoModel ThreeDSecure { get; set; }
+
+        /// <summary>
+        /// This is a set of fraud signals sent by the mobile SDKs
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        // ReSharper disable once UnusedMember.Global
+        public JObject ClientDetails { get; set; }
     }
     // ReSharper restore UnusedMember.Global
 }
