@@ -80,15 +80,7 @@ namespace JudoPayDotNet
 
         private static JudoPayApi Create(Credentials credentials, string baseUrl, ProductInfoHeaderValue userAgent)
         {
-            var apiVersion = VersioningHandler.DEFAULT_API_VERSION;
-            //var apiVersion = GetConfigValue(ApiVersionKey, VersioningHandler.DEFAULT_API_VERSION, configuration);
-
-            if (!string.IsNullOrEmpty(credentials.PaymentSession))
-            {
-                apiVersion = VersioningHandler.PAYMENT_SESSION_API_VERSION;
-            }
-
-            return Create(credentials, baseUrl, apiVersion, userAgent);
+            return Create(credentials, baseUrl, VersioningHandler.DEFAULT_API_VERSION, userAgent);
         }
 
         /// <summary>
@@ -131,21 +123,17 @@ namespace JudoPayDotNet
                 return false;
 
             var serviceKey = Convert.ToBase64String(certificate.GetPublicKey());
-            if (sender is HttpWebRequest webRequest)
+            switch (sender)
             {
                 // Called from a .NET Framework app
-                if (!CheckPublicKeys(webRequest.Address.ToString(), serviceKey))
-                    return false;
-            }
-            else if (sender is HttpRequestMessage requestMessage)
-            {
+                case HttpWebRequest webRequest when !CheckPublicKeys(webRequest.Address.ToString(), serviceKey):
                 // Called from a .NET Core app
-                if (!CheckPublicKeys(requestMessage.RequestUri.ToString(), serviceKey))
+                case HttpRequestMessage requestMessage when !CheckPublicKeys(requestMessage.RequestUri.ToString(), serviceKey):
                     return false;
+                default:
+                    // Propagate any previous errors
+                    return sslPolicyErrors == SslPolicyErrors.None;
             }
-
-            // Propagate any previous errors
-            return sslPolicyErrors == SslPolicyErrors.None;
         }
 
         private static bool CheckPublicKeys(string baseUrl, string serviceKey)
@@ -189,18 +177,6 @@ namespace JudoPayDotNet
         }
 
         /// <summary>
-        /// Creates an instance of the judopay api client with a custom base url, that will authenticate with your api token and payment session.
-        /// </summary>
-        /// <param name="judoEnvironment">Either the sandbox (development/testing) or live environments</param>
-        /// <param name="token">Your API token (from our merchant dashboard)</param>
-        /// <param name="paymentSession">Your one-time payment session created with the same API token </param>
-        /// <returns>Initialized instance of the Judopay api client</returns>
-        public static JudoPayApi CreateWithPaymentSession(JudoEnvironment judoEnvironment, string token, string paymentSession)
-        {
-            return CreateWithPaymentSession(token, paymentSession, GetEnvironmentUrl(judoEnvironment));
-        }
-
-        /// <summary>
         /// Creates an instance of the Judopay API client against a specified environment using a custom userAgent,
         /// that will authenticate with your api token and secret.
         /// </summary>
@@ -227,6 +203,18 @@ namespace JudoPayDotNet
         {
             var credentials = new Credentials(token, secret);
             return Create(credentials, baseUrl, (ProductInfoHeaderValue)null);
+        }
+
+        /// <summary>
+        /// Creates an instance of the judopay api client with a custom base url, that will authenticate with your api token and payment session.
+        /// </summary>
+        /// <param name="judoEnvironment">Either the sandbox (development/testing) or live environments</param>
+        /// <param name="token">Your API token (from our merchant dashboard)</param>
+        /// <param name="paymentSession">Your one-time payment session created with the same API token </param>
+        /// <returns>Initialized instance of the Judopay api client</returns>
+        public static JudoPayApi CreateWithPaymentSession(JudoEnvironment judoEnvironment, string token, string paymentSession)
+        {
+            return CreateWithPaymentSession(token, paymentSession, GetEnvironmentUrl(judoEnvironment));
         }
 
         /// <summary>

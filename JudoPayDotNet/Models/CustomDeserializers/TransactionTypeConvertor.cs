@@ -22,32 +22,28 @@ namespace JudoPayDotNet.Models.CustomDeserializers
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			bool isNullable = (objectType.GetTypeInfo().IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
-			Type t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
+			var isNullable = (objectType.GetTypeInfo().IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
+			var t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
 
-			if (reader.TokenType == JsonToken.Null)
-			{
-				if (isNullable)
-				{ 
-					return null;
-				}
-			}
+			if (reader.TokenType == JsonToken.Null && isNullable)
+			{ 
+                return null;
+            }
 
 			if (reader.TokenType == JsonToken.Integer)
 			{
 				return Enum.Parse(t, reader.Value.ToString());
 			}
 
-			if (reader.TokenType == JsonToken.String)
-			{
-				string enumText = reader.Value.ToString();
-				if (enumText == string.Empty && isNullable)
-					return null;
+            if (reader.TokenType != JsonToken.String)
+                throw new JsonReaderException("The object does not represent a valid TransactionType");
 
-				return EnumUtils.GetValueFromDescription<TransactionType>(enumText);
-			}
+            var enumText = reader.Value.ToString();
+            if (enumText == string.Empty && isNullable)
+                return null;
 
-            throw new JsonReaderException("The object does not represent a valid TransactionType");
+            return EnumUtils.GetValueFromDescription<TransactionType>(enumText);
+
         }
 
 		public override bool CanConvert(Type objectType)

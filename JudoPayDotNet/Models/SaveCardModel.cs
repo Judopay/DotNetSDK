@@ -108,7 +108,7 @@ namespace JudoPayDotNet.Models
         public string JudoId { get; set; }
 
         /// <summary>
-        /// Gets or sets the iso 3 character currency to be used in the transaction.
+        /// Gets or sets the iso 3 character currency to be used.
         /// </summary>
         /// <value>
         /// GBP, EUR, USD

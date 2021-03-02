@@ -19,7 +19,7 @@ namespace JudoPayDotNet.Models
 
         public WebPaymentRequestModel()
         {
-            _paymentReference = Guid.NewGuid().ToString();
+            YourPaymentReference = Guid.NewGuid().ToString();
         }
 
         /// <summary>
@@ -171,12 +171,8 @@ namespace JudoPayDotNet.Models
         ///PLEASE NOTE!!!! there is a reflection call within JudoPayClient.cs that gets this property via a string call. update in both places
         /// including  other model instances of yourPaymentReference ********************
         /// </value>
-        private string _paymentReference;
         [DataMember(EmitDefaultValue = false)]
-        public string YourPaymentReference
-        {
-            get { return _paymentReference; }
-        }
+        public string YourPaymentReference { get; }
 
         /// <summary>
         /// Gets or sets the receipt.
