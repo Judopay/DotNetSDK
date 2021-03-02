@@ -26,7 +26,7 @@ namespace JudoPayDotNet.Models.Validations
                 var countOfDecimalPlaces = BitConverter.GetBytes(decimal.GetBits(amount)[3])[2];
                 return countOfDecimalPlaces <= 2;
             })
-                .WithErrorCode(((int) JudoModelErrorCode.Amount_Two_Decimal_Places).ToString())
+                .WithErrorCode(((int) JudoModelErrorCode.Amount_Decimal_Places).ToString())
                 .WithMessage("the amount submitted has more than two decimal places. Please round before submitting the transaction.");
 
             RuleFor(model => model.PartnerServiceFee)
