@@ -73,7 +73,7 @@ namespace JudoPayDotNetTests.Clients
             var acquirerTransactionId = "31746852808191501395";
             var externalBankResponseCode = "12345";
             var postCodeCheckResult = "Passed";
-            var addressLine1 = "1 Market House";
+            var addressAddress1 = "1 Market House";
             var addressLine2 = "Market Street";
             var town = "MarketTown";
             var postcode = "TR14 8PA";
@@ -125,8 +125,8 @@ namespace JudoPayDotNetTests.Clients
                                 externalBankResponseCode : '{externalBankResponseCode}',
                                 billingAddress :
                                     {{
-                                        line1 : '{addressLine1}',
-                                        line2 : '{addressLine2}',
+                                        address1 : '{addressAddress1}',
+                                        address2 : '{addressLine2}',
                                         town : '{town}',
                                         postcode : '{postcode}'
                                     }}
@@ -156,8 +156,8 @@ namespace JudoPayDotNetTests.Clients
             Assert.That(receipt.AcquirerTransactionId, Is.EqualTo(acquirerTransactionId));
             Assert.That(receipt.ExternalBankResponseCode, Is.EqualTo(externalBankResponseCode));
             Assert.That(receipt.PostCodeCheckResult, Is.EqualTo(postCodeCheckResult));
-            Assert.That(receipt.BillingAddress.Line1, Is.EqualTo(addressLine1));
-            Assert.That(receipt.BillingAddress.Line2, Is.EqualTo(addressLine2));
+            Assert.That(receipt.BillingAddress.Address1, Is.EqualTo(addressAddress1));
+            Assert.That(receipt.BillingAddress.Address2, Is.EqualTo(addressLine2));
             Assert.That(receipt.BillingAddress.Town, Is.EqualTo(town));
             Assert.That(receipt.BillingAddress.PostCode, Is.EqualTo(postcode));
         }

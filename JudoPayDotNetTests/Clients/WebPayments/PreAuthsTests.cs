@@ -151,9 +151,9 @@ namespace JudoPayDotNetTests.Clients.WebPayments
     	                                            cardAddress : 
     	                                            {
     		                                            cardHolderName : 'Test User',
-    		                                            line1 : 'Test Street',
-    		                                            line2 : 'Test Street',
-    		                                            line3 : 'Test Street',
+    		                                            address1 : 'Test Street',
+    		                                            address2 : 'Test Street',
+    		                                            address3 : 'Test Street',
     		                                            town : 'London',
     		                                            postCode : 'W31 4HS',
     		                                            country : 'England'
@@ -200,7 +200,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 		                                                 postUrl : 'http://test.com',
 		                                                 reference : '1342423'   
                                                     }
-                                                }")};
+                                                }") };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var responseTask = new TaskCompletionSource<HttpResponseMessage>();
             responseTask.SetResult(response);
