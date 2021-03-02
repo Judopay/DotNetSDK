@@ -35,6 +35,7 @@ namespace JudoPayDotNetTests.Clients
                                                  ExpiryDate = "12/25",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
+                                                 PhoneCountryCode = "44",
                                                  YourConsumerReference = "User10"
                                              },
                             @"{
@@ -71,6 +72,7 @@ namespace JudoPayDotNetTests.Clients
                                 ExpiryDate = "12/25",
                                 JudoId = "100200300",
                                 MobileNumber = "07999999999",
+                                PhoneCountryCode = "44",
                                 YourConsumerReference = "User10",
                                 WebPaymentReference = "5QcAAAMAAAACAAAADgAAAK20e_PSuGkRJQHBok_3cBGzcRlxWeUlZz70Y_f-bPqOUDimvg"
                         },
@@ -106,6 +108,7 @@ namespace JudoPayDotNetTests.Clients
                                                  EmailAddress = "testaccount@judo.com",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
+                                                 PhoneCountryCode = "44",
                                                  YourConsumerReference = "User10",
                                                  ConsumerToken = "ABAS"
                                              },
@@ -150,6 +153,7 @@ namespace JudoPayDotNetTests.Clients
                                                  ExpiryDate = "12/25",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
+                                                 PhoneCountryCode = "44",
                                                  YourConsumerReference = "User10"
                                              },
                             @"    
@@ -175,6 +179,7 @@ namespace JudoPayDotNetTests.Clients
                                                  EmailAddress = "testaccount@judo.com",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
+                                                 PhoneCountryCode = "44",
                                                  YourConsumerReference = "User10",
                                                  ConsumerToken = "ABAS"
                                              },
@@ -210,6 +215,7 @@ namespace JudoPayDotNetTests.Clients
                                                  ExpiryDate = "12/25",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
+                                                 PhoneCountryCode = "44",
                                                  YourConsumerReference = "User10"
                                              },
                             @"    

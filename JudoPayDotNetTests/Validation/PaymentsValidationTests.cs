@@ -73,6 +73,7 @@ namespace JudoPayDotNetTests.Validation
                 ExpiryDate = "12/25",
                 JudoId = "12356",
                 MobileNumber = "07999999999",
+                PhoneCountryCode = "44",
                 YourConsumerReference = "User10"
             };
 

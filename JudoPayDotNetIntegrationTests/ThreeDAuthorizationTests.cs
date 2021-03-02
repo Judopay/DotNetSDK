@@ -17,6 +17,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341", judoId: Configuration.Judoid);
             paymentWithCard.MobileNumber = "07123456789";
+            paymentWithCard.PhoneCountryCode = "44";
             paymentWithCard.EmailAddress = "test@gmail.com";
             paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
@@ -40,6 +41,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("432438862", "4976350000006891", "341", "B42 1SX", judoId: Configuration.Judoid);
             paymentWithCard.MobileNumber = "07123456789";
+            paymentWithCard.PhoneCountryCode = "44";
             paymentWithCard.EmailAddress = "test@gmail.com";
             paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
@@ -96,6 +98,7 @@ namespace JudoPayDotNetIntegrationTests
 
             paymentWithCard.CardHolderName = "CHALLENGE";
             paymentWithCard.MobileNumber = "07999999999";
+            paymentWithCard.PhoneCountryCode = "44";
             paymentWithCard.EmailAddress = "contact@judopay.com";
 
             paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko),Chrome/33.0.1750.154,Safari/537.36";
