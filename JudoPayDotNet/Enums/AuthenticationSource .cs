@@ -4,7 +4,7 @@
     {
         Unknown = 0,
         Browser = 1,
-        Stored_Recurring = 2,
+        Merchant_Initiated = 2,
         Mobile_Sdk = 3
     }
 }
