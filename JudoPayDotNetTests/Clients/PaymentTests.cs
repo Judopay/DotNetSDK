@@ -439,5 +439,27 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsNotNull(paymentReceiptResult.Error);
             Assert.AreEqual((int)errorType, paymentReceiptResult.Error.Code);
         }
+
+        [Test]
+        public void TestPaymentWithWebPaymentReference()
+        {
+            var webPaymentReference = "5QcAAAMAAAACAAAADgAAAK20e_PSuGkRJQHBok_3cBGzcRlxWeUlZz70Y_f-bPqOUDimvg";
+            var paymentModel = new CardPaymentModel
+            {
+                Amount = 2.0m,
+                CardAddress = new CardAddressModel {Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town"},
+                CardNumber = "348417606737499",
+                ConsumerLocation = new ConsumerLocationModel {Latitude = 40m, Longitude = 14m},
+                CV2 = "420",
+                EmailAddress = "testaccount@judo.com",
+                ExpiryDate = "12/25",
+                JudoId = "100200300",
+                MobileNumber = "07999999999",
+                PhoneCountryCode = "44",
+                YourConsumerReference = "User10",
+                WebPaymentReference = webPaymentReference
+            };
+            Assert.AreEqual(paymentModel.WebPaymentReference, webPaymentReference);
+        }
     }
 }
