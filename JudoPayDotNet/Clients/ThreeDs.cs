@@ -38,7 +38,8 @@ namespace JudoPayDotNet.Clients
             var address = $"{CompleteThreeDAuthorizationAddress}/{receiptId}";
 
             // Do not call the API if validation fail
-            return validationError ?? PutInternal<ThreeDResultModel, PaymentReceiptModel>(address, model);
+            return validationError != null ? Task.FromResult(validationError) :
+                PutInternal<ThreeDResultModel, PaymentReceiptModel>(address, model);
         }
 
         /*
@@ -54,7 +55,8 @@ namespace JudoPayDotNet.Clients
             var internalResumeThreeDSecureTwoModel = InternalResumeThreeDSecureTwoModel.From(model);
 
             // Do not call the API if validation fail 
-            return validationError ?? PutInternal<InternalResumeThreeDSecureTwoModel, ITransactionResult>(address, internalResumeThreeDSecureTwoModel);
+            return validationError != null ? Task.FromResult(validationError) :
+                PutInternal<InternalResumeThreeDSecureTwoModel, ITransactionResult>(address, internalResumeThreeDSecureTwoModel);
         }
 
         /*
@@ -67,7 +69,8 @@ namespace JudoPayDotNet.Clients
             var address = $"transactions/{receiptId}/{CompleteThreeDSecureTwoAddress}";
 
             // Do not call the API if validation fail 
-            return validationError ?? PutInternal<CompleteThreeDSecureTwoModel, PaymentReceiptModel>(address, model);
+            return validationError != null ? Task.FromResult(validationError) :
+                PutInternal<CompleteThreeDSecureTwoModel, PaymentReceiptModel>(address, model);
         }
     }
 }

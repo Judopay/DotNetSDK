@@ -24,13 +24,15 @@ namespace JudoPayDotNet.Clients
         public Task<IResult<ITransactionResult>> Create(SaveCardModel saveCard)
         {
             var validationError = Validate<SaveCardModel, ITransactionResult>(_validator, saveCard);
-            return validationError ?? PostInternal<SaveCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveCard);
+            return validationError != null ? Task.FromResult(validationError) :
+                PostInternal<SaveCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveCard);
         }
 
         public Task<IResult<ITransactionResult>> Create(SaveEncryptedCardModel saveEncryptedCard)
         {
             var validationError = Validate<SaveEncryptedCardModel, ITransactionResult>(_encryptedValidator, saveEncryptedCard);
-            return validationError ?? PostInternal<SaveEncryptedCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveEncryptedCard);
+            return validationError != null ? Task.FromResult(validationError) :
+                PostInternal<SaveEncryptedCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveEncryptedCard);
         }
     }
 }

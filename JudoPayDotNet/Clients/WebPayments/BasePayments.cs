@@ -20,18 +20,20 @@ namespace JudoPayDotNet.Clients.WebPayments
         {
             var validationError = Validate<WebPaymentRequestModel, WebPaymentResponseModel>(_webPaymentValidator, model);
 
-            var address = string.Format("{0}/{1}", Baseaddress, transactionType);
+            var address = $"{Baseaddress}/{transactionType}";
 
-            return validationError ?? PostInternal<WebPaymentRequestModel, WebPaymentResponseModel>(address, model);
+            return validationError != null ? Task.FromResult(validationError) :
+                PostInternal<WebPaymentRequestModel, WebPaymentResponseModel>(address, model);
         }
 
         protected Task<IResult<WebPaymentRequestModel>> Update(WebPaymentRequestModel model, string transactionType)
         {
             var validationError = Validate<WebPaymentRequestModel, WebPaymentRequestModel>(_webPaymentValidator, model);
 
-            var address = string.Format("{0}/{1}", Baseaddress, transactionType);
+            var address = $"{Baseaddress}/{transactionType}";
 
-            return validationError ?? PutInternal<WebPaymentRequestModel, WebPaymentRequestModel>(address, model);
+            return validationError != null ? Task.FromResult(validationError) :
+                PutInternal<WebPaymentRequestModel, WebPaymentRequestModel>(address, model);
         }
     }
 }
