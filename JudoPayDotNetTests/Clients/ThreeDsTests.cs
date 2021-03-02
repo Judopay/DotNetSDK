@@ -7,6 +7,7 @@ using JudoPayDotNet;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Logging;
+using JudoPayDotNet.Models.Internal;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -177,6 +178,22 @@ namespace JudoPayDotNetTests.Clients
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsTrue(paymentReceiptResult.HasError);
+        }
+
+        [Test]
+        public void TestInternalCompleteThreeDSecureTwoModel()
+        {
+            // Given an external model
+            var externalComplete3Ds2Model = new CompleteThreeDSecureTwoModel
+            {
+                CV2 = "123"
+            };
+
+            // When that request is sent to PartnerApi
+            var internalComplete3Ds2Model = InternalCompleteThreeDSecureTwoModel.From(externalComplete3Ds2Model);
+
+            // Then version is always 2.0.0
+            Assert.AreEqual(internalComplete3Ds2Model.Version, "2.0.0");
         }
     }
 }
