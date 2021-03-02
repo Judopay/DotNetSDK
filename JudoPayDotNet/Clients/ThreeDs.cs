@@ -68,9 +68,12 @@ namespace JudoPayDotNet.Clients
 
             var address = $"transactions/{receiptId}/{CompleteThreeDSecureTwoAddress}";
 
+            // Convert SDK model to internal model
+            var internalCompleteThreeDSecureTwoModel = InternalCompleteThreeDSecureTwoModel.From(model);
+
             // Do not call the API if validation fail 
             return validationError != null ? Task.FromResult(validationError) :
-                PutInternal<CompleteThreeDSecureTwoModel, PaymentReceiptModel>(address, model);
+                PutInternal<InternalCompleteThreeDSecureTwoModel, PaymentReceiptModel>(address, internalCompleteThreeDSecureTwoModel);
         }
     }
 }
