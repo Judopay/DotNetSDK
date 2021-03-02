@@ -218,6 +218,7 @@ namespace JudoPayDotNetIntegrationTests
 
             checkCardPayment.CardHolderName = "CHALLENGE";
             checkCardPayment.MobileNumber = "07999999999";
+            checkCardPayment.PhoneCountryCode = "34";
             checkCardPayment.EmailAddress = "contact@judopay.com";
             checkCardPayment.Currency = "GBP";
 
