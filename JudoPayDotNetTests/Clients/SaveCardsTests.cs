@@ -37,10 +37,10 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "120615",
+                        ExpiryDate = "12/25",
                         YourConsumerReference = "User10",
                         CV2 = "420",
-                        JudoId = "14562"
+                        JudoId = "100200300"
                     },
                         @"{
                         receiptId : '134567',
@@ -80,9 +80,9 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "120615",
+                        ExpiryDate = "12/25",
                         YourConsumerReference = "User10",
-                        JudoId = "14562"
+                        JudoId = "100200300"
                     },
                        @"    
                         {
@@ -113,7 +113,7 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "120615",
+                        ExpiryDate = "12/25",
                         YourConsumerReference = "User10",
                     },
                         @"{
@@ -136,21 +136,49 @@ namespace JudoPayDotNetTests.Clients
                             PostCode = "W40 9AU",
                             Town = "Town"
                         },
-                        CardNumber = "348417606737499",
-                        ExpiryDate = "120615",
+                        CardNumber = "",
+                        ExpiryDate = "12/25",
                         YourConsumerReference = "User10",
                     },
                             @"    
                     {
-                        errorMessage : 'Payment not made',
+                        message : 'Sorry, we're unable to process your request. Please check your details and try again.',
                         modelErrors : [{
-                                        fieldName : 'receiptId',
-                                        errorMessage : 'To large',
-                                        detailErrorMessage : 'This field has to be at most 20 characters'
+                                        code: '28',
+                                        fieldName : 'CardNumber',
+                                        message : 'Sorry, but you need to specify a card number for this request.',
+                                        detail : 'Sorry, we're currently unable to process this request.'
                                         }],
-                        errorType : '1'
+                        code : '1',
+                        category : '2'
                     }",
-                            1).SetName("ValidateWithoutSuccess");
+                            1).SetName("ValidateCardNumberWithoutSuccess");
+                    yield return new TestCaseData(new SaveEncryptedCardModel
+                        {
+                            CardAddress = new CardAddressModel
+                            {
+                                Line1 = "Test Street",
+                                PostCode = "W40 9AU",
+                                Town = "Town"
+                            },
+                            CardNumber = "",
+                            ExpiryDate = "12/25",
+                            YourConsumerReference = "User10",
+                        },
+                        @"    
+                    {
+                        message : 'Sorry, we're unable to process your request. Please check your details and try again.',
+                        modelErrors : [{
+                                        code: '52',
+                                        fieldName : 'CardToken',
+                                        message : 'Sorry, but for this transaction a card token must be supplied. Please check your details and try again.',
+                                        detail : 'Sorry, we are unable to process your request at this time.'
+                                        }],
+                        code : '1',
+                        category : '2'
+                    }",
+                        1).SetName("ValidateOneUseTokenWithoutSuccess");
+
                 }
             }
         }
@@ -252,6 +280,38 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
             Assert.AreEqual((int)errorType, paymentReceiptResult.Error.Code);
+        }
+
+        [Test, TestCaseSource(typeof(SaveCardsTestSource), "ValidateFailureTestCases")]
+        public void ValidateWithoutSuccess(SaveCardModel save, string responseData, JudoApiError errorType)
+        {
+            var httpClient = Substitute.For<IHttpClient>();
+            var response = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(responseData) };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
+            responseTask.SetResult(response);
+
+            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
+
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
+
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
+
+            IResult<ITransactionResult> saveCardReceiptResult;
+            if (save is SaveEncryptedCardModel)
+            {
+                saveCardReceiptResult = judo.SaveCards.Create((SaveEncryptedCardModel)save).Result;
+            }
+            else
+            {
+                saveCardReceiptResult = judo.SaveCards.Create((SaveCardModel)save).Result;
+            }
+
+            Assert.NotNull(saveCardReceiptResult);
+            Assert.IsTrue(saveCardReceiptResult.HasError);
+            Assert.IsNull(saveCardReceiptResult.Response);
+            Assert.IsNotNull(saveCardReceiptResult.Error);
+            Assert.AreEqual((int)errorType, saveCardReceiptResult.Error.Code);
         }
     }
 }

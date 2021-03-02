@@ -21,7 +21,8 @@ namespace JudoPayDotNet.Clients
         public Task<IResult<ITransactionResult>> Create(CollectionModel collection)
         {
             var validationError = Validate<CollectionModel, ITransactionResult>(CollectionValidator, collection);
-            return validationError ?? PostInternal<CollectionModel, ITransactionResult>(CREATE_ADDRESS, collection);
+            return validationError != null ? Task.FromResult(validationError) :
+                PostInternal<CollectionModel, ITransactionResult>(CREATE_ADDRESS, collection);
         }
     }
 }

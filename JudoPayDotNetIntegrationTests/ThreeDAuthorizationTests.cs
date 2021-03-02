@@ -213,6 +213,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void CheckCardWithThreedSecureTwoRequiresDeviceDetailsCheck()
         {
+            // Given a CheckCard request model
             var checkCardPayment = GetCheckCardModel(Configuration.SafeCharge_Judoid, "4976000000003436", "452");
 
             checkCardPayment.CardHolderName = "CHALLENGE";
@@ -225,7 +226,7 @@ namespace JudoPayDotNetIntegrationTests
             checkCardPayment.RecurringPayment = false;
             checkCardPayment.RecurringPaymentType = RecurringPaymentType.Unknown;
             checkCardPayment.RelatedReceiptId = string.Empty;
-            
+
             checkCardPayment.ThreeDSecure = new ThreeDSecureTwoModel
             {
                 AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
@@ -233,6 +234,8 @@ namespace JudoPayDotNetIntegrationTests
                 ChallengeNotificationUrl = "https://www.test.com"
             };
 
+            // When a request to the CheckCards endpoint is made with a CardHolderName
+            // that requires a device details check
             var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
             var checkCardResponse = paymentsFactory.CheckCards.Create(checkCardPayment).Result;
 

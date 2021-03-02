@@ -106,15 +106,13 @@ namespace JudoPayDotNet.Enums
 
             foreach (var field in type.GetRuntimeFields())
             {
-                var descriptionAttributes = field.GetCustomAttributes(typeof(DescriptionAttribute)) as DescriptionAttribute[];
-                if (descriptionAttributes != null)
+                if (field.GetCustomAttributes(typeof(DescriptionAttribute)) is DescriptionAttribute[] descriptionAttributes)
                 {
                     foreach (var descriptionAttribute in descriptionAttributes)
                     {
-                        var localizedAttribute = descriptionAttribute as LocalizedDescriptionAttribute;
-                        if (localizedAttribute != null)
+                        if (descriptionAttribute is LocalizedDescriptionAttribute localizedAttribute)
                         {
-                            if (String.Equals(localizedAttribute.Description, description, StringComparison.CurrentCultureIgnoreCase)
+                            if (string.Equals(localizedAttribute.Description, description, StringComparison.CurrentCultureIgnoreCase)
                                 && (localizedAttribute.Culture.Equals(CultureInfo.CurrentUICulture) || localizedAttribute.Culture.Equals(CultureInfo.InvariantCulture)))
                             {
                                 return (T)field.GetValue(null);
@@ -122,13 +120,13 @@ namespace JudoPayDotNet.Enums
                         }
                         else
                         {
-                            if (String.Equals(descriptionAttribute.Description, description, StringComparison.CurrentCultureIgnoreCase))
+                            if (string.Equals(descriptionAttribute.Description, description, StringComparison.CurrentCultureIgnoreCase))
                                 return (T)field.GetValue(null);
                         }
                     }
                 }
 
-                if (String.Equals(field.Name, description, StringComparison.CurrentCultureIgnoreCase))
+                if (string.Equals(field.Name, description, StringComparison.CurrentCultureIgnoreCase))
                     return (T)field.GetValue(null);
             }
 

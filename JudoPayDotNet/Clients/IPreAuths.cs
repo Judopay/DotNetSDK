@@ -32,13 +32,6 @@ namespace JudoPayDotNet.Clients
         Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPreAuth);
 
         /// <summary>
-        /// Creates the specified Android Pay pre authorization.
-        /// </summary>
-        /// <param name="androidPreAuth">The Android Pay pre authorization.</param>
-        /// <returns>The receipt for the created Android Pay pre authorization</returns>
-        Task<IResult<ITransactionResult>> Create(AndroidPaymentModel androidPreAuth);
-
-        /// <summary>
         /// Creates the specified One time pre authorization.
         /// </summary>
         /// <param name="oneTimePayment">The one time pre authorization payload.</param>
