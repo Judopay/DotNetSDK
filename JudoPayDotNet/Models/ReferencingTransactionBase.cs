@@ -8,6 +8,7 @@ namespace JudoPayDotNet.Models
     /// <summary>
     /// The base class for transactions that reference other transactions (like voids, collections and refunds)
     /// </summary>
+    [DataContract]
     public abstract class ReferencingTransactionBase :  IModelWithHttpHeaders
     {
         private Dictionary<string, string> _httpHeaders;
