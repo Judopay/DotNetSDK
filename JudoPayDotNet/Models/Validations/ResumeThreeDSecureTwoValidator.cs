@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using JudoPayDotNet.Enums;
 
 namespace JudoPayDotNet.Models.Validations
 {
@@ -13,6 +14,9 @@ namespace JudoPayDotNet.Models.Validations
 
             RuleFor(model => model.MethodCompletion)
                 .NotNull().WithMessage("You must supply a value for methodCompletion");
+
+            RuleFor(model => model.MethodCompletion)
+                .NotEqual(MethodCompletion.Unknown).WithMessage("You must supply a value for methodCompletion");
         }
     }
 }

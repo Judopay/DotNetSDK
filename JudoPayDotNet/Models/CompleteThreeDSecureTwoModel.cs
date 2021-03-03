@@ -16,14 +16,5 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string CV2 { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the Version.
-        /// </summary>
-        /// <value>
-        /// The CV2.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-        public string Version { get; set; }
     }
 }
