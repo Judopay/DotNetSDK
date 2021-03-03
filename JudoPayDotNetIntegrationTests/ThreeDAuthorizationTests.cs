@@ -198,7 +198,7 @@ namespace JudoPayDotNetIntegrationTests
             // Perform the challenge on the web browser using the information from the Resume
 
             // Then prepare the Complete request 
-            var completeRequest = new CompleteThreeDSecureTwoModel { CV2 = "452", Version = paymentReceipt.Version};
+            var completeRequest = new CompleteThreeDSecureTwoModel { CV2 = "452" };
             var completeResponse = paymentsFactory.ThreeDs.Complete3DSecureTwo(paymentReceipt.ReceiptId, completeRequest).Result;
 
             Assert.IsNotNull(completeResponse);
