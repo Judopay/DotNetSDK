@@ -10,9 +10,6 @@ namespace JudoPayDotNet.Models.Validations
         {
             RuleFor(model => model.CV2)
                 .NotEmpty().WithMessage("You must supply your card CV2");
-
-            RuleFor(model => model.Version)
-                .NotEmpty().WithMessage("You must supply your response Version as returned by the initial payment call");
         }
     }
 }
