@@ -35,6 +35,7 @@ namespace JudoPayDotNetTests.Clients
                                                  ExpiryDate = "12/25",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
+                                                 PhoneCountryCode = "44",
                                                  YourConsumerReference = "User10"
                                              },
                             @"{
@@ -60,6 +61,44 @@ namespace JudoPayDotNetTests.Clients
                             }",
                             "134567").SetName("PayWithCardWithSuccess");
                     yield return
+                        new TestCaseData(new CardPaymentModel
+                            {
+                                Amount = 2.0m,
+                                CardAddress = new CardAddressModel {Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town"},
+                                CardNumber = "348417606737499",
+                                ConsumerLocation = new ConsumerLocationModel {Latitude = 40m, Longitude = 14m},
+                                CV2 = "420",
+                                EmailAddress = "testaccount@judo.com",
+                                ExpiryDate = "12/25",
+                                JudoId = "100200300",
+                                MobileNumber = "07999999999",
+                                PhoneCountryCode = "44",
+                                YourConsumerReference = "User10",
+                                WebPaymentReference = "5QcAAAMAAAACAAAADgAAAK20e_PSuGkRJQHBok_3cBGzcRlxWeUlZz70Y_f-bPqOUDimvg"
+                        },
+                            @"{
+                            receiptId : '134567',
+                            type : 'Create',
+                            judoId : '12456',
+                            originalAmount : 20,
+                            amount : 20,
+                            netAmount : 20,
+                            cardDetails :
+                                {
+                                    cardLastfour : '1345',
+                                    endDate : '1214',
+                                    cardToken : 'ASb345AE',
+                                    cardType : 'VISA'
+                                },
+                            currency : 'GBP',
+                            consumer :
+                                {
+                                    consumerToken : 'B245SEB',
+                                    yourConsumerReference : 'Consumer1'
+                                }
+                            }",
+                            "134567").SetName("PayWithCardWithWebPaymentReferenceSuccess");
+                    yield return
                         new TestCaseData(new TokenPaymentModel
                                              {
                                                  Amount = 2.0m,
@@ -69,6 +108,7 @@ namespace JudoPayDotNetTests.Clients
                                                  EmailAddress = "testaccount@judo.com",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
+                                                 PhoneCountryCode = "44",
                                                  YourConsumerReference = "User10",
                                                  ConsumerToken = "ABAS"
                                              },
@@ -113,6 +153,7 @@ namespace JudoPayDotNetTests.Clients
                                                  ExpiryDate = "12/25",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
+                                                 PhoneCountryCode = "44",
                                                  YourConsumerReference = "User10"
                                              },
                             @"    
@@ -138,6 +179,7 @@ namespace JudoPayDotNetTests.Clients
                                                  EmailAddress = "testaccount@judo.com",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
+                                                 PhoneCountryCode = "44",
                                                  YourConsumerReference = "User10",
                                                  ConsumerToken = "ABAS"
                                              },
@@ -173,6 +215,7 @@ namespace JudoPayDotNetTests.Clients
                                                  ExpiryDate = "12/25",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
+                                                 PhoneCountryCode = "44",
                                                  YourConsumerReference = "User10"
                                              },
                             @"    
@@ -395,6 +438,28 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
             Assert.AreEqual((int)errorType, paymentReceiptResult.Error.Code);
+        }
+
+        [Test]
+        public void TestPaymentWithWebPaymentReference()
+        {
+            var webPaymentReference = "5QcAAAMAAAACAAAADgAAAK20e_PSuGkRJQHBok_3cBGzcRlxWeUlZz70Y_f-bPqOUDimvg";
+            var paymentModel = new CardPaymentModel
+            {
+                Amount = 2.0m,
+                CardAddress = new CardAddressModel {Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town"},
+                CardNumber = "348417606737499",
+                ConsumerLocation = new ConsumerLocationModel {Latitude = 40m, Longitude = 14m},
+                CV2 = "420",
+                EmailAddress = "testaccount@judo.com",
+                ExpiryDate = "12/25",
+                JudoId = "100200300",
+                MobileNumber = "07999999999",
+                PhoneCountryCode = "44",
+                YourConsumerReference = "User10",
+                WebPaymentReference = webPaymentReference
+            };
+            Assert.AreEqual(paymentModel.WebPaymentReference, webPaymentReference);
         }
     }
 }

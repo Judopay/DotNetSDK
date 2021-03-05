@@ -91,19 +91,6 @@ namespace JudoPayDotNet.Models
 // ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
-        /// Gets or sets the CV2.
-        /// </summary>
-        /// <value>
-        /// The CV2.
-        /// </value>
-        [DataMember(IsRequired = true)]
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable InconsistentNaming
-        public string CV2 { get; set; }
-// ReSharper restore InconsistentNaming
-// ReSharper restore UnusedAutoPropertyAccessor.Global
-
-        /// <summary>
         /// Gets or sets the consumer location.
         /// </summary>
         /// <value>
@@ -184,6 +171,11 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string RelatedReceiptId { get; set; }
+
+        /// <summary>
+        /// Reference of associated web payment session
+        /// </summary>
+        public string WebPaymentReference { get; set; }
 
         /// <summary>
         /// Allows you to set HTTP headers on requests

@@ -27,7 +27,7 @@ namespace JudoPayDotNetTests.Clients
                     {
                         CardAddress = new CardAddressModel
                         {
-                            Line1 = "Test Street",
+                            Address1 = "Test Street",
                             PostCode = "W40 9AU",
                             Town = "Town"
                         },
@@ -70,7 +70,7 @@ namespace JudoPayDotNetTests.Clients
                     {
                         CardAddress = new CardAddressModel
                         {
-                            Line1 = "Test Street",
+                            Address1 = "Test Street",
                             PostCode = "W40 9AU",
                             Town = "Town"
                         },
@@ -103,7 +103,7 @@ namespace JudoPayDotNetTests.Clients
                     {
                         CardAddress = new CardAddressModel
                         {
-                            Line1 = "Test Street",
+                            Address1 = "Test Street",
                             PostCode = "W40 9AU",
                             Town = "Town"
                         },
@@ -127,7 +127,7 @@ namespace JudoPayDotNetTests.Clients
                     {
                         CardAddress = new CardAddressModel
                         {
-                            Line1 = "Test Street",
+                            Address1 = "Test Street",
                             PostCode = "W40 9AU",
                             Town = "Town"
                         },
@@ -151,7 +151,7 @@ namespace JudoPayDotNetTests.Clients
                         {
                             CardAddress = new CardAddressModel
                             {
-                                Line1 = "Test Street",
+                                Address1 = "Test Street",
                                 PostCode = "W40 9AU",
                                 Town = "Town"
                             },

@@ -1,5 +1,7 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using JudoPayDotNet.Enums;
+using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models
 {
@@ -11,6 +13,22 @@ namespace JudoPayDotNet.Models
     // ReSharper disable UnusedMember.Global
     public class RegisterCardModel : SaveCardModel
     {
+        public RegisterCardModel()
+        {
+            YourPaymentReference = Guid.NewGuid().ToString();
+        }
+
+        /// <summary>
+        /// Gets your payment reference.
+        /// </summary>
+        /// <value>
+        /// Your payment reference.
+        /// PLEASE NOTE!!!! there is a reflection call within JudoPayClient.cs that gets this property via a string call. update in both places
+        /// including  other model instances of yourPaymentReference ********************
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public string YourPaymentReference { get; set; }
+
         /// <summary>
         /// Gets or sets the full card holder name.
         /// </summary>
@@ -80,6 +98,13 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public ThreeDSecureTwoModel ThreeDSecure { get; set; }
+
+        /// <summary>
+        /// This is a set of fraud signals sent by the mobile SDKs
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        // ReSharper disable once UnusedMember.Global
+        public JObject ClientDetails { get; set; }
     }
     // ReSharper restore UnusedMember.Global
 }

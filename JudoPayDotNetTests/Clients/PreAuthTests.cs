@@ -27,7 +27,7 @@ namespace JudoPayDotNetTests.Clients
                         Amount = 2.0m,
                         CardAddress = new CardAddressModel
                         {
-                            Line1 = "Test Street",
+                            Address1 = "Test Street",
                             PostCode = "W40 9AU",
                             Town = "Town"
                         },
@@ -42,6 +42,7 @@ namespace JudoPayDotNetTests.Clients
                         ExpiryDate = "12/25",
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
+                        PhoneCountryCode = "44",
                         YourConsumerReference = "User10"
                     },
                         @"{
@@ -79,6 +80,7 @@ namespace JudoPayDotNetTests.Clients
                         EmailAddress = "testaccount@judo.com",
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
+                        PhoneCountryCode = "44",
                         YourConsumerReference = "User10",
                        
                         ConsumerToken = "ABAS"
@@ -117,7 +119,7 @@ namespace JudoPayDotNetTests.Clients
                         Amount = 2.0m,
                         CardAddress = new CardAddressModel
                         {
-                            Line1 = "Test Street",
+                            Address1 = "Test Street",
                             PostCode = "W40 9AU",
                             Town = "Town"
                         },
@@ -132,6 +134,7 @@ namespace JudoPayDotNetTests.Clients
                         ExpiryDate = "12/25",
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
+                        PhoneCountryCode = "44",
                         YourConsumerReference = "User10"
                         
                     },
@@ -161,6 +164,7 @@ namespace JudoPayDotNetTests.Clients
                         EmailAddress = "testaccount@judo.com",
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
+                        PhoneCountryCode = "44",
                         YourConsumerReference = "User10",
                         ConsumerToken = "ABAS"
                     },
@@ -188,7 +192,7 @@ namespace JudoPayDotNetTests.Clients
                         new TestCaseData(new CardPaymentModel
                         {
                             Amount = 2.0m,
-                            CardAddress = new CardAddressModel { Line1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
+                            CardAddress = new CardAddressModel { Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
                             CardNumber = "348417606737499",
                             ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                             CV2 = "420",
@@ -196,6 +200,7 @@ namespace JudoPayDotNetTests.Clients
                             ExpiryDate = "12/25",
                             JudoId = "100200300",
                             MobileNumber = "07999999999",
+                            PhoneCountryCode = "44",
                             YourConsumerReference = "User10"
                         },
                             @"    
@@ -220,6 +225,7 @@ namespace JudoPayDotNetTests.Clients
                         EmailAddress = "testaccount@judo.com",
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
+                        PhoneCountryCode = "44",
                         YourConsumerReference = "User10"
                     },
                         @"
@@ -243,6 +249,7 @@ namespace JudoPayDotNetTests.Clients
                         EmailAddress = "testaccount@judo.com",
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
+                        PhoneCountryCode = "44",
                         YourConsumerReference = "User10"
                     },
                         @"

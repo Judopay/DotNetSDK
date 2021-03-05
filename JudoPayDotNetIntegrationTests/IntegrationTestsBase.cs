@@ -57,7 +57,7 @@ namespace JudoPayDotNetIntegrationTests
                 ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
-                    Line1 = "32 Edward Street",
+                    Address1 = "32 Edward Street",
                     PostCode = postCode,
                     Town = "Camborne"
                 }
@@ -126,7 +126,7 @@ namespace JudoPayDotNetIntegrationTests
                 ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
-                    Line1 = "32 Edward Street",
+                    Address1 = "32 Edward Street",
                     PostCode = postCode,
                     Town = "Camborne"
                 }
@@ -151,7 +151,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = yourConsumerReference,
                 CardAddress = new CardAddressModel
                 {
-                    Line1 = "32 Edward Street",
+                    Address1 = "32 Edward Street",
                     PostCode = "TR14 8PA",
                     Town = "Camborne"
                 }
@@ -179,7 +179,7 @@ namespace JudoPayDotNetIntegrationTests
                 ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
-                    Line1 = "32 Edward Street",
+                    Address1 = "32 Edward Street",
                     PostCode = postCode,
                     Town = "Camborne"
                 }
@@ -204,7 +204,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = yourConsumerReference,
                 CardAddress = new CardAddressModel
                 {
-                    Line1 = "32 Edward Street",
+                    Address1 = "32 Edward Street",
                     PostCode = "TR14 8PA",
                     Town = "Camborne"
                 }
@@ -225,7 +225,7 @@ namespace JudoPayDotNetIntegrationTests
                 ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
-                    Line1 = "32 Edward Street",
+                    Address1 = "32 Edward Street",
                     PostCode = "TR14 8PA",
                     Town = "Camborne"
                 }
@@ -250,7 +250,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = yourConsumerReference,
                 CardAddress = new CardAddressModel
                 {
-                    Line1 = "32 Edward Street",
+                    Address1 = "32 Edward Street",
                     PostCode = "TR14 8PA",
                     Town = "Camborne"
                 }
@@ -269,7 +269,7 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardAddress = new CardAddressModel
                 {
-                    Line1 = "32 Edward Street",
+                    Address1 = "32 Edward Street",
                     PostCode = "TR14 8PA",
                     Town = "Camborne"
                 }
