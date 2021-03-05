@@ -14,20 +14,8 @@ namespace JudoPayDotNet.Models
     {
         public SaveCardModel()
         {
-            YourPaymentReference = Guid.NewGuid().ToString();
             HttpHeaders = new Dictionary<string, string>();
         }
-
-        /// <summary>
-        /// Gets your payment reference.
-        /// </summary>
-        /// <value>
-        /// Your payment reference.
-        /// PLEASE NOTE!!!! there is a reflection call within JudoPayClient.cs that gets this property via a string call. update in both places
-        /// including  other model instances of yourPaymentReference ********************
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-        public string YourPaymentReference { get; set; }
 
         /// <summary>
         /// Gets or sets the CV2.
@@ -115,15 +103,6 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string Currency { get; set; }
-
-        /// <summary>
-        /// Gets or sets your payment meta data.
-        /// </summary>
-        /// <value>
-        /// Your payment meta data.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-        public IDictionary<string, string> YourPaymentMetaData { get; set; }
     }
     // ReSharper restore UnusedMember.Global
 }
