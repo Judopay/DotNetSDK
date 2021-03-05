@@ -325,14 +325,6 @@ namespace JudoPayDotNetIntegrationTests
                         YourConsumerReference = "User10",
                         YourPaymentReference = "UniqueRef"
                     }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidatePaymentInvalidOneTimeToken");
-                    yield return new TestCaseData(new PKPaymentModel()
-                    {
-                        Amount = 2.0m,
-                        PkPayment = null,
-                        JudoId = "100200302",
-                        YourConsumerReference = "User10",
-                        YourPaymentReference = "UniqueRef"
-                    }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidatePaymentInvalidOneTimeToken");
                 }
             }
         }
