@@ -1,4 +1,6 @@
-﻿using JudoPayDotNet.Models;
+﻿using System.Linq;
+using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
@@ -164,6 +166,42 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.AreEqual("Success", receipt.Result);
             Assert.AreEqual("VOID", receipt.Type);
+        }
+
+        // Reuse Test source from PaymentTest as some model is used for payments/preauths
+        [Test, TestCaseSource(typeof(PaymentTest.PaymentsTestSource), nameof(PaymentTest.PaymentsTestSource.ValidateFailureTestCases))]
+        public void ValidateWithoutSuccess(PaymentModel preauth, JudoModelErrorCode expectedModelErrorCode)
+        {
+            IResult<ITransactionResult> preAuthReceiptResult = null;
+
+            switch (preauth)
+            {
+                // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
+                case CardPaymentModel model:
+                    preAuthReceiptResult = JudoPayApiIridium.PreAuths.Create(model).Result;
+                    break;
+                case TokenPaymentModel model:
+                    preAuthReceiptResult = JudoPayApiIridium.PreAuths.Create(model).Result;
+                    break;
+                case OneTimePaymentModel model:
+                    preAuthReceiptResult = JudoPayApiIridium.PreAuths.Create(model).Result;
+                    break;
+                case PKPaymentModel model:
+                    preAuthReceiptResult = JudoPayApiIridium.PreAuths.Create(model).Result;
+                    break;
+            }
+            // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
+
+            Assert.NotNull(preAuthReceiptResult);
+            Assert.IsTrue(preAuthReceiptResult.HasError);
+            Assert.IsNull(preAuthReceiptResult.Response);
+            Assert.IsNotNull(preAuthReceiptResult.Error);
+            Assert.AreEqual((int)JudoApiError.General_Model_Error, preAuthReceiptResult.Error.Code);
+
+            var fieldErrors = preAuthReceiptResult.Error.ModelErrors;
+            Assert.IsNotNull(fieldErrors);
+            Assert.IsTrue(fieldErrors.Count >= 1);
+            Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
         }
     }
 }

@@ -9,13 +9,9 @@ namespace JudoPayDotNet.Clients
 {
     internal class PreAuths : JudoPayClient, IPreAuths
     {
-        private readonly IValidator<CardPaymentModel> CardPaymentValidator = new CardPaymentValidator();
-
-        private readonly IValidator<TokenPaymentModel> TokenPaymentValidator = new TokenPaymentValidator();
-
+        // Keep PKPaymentValidator as FieldErrors not returned for invalid pkPayment.token attributes
         private readonly IValidator<PKPaymentModel> PKPaymentValidator = new PKPaymentValidator();
-
-        private readonly IValidator<OneTimePaymentModel> OneTimePaymentValidator = new OneTimePaymentValidator();
+        // Other validation is done in the PartnerApi to ensure error codes are up to date
 
         private const string CREATE_PREAUTH_ADDRESS = "transactions/preauths";
 
@@ -27,16 +23,12 @@ namespace JudoPayDotNet.Clients
 
         public Task<IResult<ITransactionResult>> Create(CardPaymentModel cardPreAuth)
         {
-            var validationError = Validate<CardPaymentModel, ITransactionResult>(CardPaymentValidator, cardPreAuth);
-            return validationError != null ? Task.FromResult(validationError) :
-                PostInternal<CardPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, cardPreAuth);
+            return PostInternal<CardPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, cardPreAuth);
         }
 
         public Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPreAuth)
         {
-            var validationError = Validate<TokenPaymentModel, ITransactionResult>(TokenPaymentValidator, tokenPreAuth);
-            return validationError != null ? Task.FromResult(validationError) :
-                PostInternal<TokenPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, tokenPreAuth);
+            return PostInternal<TokenPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, tokenPreAuth);
         }
 
         public Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPreAuth)
@@ -48,9 +40,7 @@ namespace JudoPayDotNet.Clients
 
         public Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment)
         {
-            var validationError = Validate<OneTimePaymentModel, ITransactionResult>(OneTimePaymentValidator, oneTimePayment);
-            return validationError != null ? Task.FromResult(validationError) :
-                PostInternal<OneTimePaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, oneTimePayment);
+            return PostInternal<OneTimePaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, oneTimePayment);
         }
     }
 }

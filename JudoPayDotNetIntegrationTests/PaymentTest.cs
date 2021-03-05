@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
 using System.Threading.Tasks;
 using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
@@ -220,6 +223,118 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);}
+            Assert.AreEqual("Success", response.Response.Result);
+
+        }
+
+        [Test, TestCaseSource(typeof(PaymentsTestSource), nameof(PaymentsTestSource.ValidateFailureTestCases))]
+        public void ValidateWithoutSuccess(PaymentModel payment, JudoModelErrorCode expectedModelErrorCode)
+        {
+
+            IResult<ITransactionResult> paymentReceiptResult = null;
+
+            switch (payment)
+            {
+                // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
+                case CardPaymentModel model:
+                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
+                    break;
+                case TokenPaymentModel model:
+                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
+                    break;
+                case OneTimePaymentModel model:
+                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
+                    break;
+                case PKPaymentModel model:
+                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
+                    break;
+            }
+            // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
+
+            Assert.NotNull(paymentReceiptResult);
+            Assert.IsTrue(paymentReceiptResult.HasError);
+            Assert.IsNull(paymentReceiptResult.Response);
+            Assert.IsNotNull(paymentReceiptResult.Error);
+            Assert.AreEqual((int) JudoApiError.General_Model_Error, paymentReceiptResult.Error.Code);
+
+            var fieldErrors = paymentReceiptResult.Error.ModelErrors;
+            Assert.IsNotNull(fieldErrors);
+            Assert.IsTrue(fieldErrors.Count >= 1);
+            Assert.IsTrue(fieldErrors.Any(x => x.Code == (int) expectedModelErrorCode));
+        }
+
+        internal class PaymentsTestSource
+        {
+            public static IEnumerable ValidateFailureTestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(new CardPaymentModel
+                    {
+                        Amount = 1.20m,
+                        CardNumber = "497600000003436",
+                        CV2 = "452",
+                        ExpiryDate = "12/25",
+                        JudoId = "Invalid",
+                        YourConsumerReference = "User10",
+                        YourPaymentReference = "UniqueRef"
+                    }, JudoModelErrorCode.JudoId_Not_Valid).SetName("ValidatePaymentInvalidJudoId");
+                    yield return new TestCaseData(new CardPaymentModel
+                    {
+                        Amount = 1.20m,
+                        CardNumber = null,
+                        CV2 = "452",
+                        ExpiryDate = "12/25",
+                        JudoId = "100200302",
+                        YourConsumerReference = "User10",
+                        YourPaymentReference = "UniqueRef"
+                    }, JudoModelErrorCode.Card_Number_Not_Supplied).SetName("ValidatePaymentMissingCardNumber");
+                    yield return new TestCaseData(new CardPaymentModel
+                    {
+                        Amount = 1.20m,
+                        CardNumber = "497600000003436",
+                        CV2 = "452",
+                        ExpiryDate = "Invalid",
+                        JudoId = "100200302",
+                        YourConsumerReference = "User10",
+                        YourPaymentReference = "UniqueRef"
+                    }, JudoModelErrorCode.Expiry_Date_Not_Valid).SetName("ValidatePaymentInvalidExpiryDate");
+                    yield return new TestCaseData(new TokenPaymentModel
+                    {
+                        Amount = 1.20m,
+                        CardToken = "",
+                        CV2 = "123",
+                        JudoId = "100200302",
+                        YourConsumerReference = "User10",
+                        YourPaymentReference = "UniqueRef"
+                    }, JudoModelErrorCode.Card_Token_Not_Supplied).SetName("ValidatePaymentInvalidCardToken");
+                    yield return new TestCaseData(new TokenPaymentModel
+                    {
+                        Amount = 1.20m,
+                        CardToken = "dh83MLZp87Io172Peqw2sWauWpy4oqfm",
+                        CV2 = "123",
+                        JudoId = "100200302",
+                        YourConsumerReference = null,
+                        YourPaymentReference = "UniqueRef"
+                    }, JudoModelErrorCode.Consumer_Reference_Not_Supplied_1).SetName("ValidatePaymentMissingConsumerReference");
+                    yield return new TestCaseData(new OneTimePaymentModel
+                    {
+                        Amount = 2.0m,
+                        OneUseToken = "",
+                        JudoId = "100200302",
+                        YourConsumerReference = "User10",
+                        YourPaymentReference = "UniqueRef"
+                    }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidatePaymentInvalidOneTimeToken");
+                    yield return new TestCaseData(new PKPaymentModel()
+                    {
+                        Amount = 2.0m,
+                        PkPayment = null,
+                        JudoId = "100200302",
+                        YourConsumerReference = "User10",
+                        YourPaymentReference = "UniqueRef"
+                    }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidatePaymentInvalidOneTimeToken");
+                }
+            }
+        }
     }
 }
