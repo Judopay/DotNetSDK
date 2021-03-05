@@ -26,9 +26,9 @@ namespace JudoPayDotNetTests.Validation
                         Amount = 2.0m,
                         CardAddress = new CardAddressModel
                         {
-                            Line1 = "Test Street",
-                            Line2 = "Test Street",
-                            Line3 = "Test Street",
+                            Address1 = "Test Street",
+                            Address2 = "Test Street",
+                            Address3 = "Test Street",
                             PostCode = "W40 9AU",
                             Town = "Town"
                         },
@@ -42,6 +42,7 @@ namespace JudoPayDotNetTests.Validation
                         EmailAddress = "testaccount@judo.com",
                         ExpiryDate = "12/25",
                         MobileNumber = "07999999999",
+                        PhoneCountryCode = "44",
                         YourConsumerReference = "User10"
                     },
                         @"{

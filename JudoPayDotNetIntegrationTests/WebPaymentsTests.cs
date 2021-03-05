@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using HtmlAgilityPack;
 using JudoPayDotNet.Models;
 using NUnit.Framework;
@@ -213,6 +214,32 @@ namespace JudoPayDotNetIntegrationTests
             request.Headers.Authorization = new AuthenticationHeaderValue("Basic", parameter);
 
             return request;
+        }
+
+        [Test]
+        public async Task CreatePaymentSessionThenPayWithReference()
+        {
+            var request = GetWebPaymentRequestModel();
+
+            var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
+
+            Assert.NotNull(result);
+            Assert.IsFalse(result.HasError);
+            Assert.NotNull(result.Response);
+            Assert.NotNull(result.Response.Reference);
+            Assert.NotNull(result.Response.PostUrl);
+
+            // Send payment request with WebPaymentReference set
+            var paymentWithCard = GetCardPaymentModel();
+            paymentWithCard.WebPaymentReference = result.Response.Reference;
+
+            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+
+            // Can't check WebPaymentReference on receipt yet (until JR-4659 implemented)
         }
     }
 }
