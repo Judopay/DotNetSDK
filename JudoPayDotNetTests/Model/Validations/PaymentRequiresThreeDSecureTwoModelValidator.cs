@@ -1,6 +1,7 @@
 using FluentValidation;
+using JudoPayDotNet.Models;
 
-namespace JudoPayDotNet.Models.Validations
+namespace JudoPayDotNetTests.Model.Validations
 {
 	internal class PaymentRequiresThreeDSecureTwoModelValidator : TransactionResultBaseValidation<PaymentRequiresThreeDSecureTwoModel>
 	{

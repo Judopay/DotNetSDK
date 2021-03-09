@@ -1,4 +1,7 @@
-﻿using JudoPayDotNet.Models;
+﻿using System.Collections;
+using System.Linq;
+using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
@@ -122,6 +125,59 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.AreEqual("Success", receipt.Result);
             Assert.AreEqual("Refund", receipt.Type);
+        }
+
+        [Test, TestCaseSource(typeof(RefundsTestSource), nameof(RefundsTestSource.ValidateFailureTestCases))]
+        public void ValidateWithoutSuccess(RefundModel refundModel, JudoModelErrorCode expectedModelErrorCode)
+        {
+            var collectionReceiptResult = JudoPayApiIridium.Refunds.Create(refundModel).Result;
+
+            Assert.NotNull(collectionReceiptResult);
+            Assert.IsTrue(collectionReceiptResult.HasError);
+            Assert.IsNull(collectionReceiptResult.Response);
+            Assert.IsNotNull(collectionReceiptResult.Error);
+            Assert.AreEqual((int)JudoApiError.General_Model_Error, collectionReceiptResult.Error.Code);
+
+            var fieldErrors = collectionReceiptResult.Error.ModelErrors;
+            Assert.IsNotNull(fieldErrors);
+            Assert.IsTrue(fieldErrors.Count >= 1);
+            Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
+        }
+
+        internal class RefundsTestSource
+        {
+            public static IEnumerable ValidateFailureTestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(new RefundModel
+                    {
+                        Amount = 1.20m
+                    }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateRefundMissingReceiptId"); // No ReceiptId_Not_Supplied as ReceiptId will be set to 0 as it is not null
+                    yield return new TestCaseData(new RefundModel
+                    {
+                        ReceiptId = -1,
+                        Amount = 1.20m
+                    }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateRefundInvalidReceiptId");
+                    yield return new TestCaseData(new RefundModel
+                    {
+                        ReceiptId = 685187481842388992
+                    }, JudoModelErrorCode.Amount_Not_Valid).SetName("ValidateRefundMissingAmount");
+                    // Change both following to expect Amount_Greater_Than_0 once 6.3 release deployed
+                    yield return new TestCaseData(new RefundModel
+                    {
+                        ReceiptId = 685187481842388992,
+                        Amount = 0m
+                    }, JudoModelErrorCode.Amount_Not_Valid).SetName("ValidateRefundZeroAmount");
+                    /*
+                    yield return new TestCaseData(new RefundModel
+                    {
+                        ReceiptId = 685187481842388992,
+                        Amount = -1m
+                    }, JudoModelErrorCode.Amount_Not_Valid).SetName("ValidateRefundNegativeAmount");
+                    */
+                }
+            }
         }
     }
 }

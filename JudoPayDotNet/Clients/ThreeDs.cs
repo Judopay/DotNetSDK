@@ -16,9 +16,7 @@ namespace JudoPayDotNet.Clients
 
         private const string CompleteThreeDSecureTwoAddress = "complete3ds";
 
-
-        private readonly IValidator<ThreeDResultModel> _threeDResultValidator = new InlineValidator<ThreeDResultModel>();
-
+        // Keep 3DS2 validation until JR-4706 is released
         private readonly IValidator<ResumeThreeDSecureTwoModel> _resumeThreeDSecureValidator = new ResumeThreeDSecureTwoValidator();
 
         private readonly IValidator<CompleteThreeDSecureTwoModel> _completeThreeDSecureValidator = new CompleteThreeDSecureTwoValidator();
@@ -33,13 +31,10 @@ namespace JudoPayDotNet.Clients
         */
         public Task<IResult<PaymentReceiptModel>> Complete3DSecure(long receiptId, ThreeDResultModel model)
         {
-            var validationError = Validate<ThreeDResultModel, PaymentReceiptModel>(_threeDResultValidator, model);
-
             var address = $"{CompleteThreeDAuthorizationAddress}/{receiptId}";
 
             // Do not call the API if validation fail
-            return validationError != null ? Task.FromResult(validationError) :
-                PutInternal<ThreeDResultModel, PaymentReceiptModel>(address, model);
+            return PutInternal<ThreeDResultModel, PaymentReceiptModel>(address, model);
         }
 
         /*

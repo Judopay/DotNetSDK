@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
@@ -240,6 +243,77 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Success", response.Response.Result);
 
             // Can't check WebPaymentReference on receipt yet (until JR-4659 implemented)
+        }
+
+        [Test, TestCaseSource(typeof(WebPaymentsTestSource), nameof(WebPaymentsTestSource.ValidateFailureTestCases))]
+        public void ValidateWithoutSuccess(WebPaymentRequestModel webPayment, JudoModelErrorCode expectedModelErrorCode)
+        {
+
+            var webPaymentResult = JudoPayApiIridium.WebPayments.Payments.Create(webPayment).Result;
+
+            Assert.NotNull(webPaymentResult);
+            Assert.IsTrue(webPaymentResult.HasError);
+            Assert.IsNull(webPaymentResult.Response);
+            Assert.IsNotNull(webPaymentResult.Error);
+            Assert.AreEqual((int)JudoApiError.General_Model_Error, webPaymentResult.Error.Code);
+
+            var fieldErrors = webPaymentResult.Error.ModelErrors;
+            Assert.IsNotNull(fieldErrors);
+            Assert.IsTrue(fieldErrors.Count >= 1);
+            Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
+        }
+
+        internal class WebPaymentsTestSource
+        {
+            public static IEnumerable ValidateFailureTestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(new WebPaymentRequestModel
+                    {
+                        Amount = 1.20m,
+                        JudoId = "Invalid",
+                        YourConsumerReference = "User10"
+                    }, JudoModelErrorCode.JudoId_Not_Valid_1).SetName("ValidateWebPaymentInvalidJudoId");
+                    yield return new TestCaseData(new WebPaymentRequestModel
+                    {
+                        Amount = 1.20m,
+                        JudoId = null,
+                        YourConsumerReference = "User10"
+                    }, JudoModelErrorCode.JudoId_Not_Supplied_1).SetName("ValidateWebPaymentMissingJudoId");
+                    yield return new TestCaseData(new WebPaymentRequestModel
+                    {
+                        Amount = 1.20m,
+                        JudoId = "100200302",
+                        YourConsumerReference = null
+                    }, JudoModelErrorCode.Consumer_Reference_Not_Supplied).SetName("ValidateWebPaymentMissingConsumerReference");
+                    yield return new TestCaseData(new WebPaymentRequestModel
+                    {
+                        Amount = 1.20m,
+                        JudoId = "100200302",
+                        YourConsumerReference = ""
+                    }, JudoModelErrorCode.Consumer_Reference_Not_Supplied).SetName("ValidateWebPaymentEmptyConsumerReference");
+                    /* Restore once JR-4742 is released
+                    yield return new TestCaseData(new WebPaymentRequestModel
+                    {
+                        JudoId = "100200302",
+                        YourConsumerReference = "User10"
+                    }, JudoModelErrorCode.Amount_Not_Valid).SetName("ValidateWebPaymentMissingAmount");
+                    yield return new TestCaseData(new WebPaymentRequestModel
+                    {
+                        Amount = 0m,
+                        JudoId = "100200302",
+                        YourConsumerReference = "User10"
+                    }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateWebPaymentZeroAmount");
+                    yield return new TestCaseData(new WebPaymentRequestModel
+                    {
+                        Amount = -1m,
+                        JudoId = "100200302",
+                        YourConsumerReference = "User10"
+                    }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateWebPaymentNegativeAmount");
+                    */
+                }
+            }
         }
     }
 }

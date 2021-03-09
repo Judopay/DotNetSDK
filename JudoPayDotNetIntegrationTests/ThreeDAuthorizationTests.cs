@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using HtmlAgilityPack;
 using JudoPayDotNet;
 using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
@@ -251,5 +254,43 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(deviceDetailsResponse.ReceiptId);
             Assert.IsNotNull(deviceDetailsResponse.Md);
         }
+
+        [Test, TestCaseSource(typeof(ThreeDTestSource), nameof(ThreeDTestSource.ValidateFailureTestCases))]
+        public void ValidateWithoutSuccess(ThreeDResultModel threeDsModel, JudoModelErrorCode expectedModelErrorCode)
+        {
+            var threeDsResult = JudoPayApiIridium.ThreeDs.Complete3DSecure(686563432945848320, threeDsModel).Result;
+
+            Assert.NotNull(threeDsResult);
+            Assert.IsTrue(threeDsResult.HasError);
+            Assert.IsNull(threeDsResult.Response);
+            Assert.IsNotNull(threeDsResult.Error);
+            Assert.AreEqual((int)JudoApiError.General_Model_Error, threeDsResult.Error.Code);
+
+            var fieldErrors = threeDsResult.Error.ModelErrors;
+            Assert.IsNotNull(fieldErrors);
+            Assert.IsTrue(fieldErrors.Count >= 1);
+            Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
+        }
+
+        internal class ThreeDTestSource
+        {
+            public static IEnumerable ValidateFailureTestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(new ThreeDResultModel
+                    {
+                        Md = "210309131405694701132842",
+                        PaRes = null
+                    }, JudoModelErrorCode.ThreeDSecure_PaRes_Not_Supplied).SetName("ValidateThreeDsMissingPaRes"); // No ReceiptId_Not_Supplied as ReceiptId will be set to 0 as it is not null
+                    yield return new TestCaseData(new ThreeDResultModel
+                    {
+                        Md = "210309131405694701132842",
+                        PaRes = ""
+                    }, JudoModelErrorCode.ThreeDSecure_PaRes_Not_Supplied).SetName("ValidateThreeDsEmptyPaRes");
+                 }
+            }
+        }
+
     }
 }

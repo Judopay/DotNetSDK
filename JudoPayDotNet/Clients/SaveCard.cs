@@ -1,18 +1,12 @@
 ﻿using System.Threading.Tasks;
-using FluentValidation;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
-using JudoPayDotNet.Models.Validations;
 
 namespace JudoPayDotNet.Clients
 {
     internal class SaveCard : JudoPayClient, ISaveCard
     {
-        private readonly IValidator<SaveCardModel> _validator = new SaveCardValidator();
-        private readonly IValidator<SaveEncryptedCardModel> _encryptedValidator = new SaveEncryptedCardValidator();
-
-
         private const string SAVE_CARD_ADDRESS = "transactions/savecard";
 
         public SaveCard(ILog logger, IClient client, bool deDuplicate = false)
@@ -23,16 +17,12 @@ namespace JudoPayDotNet.Clients
 
         public Task<IResult<ITransactionResult>> Create(SaveCardModel saveCard)
         {
-            var validationError = Validate<SaveCardModel, ITransactionResult>(_validator, saveCard);
-            return validationError != null ? Task.FromResult(validationError) :
-                PostInternal<SaveCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveCard);
+            return PostInternal<SaveCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveCard);
         }
 
         public Task<IResult<ITransactionResult>> Create(SaveEncryptedCardModel saveEncryptedCard)
         {
-            var validationError = Validate<SaveEncryptedCardModel, ITransactionResult>(_encryptedValidator, saveEncryptedCard);
-            return validationError != null ? Task.FromResult(validationError) :
-                PostInternal<SaveEncryptedCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveEncryptedCard);
+            return PostInternal<SaveEncryptedCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveEncryptedCard);
         }
     }
 }
