@@ -33,7 +33,6 @@ namespace JudoPayDotNet.Clients
         {
             var address = $"{CompleteThreeDAuthorizationAddress}/{receiptId}";
 
-            // Do not call the API if validation fail
             return PutInternal<ThreeDResultModel, PaymentReceiptModel>(address, model);
         }
 
