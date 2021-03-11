@@ -8,7 +8,7 @@ The .NET SDK is a client for our Judopay API, which provides card payment proces
 #### NB: Due to industry requirements only TLS 1.2 is supported
 
 ## Getting started
-The Judopay SDK is distributed as a [NuGet package](https://www.nuget.org/packages/JudoPay.Net/) 
+The Judopay SDK is distributed as a [NuGet package](https://www.nuget.org/packages/JudoPay.Net/)
 using the package name of JudoPay.Net.
 
 #### 1. Integration
@@ -65,7 +65,7 @@ client.Payments.Create(cardPaymentModel).ContinueWith(result =>
 
 });
 ```
-##  Making a payment with 3DSecure
+## Making a payment with 3DSecure Two
 
 Confirm with Judopay support that the ApiToken you are using is enabled for 3DS2
 
@@ -114,6 +114,10 @@ await client.Payments.Create(paymentModel).ContinueWith(response =>
                 // you will receive a POST to the supplied MethodNotificationUrl once 
                 // this is acknowledged, then follow up with a call to
                 // client.ThreeDs.Resume3DSecureTwo
+
+                // threeDSecureRequired.result and message give context
+                // result: "Additional device data is needed for 3D Secure 2.0"
+                // message: "Issuer ACS has requested additional device data gathering"
                 break;
             }
             case PaymentRequiresThreeDSecureTwoModel threeDSecureRequired
@@ -125,6 +129,10 @@ await client.Payments.Create(paymentModel).ContinueWith(response =>
                 // will receive a POST to the supplied ChallengeNotificationUrl once 
                 // this is acknowledged, then follow up with a call to
                 // client.ThreeDs.Complete3DSecureTwo
+
+                // threeDSecureRequired.result and message give context
+                // result: "Challenge completion is needed for 3D Secure 2.0"
+                // message: "Issuer ACS has responded with a Challenge URL"
                 break;
             }
             case PaymentReceiptModel paymentReceipt:
@@ -174,6 +182,10 @@ await client.ThreeDs.Resume3DSecureTwo(receiptId, resumeModel).ContinueWith(resu
                 // will receive a POST to the supplied ChallengeNotificationUrl once 
                 // this is acknowledged, then follow up with a call to
                 // client.ThreeDs.Complete3DSecureTwo
+                
+                // threeDSecureRequired.result and message give context
+                // result: "Challenge completion is needed for 3D Secure 2.0"
+                // message: "Issuer ACS has responded with a Challenge URL"
                 break;
             }
             case PaymentReceiptModel paymentReceipt:
@@ -232,3 +244,5 @@ await client.ThreeDs.Complete3DSecureTwo(receiptId, completeModel).ContinueWith(
 
 ## Next steps
 The Judo .NET library supports additional features and a range of customization options. For more information about this SDK see our wiki documentation as well as our public documentation.
+
+
