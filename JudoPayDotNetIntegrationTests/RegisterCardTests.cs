@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
@@ -74,6 +76,22 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Declined", response.Response.Result);
+        }
+
+        [Test, TestCaseSource(typeof(CheckCardTests.RegisterCheckCardTestSource), nameof(CheckCardTests.RegisterCheckCardTestSource.ValidateFailureTestCases))]
+        public void ValidateWithoutSuccess(RegisterCardModel registerCardModel, JudoModelErrorCode expectedModelErrorCode)
+        {
+            var registerCardReceiptResult = JudoPayApiIridium.RegisterCards.Create(registerCardModel).Result;
+            Assert.NotNull(registerCardReceiptResult);
+            Assert.IsTrue(registerCardReceiptResult.HasError);
+            Assert.IsNull(registerCardReceiptResult.Response);
+            Assert.IsNotNull(registerCardReceiptResult.Error);
+            Assert.AreEqual((int)JudoApiError.General_Model_Error, registerCardReceiptResult.Error.Code);
+
+            var fieldErrors = registerCardReceiptResult.Error.ModelErrors;
+            Assert.IsNotNull(fieldErrors);
+            Assert.IsTrue(fieldErrors.Count >= 1);
+            Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
         }
     }
 }

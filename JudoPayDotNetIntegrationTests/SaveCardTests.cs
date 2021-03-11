@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
 using JudoPayDotNet.Models;
+using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
@@ -75,5 +78,109 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
         }
+
+        [Test, TestCaseSource(typeof(SaveCardTestSource), nameof(SaveCardTestSource.ValidateFailureTestCases))]
+        public void ValidateWithoutSuccess(SaveCardModel saveCardModel, JudoModelErrorCode expectedModelErrorCode)
+        {
+            var saveCardReceiptResult = JudoPayApiIridium.SaveCards.Create(saveCardModel).Result;
+            Assert.NotNull(saveCardReceiptResult);
+            Assert.IsTrue(saveCardReceiptResult.HasError);
+            Assert.IsNull(saveCardReceiptResult.Response);
+            Assert.IsNotNull(saveCardReceiptResult.Error);
+            Assert.AreEqual((int)JudoApiError.General_Model_Error, saveCardReceiptResult.Error.Code);
+
+            var fieldErrors = saveCardReceiptResult.Error.ModelErrors;
+            Assert.IsNotNull(fieldErrors);
+            Assert.IsTrue(fieldErrors.Count >= 1);
+            Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
+        }
+
+        internal class SaveCardTestSource
+        {
+            public static IEnumerable ValidateFailureTestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(new SaveCardModel
+                    {
+                        CardNumber = "4976000000003436",
+                        CV2 = "452",
+                        ExpiryDate = "12/25",
+                        YourConsumerReference = null
+                    }, JudoModelErrorCode.Consumer_Reference_Not_Supplied_1).SetName("ValidateSaveCardMissingConsumerReference");
+                    yield return new TestCaseData(new SaveCardModel
+                    {
+                        CardNumber = "4976000000003436",
+                        CV2 = "452",
+                        ExpiryDate = "12/25",
+                        YourConsumerReference = ""
+                    }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateSaveCardEmptyConsumerReference");
+                    yield return new TestCaseData(new SaveCardModel
+                    {
+                        CardNumber = "4976000000003436",
+                        CV2 = "452",
+                        ExpiryDate = "12/25",
+                        YourConsumerReference = "123456789012345678901234567890123456789012345678901"
+                    }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateSaveCardConsumerReferenceTooLong");
+                    yield return new TestCaseData(new SaveCardModel
+                    {
+                        CardNumber = null,
+                        CV2 = "452",
+                        ExpiryDate = "12/25",
+                        YourConsumerReference = "UniqueRef"
+                    }, JudoModelErrorCode.Card_Number_Not_Supplied).SetName("ValidateSaveCardMissingCardNumber");
+                    yield return new TestCaseData(new SaveCardModel
+                    {
+                        CardNumber = "",
+                        CV2 = "452",
+                        ExpiryDate = "12/25",
+                        YourConsumerReference = "UniqueRef"
+                    }, JudoModelErrorCode.Card_Number_Not_Supplied).SetName("ValidateSaveCardEmptyCardNumber");
+                    // Include once JR-4741 is implemented
+                    /*
+                    yield return new TestCaseData(new SaveCardModel
+                    {
+                        CardNumber = "4976000000003436",
+                        CV2 = "452",
+                        ExpiryDate = null,
+                        YourConsumerReference = "UniqueRef"
+                    }, JudoModelErrorCode.Expiry_Date_Not_Supplied).SetName("ValidateSaveCardMissingExpiryDate");
+                    yield return new TestCaseData(new SaveCardModel
+                    {
+                        CardNumber = "4976000000003436",
+                        CV2 = "452",
+                        ExpiryDate = "",
+                        YourConsumerReference = "UniqueRef"
+                    }, JudoModelErrorCode.Expiry_Date_Not_Supplied).SetName("ValidateSaveCardEmptyExpiryDate");
+                    */
+                    yield return new TestCaseData(new SaveEncryptedCardModel
+                    {
+                        OneUseToken = "DummyOneUseToken",
+                        YourConsumerReference = null,
+                    }, JudoModelErrorCode.Consumer_Reference_Not_Supplied_1).SetName("ValidateSaveEncryptedCardMissingConsumerReference");
+                    yield return new TestCaseData(new SaveEncryptedCardModel
+                    {
+                        OneUseToken = "DummyOneUseToken",
+                        YourConsumerReference = "",
+                    }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateSaveEncryptedCardEmptyConsumerReference");
+                    yield return new TestCaseData(new SaveEncryptedCardModel
+                    {
+                        OneUseToken = "DummyOneUseToken",
+                        YourConsumerReference = "123456789012345678901234567890123456789012345678901"
+                    }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateSaveEncryptedCardConsumerReferenceTooLong");
+                    yield return new TestCaseData(new SaveEncryptedCardModel
+                    {
+                        OneUseToken = null,
+                        YourConsumerReference = "UniqueRef",
+                    }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidateSaveEncryptedCardMissingOneUseToken");
+                    yield return new TestCaseData(new SaveEncryptedCardModel
+                    {
+                        OneUseToken = "",
+                        YourConsumerReference = "UniqueRef",
+                    }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidateSaveEncryptedCardEmptyOneUseToken");
+                }
+            }
+        }
+
     }
 }

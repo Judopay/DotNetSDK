@@ -7,7 +7,7 @@ namespace JudoPayDotNetCoreSampleApp
 {
     class JudoPayDotNetCoreSampleApp
     {
-        private static string ApiToken = "{BASE_TOKEN}";
+        private static readonly string ApiToken = "{BASE_TOKEN}";
         private static readonly string ApiSecret = "{SECRET}";
 
         static void Main(string[] args)

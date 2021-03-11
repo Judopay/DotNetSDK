@@ -116,61 +116,6 @@ namespace JudoPayDotNetTests.Clients
                             20).SetName("ValidateSuccess");
                 }
             }
-
-            public static IEnumerable ValidateFailureTestCases
-            {
-                get
-                {
-                    yield return new TestCaseData(new RegisterCardModel
-                    {
-                        CardAddress = new CardAddressModel
-                        {
-                            Address1 = "Test Street",
-                            PostCode = "W40 9AU",
-                            Town = "Town"
-                        },
-                        CardNumber = "",
-                        ExpiryDate = "12/25",
-                        YourConsumerReference = "User10",
-                    },
-                            @"    
-                    {
-                        message : 'Sorry, we're unable to process your request. Please check your details and try again.',
-                        modelErrors : [{
-                                        code: '28',
-                                        fieldName : 'CardNumber',
-                                        message : 'Sorry, but you need to specify a card number for this request.',
-                                        detail : 'Sorry, we're currently unable to process this request.'
-                                        }],
-                        code : '1',
-                        category : '2'
-                    }",
-                            JudoApiError.General_Model_Error).SetName("ValidateCardWithoutSuccess");
-                    yield return new TestCaseData(new RegisterEncryptedCardModel
-                        {
-                            CardAddress = new CardAddressModel
-                            {
-                                Address1 = "Test Street",
-                                PostCode = "W40 9AU",
-                                Town = "Town"
-                            },
-                            OneUseToken = "",
-                            YourConsumerReference = "User10",
-                        },
-                        @"    
-                    {
-                        message : 'Sorry, we're unable to process your request. Please check your details and try again.',
-                        modelErrors : [{
-                                        code: '970',
-                                        fieldName : 'OneUseToken',
-                                        }],
-                        code : '1',
-                        category : '2'
-                    }",
-                        JudoApiError.General_Model_Error).SetName("ValidateOneUseTokenWithoutSuccess");
-
-                }
-            }
         }
 
 
@@ -270,38 +215,6 @@ namespace JudoPayDotNetTests.Clients
             Assert.IsNull(paymentReceiptResult.Response);
             Assert.IsNotNull(paymentReceiptResult.Error);
             Assert.AreEqual((int)errorType, paymentReceiptResult.Error.Code);
-        }
-
-        [Test, TestCaseSource(typeof(RegisterCardsTestSource), "ValidateFailureTestCases")]
-        public void ValidateWithoutSuccess(RegisterCardModel register, string responseData, JudoApiError errorType)
-        {
-            var httpClient = Substitute.For<IHttpClient>();
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(responseData) };
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
-            responseTask.SetResult(response);
-
-            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
-
-            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
-
-            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
-
-            IResult<ITransactionResult> registerCardReceiptResult;
-            if (register is RegisterEncryptedCardModel)
-            {
-                registerCardReceiptResult = judo.RegisterCards.Create((RegisterEncryptedCardModel)register).Result;
-            }
-            else
-            {
-                registerCardReceiptResult = judo.RegisterCards.Create(register).Result;
-            }
-
-            Assert.NotNull(registerCardReceiptResult);
-            Assert.IsTrue(registerCardReceiptResult.HasError);
-            Assert.IsNull(registerCardReceiptResult.Response);
-            Assert.IsNotNull(registerCardReceiptResult.Error);
-            Assert.AreEqual((int)errorType, registerCardReceiptResult.Error.Code);
         }
     }
 }

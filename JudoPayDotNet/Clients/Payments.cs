@@ -9,13 +9,9 @@ namespace JudoPayDotNet.Clients
 {
     internal class Payments : JudoPayClient, IPayments
     {
-        private readonly IValidator<CardPaymentModel> CardPaymentValidator = new CardPaymentValidator();
-
-        private readonly IValidator<TokenPaymentModel> TokenPaymentValidator = new TokenPaymentValidator();
-
+        // Keep PKPaymentValidator as FieldErrors not returned for invalid pkPayment.token attributes
         private readonly IValidator<PKPaymentModel> PKPaymentValidator = new PKPaymentValidator();
-
-        private readonly IValidator<OneTimePaymentModel> OneTimePaymentValidator = new OneTimePaymentValidator();
+        // Other validation is done in the PartnerApi to ensure error codes are up to date
 
         private const string CREATE_ADDRESS = "transactions/payments";
 
@@ -26,16 +22,12 @@ namespace JudoPayDotNet.Clients
 
         public Task<IResult<ITransactionResult>> Create(CardPaymentModel cardPayment)
         {
-            var validationError = Validate<CardPaymentModel, ITransactionResult>(CardPaymentValidator, cardPayment);
-            return validationError != null ? Task.FromResult(validationError) :
-                PostInternal<CardPaymentModel, ITransactionResult>(CREATE_ADDRESS, cardPayment);
+            return PostInternal<CardPaymentModel, ITransactionResult>(CREATE_ADDRESS, cardPayment);
         }
 
         public Task<IResult<ITransactionResult>> Create(TokenPaymentModel tokenPayment)
         {
-            var validationError = Validate<TokenPaymentModel, ITransactionResult>(TokenPaymentValidator, tokenPayment);
-            return validationError != null ? Task.FromResult(validationError) :
-                PostInternal<TokenPaymentModel, ITransactionResult>(CREATE_ADDRESS, tokenPayment);
+            return PostInternal<TokenPaymentModel, ITransactionResult>(CREATE_ADDRESS, tokenPayment);
         }
 
         public Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPayment)
@@ -47,9 +39,7 @@ namespace JudoPayDotNet.Clients
 
         public Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment)
         {
-            var validationError = Validate<OneTimePaymentModel, ITransactionResult>(OneTimePaymentValidator, oneTimePayment);
-            return validationError != null ? Task.FromResult(validationError) :
-                PostInternal<OneTimePaymentModel, ITransactionResult>(CREATE_ADDRESS, oneTimePayment);
+            return PostInternal<OneTimePaymentModel, ITransactionResult>(CREATE_ADDRESS, oneTimePayment);
         }
     }
 }
