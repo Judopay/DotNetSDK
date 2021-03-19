@@ -175,6 +175,7 @@ namespace JudoPayDotNet.Models
         /// <summary>
         /// Reference of associated web payment session
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string WebPaymentReference { get; set; }
 
         /// <summary>

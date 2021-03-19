@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## 3.1 Changes on 2021-
 - Update Api-Version to 6.3
+- Allow WebPaymentReference to be set on PaymentModel
 - Add AuthCode to initial receipt response
 - Add AuthCode, WebPaymentReference and Acquirer to response of Transactions.Get(receiptId)
 

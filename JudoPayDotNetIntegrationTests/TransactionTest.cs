@@ -11,9 +11,6 @@ namespace JudoPayDotNetIntegrationTests
         public void GetTransaction()
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
-            var webPaymentReference = "5QcAAAMAAAATAAAADQAAAMc64J7vDUphE2fJL9Pro849j35uxtiUDNZJ0iu-giypslxzEg";
-
-            paymentWithCard.WebPaymentReference = webPaymentReference;
 
             var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
@@ -30,9 +27,54 @@ namespace JudoPayDotNetIntegrationTests
 
             var receipt = transaction.Response as PaymentReceiptModel;
             Assert.IsNotNull(receipt);
-            Assert.AreEqual(webPaymentReference, receipt.WebPaymentReference);
             Assert.IsNotNull(receipt.Acquirer);
             Assert.That(receipt.AuthCode, Does.Match("\\d{6}"), $"AuthCode on receipt not in correct format xxxxxx. Was {receipt.AuthCode}");
+        }
+
+        [Test]
+        // For JR-4723
+        public void GetTransactionFromWebPayment()
+        {
+            // Given a WebPayment session
+            var yourConsumerReference = "432438862";
+            var webPaymentRequest = new WebPaymentRequestModel
+            {
+                JudoId = Configuration.Judoid,
+                YourConsumerReference = yourConsumerReference,
+                Amount = 25
+            };
+
+            var webPaymentResult = JudoPayApiIridium.WebPayments.Payments.Create(webPaymentRequest).Result;
+            Assert.NotNull(webPaymentResult);
+            Assert.IsFalse(webPaymentResult.HasError);
+
+            var webPaymentReference = webPaymentResult.Response.Reference;
+            Assert.NotNull(webPaymentReference);
+
+            // And an associated payment (passing webPaymentReference)
+            var paymentWithCard = GetCardPaymentModel();
+            paymentWithCard.YourPaymentReference = webPaymentRequest.YourPaymentReference;
+            paymentWithCard.WebPaymentReference = webPaymentReference;
+
+            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+
+            // When receiptId of payment is retrieved
+            var transaction = JudoPayApiIridium.Transactions.Get(response.Response.ReceiptId).Result;
+
+            Assert.IsNotNull(transaction);
+            Assert.IsFalse(transaction.HasError);
+            Assert.AreEqual("Success", transaction.Response.Result);
+            Assert.AreEqual(response.Response.ReceiptId, transaction.Response.ReceiptId);
+
+            var receipt = transaction.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+
+            // Then original WebPaymentReference is shown
+            Assert.AreEqual(webPaymentReference, receipt.WebPaymentReference);
         }
 
         [Test]
