@@ -1,7 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 3.0 Changes on 2021-03
+## 3.1 Changes on 2021-
+- Amount is not optional on voids, collections and refunds.   If not specified, the remaining amount of the original transaction will be used.
+
+## 3.0 Changes on 2021-03-11
 - Update default base Urls with certificate pinning checks
 - Update Api-Version to 6.2
 - Add Address1/Address2/Address3 to CardAddressModel (deprecate Line1/Line2/Line3)
