@@ -158,24 +158,17 @@ namespace JudoPayDotNetIntegrationTests
                     {
                         ReceiptId = -1,
                         Amount = 1.20m
-                    }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateRefundInvalidReceiptId");
-                    yield return new TestCaseData(new RefundModel
-                    {
-                        ReceiptId = 685187481842388992
-                    }, JudoModelErrorCode.Amount_Not_Valid).SetName("ValidateRefundMissingAmount");
-                    // Change both following to expect Amount_Greater_Than_0 once 6.3 release deployed
+                    }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateRefundInvalidReceiptId"); ;
                     yield return new TestCaseData(new RefundModel
                     {
                         ReceiptId = 685187481842388992,
                         Amount = 0m
-                    }, JudoModelErrorCode.Amount_Not_Valid).SetName("ValidateRefundZeroAmount");
-                    /*
+                    }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateRefundZeroAmount");
                     yield return new TestCaseData(new RefundModel
                     {
                         ReceiptId = 685187481842388992,
                         Amount = -1m
-                    }, JudoModelErrorCode.Amount_Not_Valid).SetName("ValidateRefundNegativeAmount");
-                    */
+                    }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateRefundNegativeAmount");
                 }
             }
         }
