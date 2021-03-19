@@ -75,6 +75,10 @@ namespace JudoPayDotNetIntegrationTests
 
             // Then original WebPaymentReference is shown
             Assert.AreEqual(webPaymentReference, receipt.WebPaymentReference);
+            // And AuthCode and Acquirer are also set
+            Assert.That(receipt.AuthCode, Does.Match("\\d{6}"), $"AuthCode on receipt not in correct format xxxxxx. Was {receipt.AuthCode}");
+            Assert.IsNotNull(receipt.Acquirer);
+
         }
 
         [Test]
