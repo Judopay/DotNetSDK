@@ -19,6 +19,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
 
+
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
@@ -43,6 +44,8 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.That(receipt.Risks.PostcodeCheck, Is.EqualTo("PASSED"));
             Assert.That(receipt.Risks.MerchantSuggestion, Is.EqualTo("Allow"));
+
+            Assert.That(receipt.AuthCode, Does.Match("\\d{6}"), $"AuthCode on receipt not in correct format xxxxxx. Was {receipt.AuthCode}");
         }
 
         [Test]

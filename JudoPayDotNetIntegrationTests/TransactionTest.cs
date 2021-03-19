@@ -11,6 +11,9 @@ namespace JudoPayDotNetIntegrationTests
         public void GetTransaction()
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
+            var webPaymentReference = "5QcAAAMAAAATAAAADQAAAMc64J7vDUphE2fJL9Pro849j35uxtiUDNZJ0iu-giypslxzEg";
+
+            paymentWithCard.WebPaymentReference = webPaymentReference;
 
             var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
@@ -24,6 +27,12 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsFalse(transaction.HasError);
             Assert.AreEqual("Success", transaction.Response.Result);
             Assert.AreEqual(response.Response.ReceiptId, transaction.Response.ReceiptId);
+
+            var receipt = transaction.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+            Assert.AreEqual(webPaymentReference, receipt.WebPaymentReference);
+            Assert.IsNotNull(receipt.Acquirer);
+            Assert.That(receipt.AuthCode, Does.Match("\\d{6}"), $"AuthCode on receipt not in correct format xxxxxx. Was {receipt.AuthCode}");
         }
 
         [Test]
