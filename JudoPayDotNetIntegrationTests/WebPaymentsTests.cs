@@ -293,25 +293,13 @@ namespace JudoPayDotNetIntegrationTests
                         JudoId = "100200302",
                         YourConsumerReference = ""
                     }, JudoModelErrorCode.Consumer_Reference_Not_Supplied).SetName("ValidateWebPaymentEmptyConsumerReference");
-                    /* Restore once JR-4742 is released
-                    yield return new TestCaseData(new WebPaymentRequestModel
-                    {
-                        JudoId = "100200302",
-                        YourConsumerReference = "User10"
-                    }, JudoModelErrorCode.Amount_Not_Valid).SetName("ValidateWebPaymentMissingAmount");
-                    yield return new TestCaseData(new WebPaymentRequestModel
-                    {
-                        Amount = 0m,
-                        JudoId = "100200302",
-                        YourConsumerReference = "User10"
-                    }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateWebPaymentZeroAmount");
+                    // Amount is not mandatory for WebPayments;
                     yield return new TestCaseData(new WebPaymentRequestModel
                     {
                         Amount = -1m,
                         JudoId = "100200302",
                         YourConsumerReference = "User10"
-                    }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateWebPaymentNegativeAmount");
-                    */
+                    }, JudoModelErrorCode.Amount_Must_Be_Greater_Than_Or_Equal_To_0).SetName("ValidateWebPaymentNegativeAmount");
                 }
             }
         }
