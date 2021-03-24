@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## 3.1 Changes on 2021-
-- Amount is not optional on voids, collections and refunds.   If not specified, the remaining amount of the original transaction will be used.
+- Amount is now optional on voids, collections and refunds.   If not specified, the remaining amount of the original transaction will be used.
 
 ## 3.0 Changes on 2021-03-11
 - Update default base Urls with certificate pinning checks
