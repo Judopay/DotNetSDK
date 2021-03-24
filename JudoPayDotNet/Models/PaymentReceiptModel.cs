@@ -250,6 +250,15 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public CardAddressModel BillingAddress { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string Acquirer { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string AuthCode { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string WebPaymentReference { get; set; }
     }
 
     // ReSharper restore UnusedMember.Global
