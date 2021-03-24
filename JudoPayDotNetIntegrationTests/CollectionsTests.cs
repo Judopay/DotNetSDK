@@ -40,8 +40,7 @@ namespace JudoPayDotNetIntegrationTests
                     {
                         ReceiptId = -1,
                         Amount = 1.20m
-                    }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateCollectionInvalidReceiptId");
-                    // Change both following to expect Amount_Greater_Than_0 once 6.3 release deployed
+                    }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateCollectionInvalidReceiptId"); ;
                     yield return new TestCaseData(new CollectionModel
                     {
                         ReceiptId = 685187481842388992,

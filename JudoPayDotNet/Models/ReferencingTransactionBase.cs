@@ -49,8 +49,8 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The amount.
         /// </value>
-        [DataMember(IsRequired = true)]
-        public decimal Amount { get; set; }
+        [DataMember(IsRequired = false)]
+        public decimal? Amount { get; set; }
 
         /// <summary>
         /// This is a set of fraud signals sent by the mobile SDKs

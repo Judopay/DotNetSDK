@@ -40,12 +40,17 @@ namespace JudoPayDotNetIntegrationTests
                     {
                         ReceiptId = -1,
                         Amount = 1.20m
-                    }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateVoidInvalidReceiptId"); ;
+                    }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateVoidInvalidReceiptId");
                     yield return new TestCaseData(new VoidModel
                     {
                         ReceiptId = 685187481842388992,
                         Amount = 0m
-                    }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateVoidInvalidAmount");
+                    }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateVoidZeroAmount");
+                    yield return new TestCaseData(new VoidModel
+                    {
+                        ReceiptId = 685187481842388992,
+                        Amount = -1m
+                    }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateNegativeAmount");
                 }
             }
         }

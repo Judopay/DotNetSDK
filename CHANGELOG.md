@@ -1,7 +1,8 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 3.1 Changes on 2021-
+## 3.1 Changes on 2021-04
+- Amount is now optional on voids, collections and refunds.   If not specified, the remaining amount of the original transaction will be used.
 - Update Api-Version to 6.3
 - Allow WebPaymentReference to be set on PaymentModel
 - Add AuthCode to initial receipt response

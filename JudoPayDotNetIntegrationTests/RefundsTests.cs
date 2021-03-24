@@ -159,7 +159,6 @@ namespace JudoPayDotNetIntegrationTests
                         ReceiptId = -1,
                         Amount = 1.20m
                     }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateRefundInvalidReceiptId"); ;
-                    // Change both following to expect Amount_Greater_Than_0 once 6.3 release deployed
                     yield return new TestCaseData(new RefundModel
                     {
                         ReceiptId = 685187481842388992,
