@@ -21,7 +21,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var refund = new RefundModel
             {
-                Amount = 25,
+                Amount = paymentWithCard.Amount,
                 ReceiptId = response.Response.ReceiptId,
                
             };
@@ -37,6 +37,36 @@ namespace JudoPayDotNetIntegrationTests
 
             Assert.AreEqual("Success", receipt.Result);
             Assert.AreEqual("Refund", receipt.Type);
+            Assert.AreEqual(paymentWithCard.Amount, receipt.Amount);
+        }
+
+        [Test]
+        public void PaymentAndRefundWithoutAmount()
+        {
+            var paymentWithCard = GetCardPaymentModel();
+            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+
+            var refund = new RefundModel
+            {
+                ReceiptId = response.Response.ReceiptId,
+            };
+
+            response = JudoPayApiIridium.Refunds.Create(refund).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+
+            var receipt = response.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(receipt);
+
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("Refund", receipt.Type);
+            Assert.AreEqual(paymentWithCard.Amount, receipt.Amount);
         }
 
         [Test]
