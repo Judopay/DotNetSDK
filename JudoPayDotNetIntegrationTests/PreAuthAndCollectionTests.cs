@@ -13,18 +13,8 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-
-            var receipt = response.Response as PaymentReceiptModel;
-
-            Assert.IsNotNull(receipt);
-            Assert.AreEqual("Success", receipt.Result);
-            Assert.AreEqual("PreAuth", receipt.Type);
+            MakeAPreAuthWithCard(paymentWithCard);
         }
-
 
         [Test]
         public void AOneTimePreAuth()
@@ -58,8 +48,15 @@ namespace JudoPayDotNetIntegrationTests
         public void ASimplePreAuthAndCollection()
         {
             var paymentWithCard = GetCardPaymentModel();
+            var preAuthReceiptId = MakeAPreAuthWithCard(paymentWithCard);
 
-            var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
+            var collection = new CollectionModel
+            {
+                ReceiptId = preAuthReceiptId,
+                Amount = paymentWithCard.Amount
+            };
+
+            var response = JudoPayApiIridium.Collections.Create(collection).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -69,54 +66,50 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(receipt);
 
             Assert.AreEqual("Success", receipt.Result);
-            Assert.AreEqual("PreAuth", receipt.Type);
+            Assert.AreEqual("Collection", receipt.Type);
+            Assert.AreEqual(paymentWithCard.Amount, receipt.Amount);
+        }
+
+        [Test]
+        public void PreAuthAndCollectionWithoutAmount()
+        {
+            var paymentWithCard = GetCardPaymentModel();
+            var preAuthReceiptId = MakeAPreAuthWithCard(paymentWithCard);
 
             var collection = new CollectionModel
             {
-                Amount = 25,
-                ReceiptId = response.Response.ReceiptId,
-                
+                ReceiptId = preAuthReceiptId
             };
 
-            response = JudoPayApiIridium.Collections.Create(collection).Result;
+            var response = JudoPayApiIridium.Collections.Create(collection).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
 
-            receipt = response.Response as PaymentReceiptModel;
+            var receipt = response.Response as PaymentReceiptModel;
 
             Assert.IsNotNull(receipt);
 
             Assert.AreEqual("Success", receipt.Result);
             Assert.AreEqual("Collection", receipt.Type);
+            Assert.AreEqual(paymentWithCard.Amount, receipt.Amount);
         }
 
         [Test]
         public void AFailedSimplePreAuthAndValidateCollection()
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
-
-            var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-
-            var receipt = response.Response as PaymentReceiptModel;
-
-            Assert.IsNotNull(receipt);
-
-            Assert.AreEqual("Success", receipt.Result);
-            Assert.AreEqual("PreAuth", receipt.Type);
+            var preAuthReceiptId = MakeAPreAuthWithCard(paymentWithCard);
 
             var collection = new CollectionModel
             {
                 Amount = 20,
-                ReceiptId = response.Response.ReceiptId,
+                ReceiptId = preAuthReceiptId
             };
             var collection2 = new CollectionModel
             {
                 Amount = 20,
-                ReceiptId = response.Response.ReceiptId,
+                ReceiptId = preAuthReceiptId
             };
             var collectionResponse = JudoPayApiIridium.Collections.Create(collection).Result;
 
@@ -136,8 +129,15 @@ namespace JudoPayDotNetIntegrationTests
         public void ASimplePreAuthAndVoid()
         {
             var paymentWithCard = GetCardPaymentModel();
+            var preAuthReceiptId = MakeAPreAuthWithCard(paymentWithCard);
 
-            var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
+            var voidPreAuth = new VoidModel
+            {
+                Amount = paymentWithCard.Amount,
+                ReceiptId = preAuthReceiptId
+            };
+
+            var response = JudoPayApiIridium.Voids.Create(voidPreAuth).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -147,25 +147,34 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(receipt);
 
             Assert.AreEqual("Success", receipt.Result);
-            Assert.AreEqual("PreAuth", receipt.Type);
+            Assert.AreEqual("VOID", receipt.Type);
+            Assert.AreEqual(paymentWithCard.Amount, receipt.Amount);
+        }
+
+
+        [Test]
+        public void PreAuthAndVoidWithoutAmount()
+        {
+            var paymentWithCard = GetCardPaymentModel();
+            var preAuthReceiptId = MakeAPreAuthWithCard(paymentWithCard);
 
             var voidPreAuth = new VoidModel
             {
-                Amount = 25,
-                ReceiptId = response.Response.ReceiptId,
+                ReceiptId = preAuthReceiptId
             };
 
-            response = JudoPayApiIridium.Voids.Create(voidPreAuth).Result;
+            var response = JudoPayApiIridium.Voids.Create(voidPreAuth).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
 
-            receipt = response.Response as PaymentReceiptModel;
+            var receipt = response.Response as PaymentReceiptModel;
 
             Assert.IsNotNull(receipt);
 
             Assert.AreEqual("Success", receipt.Result);
             Assert.AreEqual("VOID", receipt.Type);
+            Assert.AreEqual(paymentWithCard.Amount, receipt.Amount);
         }
 
         // Reuse Test source from PaymentTest as some model is used for payments/preauths
@@ -202,6 +211,20 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(fieldErrors);
             Assert.IsTrue(fieldErrors.Count >= 1);
             Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
+        }
+
+        private long MakeAPreAuthWithCard(CardPaymentModel paymentWithCard)
+        {
+            var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+            Assert.AreEqual("Success", receipt.Result);
+            Assert.AreEqual("PreAuth", receipt.Type);
+
+            return receipt.ReceiptId;
         }
     }
 }
