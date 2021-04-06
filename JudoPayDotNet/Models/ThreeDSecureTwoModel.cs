@@ -14,8 +14,11 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public string MethodNotificationUrl { get; set; }
-
+         
         [DataMember(EmitDefaultValue = false)]
         public string ChallengeNotificationUrl { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public ThreeDSecureTwoChallengeRequestIndicator ChallengeRequestIndicator { get; set; }
     }
 }
