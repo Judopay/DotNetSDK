@@ -18,7 +18,7 @@
         ChallengePreferred = 2,
 
         /// <summary>
-        /// Challenge Preferred
+        /// Challenge As Mandate
         /// </summary>
         [LocalizedDescription("ChallengeAsMandate")]
         ChallengeAsMandate = 3
