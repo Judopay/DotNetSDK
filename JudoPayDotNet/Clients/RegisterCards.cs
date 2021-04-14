@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using FluentValidation;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using JudoPayDotNet.Models;
