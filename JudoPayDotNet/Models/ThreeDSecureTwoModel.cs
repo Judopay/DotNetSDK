@@ -20,5 +20,8 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public ThreeDSecureTwoChallengeRequestIndicator ChallengeRequestIndicator { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public ThreeDSecureTwoScaExemption ScaExemption { get; set; }
     }
 }

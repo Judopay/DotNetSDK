@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Allow WebPaymentReference to be set on PaymentModel
 - Add AuthCode to initial receipt response
 - Add AuthCode, WebPaymentReference and Acquirer to response of Transactions.Get(receiptId)
+- New exemption flags ChallengeRequestIndicator and ScaExemption added to the ThreeDSecureTwo Model
 
 ## 3.0 Changes on 2021-03-11
 - Update default base Urls with certificate pinning checks

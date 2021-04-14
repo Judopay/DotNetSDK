@@ -113,7 +113,8 @@ namespace JudoPayDotNetIntegrationTests
                 AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
                 MethodNotificationUrl = "https://www.test.com",
                 ChallengeNotificationUrl = "https://www.test.com",
-                ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.NoPreference
+                ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.NoPreference,
+                ScaExemption = ThreeDSecureTwoScaExemption.Unknown
             };
 
             return paymentWithCard;
@@ -239,7 +240,8 @@ namespace JudoPayDotNetIntegrationTests
                 AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
                 MethodNotificationUrl = "https://www.test.com",
                 ChallengeNotificationUrl = "https://www.test.com",
-                ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.NoPreference
+                ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.NoPreference,
+                ScaExemption = ThreeDSecureTwoScaExemption.Unknown
             };
 
             // When a request to the CheckCards endpoint is made with a CardHolderName
