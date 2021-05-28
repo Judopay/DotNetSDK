@@ -114,7 +114,7 @@ namespace JudoPayDotNetIntegrationTests
                 MethodNotificationUrl = "https://www.test.com",
                 ChallengeNotificationUrl = "https://www.test.com",
                 ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.NoPreference,
-                ScaExemption = ThreeDSecureTwoScaExemption.Unknown
+                ScaExemption = ThreeDSecureTwoScaExemption.LowValue
             };
 
             return paymentWithCard;
@@ -241,7 +241,7 @@ namespace JudoPayDotNetIntegrationTests
                 MethodNotificationUrl = "https://www.test.com",
                 ChallengeNotificationUrl = "https://www.test.com",
                 ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.NoPreference,
-                ScaExemption = ThreeDSecureTwoScaExemption.Unknown
+                ScaExemption = ThreeDSecureTwoScaExemption.LowValue
             };
 
             // When a request to the CheckCards endpoint is made with a CardHolderName
