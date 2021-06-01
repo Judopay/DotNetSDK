@@ -19,6 +19,15 @@ namespace JudoPayDotNet.Models
         }
 
         /// <summary>
+        /// Gets or sets the CV2.
+        /// </summary>
+        /// <value>
+        /// The CV2.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public string CV2 { get; set; }
+
+        /// <summary>
         /// Gets your payment reference.
         /// </summary>
         /// <value>

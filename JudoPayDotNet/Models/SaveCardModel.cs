@@ -16,16 +16,7 @@ namespace JudoPayDotNet.Models
         {
             HttpHeaders = new Dictionary<string, string>();
         }
-
-        /// <summary>
-        /// Gets or sets the CV2.
-        /// </summary>
-        /// <value>
-        /// The CV2.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-        public string CV2 { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the card number.
         /// </summary>

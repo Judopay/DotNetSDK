@@ -122,7 +122,6 @@ namespace JudoPayDotNetIntegrationTests
             {
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
-                CV2 = cv2,
                 ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
