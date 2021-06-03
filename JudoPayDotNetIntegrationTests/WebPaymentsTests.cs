@@ -136,6 +136,9 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("Reference", reference)
             });
 
+            // The test works only with webpayments v1, so we need to alter the URL version if the account is set to use v2 
+            result.Response.PostUrl = result.Response.PostUrl.Replace("/v2", "/v1");
+
             var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "5.3.0.0", Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
 
             formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
@@ -152,7 +155,7 @@ namespace JudoPayDotNetIntegrationTests
             // Forms - Post a form with credentials and cookie and form following variables:
             // url= /v1/Pay variables: CardNumber, ExpiryDate, Cv2, form variable: __RequestVerificationToken
 
-           var formField = doc.DocumentNode.SelectSingleNode("//input[@name='__RequestVerificationToken']");
+            var formField = doc.DocumentNode.SelectSingleNode("//input[@name='__RequestVerificationToken']");
 
             var requestVerificationToken = formField.GetAttributeValue("value", "");
 
