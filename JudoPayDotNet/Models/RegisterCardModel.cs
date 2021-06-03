@@ -19,7 +19,7 @@ namespace JudoPayDotNet.Models
         }
 
         /// <summary>
-        /// Gets or sets the CV2.
+        /// Gets or sets the CV2. 
         /// </summary>
         /// <value>
         /// The CV2.
