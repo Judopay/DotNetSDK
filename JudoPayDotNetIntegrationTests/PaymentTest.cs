@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.Validations;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
@@ -264,6 +266,49 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(fieldErrors);
             Assert.IsTrue(fieldErrors.Count >= 1);
             Assert.IsTrue(fieldErrors.Any(x => x.Code == (int) expectedModelErrorCode));
+        }
+
+        [Test]
+        // For JR-5107 : Only for check request on API request log matches values supplied belo
+        // Payload in not valid so it not expected to be decrypted
+        public async Task TestApplePayPayment()
+        {
+            // Base-64 encoded string are always a multiple of 4 characters, with = padding if not four
+            var headerDictionary = new Dictionary<string, string>
+            {
+                ["PublicKeyHash"] = "DummyPublicKeyHash==",
+                ["EphemeralPublicKey"] = "DummyEphemeralPublicKey=",
+                ["TransactionId"] = "DummyTransactionId"
+            };
+
+            var paymentDataDictionary = new Dictionary<string, object>
+            {
+                ["Header"] = JObject.FromObject(headerDictionary),
+                ["Data"] = "DummyDataF==",
+                ["Signature"] = "DummySignature",
+                ["Version"] = "EC_v1"
+            };
+
+            var applePayPaymentModel = new PKPaymentModel()
+            {
+                JudoId = Configuration.Judoid,
+                YourConsumerReference = "DummyConsumerReference",
+                YourPaymentReference = "DummyPaymentReference",
+                Amount = 1.01m,
+                Currency = "GBP",
+                PkPayment = new PKPaymentInnerModel
+                {
+                    Token = new PKPaymentTokenModel
+                    {
+                        PaymentData = JObject.FromObject(paymentDataDictionary),
+                        PaymentInstrumentName = "Visa 1234",
+                        PaymentNetwork = "Visa"
+                    }
+                }
+            };
+
+            var response = await JudoPayApiIridium.Payments.Create(applePayPaymentModel);
+            // No checks on response as this is expected to fail
         }
 
         internal class PaymentsTestSource
