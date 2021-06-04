@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using JudoPayDotNet;
-using JudoPayDotNet.Errors;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Logging;
@@ -39,7 +34,6 @@ namespace JudoPayDotNetTests.Clients
                         CardNumber = "348417606737499",
                         ExpiryDate = "12/25",
                         YourConsumerReference = "User10",
-                        CV2 = "420",
                         JudoId = "100200300"
                     },
                         @"{
