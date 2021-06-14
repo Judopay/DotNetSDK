@@ -108,7 +108,6 @@ namespace JudoPayDotNetIntegrationTests
         protected SaveCardModel GetSaveCardModel(
             string yourConsumerReference = null,
             string cardNumber = "4976000000003436",
-            string cv2 = "452",
             string postCode = "TR14 8PA",
             bool? recurringPayment = null,
             string judoId = null)
@@ -122,7 +121,6 @@ namespace JudoPayDotNetIntegrationTests
             {
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
-                CV2 = cv2,
                 ExpiryDate = "12/25",
                 CardAddress = new CardAddressModel
                 {
