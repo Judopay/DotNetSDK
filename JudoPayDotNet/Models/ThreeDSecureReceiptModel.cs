@@ -23,6 +23,12 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember]
         public string Result { get; set; }
+
+        /// <summary>
+        /// Electronic Commerce Indicator 
+        /// </summary>
+        [DataMember]
+        public string Eci { get; set; }
     }
     // ReSharper restore UnusedMember.Global
     // ReSharper restore UnusedAutoPropertyAccessor.Global
