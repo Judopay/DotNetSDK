@@ -88,7 +88,8 @@ namespace JudoPayDotNetTests.Clients
                             threeDSecure :
                                 {
                                     attempted : true,
-                                    result : 'done' 
+                                    result : 'done',
+                                    eci : '05'
                                 }
                             }").SetName("CompleteThreeDsAuthorizationsWithSuccess");
                 }
@@ -186,8 +187,7 @@ namespace JudoPayDotNetTests.Clients
         }
 
         [Test, TestCaseSource(typeof(ThreeDCaseSources), "CompleteSuccessTestCases")]
-        public void CompleteThreeDsWithSuccess(long receiptId, ThreeDResultModel threeDResult, 
-                                                string responseData)
+        public void CompleteThreeDsWithSuccess(long receiptId, ThreeDResultModel threeDResult, string responseData)
         {
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(responseData)};
@@ -203,14 +203,14 @@ namespace JudoPayDotNetTests.Clients
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
-            var paymentReceiptResult =
-                                judo.ThreeDs.Complete3DSecure(receiptId, threeDResult).Result;
+            var paymentReceiptResult = judo.ThreeDs.Complete3DSecure(receiptId, threeDResult).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
             Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
             Assert.That(paymentReceiptResult.Response.ThreeDSecure.Result, Is.EqualTo("done"));
+            Assert.That(paymentReceiptResult.Response.ThreeDSecure.Eci, Is.EqualTo("05"));
         }
 
         [Test, TestCaseSource(typeof(ThreeDCaseSources), "CompleteFailureTestCases")]

@@ -55,10 +55,10 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = GetCardPaymentModel();
             paymentWithCard.WebPaymentReference = webPaymentReference;
 
-            // For security reasons, fields need to match when the WebPaymentReference is used
-            paymentWithCard.YourPaymentReference = webPaymentRequest.YourPaymentReference;
-            paymentWithCard.YourConsumerReference = webPaymentRequest.YourConsumerReference;
+            // Set other fields to be identical for the authentication to be successful 
             paymentWithCard.Amount = webPaymentRequest.Amount;
+            paymentWithCard.YourConsumerReference = webPaymentRequest.YourConsumerReference;
+            paymentWithCard.YourPaymentReference = webPaymentRequest.YourPaymentReference;
 
             var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
 
