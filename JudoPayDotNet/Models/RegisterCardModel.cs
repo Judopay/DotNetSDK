@@ -114,6 +114,13 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         // ReSharper disable once UnusedMember.Global
         public JObject ClientDetails { get; set; }
+
+        /// <summary>
+        /// Details needed for MCC 6012 transactions
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        // ReSharper disable once UnusedMember.Global
+        public PrimaryAccountDetailsModel PrimaryAccountDetails { get; set; }
     }
     // ReSharper restore UnusedMember.Global
 }

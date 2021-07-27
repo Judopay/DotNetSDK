@@ -93,5 +93,25 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsTrue(fieldErrors.Count >= 1);
             Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
         }
+
+        [Test]
+        public async Task PrimaryAccountDetailsRegisterCard()
+        {
+            var registerCardModel = GetRegisterCardModel("432438862");
+            // Given a RegisterCardModel with PrimaryAccountDetails
+            registerCardModel.PrimaryAccountDetails = new PrimaryAccountDetailsModel
+            {
+                Name = "Doe",
+                AccountNumber = "1234567",
+                DateOfBirth = "2000-12-31",
+                PostCode = "EC2A 4DP"
+            };
+
+            var response = await JudoPayApiIridium.RegisterCards.Create(registerCardModel);
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+        }
     }
 }
