@@ -82,6 +82,26 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
         }
 
+        [Test]
+        public async Task PrimaryAccountDetailsCheckCard()
+        {
+            var checkCardModel = GetCheckCardModel(Configuration.Cybersource_Judoid);
+            // Given a RegisterCardModel with PrimaryAccountDetails
+            checkCardModel.PrimaryAccountDetails = new PrimaryAccountDetailsModel
+            {
+                Name = "Doe",
+                AccountNumber = "1234567",
+                DateOfBirth = "2000-12-31",
+                PostCode = "EC2A 4DP"
+            };
+
+            var response = await JudoPayApiCyberSource.CheckCards.Create(checkCardModel);
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+        }
+
         internal class RegisterCheckCardTestSource
         {
             public static IEnumerable ValidateFailureTestCases
