@@ -37,7 +37,7 @@ namespace JudoPayDotNetIntegrationTests
 
             Config = builder.Build();
 
-            WebpaymentsUrl = Config["WebpaymentsUrl"] ?? "https://pay.judopay-sandbox.com/v1/Pay";
+            WebpaymentsUrl = Config["WebpaymentsUrl"] ?? "https://pay-sandbox.judopay.com/v1/Pay";
 
             Judoid = Config["Credentials:Base:JudoId"];
             Token = Config["Credentials:Base:Token"];

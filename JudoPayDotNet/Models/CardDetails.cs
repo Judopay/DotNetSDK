@@ -91,6 +91,15 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember]
         public string Bank { get; set; }
+
+        /// <summary>
+        /// Gets the Card Holder Name as specified in the original payment request
+        /// </summary>
+        /// <value>
+        /// First Name + Last Name 
+        /// </value>
+        [DataMember]
+        public string CardHolderName { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

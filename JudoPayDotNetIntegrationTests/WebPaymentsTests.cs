@@ -123,13 +123,10 @@ namespace JudoPayDotNetIntegrationTests
         public void TransactionsGetByReceiptId()
         {
             var request = GetWebPaymentRequestModel();
-
             var result = JudoPayApiIridium.WebPayments.Payments.Create(request).Result;
-
             var reference = result.Response.Reference;
 
             // Forms - Post a form with credentials to post url from the webpayment response passing form parameter Reference
-
             var httpClient = new HttpClient();
             var formContent = new FormUrlEncodedContent(new[] 
             {
@@ -139,7 +136,7 @@ namespace JudoPayDotNetIntegrationTests
             // The test works only with webpayments v1, so we need to alter the URL version if the account is set to use v2 
             result.Response.PostUrl = result.Response.PostUrl.Replace("/v2", "/v1");
 
-            var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "5.3.0.0", Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
+            var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "6.7.0.0", Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
 
             formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             formRequest.Content = formContent;
@@ -147,22 +144,13 @@ namespace JudoPayDotNetIntegrationTests
             var paymentPage = httpClient.SendAsync(formRequest).Result;
 
             var resultBody = paymentPage.Content.ReadAsStringAsync().Result;
-
-            /* ok this next bit is a hack. I know on Iridium's ACS simulator the PaRes value is lurking in the HTML (It's a simulator after all!) */
             var doc = new HtmlDocument();
             doc.LoadHtml(resultBody);
 
             // Forms - Post a form with credentials and cookie and form following variables:
-            // url= /v1/Pay variables: CardNumber, ExpiryDate, Cv2, form variable: __RequestVerificationToken
-
             var formField = doc.DocumentNode.SelectSingleNode("//input[@name='__RequestVerificationToken']");
 
             var requestVerificationToken = formField.GetAttributeValue("value", "");
-
-                // CardNumber = "4976000000003436",
-                // CV2 = "452",
-                // ExpiryDate = "12/25",
-
             formContent = new FormUrlEncodedContent(new[] 
             {
                 new KeyValuePair<string, string>("__RequestVerificationToken", requestVerificationToken),
@@ -175,7 +163,7 @@ namespace JudoPayDotNetIntegrationTests
                 new KeyValuePair<string, string>("YourConsumerReference", "4235325"), 
             });
 
-            formRequest = CreateJudoApiRequest(Configuration.WebpaymentsUrl, HttpMethod.Post, "5.3.0.0", Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
+            formRequest = CreateJudoApiRequest(Configuration.WebpaymentsUrl, HttpMethod.Post, "6.7.0.0", Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
 
             formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             formRequest.Content = formContent;
@@ -185,7 +173,6 @@ namespace JudoPayDotNetIntegrationTests
             resultBody = resultPage.Content.ReadAsStringAsync().Result;
 
             // Retrieve from the response the receipt id
-
             doc = new HtmlDocument();
             doc.LoadHtml(resultBody);
 
