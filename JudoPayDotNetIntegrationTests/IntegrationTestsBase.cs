@@ -35,11 +35,11 @@ namespace JudoPayDotNetIntegrationTests
             string cardNumber = "4976000000003436",
             string cv2 = "452",
             string postCode = "TR14 8PA",
+            string cardHolderName = "John Smith",
             bool? initialRecurringPayment = null,
             bool? recurringPayment = null,
             string relatedReceiptId = null,
             RecurringPaymentType? recurringPaymentType = null,
-
             string judoId = null)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
@@ -55,6 +55,7 @@ namespace JudoPayDotNetIntegrationTests
                 CardNumber = cardNumber,
                 CV2 = cv2,
                 ExpiryDate = "12/25",
+                CardHolderName = cardHolderName,
                 CardAddress = new CardAddressModel
                 {
                     Address1 = "32 Edward Street",
