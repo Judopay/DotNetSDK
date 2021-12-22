@@ -113,5 +113,32 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
         }
+
+        [Test]
+        public void TestRegisterCardWithInvalidThreeDSecureMpi()
+        {
+            // Given a register model with an invalid ThreeDSecureMpiModel (one valid field)
+            var registerModel = GetRegisterCardModel();
+            registerModel.ThreeDSecureMpi = new ThreeDSecureMpiModel
+            {
+                Cavv = "",
+                DsTransId = "",
+                Eci = "",
+                ThreeDSecureVersion = "2.1.0"
+            };
+
+            // When a payment is made with this model
+            var result = JudoPayApiIridium.RegisterCards.Create(registerModel).Result;
+
+            // Then PartnerApi will return fieldErrors for the invalid fields (proving that
+            // the details are being passed on)
+            Assert.NotNull(result.Error?.ModelErrors);
+            Assert.AreEqual(3, result.Error.ModelErrors.Count);
+            var firstFieldError = result.Error.ModelErrors.First();
+            Assert.NotNull(firstFieldError);
+            Assert.AreEqual(3250, firstFieldError.Code); // ThreeDSecure_Mpi_MissingFields
+            Assert.AreEqual("ThreeDSecureMpi.Cavv", firstFieldError.FieldName);
+            // Other errors are the same code for the other two invalid fields
+        }
     }
 }
