@@ -63,5 +63,11 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public ThreeDSecureTwoModel ThreeDSecure { get; set; }
+
+        /// <summary>
+        /// Details needed for passing in 3DS2 authentication details performed outside Judopay
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public ThreeDSecureMpiModel ThreeDSecureMpi { get; set; }
     }
 }
