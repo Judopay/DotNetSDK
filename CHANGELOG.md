@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.2 Changes on 2022-01
+- Add ThreeDSecureMpi fields to RegisterCardModel and ThreeDSecureTwoPaymentModel
+- Update Api-Version to 6.9
+
 ## 3.1 Changes on 2021-08
 - Amount is now optional on voids, collections and refunds.   If not specified, the remaining amount of the original transaction will be used.
 - Update Api-Version to 6.6
