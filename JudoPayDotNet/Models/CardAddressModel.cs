@@ -10,7 +10,6 @@ namespace JudoPayDotNet.Models
     [DataContract]
     public class CardAddressModel
     {
-
         /// <summary>
         /// Gets or sets the Address1
         /// </summary>
@@ -65,17 +64,16 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The post code.
         /// </value>
-        [DataMember(IsRequired = true)]
+        [DataMember(IsRequired = false)]
         public string PostCode { get; set; }
 
         /// <summary> 
         /// The optional country code (ISO 3166-1) for this address. 
         /// </summary> 
-        /// <remarks>UK is 826</remarks> 
-// ReSharper disable UnusedMember.Local
+        /// <remarks>UK is 826</remarks>
         [DataMember(IsRequired = false)]
         public int? CountryCode { get; set; }
-// ReSharper restore UnusedMember.Local
+
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

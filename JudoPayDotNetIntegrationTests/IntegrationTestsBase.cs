@@ -82,6 +82,51 @@ namespace JudoPayDotNetIntegrationTests
             return ret;
         }
 
+        protected CardPaymentModel GetCardPaymentNoCardAddressModel(
+            string yourConsumerReference = null,
+            string cardNumber = "4976000000003436",
+            string cv2 = "452",
+            string cardHolderName = "John Smith",
+            bool? initialRecurringPayment = null,
+            bool? recurringPayment = null,
+            string relatedReceiptId = null,
+            RecurringPaymentType? recurringPaymentType = null,
+            string judoId = null)
+        {
+            if (string.IsNullOrEmpty(yourConsumerReference))
+            {
+                yourConsumerReference = Guid.NewGuid().ToString();
+            }
+
+            var ret = new CardPaymentModel
+            {
+                JudoId = judoId ?? Configuration.Judoid,
+                YourConsumerReference = yourConsumerReference,
+                Amount = 25,
+                CardNumber = cardNumber,
+                CV2 = cv2,
+                ExpiryDate = "12/25",
+                CardHolderName = cardHolderName,
+            };
+            if (initialRecurringPayment != null)
+            {
+                ret.InitialRecurringPayment = initialRecurringPayment;
+            }
+            if (recurringPayment != null)
+            {
+                ret.RecurringPayment = recurringPayment;
+            }
+            if (relatedReceiptId != null)
+            {
+                ret.RelatedReceiptId = relatedReceiptId;
+            }
+            if (recurringPaymentType != null)
+            {
+                ret.RecurringPaymentType = recurringPaymentType;
+            }
+            return ret;
+        }
+
         protected TokenPaymentModel GetTokenPaymentModel(
             string cardToken, 
             string yourConsumerReference = null, 

@@ -8,7 +8,7 @@ namespace JudoPayDotNet.Models
     [DataContract]
     public abstract class ThreeDSecureTwoPaymentModel : PaymentModel
     {
-        // Not explicitly assocated with 3DS2, but moved here from PaymentModel to avoid the wallet payment types inheriting it
+        // Not explicitly associated with 3DS2, but moved here from PaymentModel to avoid the wallet payment types inheriting it
         /// <summary>
         /// Gets or sets the CV2.
         /// </summary>

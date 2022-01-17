@@ -358,5 +358,29 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("ThreeDSecureMpi.Cavv", firstFieldError.FieldName);
             // Other errors are the same code for the other two invalid fields
         }
+
+        [Test]
+        public async Task TestPaymentReceiptNoCardAddress()
+        {
+            // Given a payment without a card address
+            var paymentWithCardNoAddress = GetCardPaymentNoCardAddressModel();
+            var response = await JudoPayApiIridium.Payments.Create(paymentWithCardNoAddress);
+            
+            // Then the payment is successful 
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+
+            // When we try to retrieve the receipt 
+            var receipt = await JudoPayApiIridium.Transactions.Get(response.Response.ReceiptId);
+
+            // Then there is no error 
+            Assert.IsNotNull(receipt);
+            Assert.IsFalse(receipt.HasError);
+            Assert.AreEqual("Success", receipt.Response.Result);
+
+            // And this is the same payment receipt 
+            Assert.AreEqual(response.Response.ReceiptId, receipt.Response.ReceiptId);
+        }
     }
 }
