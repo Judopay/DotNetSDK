@@ -74,6 +74,15 @@ namespace JudoPayDotNet.Models
         [DataMember(IsRequired = false)]
         public int? CountryCode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the state.
+        /// </summary>
+        /// <value>
+        /// The state.
+        /// </value>
+        [DataMember(IsRequired = false)]
+        public string State { get; set; }
+
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }
