@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## 3.2 Changes on 2022-01
 - Add ThreeDSecureMpi fields to RegisterCardModel and ThreeDSecureTwoPaymentModel
+- Add State to CardAddressModel
 - Update Api-Version to 6.9
 
 ## 3.1 Changes on 2021-08
