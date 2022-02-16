@@ -96,22 +96,40 @@ namespace JudoPayDotNet.Models
         public decimal PartnerServiceFee { get; set; }
 
         /// <summary>
-        /// Gets or sets the payment cancel URL.
+        /// Gets the value set with CancelUrl. If not set, this is the default cancel url specified on your account
         /// </summary>
         /// <value>
-        /// The payment cancel URL.
+        /// The account payment cancel URL.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
-        public string PaymentCancelUrl { get; set; }
+        public string PaymentCancelUrl { get; }
 
         /// <summary>
-        /// Gets or sets the payment success URL.
+        /// Sets the custom URL to which the customer is redirected if they cancel the transaction or if the transaction fails
         /// </summary>
         /// <value>
-        /// The payment success URL.
+        /// The override payment cancel URL.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
-        public string PaymentSuccessUrl { get; set; }
+        public string CancelUrl { get; set; }
+
+        /// <summary>
+        /// Gets the value set with SuccessUrl. If not set, this is the default success url specified on your account
+        /// </summary>
+        /// <value>
+        /// The account payment success URL.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public string PaymentSuccessUrl { get;  }
+
+        /// <summary>
+        /// Sets the custom URL to which the customer is redirected if their transaction is successful
+        /// </summary>
+        /// <value>
+        /// The override payment success URL.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public string SuccessUrl { get; set; }
 
         /// <summary>
         ///     This is the random reference for the payment
@@ -185,8 +203,7 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public WebPaymentOperation? WebPaymentOperation { get; set; }
-
-
+        
         private Dictionary<string, string> _httpHeaders;
 
         /// <summary>
