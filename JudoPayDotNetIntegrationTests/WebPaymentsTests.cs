@@ -31,6 +31,20 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
+        public void ThreeDSecurePaymentCreate()
+        {
+            var request = Get3ds2WebPaymentRequestModel();
+
+            var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
+
+            Assert.NotNull(result);
+            Assert.IsFalse(result.HasError);
+            Assert.NotNull(result.Response);
+            Assert.NotNull(result.Response.Reference);
+            Assert.NotNull(result.Response.PostUrl);
+        }
+
+        [Test]
         public void PaymentUpdate()
         {
             var request = GetWebPaymentRequestModel();
@@ -243,7 +257,6 @@ namespace JudoPayDotNetIntegrationTests
         [Test, TestCaseSource(typeof(WebPaymentsTestSource), nameof(WebPaymentsTestSource.ValidateFailureTestCases))]
         public void ValidateWithoutSuccess(WebPaymentRequestModel webPayment, JudoModelErrorCode expectedModelErrorCode)
         {
-
             var webPaymentResult = JudoPayApiIridium.WebPayments.Payments.Create(webPayment).Result;
 
             Assert.NotNull(webPaymentResult);
