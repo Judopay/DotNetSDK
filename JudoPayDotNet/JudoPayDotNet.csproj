@@ -6,7 +6,7 @@
     </PropertyGroup>
     <PropertyGroup Label="Package">
         <PackageId>JudoPay.Net</PackageId>
-        <Version></Version>
+        <Version>1.28.02.22</Version>
         <Authors>JudoPay</Authors>
         <Description>A .Net client for our JudoPay API, allowing you to quickly and easily process payments</Description>
         <Copyright>Copyright 2018</Copyright>
