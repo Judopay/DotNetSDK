@@ -17,9 +17,14 @@
 		/// </summary>
 		public IPreAuths PreAuths { get; set; }
 
-		/// <summary>
-		/// Allows you to fetch details of an individual webpayment (either by receipt id or reference)
-		/// </summary>
-		public ITransactions Transactions { get; set; }
+        /// <summary>
+        /// Allows you to create a (CheckCard) webpayment before passing Judo your customer to complete the payment
+        /// </summary>
+        public ICheckCards CheckCards { get; set; }
+
+        /// <summary>
+        /// Allows you to fetch details of an individual webpayment (either by receipt id or reference)
+        /// </summary>
+        public ITransactions Transactions { get; set; }
     }
 }

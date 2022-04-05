@@ -97,6 +97,20 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
+        public void CheckCardCreate()
+        {
+            var request = GetWebPaymentRequestModel();
+
+            var result = JudoPayApiElevated.WebPayments.CheckCards.Create(request).Result;
+
+            Assert.NotNull(result);
+            Assert.IsFalse(result.HasError);
+            Assert.NotNull(result.Response);
+            Assert.NotNull(result.Response.Reference);
+            Assert.NotNull(result.Response.PostUrl);
+        }
+
+        [Test]
         public void TransactionsGetByReference()
         {
             var request = GetWebPaymentRequestModel();
