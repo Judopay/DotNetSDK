@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.3 Changes on 2022-04
+- Add State to WebPaymentCardAddress
+- Add 3ds2 fields to WebPaymentRequestModel
+- Update Api-Version to 6.13
+
 ## 3.2 Changes on 2022-01
 - Add ThreeDSecureMpi fields to RegisterCardModel and ThreeDSecureTwoPaymentModel
 - Add State to CardAddressModel
