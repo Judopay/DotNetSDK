@@ -203,7 +203,40 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public WebPaymentOperation? WebPaymentOperation { get; set; }
-        
+
+        /// <summary>
+        /// Gets or sets the mobile number.
+        /// </summary>
+        /// <value>
+        /// The mobile number.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public string MobileNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone country code.
+        /// </summary>
+        /// <value>
+        /// The phone country code.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public string PhoneCountryCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email address.
+        /// </summary>
+        /// <value>
+        /// The email address.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public string EmailAddress { get; set; }
+
+        /// <summary>
+        /// Information needed for ThreeDSecure2 payments
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public ThreeDSecureTwoModel ThreeDSecure { get; set; }
+
         private Dictionary<string, string> _httpHeaders;
 
         /// <summary>

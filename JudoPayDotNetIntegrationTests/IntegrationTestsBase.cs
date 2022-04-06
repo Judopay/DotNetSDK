@@ -380,6 +380,47 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
+        protected WebPaymentRequestModel Get3ds2WebPaymentRequestModel()
+        {
+            return new WebPaymentRequestModel
+            {
+                Amount = 10,
+                CardAddress = new WebPaymentCardAddress
+                {
+                    CardHolderName = "Test User",
+                    Address1 = "Test Street",
+                    Address2 = "Test Street",
+                    Address3 = "Test Street",
+                    Town = "London",
+                    PostCode = "W31 4HS",
+                    CountryCode = 826
+                },
+                ClientIpAddress = "127.0.0.1",
+                CompanyName = "Test",
+                Currency = "GBP",
+                ExpiryDate = DateTimeOffset.Now.AddMinutes(30),
+                JudoId = Configuration.Judoid,
+                PartnerServiceFee = 10,
+                CancelUrl = "https://www.test.com",
+                SuccessUrl = "https://www.test.com",
+                Reference = "42421",
+                Status = WebPaymentStatus.Open,
+                TransactionType = TransactionType.PAYMENT,
+                YourConsumerReference = "4235325",
+                MobileNumber = "07999999999",
+                PhoneCountryCode = "44",
+                EmailAddress = "test@judopay.com",
+                ThreeDSecure = new ThreeDSecureTwoModel()
+                {
+                    ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.ChallengePreferred,
+                    ScaExemption = ThreeDSecureTwoScaExemption.TransactionRiskAnalysis,
+                    ChallengeNotificationUrl = "https://www.judopay.com",
+                    MethodNotificationUrl = "https://www.judopay.com",
+                    AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser
+                }
+            };
+        }
+
         protected CardPaymentModel GetPrimaryAccountPaymentModel(string yourConsumerReference = null)
         {
             if (string.IsNullOrEmpty(yourConsumerReference))
