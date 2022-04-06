@@ -1,4 +1,4 @@
-version: 3.2.{build}
+version: 3.3.{build}
 image: Visual Studio 2017
 skip_branch_with_pr: true
 # if wanting to publish the package internally

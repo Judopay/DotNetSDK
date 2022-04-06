@@ -6,9 +6,11 @@ using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
 using IPayments = JudoPayDotNet.Clients.IPayments;
 using IPreAuths = JudoPayDotNet.Clients.IPreAuths;
+using ICheckCard = JudoPayDotNet.Clients.ICheckCard;
 using ITransactions = JudoPayDotNet.Clients.ITransactions;
 using Payments = JudoPayDotNet.Clients.Payments;
 using PreAuths = JudoPayDotNet.Clients.PreAuths;
+using CheckCards = JudoPayDotNet.Clients.CheckCards;
 using Transactions = JudoPayDotNet.Clients.Transactions;
 
 namespace JudoPayDotNet
@@ -51,6 +53,7 @@ namespace JudoPayDotNet
             {
                 Payments = new Clients.WebPayments.Payments(logger(typeof(Clients.WebPayments.Payments)), client),
                 PreAuths = new Clients.WebPayments.PreAuths(logger(typeof(Clients.WebPayments.PreAuths)), client),
+                CheckCards = new Clients.WebPayments.CheckCards(logger(typeof(Clients.WebPayments.CheckCards)), client),
                 Transactions = new Clients.WebPayments.Transactions(logger(typeof(Clients.WebPayments.Transactions)), client)
             };
 
