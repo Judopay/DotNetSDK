@@ -409,10 +409,14 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = "4235325",
                 MobileNumber = "07999999999",
                 PhoneCountryCode = "44",
+                EmailAddress = "test@judopay.com",
                 ThreeDSecure = new ThreeDSecureTwoModel()
                 {
                     ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.ChallengePreferred,
-                    ScaExemption = ThreeDSecureTwoScaExemption.TransactionRiskAnalysis
+                    ScaExemption = ThreeDSecureTwoScaExemption.TransactionRiskAnalysis,
+                    ChallengeNotificationUrl = "https://www.judopay.com",
+                    MethodNotificationUrl = "https://www.judopay.com",
+                    AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser
                 }
             };
         }
