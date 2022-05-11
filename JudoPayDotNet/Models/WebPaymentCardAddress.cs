@@ -38,7 +38,6 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false, IsRequired = false)]
         public string Line1 { get; set; }
 
-
         [Obsolete("This property is obsolete. Please use Address2 instead.", false)]
         [DataMember(EmitDefaultValue = false, IsRequired = false)]
         public string Line2 { get; set; }

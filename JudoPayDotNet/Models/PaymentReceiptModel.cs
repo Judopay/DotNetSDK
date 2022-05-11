@@ -259,6 +259,9 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public string WebPaymentReference { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string PaymentNetworkTransactionId { get; set; }
     }
 
     // ReSharper restore UnusedMember.Global
