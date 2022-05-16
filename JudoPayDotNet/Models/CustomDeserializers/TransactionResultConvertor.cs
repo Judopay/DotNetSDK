@@ -10,17 +10,18 @@ namespace JudoPayDotNet.Models.CustomDeserializers
     {
         protected override ITransactionResult Create(JObject jObject)
         {
-            if (jObject.Value<string>("md") == null)
+            // Device Details or Challenge Required 
+            if (jObject.Value<string>("methodUrl") != null || jObject.Value<string>("challengeUrl") != null)
             {
-                return new PaymentReceiptModel();
+                return new PaymentRequiresThreeDSecureTwoModel();
             }
 
-            if (jObject.Value<string>("methodUrl") == null && jObject.Value<string>("challengeUrl") == null)
+            if (jObject.Value<string>("md") != null)
             {
                 return new PaymentRequiresThreeDSecureModel();
             }
 
-            return new PaymentRequiresThreeDSecureTwoModel();
+            return new PaymentReceiptModel();
         }
     }
 }

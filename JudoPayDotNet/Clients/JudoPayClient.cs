@@ -18,7 +18,7 @@ namespace JudoPayDotNet.Clients
     public abstract class JudoPayClient
     {
         internal readonly IClient _client;
-         
+
         private readonly ILog _logger;
 
         private readonly Dictionary<string, IResponse> _uniqueResponses;
@@ -74,8 +74,8 @@ namespace JudoPayDotNet.Clients
         /// <summary>
         /// CRUD CREATE
         /// </summary>
-        /// <typeparam name="T">The response type</typeparam>
-        /// <typeparam name="R">The body parameter type</typeparam>
+        /// <typeparam name="T">The body parameter type</typeparam>
+        /// <typeparam name="R">The response type</typeparam>
         /// <param name="address">The URI.</param>
         /// <param name="entity">The body entity.</param>
         /// <param name="parameters">The query string parameters.</param>
@@ -141,8 +141,8 @@ namespace JudoPayDotNet.Clients
         /// <summary>
         /// CRUD UPDATE
         /// </summary>
-        /// <typeparam name="T">The response type</typeparam>
-        /// <typeparam name="R">The body parameter type</typeparam>
+        /// <typeparam name="T">The body parameter type</typeparam>
+        /// <typeparam name="R">The response type</typeparam>
         /// <param name="address">The URI.</param>
         /// <param name="entity">The body entity.</param>
         /// <param name="parameters">The query string parameters.</param>
@@ -198,10 +198,10 @@ namespace JudoPayDotNet.Clients
 
             var invalidRequestModel = new ModelError
             {
-                                              Code = (int)JudoApiError.General_Model_Error,
-                                              Message = "Sorry, we're unable to process your request. Please check your details and try again",
-                                              ModelErrors = new List<FieldError>(result.Errors.Count)
-                                          };
+                Code = (int)JudoApiError.General_Model_Error,
+                Message = "Sorry, we're unable to process your request. Please check your details and try again",
+                ModelErrors = new List<FieldError>(result.Errors.Count)
+            };
 
             foreach (var validationFailure in result.Errors)
             {
