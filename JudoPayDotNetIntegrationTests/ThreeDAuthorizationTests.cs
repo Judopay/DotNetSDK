@@ -63,11 +63,11 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotEmpty(receipt.Md);
 
             var httpClient = new HttpClient();
-            var formContent = new FormUrlEncodedContent(new[] 
+            var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("MD", receipt.Md),
-				new KeyValuePair<string, string>("PaReq", receipt.PaReq),
-				new KeyValuePair<string, string>("TermUrl", "https://pay.judopay.com/")
+                new KeyValuePair<string, string>("PaReq", receipt.PaReq),
+                new KeyValuePair<string, string>("TermUrl", "https://pay.judopay.com/")
             });
 
             var taskSendMDandPaReqToAcsServer = httpClient.PostAsync(receipt.AcsUrl, formContent).ContinueWith(authResponse =>
@@ -158,7 +158,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Additional device data is needed for 3D Secure 2", paymentReceipt.Result);
 
             // Prepare the resume request once device details gathering happened 
-            var resumeRequest = new ResumeThreeDSecureTwoModel {CV2 = "452", MethodCompletion = MethodCompletion.Yes};
+            var resumeRequest = new ResumeThreeDSecureTwoModel { CV2 = "452", MethodCompletion = MethodCompletion.Yes };
             var resumeResponse = paymentsFactory.ThreeDs.Resume3DSecureTwo(paymentReceipt.ReceiptId, resumeRequest).Result;
 
             Assert.IsNotNull(resumeResponse);
@@ -192,16 +192,45 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Additional device data is needed for 3D Secure 2", paymentReceipt.Result);
 
             // Given a Resume request without CV2
-            var resumeRequest = new ResumeThreeDSecureTwoModel {MethodCompletion = MethodCompletion.Yes };
+            var resumeRequest = new ResumeThreeDSecureTwoModel { MethodCompletion = MethodCompletion.Yes };
 
             // When the request is sent to the API 
             // Then the request is not flagged as invalid by the SDK
             var resumeResponse = paymentsFactory.ThreeDs.Resume3DSecureTwo(paymentReceipt.ReceiptId, resumeRequest).Result;
-            
+
             // Then the request is rejected at the API level instead because the test API application is expecting a CV2
             Assert.IsNotNull(resumeResponse);
             Assert.IsTrue(resumeResponse.HasError);
             Assert.AreEqual("Cv2", resumeResponse.Error.ModelErrors.First().FieldName);
+        }
+
+        [Test]
+        public void PaymentWithThreedSecureTwoDirectChallengeRequest()
+        {
+            var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
+            var paymentRequest = PrepareThreeDSecureTwoCardPayment();
+
+            // Given a scenario that triggers a direct challenge without device details 
+            paymentRequest.CardHolderName = "FL-SUCCESS-NO-METHOD";
+            paymentRequest.ThreeDSecure.ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.ChallengeAsMandate;
+
+            // When the payment is created 
+            var paymentResponse = paymentsFactory.Payments.Create(paymentRequest).Result;
+
+            Assert.IsNotNull(paymentResponse);
+            Assert.IsFalse(paymentResponse.HasError);
+
+            // Then the challenge fields are present in the response 
+            var paymentReceipt = paymentResponse.Response as PaymentRequiresThreeDSecureTwoModel;
+
+            Assert.IsNotNull(paymentReceipt);
+            Assert.AreEqual("Challenge completion is needed for 3D Secure 2", paymentReceipt.Result);
+            Assert.AreEqual("Issuer ACS has responded with a Challenge URL", paymentReceipt.Message);
+            Assert.IsNotNull(paymentReceipt.ChallengeUrl);
+            Assert.IsNotNull(paymentReceipt.Version);
+            Assert.IsNotNull(paymentReceipt.CReq);
+
+            Assert.IsNull(paymentReceipt.MethodUrl);
         }
 
         [Explicit]
@@ -319,7 +348,7 @@ namespace JudoPayDotNetIntegrationTests
                         Md = "210309131405694701132842",
                         PaRes = ""
                     }, JudoModelErrorCode.ThreeDSecure_PaRes_Not_Supplied).SetName("ValidateThreeDsEmptyPaRes");
-                 }
+                }
             }
         }
 

@@ -1,11 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 3.3 Changes on 2022-04
+## 3.3 Changes on 2022-05
 - Add State to WebPaymentCardAddress
 - Add 3ds2 fields to WebPaymentRequestModel
 - Add CheckCard WebPayments
-- Update Api-Version to 6.13
+- Enable the SDK to perform a 3DS2 flow going directly to the Challenge step 
+- Update Api-Version to 6.15
 
 ## 3.2 Changes on 2022-01
 - Add ThreeDSecureMpi fields to RegisterCardModel and ThreeDSecureTwoPaymentModel
