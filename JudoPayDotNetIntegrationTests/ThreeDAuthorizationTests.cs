@@ -274,6 +274,67 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Success", completeReceipt.Result);
         }
 
+        [Explicit]
+        public void PaymentWithThreedSecureTwoCompleteRequestWithAccountDetails()
+        {
+            var paymentsFactory = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
+            var paymentResponse = paymentsFactory.Payments.Create(PrepareThreeDSecureTwoCardPayment()).Result;
+
+            Assert.IsNotNull(paymentResponse);
+            Assert.IsFalse(paymentResponse.HasError);
+
+            var paymentReceipt = paymentResponse.Response as PaymentRequiresThreeDSecureTwoModel;
+
+            Assert.IsNotNull(paymentReceipt);
+            Assert.AreEqual("Additional device data is needed for 3D Secure 2", paymentReceipt.Result);
+
+            // Prepare account details so they can be sent for follow-up requests 
+            var accountDetails = new PrimaryAccountDetailsModel()
+            {
+                AccountNumber = "123456",
+                DateOfBirth = "1980-01-01",
+                Name = "John Smith",
+                PostCode = "EC2A 4DP"
+            };
+
+            // Prepare the resume request containing account details
+            var resumeRequest = new ResumeThreeDSecureTwoModel
+            {
+                CV2 = "452",
+                MethodCompletion = MethodCompletion.Yes,
+                PrimaryAccountDetails = accountDetails
+            };
+
+            var resumeResponse = paymentsFactory.ThreeDs.Resume3DSecureTwo(paymentReceipt.ReceiptId, resumeRequest).Result;
+
+            Assert.IsNotNull(resumeResponse);
+            Assert.IsFalse(resumeResponse.HasError);
+
+            var resumeReceipt = resumeResponse.Response as PaymentRequiresThreeDSecureTwoModel;
+
+            Assert.IsNotNull(resumeReceipt);
+            Assert.AreEqual("Challenge completion is needed for 3D Secure 2", resumeReceipt.Result);
+
+            // Perform the challenge on the web browser using the information from the Resume
+
+            // Then prepare the Complete request containing account details
+            var completeRequest = new CompleteThreeDSecureTwoModel
+            {
+                CV2 = "452",
+                PrimaryAccountDetails = accountDetails
+            };
+
+            var completeResponse = paymentsFactory.ThreeDs.Complete3DSecureTwo(paymentReceipt.ReceiptId, completeRequest).Result;
+
+            Assert.IsNotNull(completeResponse);
+            Assert.IsFalse(completeResponse.HasError);
+
+            var completeReceipt = resumeResponse.Response as PaymentReceiptModel;
+            Assert.IsNotNull(completeReceipt);
+            Assert.IsNotNull(completeReceipt.JudoId);
+            Assert.AreEqual("Success", completeReceipt.Result);
+        }
+
         [Test]
         public void CheckCardWithThreedSecureTwoRequiresDeviceDetailsCheck()
         {
