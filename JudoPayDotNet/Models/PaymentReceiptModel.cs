@@ -231,6 +231,12 @@ namespace JudoPayDotNet.Models
         public bool? Recurring { get; set; }
 
         /// <summary>
+        /// The type of recurring payment
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string RecurringPaymentType { get; set; }
+
+        /// <summary>
         /// Information about the risks associated with the transaction
         /// </summary>
         [DataMember]
