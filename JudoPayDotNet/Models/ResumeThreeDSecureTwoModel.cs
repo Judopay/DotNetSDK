@@ -21,5 +21,11 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public MethodCompletion MethodCompletion { get; set; }
+
+        /// <summary>
+        /// Details needed for MCC 6012 transactions
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public PrimaryAccountDetailsModel PrimaryAccountDetails { get; set; }
     }
 }
