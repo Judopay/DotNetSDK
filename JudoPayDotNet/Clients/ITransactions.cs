@@ -9,7 +9,7 @@ namespace JudoPayDotNet.Clients
     public interface ITransactions
     {
         /// <summary>
-        /// Gets the specified receipt by it's identifier.
+        /// Gets the specified receipt by its identifier.
         /// </summary>
         /// <param name="receiptId">The transaction identifier.</param>
         /// <returns>The receipt</returns>

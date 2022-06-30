@@ -396,5 +396,22 @@ namespace JudoPayDotNetIntegrationTests
             // And this is the same payment receipt 
             Assert.AreEqual(response.Response.ReceiptId, receipt.Response.ReceiptId);
         }
+
+        [Test]
+        public async Task TestPaymentReceiptContainsPaymentNetworkTransactionId()
+        {
+            // Given a payment without a card address
+            var paymentWithCard = GetCardPaymentModel(initialRecurringPayment: true, judoId: Configuration.Cybersource_Judoid);
+            var response = await JudoPayApiCyberSource.Payments.Create(paymentWithCard);
+
+            // Then the payment is successful 
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+
+            var receipt = response.Response as PaymentReceiptModel;
+            // And the receipt contains a value for PaymentNetworkTransactionId
+            Assert.IsTrue(!string.IsNullOrEmpty(receipt?.PaymentNetworkTransactionId));
+        }
     }
 }
