@@ -26,13 +26,23 @@ namespace JudoPayDotNet.Models.Internal
         [DataMember(EmitDefaultValue = false)]
         public string Version { get; set; }
 
+        [DataMember(EmitDefaultValue = false)]
+        public PrimaryAccountDetailsModel PrimaryAccountDetails { get; set; }
+
         public static InternalCompleteThreeDSecureTwoModel From(CompleteThreeDSecureTwoModel externalModel)
         {
             return new InternalCompleteThreeDSecureTwoModel
             {
                 // This version can be used for all 3DS 2.x versions
                 Version = "2.0.0",
-                CV2 = externalModel.CV2
+                CV2 = externalModel.CV2,
+                PrimaryAccountDetails = new PrimaryAccountDetailsModel()
+                {
+                    PostCode = externalModel.PrimaryAccountDetails?.PostCode,
+                    AccountNumber = externalModel.PrimaryAccountDetails?.AccountNumber,
+                    DateOfBirth = externalModel.PrimaryAccountDetails?.DateOfBirth,
+                    Name = externalModel.PrimaryAccountDetails?.Name
+                }
             };
         }
     }

@@ -14,6 +14,9 @@ namespace JudoPayDotNet.Models.Internal
         [DataMember(EmitDefaultValue = false)]
         public string CV2 { get; set; }
 
+        [DataMember(EmitDefaultValue = false)]
+        public PrimaryAccountDetailsModel PrimaryAccountDetails { get; set; }
+
         public static InternalResumeThreeDSecureTwoModel From(ResumeThreeDSecureTwoModel externalModel)
         {
             return new InternalResumeThreeDSecureTwoModel
@@ -22,7 +25,14 @@ namespace JudoPayDotNet.Models.Internal
                 {
                     MethodCompletion = externalModel.MethodCompletion
                 },
-                CV2 = externalModel.CV2
+                CV2 = externalModel.CV2, 
+                PrimaryAccountDetails = new PrimaryAccountDetailsModel()
+                {
+                    PostCode = externalModel.PrimaryAccountDetails?.PostCode,
+                    AccountNumber = externalModel.PrimaryAccountDetails?.AccountNumber,
+                    DateOfBirth = externalModel.PrimaryAccountDetails?.DateOfBirth,
+                    Name = externalModel.PrimaryAccountDetails?.Name
+                }
             };
         }
     }
