@@ -36,13 +36,13 @@ namespace JudoPayDotNet.Models.Internal
                 // This version can be used for all 3DS 2.x versions
                 Version = "2.0.0",
                 CV2 = externalModel.CV2,
-                PrimaryAccountDetails = new PrimaryAccountDetailsModel()
+                PrimaryAccountDetails = !string.IsNullOrEmpty(externalModel.PrimaryAccountDetails?.AccountNumber) ? new PrimaryAccountDetailsModel()
                 {
                     PostCode = externalModel.PrimaryAccountDetails?.PostCode,
                     AccountNumber = externalModel.PrimaryAccountDetails?.AccountNumber,
                     DateOfBirth = externalModel.PrimaryAccountDetails?.DateOfBirth,
                     Name = externalModel.PrimaryAccountDetails?.Name
-                }
+                } : null
             };
         }
     }
