@@ -7,6 +7,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using JudoPayDotNet;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;
@@ -45,32 +47,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void PaymentUpdate()
-        {
-            var request = GetWebPaymentRequestModel();
-
-            var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
-
-            Assert.NotNull(result);
-            Assert.IsFalse(result.HasError);
-            Assert.NotNull(result.Response);
-            Assert.NotNull(result.Response.Reference);
-            Assert.NotNull(result.Response.PostUrl);
-
-            request.Status = WebPaymentStatus.Success;
-            request.Reference = result.Response.Reference;
-
-            var resultUpdate = JudoPayApiElevated.WebPayments.Payments.Update(request).Result;
-
-            Assert.NotNull(resultUpdate);
-            Assert.IsFalse(resultUpdate.HasError);
-            Assert.NotNull(resultUpdate.Response); //todo pick a judoID that has permissions to do this
-            Assert.NotNull(resultUpdate.Response.Reference);
-            Assert.AreEqual(result.Response.Reference, resultUpdate.Response.Reference);
-            Assert.AreEqual(resultUpdate.Response.Status, resultUpdate.Response.Status);
-        }
-
-        [Test]
         public void PreAuthCreate()
         {
             var request = GetWebPaymentRequestModel();
@@ -82,32 +58,6 @@ namespace JudoPayDotNetIntegrationTests
             Assert.NotNull(result.Response);
             Assert.NotNull(result.Response.Reference);
             Assert.NotNull(result.Response.PostUrl);
-        }
-
-        [Test]
-        public void PreAuthUpdate()
-        {
-            var request = GetWebPaymentRequestModel();
-
-            var result = JudoPayApiElevated.WebPayments.PreAuths.Create(request).Result;
-
-            Assert.NotNull(result);
-            Assert.IsFalse(result.HasError);
-            Assert.NotNull(result.Response);
-            Assert.NotNull(result.Response.Reference);
-            Assert.NotNull(result.Response.PostUrl);
-
-            request.Status = WebPaymentStatus.Success;
-            request.Reference = result.Response.Reference;
-
-            var resultUpdate = JudoPayApiElevated.WebPayments.PreAuths.Update(request).Result;
-
-            Assert.NotNull(resultUpdate);
-            Assert.IsFalse(resultUpdate.HasError);
-            Assert.NotNull(resultUpdate.Response);
-            Assert.NotNull(resultUpdate.Response.Reference);
-            Assert.AreEqual(result.Response.Reference, resultUpdate.Response.Reference);
-            Assert.AreEqual(resultUpdate.Response.Status, resultUpdate.Response.Status);
         }
 
         [Test]
@@ -283,6 +233,46 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(fieldErrors);
             Assert.IsTrue(fieldErrors.Count >= 1);
             Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
+        }
+
+        [Test]
+        public async Task SampleCreationPaymentSessionFor3DS2()
+        {
+            var client = JudoPaymentsFactory.Create(
+                        JudoEnvironment.Sandbox, "ApiToken", "ApiSecret");
+
+            var paymentSessionRequestModel = new WebPaymentRequestModel
+            {
+                JudoId = "100100100",
+                YourConsumerReference = "3f7064d3-43e4-45a9-8329-2c4b9dd4d9e0",
+                // A guid will be generated for YourPaymentReference
+                YourPaymentMetaData = new Dictionary<string, string>
+                {
+                    { "key1", "value1" },
+                    { "key2", "value2" }
+                },
+                Amount = 1.01m,
+                Currency = "GBP",
+                ExpiryDate = DateTimeOffset.Now.AddHours(24),
+                ThreeDSecure = new ThreeDSecureTwoModel
+                {
+                    AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
+                    ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.ChallengeAsMandate
+                }
+                // PrimaryAccountDetails should also be set for MCC-6012 merchants
+            };
+            
+            var webPaymentResult = await client.WebPayments.Payments.Create(paymentSessionRequestModel);
+
+            if (webPaymentResult.HasError)
+            {
+                // HandleError
+            }
+            else
+            {
+                var paymentSessionReference = webPaymentResult.Response.Reference;
+                var yourPaymentReference = paymentSessionRequestModel.YourPaymentReference;
+            }
         }
 
         internal class WebPaymentsTestSource

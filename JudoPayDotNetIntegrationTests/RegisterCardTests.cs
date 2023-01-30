@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;

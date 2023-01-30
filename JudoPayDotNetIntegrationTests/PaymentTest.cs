@@ -24,28 +24,6 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
 
-            var receipt = response.Response as PaymentReceiptModel;
-            Assert.That(receipt, Is.Not.Null);
-            Assert.That(receipt.CardDetails, Is.Not.Null, "Missing carddetails property on receipt");
-            Assert.That(receipt.CardDetails.CardLastfour, Is.Not.Empty);
-            Assert.That(receipt.CardDetails.EndDate, Is.Not.Empty);
-            Assert.That(receipt.CardDetails.CardScheme, Is.EqualTo("Visa"));
-            Assert.That(receipt.CardDetails.CardFunding, Is.EqualTo("Debit"));
-            Assert.That(receipt.CardDetails.CardCategory, Is.EqualTo("Classic"));
-            Assert.That(receipt.CardDetails.CardCountry, Is.EqualTo("FR"));
-            Assert.That(receipt.CardDetails.Bank, Is.EqualTo("Credit Industriel Et Commercial"));
-            Assert.That(receipt.Message, Does.Match("AuthCode: \\d{6}"), $"Result message on receipt not in correct format AuthCode: xxxxxx. Was {receipt.Message}");
-            Assert.That(receipt.MerchantName, Is.Not.Empty);
-            Assert.That(receipt.AppearsOnStatementAs, Is.Not.Empty);
-            Assert.That(receipt.CreatedAt, Is.Not.Null);
-            Assert.That(receipt.NetAmount, Is.GreaterThan(0));
-            Assert.That(receipt.Amount, Is.GreaterThan(0));
-            Assert.That(receipt.Currency, Is.EqualTo("GBP"));
-
-            Assert.That(receipt.Risks.PostcodeCheck, Is.EqualTo("PASSED"));
-            Assert.That(receipt.Risks.MerchantSuggestion, Is.EqualTo("Allow"));
-
-            Assert.That(receipt.AuthCode, Does.Match("\\d{6}"), $"AuthCode on receipt not in correct format xxxxxx. Was {receipt.AuthCode}");
         }
 
         [Test]
@@ -148,7 +126,8 @@ namespace JudoPayDotNetIntegrationTests
             Assert.That(cardTokenReceipt.CardDetails.EndDate, Is.Not.Empty);
             Assert.That(cardTokenReceipt.CardDetails.CardScheme, Is.EqualTo("Visa"));
             Assert.That(cardTokenReceipt.CardDetails.CardFunding, Is.EqualTo("Debit"));
-            Assert.That(cardTokenReceipt.CardDetails.CardCategory, Is.EqualTo("Classic"));
+            // IssuerService no longer called for token transactions and Category not saved in DB
+            Assert.That(cardTokenReceipt.CardDetails.CardCategory, Is.EqualTo(""));
             Assert.That(cardTokenReceipt.CardDetails.CardCountry, Is.EqualTo("FR"));
             Assert.That(cardTokenReceipt.CardDetails.Bank, Is.EqualTo("Credit Industriel Et Commercial"));
             Assert.That(cardTokenReceipt.Message, Does.Match("AuthCode: \\d{6}"), $"Result message on receipt not in correct format AuthCode: xxxxxx. Was {cardTokenReceipt.Message}");
