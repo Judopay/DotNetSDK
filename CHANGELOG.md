@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 4.0 Changes
+- Update Api-Version to 6.18
+- Update SaveCardModel to add CardHolderName
+
+## 3.4 Changes on 2022-07-18
+- Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions
+- Add RecurringPaymentType (RECURRING/MIT) to receipt responses
+- Add PaymentNetworkTransactionId to receipt responses
+
 ## 3.3 Changes on 2022-05
 - Add State to WebPaymentCardAddress
 - Add 3ds2 fields to WebPaymentRequestModel

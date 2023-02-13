@@ -13,13 +13,49 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void SaveCard()
         {
-            var saveCardModel = GetSaveCardModel("432438862");
+            // Given a standard SaveCard model
+            var saveCardModel = GetSaveCardModel();
 
-            var response = JudoPayApiIridium.SaveCards.Create(saveCardModel).Result;
+            // When SaveCards.Create is called
+            var response = JudoPayApiBase.SaveCards.Create(saveCardModel).Result;
 
+            // Then a successful PaymentReceiptModel is returned with a card token
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
+
+            var saveCardReceipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(saveCardReceipt);
+            Assert.IsNotNull(saveCardReceipt.CardDetails.CardToken);
+        }
+
+        [Test]
+        public void SaveCardTwiceWithSameDetailsReturnsSameToken()
+        {
+            // Given a standard SaveCard model with a specific consumer reference
+            var consumerReference = Guid.NewGuid().ToString();
+            var saveCardModel = GetSaveCardModel(consumerReference);
+
+            // When SaveCards.Create is called
+            var response = JudoPayApiBase.SaveCards.Create(saveCardModel).Result;
+
+            // Then a successful PaymentReceiptModel is returned with a card token
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+
+            var saveCardReceipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(saveCardReceipt);
+            Assert.IsNotNull(saveCardReceipt.CardDetails.CardToken);
+
+            var firstCardToken = saveCardReceipt.CardDetails.CardToken;
+
+            // And if a second call is made to SaveCards.Create with the same card details and consumer reference
+            var secondResponse = JudoPayApiBase.SaveCards.Create(saveCardModel).Result;
+            Assert.IsNotNull(secondResponse);
+            var secondSaveCardReceipt = secondResponse.Response as PaymentReceiptModel;
+            Assert.IsNotNull(secondSaveCardReceipt);
+            Assert.AreEqual(firstCardToken, secondSaveCardReceipt.CardDetails.CardToken);
         }
 
         [Test]
@@ -27,7 +63,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var saveEncryptedCardModel = GetSaveEncryptedCardModel().Result;
 
-            var response = JudoPayApiIridium.SaveCards.Create(saveEncryptedCardModel).Result;
+            var response = JudoPayApiBase.SaveCards.Create(saveEncryptedCardModel).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -35,54 +71,66 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void SaveCardRequiresCv2()
+        public void SaveCardWithAddressRequiresPostCode()
         {
-            var saveCardModel = GetSaveCardModel("432438862", "4976000000003436", null);
+            // Given a SaveCard model with an address with no postCode set
+            var saveCardModel = GetSaveCardModel(postCode: null);
 
-            var response = JudoPayApiIridium.SaveCards.Create(saveCardModel).Result;
+            // When SaveCards.Create is called
+            var response = JudoPayApiBase.SaveCards.Create(saveCardModel).Result;
 
+            // Then an error is returned
             Assert.IsNotNull(response);
             Assert.IsTrue(response.HasError);
+
+            var fieldErrors = response.Error.ModelErrors;
+            Assert.IsNotNull(fieldErrors);
+            Assert.IsTrue(fieldErrors.Count >= 1);
+            Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)JudoModelErrorCode.Postcode_Not_Supplied));
         }
 
         [Test]
         public void SaveCardAndATokenPayment()
         {
+            // Given a standard SaveCard model with a specific consumer reference
             var consumerReference = Guid.NewGuid().ToString();
-
             var saveCardModel = GetSaveCardModel(consumerReference);
 
-            var response = JudoPayApiIridium.SaveCards.Create(saveCardModel).Result;
+            // When SaveCards.Create is called
+            var response = JudoPayApiBase.SaveCards.Create(saveCardModel).Result;
 
+            // Then a successful receipt is returned with a card token
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
 
             var receipt = response.Response as PaymentReceiptModel;
-
             Assert.IsNotNull(receipt);
-
             Assert.AreEqual("Success", receipt.Result);
 
             // Fetch the card token
             var cardToken = receipt.CardDetails.CardToken;
 
-            var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 26);
+            // And when a payment is used with the same cardToken and consumerReference
+            var firstPaymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 26);
+            // Then the payment is successful
+            var firstPaymentResponse = JudoPayApiBase.Payments.Create(firstPaymentWithToken).Result;
+            Assert.IsNotNull(firstPaymentResponse);
+            Assert.IsFalse(firstPaymentResponse.HasError);
+            Assert.AreEqual("Success", firstPaymentResponse.Response.Result);
 
-            response = JudoPayApiIridium.Payments.Create(paymentWithToken).Result;
-
-            paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27);
-
-            response = JudoPayApiIridium.Payments.Create(paymentWithToken).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
+            // And when a second payment is used with the same cardToken and consumerReference
+            var secondPaymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27);
+            // Then that payment is also successful
+            var secondPaymentResponse = JudoPayApiBase.Payments.Create(secondPaymentWithToken).Result;
+            Assert.IsNotNull(secondPaymentResponse);
+            Assert.IsFalse(secondPaymentResponse.HasError);
+            Assert.AreEqual("Success", secondPaymentResponse.Response.Result);
         }
 
         [Test, TestCaseSource(typeof(SaveCardTestSource), nameof(SaveCardTestSource.ValidateFailureTestCases))]
         public void ValidateWithoutSuccess(SaveCardModel saveCardModel, JudoModelErrorCode expectedModelErrorCode)
         {
-            var saveCardReceiptResult = JudoPayApiIridium.SaveCards.Create(saveCardModel).Result;
+            var saveCardReceiptResult = JudoPayApiBase.SaveCards.Create(saveCardModel).Result;
             Assert.NotNull(saveCardReceiptResult);
             Assert.IsTrue(saveCardReceiptResult.HasError);
             Assert.IsNull(saveCardReceiptResult.Response);

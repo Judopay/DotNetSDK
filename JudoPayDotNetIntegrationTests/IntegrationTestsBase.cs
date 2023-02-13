@@ -15,6 +15,7 @@ namespace JudoPayDotNetIntegrationTests
     public abstract class IntegrationTestsBase
     {
         protected JudoPayApi JudoPayApiIridium;
+        protected JudoPayApi JudoPayApiBase;
         protected JudoPayApi JudoPayApiCyberSource;
         protected JudoPayApi JudoPayApiSafeCharge;
         protected JudoPayApi JudoPayApiElevated;
@@ -23,7 +24,7 @@ namespace JudoPayDotNetIntegrationTests
         protected IntegrationTestsBase() 
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            JudoPayApiIridium = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Token, Configuration.Secret);
+            JudoPayApiBase = JudoPayApiIridium = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Token, Configuration.Secret);
             JudoPayApiCyberSource = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Cybersource_Token, Configuration.Cybersource_Secret);
             JudoPayApiSafeCharge = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
             JudoPayApiElevated = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
@@ -165,6 +166,7 @@ namespace JudoPayDotNetIntegrationTests
 
             return new SaveCardModel
             {
+                JudoId = judoId ?? Configuration.Judoid,
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
                 ExpiryDate = "12/25",
