@@ -9,11 +9,8 @@ namespace JudoPayDotNet.Models
     public class CompleteThreeDSecureTwoModel
     {
         /// <summary>
-        /// Gets or sets the CV2.
+        /// The card CV2 from the initial transaction.   This is not persisted by Judopay.
         /// </summary>
-        /// <value>
-        /// The CV2.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string CV2 { get; set; }
 
