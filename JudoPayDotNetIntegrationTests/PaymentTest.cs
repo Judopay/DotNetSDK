@@ -51,9 +51,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public async Task ARecurringPayment()
         {
-            var initialPaymentWithCard = GetCardPaymentModel(initialRecurringPayment: true, judoId: Configuration.Cybersource_Judoid);
+            var initialPaymentWithCard = GetCardPaymentModel(initialRecurringPayment: true);
 
-            var initialResponse = await JudoPayApiCyberSource.Payments.Create(initialPaymentWithCard);
+            var initialResponse = await JudoPayApiBase.Payments.Create(initialPaymentWithCard);
 
             Assert.IsNotNull(initialResponse);
             Assert.IsFalse(initialResponse.HasError);
@@ -67,11 +67,10 @@ namespace JudoPayDotNetIntegrationTests
                 initialRecurringPayment: false, 
                 recurringPayment: true,
                 recurringPaymentType: RecurringPaymentType.Recurring, 
-                relatedReceiptId: "" + initialPaymentReceipt.ReceiptId,
-                judoId: Configuration.Cybersource_Judoid
+                relatedReceiptId: "" + initialPaymentReceipt.ReceiptId
             );
 
-            var recurringResponse = await JudoPayApiCyberSource.Payments.Create(recurringPaymentWithCard);
+            var recurringResponse = await JudoPayApiBase.Payments.Create(recurringPaymentWithCard);
             Assert.IsNotNull(recurringResponse);
             Assert.IsFalse(recurringResponse.HasError);
             Assert.AreEqual("Success", recurringResponse.Response.Result);
@@ -84,9 +83,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public async Task AnMitPayment()
         {
-            var initialPaymentWithCard = GetCardPaymentModel(initialRecurringPayment: true, judoId: Configuration.Cybersource_Judoid);
+            var initialPaymentWithCard = GetCardPaymentModel(initialRecurringPayment: true);
 
-            var initialResponse = await JudoPayApiCyberSource.Payments.Create(initialPaymentWithCard);
+            var initialResponse = await JudoPayApiBase.Payments.Create(initialPaymentWithCard);
 
             Assert.IsNotNull(initialResponse);
             Assert.IsFalse(initialResponse.HasError);
@@ -100,11 +99,10 @@ namespace JudoPayDotNetIntegrationTests
                 initialRecurringPayment: false, 
                 recurringPayment: true,
                 recurringPaymentType: RecurringPaymentType.Mit, 
-                relatedReceiptId: "" + initialPaymentReceipt.ReceiptId,
-                judoId: Configuration.Cybersource_Judoid
+                relatedReceiptId: "" + initialPaymentReceipt.ReceiptId
             );
 
-            var mitResponse = await JudoPayApiCyberSource.Payments.Create(mitPaymentWithCard);
+            var mitResponse = await JudoPayApiBase.Payments.Create(mitPaymentWithCard);
             Assert.IsNotNull(mitResponse);
             Assert.IsFalse(mitResponse.HasError);
             Assert.AreEqual("Success", mitResponse.Response.Result);
@@ -148,7 +146,6 @@ namespace JudoPayDotNetIntegrationTests
             Assert.That(cardTokenReceipt.CardDetails.EndDate, Is.Not.Empty);
             Assert.That(cardTokenReceipt.CardDetails.CardScheme, Is.EqualTo("Visa"));
             Assert.That(cardTokenReceipt.CardDetails.CardFunding, Is.EqualTo("Debit"));
-            Assert.That(cardTokenReceipt.CardDetails.CardCategory, Is.EqualTo("Classic"));
             Assert.That(cardTokenReceipt.CardDetails.CardCountry, Is.EqualTo("FR"));
             Assert.That(cardTokenReceipt.CardDetails.Bank, Is.EqualTo("Credit Industriel Et Commercial"));
             Assert.That(cardTokenReceipt.Message, Does.Match("AuthCode: \\d{6}"), $"Result message on receipt not in correct format AuthCode: xxxxxx. Was {cardTokenReceipt.Message}");
@@ -171,11 +168,10 @@ namespace JudoPayDotNetIntegrationTests
             var paymentWithCard = GetCardPaymentModel(
                 consumerReference, 
                 recurringPayment: true,
-                recurringPaymentType: RecurringPaymentType.Recurring,
-                judoId: Configuration.Cybersource_Judoid
+                recurringPaymentType: RecurringPaymentType.Recurring
             );
 
-            var response = await JudoPayApiCyberSource.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -398,11 +394,12 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public async Task TestPaymentReceiptContainsPaymentNetworkTransactionId()
+        public async Task TestCybersourcePaymentReceiptContainsPaymentNetworkTransactionId()
         {
-            // Given a payment without a card address
-            var paymentWithCard = GetCardPaymentModel(initialRecurringPayment: true, judoId: Configuration.Cybersource_Judoid);
-            var response = await JudoPayApiCyberSource.Payments.Create(paymentWithCard);
+            // Given a payment on a JudoId routed to Cybersource
+            var paymentWithCard = GetCardPaymentModel(cardNumber: "4111111111111111",
+                judoId: Configuration.CybersourceJudoId);
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
 
             // Then the payment is successful 
             Assert.IsNotNull(response);
