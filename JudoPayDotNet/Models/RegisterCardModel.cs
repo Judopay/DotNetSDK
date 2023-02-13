@@ -39,15 +39,6 @@ namespace JudoPayDotNet.Models
         public string YourPaymentReference { get; set; }
 
         /// <summary>
-        /// Gets or sets the full card holder name.
-        /// </summary>
-        /// <value>
-        /// The card holder name.
-        /// </value>
-        [DataMember(IsRequired = false)]
-        public string CardHolderName { get; set; }
-
-        /// <summary>
         /// Gets or sets the mobile number.
         /// </summary>
         /// <value>
