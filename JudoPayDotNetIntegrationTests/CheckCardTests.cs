@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using JudoPayDotNet.Models;
@@ -14,9 +13,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public async Task CheckCard()
         {
-            var checkCardModel = GetCheckCardModel(Configuration.Cybersource_Judoid);
+            var checkCardModel = GetCheckCardModel();
 
-            var response = await JudoPayApiCyberSource.CheckCards.Create(checkCardModel);
+            var response = await JudoPayApiBase.CheckCards.Create(checkCardModel);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -30,9 +29,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void CheckEncryptedCard()
         {
-            var checkEncryptedCardModel = GetCheckEncryptedCardModel(Configuration.Cybersource_Judoid).Result;
+            var checkEncryptedCardModel = GetCheckEncryptedCardModel().Result;
 
-            var response = JudoPayApiCyberSource.CheckCards.Create(checkEncryptedCardModel).Result;
+            var response = JudoPayApiBase.CheckCards.Create(checkEncryptedCardModel).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -42,9 +41,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public async Task CheckCardAndATokenPayment()
         {
-            var checkCardModel = GetCheckCardModel(Configuration.Cybersource_Judoid);
+            var checkCardModel = GetCheckCardModel();
 
-            var response = await JudoPayApiCyberSource.CheckCards.Create(checkCardModel);
+            var response = await JudoPayApiBase.CheckCards.Create(checkCardModel);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -57,9 +56,9 @@ namespace JudoPayDotNetIntegrationTests
             // Fetch the card token
             var cardToken = receipt.CardDetails.CardToken;
             var consumerReference = receipt.Consumer.YourConsumerReference;
-            var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27, judoId: Configuration.Cybersource_Judoid);
+            var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27);
 
-            response = await JudoPayApiCyberSource.Payments.Create(paymentWithToken);
+            response = await JudoPayApiBase.Payments.Create(paymentWithToken);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -85,7 +84,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public async Task PrimaryAccountDetailsCheckCard()
         {
-            var checkCardModel = GetCheckCardModel(Configuration.Cybersource_Judoid);
+            var checkCardModel = GetCheckCardModel();
             // Given a RegisterCardModel with PrimaryAccountDetails
             checkCardModel.PrimaryAccountDetails = new PrimaryAccountDetailsModel
             {
@@ -95,7 +94,7 @@ namespace JudoPayDotNetIntegrationTests
                 PostCode = "EC2A 4DP"
             };
 
-            var response = await JudoPayApiCyberSource.CheckCards.Create(checkCardModel);
+            var response = await JudoPayApiBase.CheckCards.Create(checkCardModel);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);

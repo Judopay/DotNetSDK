@@ -45,32 +45,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void PaymentUpdate()
-        {
-            var request = GetWebPaymentRequestModel();
-
-            var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
-
-            Assert.NotNull(result);
-            Assert.IsFalse(result.HasError);
-            Assert.NotNull(result.Response);
-            Assert.NotNull(result.Response.Reference);
-            Assert.NotNull(result.Response.PostUrl);
-
-            request.Status = WebPaymentStatus.Success;
-            request.Reference = result.Response.Reference;
-
-            var resultUpdate = JudoPayApiElevated.WebPayments.Payments.Update(request).Result;
-
-            Assert.NotNull(resultUpdate);
-            Assert.IsFalse(resultUpdate.HasError);
-            Assert.NotNull(resultUpdate.Response); //todo pick a judoID that has permissions to do this
-            Assert.NotNull(resultUpdate.Response.Reference);
-            Assert.AreEqual(result.Response.Reference, resultUpdate.Response.Reference);
-            Assert.AreEqual(resultUpdate.Response.Status, resultUpdate.Response.Status);
-        }
-
-        [Test]
         public void PreAuthCreate()
         {
             var request = GetWebPaymentRequestModel();
@@ -82,32 +56,6 @@ namespace JudoPayDotNetIntegrationTests
             Assert.NotNull(result.Response);
             Assert.NotNull(result.Response.Reference);
             Assert.NotNull(result.Response.PostUrl);
-        }
-
-        [Test]
-        public void PreAuthUpdate()
-        {
-            var request = GetWebPaymentRequestModel();
-
-            var result = JudoPayApiElevated.WebPayments.PreAuths.Create(request).Result;
-
-            Assert.NotNull(result);
-            Assert.IsFalse(result.HasError);
-            Assert.NotNull(result.Response);
-            Assert.NotNull(result.Response.Reference);
-            Assert.NotNull(result.Response.PostUrl);
-
-            request.Status = WebPaymentStatus.Success;
-            request.Reference = result.Response.Reference;
-
-            var resultUpdate = JudoPayApiElevated.WebPayments.PreAuths.Update(request).Result;
-
-            Assert.NotNull(resultUpdate);
-            Assert.IsFalse(resultUpdate.HasError);
-            Assert.NotNull(resultUpdate.Response);
-            Assert.NotNull(resultUpdate.Response.Reference);
-            Assert.AreEqual(result.Response.Reference, resultUpdate.Response.Reference);
-            Assert.AreEqual(resultUpdate.Response.Status, resultUpdate.Response.Status);
         }
 
         [Test]

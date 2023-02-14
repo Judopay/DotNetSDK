@@ -9,14 +9,6 @@ namespace JudoPayDotNet.Clients
     public interface IThreeDs
     {
         /// <summary>
-        /// Complete a 3D authorization.
-        /// </summary>
-		/// <param name="receiptId">The transaction identifier.</param>
-        /// <param name="model">The model.</param>
-        /// <returns>Payment Receipt Model</returns>
-        Task<IResult<PaymentReceiptModel>> Complete3DSecure(long receiptId, ThreeDResultModel model);
-
-        /// <summary>
         /// Resume a 3DS2 authorization. 
         /// </summary>
         /// <param name="receiptId">The transaction identifier.</param>

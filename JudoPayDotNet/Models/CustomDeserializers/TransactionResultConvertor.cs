@@ -16,11 +16,6 @@ namespace JudoPayDotNet.Models.CustomDeserializers
                 return new PaymentRequiresThreeDSecureTwoModel();
             }
 
-            if (jObject.Value<string>("md") != null)
-            {
-                return new PaymentRequiresThreeDSecureModel();
-            }
-
             return new PaymentReceiptModel();
         }
     }
