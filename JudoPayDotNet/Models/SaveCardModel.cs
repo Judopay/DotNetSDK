@@ -50,20 +50,20 @@ namespace JudoPayDotNet.Models
         /// The Judopay account identifier that you can get from our portal.   Typically 9 digits (specify without
         /// spaces or dashes).   If not specified the your default JudoId will be used.
         /// </summary>
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string JudoId { get; set; }
 
         /// <summary>
         /// The ISO 3 character currency to be used, defaults to GBP if not specified.
         /// </summary>
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string Currency { get; set; }
 
         /// <summary>
         /// The full name of the card holder.  Note: When testing 3D Secure in the sandbox environment, it is the
         /// CardHolderName that is used to determine the test card for 3D Secure 2 authentication.
         /// </summary>
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string CardHolderName { get; set; }
     }
     // ReSharper restore UnusedMember.Global
