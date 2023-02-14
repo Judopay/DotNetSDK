@@ -29,18 +29,6 @@ namespace JudoPayDotNet.Models
         public string ExpiryDate { get; set; }
 
         /// <summary>
-        /// The card start date in format MM/YY, e.g. 07/22.  Set for Maestro cards only.
-        /// </summary>
-        [DataMember(IsRequired = false)]
-        public string StartDate { get; set; }
-
-        /// <summary>
-        /// The card Issue Number shown on the front of the card (a number from 1 to 99).  Set for Maestro cards only
-        /// </summary>
-        [DataMember(IsRequired = false)]
-        public string IssueNumber { get; set; }
-
-        /// <summary>
         /// The billing address associated with the card.
         /// </summary>
         [DataMember(IsRequired = false, EmitDefaultValue = false)]
