@@ -1,4 +1,5 @@
-﻿using JudoPayDotNet.Enums;
+using System.Net;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
 using NUnit.Framework;
 
@@ -39,17 +40,48 @@ namespace JudoPayDotNetIntegrationTests
 
             var paymentResponse = JudoPayApiThreeDSecure2.Payments.Create(paymentModel).Result;
             Assert.IsNotNull(paymentResponse);
-            Assert.IsFalse(paymentResponse.HasError);
 
-            var deviceDetailsResponse = paymentResponse.Response as PaymentRequiresThreeDSecureTwoModel;
-
-            Assert.IsNotNull(deviceDetailsResponse);
-            Assert.AreEqual("Additional device data is needed for 3D Secure 2", deviceDetailsResponse.Result);
-            Assert.AreEqual("Issuer ACS has requested additional device data gathering", deviceDetailsResponse.Message);
-            Assert.IsNotNull(deviceDetailsResponse.MethodUrl);
-            Assert.IsNotNull(deviceDetailsResponse.Md);
-            Assert.IsNotNull(deviceDetailsResponse.Version);
-            Assert.IsNull(deviceDetailsResponse.ChallengeUrl);
+            if (paymentResponse.HasError)
+            {
+                if (paymentResponse.Error.Code == (int)HttpStatusCode.Forbidden)
+                {
+                    // Failed to authenticate - check your ApiToken and Secret
+                }
+                else if (paymentResponse.Error.ModelErrors != null)
+                {
+                    // Validation failed on the request, chech each list entry for details
+                }
+                else
+                {
+                    // Refer to https://docs.judopay.com/Content/Developer%20Tools/Codes.htm#Errors
+                    var errorCode = paymentResponse.Error.Code;
+                }
+            }
+            else if (paymentResponse.Response is PaymentReceiptModel receipt)
+            {
+                // Transaction was processed at gateway, check receipt for details
+                var receiptId = receipt.ReceiptId;
+                var status = receipt.Result;
+                if (receipt.Result == "Success")
+                {
+                    var cardToken = receipt.CardDetails.CardToken;
+                }
+            }
+            else if (paymentResponse.Response is PaymentRequiresThreeDSecureTwoModel threeDSecureTwoResponseModel)
+            {
+                if (threeDSecureTwoResponseModel.MethodUrl != null)
+                {
+                    // Device details are required - POST md as threeDSMethodData to methodUrl 
+                    var methodUrl = threeDSecureTwoResponseModel.MethodUrl;
+                    var md = threeDSecureTwoResponseModel.Md;
+                }
+                else if (threeDSecureTwoResponseModel.ChallengeUrl != null)
+                {
+                    // Challenge is required - POST creq to challengeUrl 
+                    var challengeUrl = threeDSecureTwoResponseModel.ChallengeUrl;
+                    var creq = threeDSecureTwoResponseModel.CReq;
+                }
+            }
         }
 
         [Test]

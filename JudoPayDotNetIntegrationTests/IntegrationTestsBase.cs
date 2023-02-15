@@ -53,6 +53,7 @@ namespace JudoPayDotNetIntegrationTests
                 JudoId = judoId ?? Configuration.Judoid,
                 YourConsumerReference = yourConsumerReference,
                 Amount = 25,
+                Currency  = "GBP",
                 CardNumber = cardNumber,
                 CV2 = cv2,
                 ExpiryDate = "12/25",
@@ -452,6 +453,7 @@ namespace JudoPayDotNetIntegrationTests
             return paymentModel;
         }
 
+ 
 
     }
 }
