@@ -64,7 +64,7 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The post code.
         /// </value>
-        [DataMember(IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string PostCode { get; set; }
 
         /// <summary> 
