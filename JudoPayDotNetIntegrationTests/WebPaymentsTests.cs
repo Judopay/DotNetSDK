@@ -7,6 +7,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using JudoPayDotNet;
+using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;
@@ -231,6 +233,46 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(fieldErrors);
             Assert.IsTrue(fieldErrors.Count >= 1);
             Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
+        }
+
+        [Test]
+        public async Task SampleCreationPaymentSessionFor3DS2()
+        {
+            var client = JudoPaymentsFactory.Create(
+                        JudoEnvironment.Sandbox, "ApiToken", "ApiSecret");
+
+            var paymentSessionRequestModel = new WebPaymentRequestModel
+            {
+                JudoId = "100100100",
+                YourConsumerReference = "3f7064d3-43e4-45a9-8329-2c4b9dd4d9e0",
+                // A guid will be generated for YourPaymentReference
+                YourPaymentMetaData = new Dictionary<string, string>
+                {
+                    { "key1", "value1" },
+                    { "key2", "value2" }
+                },
+                Amount = 1.01m,
+                Currency = "GBP",
+                ExpiryDate = DateTimeOffset.Now.AddHours(24),
+                ThreeDSecure = new ThreeDSecureTwoModel
+                {
+                    AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
+                    ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.ChallengeAsMandate
+                }
+                // PrimaryAccountDetails should also be set for MCC-6012 merchants
+            };
+            
+            var webPaymentResult = await client.WebPayments.Payments.Create(paymentSessionRequestModel);
+
+            if (webPaymentResult.HasError)
+            {
+                // HandleError
+            }
+            else
+            {
+                var paymentSessionReference = webPaymentResult.Response.Reference;
+                var yourPaymentReference = paymentSessionRequestModel.YourPaymentReference;
+            }
         }
 
         internal class WebPaymentsTestSource
