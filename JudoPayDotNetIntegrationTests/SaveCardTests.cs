@@ -104,10 +104,11 @@ namespace JudoPayDotNetIntegrationTests
             var client = JudoPayApiThreeDSecure2;
 
             //Create an instance of the SaveCardModel
-            var saveCardRequest = new SaveCardModel()
+            var consumerRef = Guid.NewGuid().ToString();
+            var saveCardRequest = new SaveCardModel
             {
-                JudoId = "100915867",
-                YourConsumerReference = "yourConsumerReference",
+                JudoId = Configuration.Judoid,
+                YourConsumerReference = consumerRef,
                 CardNumber = "4976000000003436",
                 ExpiryDate = "12/25"
             };

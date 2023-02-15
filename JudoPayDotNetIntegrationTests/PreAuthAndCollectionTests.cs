@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using JudoPayDotNet.Enums;
@@ -235,12 +236,14 @@ namespace JudoPayDotNetIntegrationTests
         {
             var client = JudoPayApiThreeDSecure2;
 
+            var consumerRef = Guid.NewGuid().ToString();
+            var paymentRef = Guid.NewGuid().ToString();
             //Create an instance of the CardPayment Model
             var preauthRequest = new CardPaymentModel
             {
-                JudoId = "100915867",
-                YourConsumerReference = "yourConsumerReference",
-                YourPaymentReference = "yourPaymentReference2",
+                JudoId = Configuration.Judoid,
+                YourConsumerReference = consumerRef,
+                YourPaymentReference = paymentRef,
                 CardNumber = "4976000000003436",
                 ExpiryDate = "12/25",
                 CV2 = "452",
