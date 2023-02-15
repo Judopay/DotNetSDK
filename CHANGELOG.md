@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## 4.0 Changes
 - Update Api-Version to 6.18
+- Remove support for ThreeDSecure 1.x
 - Update SaveCardModel to add CardHolderName
 
 ## 3.4 Changes on 2022-07-18
