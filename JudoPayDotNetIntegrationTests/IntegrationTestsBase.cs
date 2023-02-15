@@ -9,7 +9,6 @@ using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using Newtonsoft.Json;
-using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
 {
@@ -149,7 +148,6 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = amount,
                 CardToken = cardToken,
                 CV2 = "452",
-                ConsumerToken = "ABSE",
                 RecurringPayment = recurringPayment
             };
         }

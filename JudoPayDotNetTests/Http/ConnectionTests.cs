@@ -14,8 +14,6 @@ namespace JudoPayDotNetTests.Http
 {
     using JudoPayDotNet.Models;
 
-    using NSubstitute.Core;
-
     [TestFixture]
     public class ConnectionTests
     {
@@ -133,7 +131,6 @@ namespace JudoPayDotNetTests.Http
                                 currency : 'GBP',
                                 consumer : 
                                     {
-                                        consumerToken : 'B245SEB',
                                         yourConsumerReference : 'Consumer1'
                                     }
                              }]}")) };
