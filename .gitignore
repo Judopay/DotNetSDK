@@ -66,6 +66,5 @@ _ReSharper*/
 #Test files
 *.testsettings
 
-Configuration.cs
-packages/
-/JudoPayDotNetIntegrationTests/appsettings.json
+# Project specific files
+JudoPayDotNetIntegrationTests/appsettings.local.json

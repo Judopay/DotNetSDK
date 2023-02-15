@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using JudoPayDotNet;
 using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.Validations;
@@ -234,7 +233,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public async Task TestDocs()
         {
-            var client = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
+            var client = JudoPayApiThreeDSecure2;
 
             //Create an instance of the CardPayment Model
             var preauthRequest = new CardPaymentModel

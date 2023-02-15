@@ -101,7 +101,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public async Task TestDocs()
         {
-            var client = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
+            var client = JudoPayApiThreeDSecure2;
 
             //Create an instance of the SaveCardModel
             var saveCardRequest = new SaveCardModel()

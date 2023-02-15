@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
-using JudoPayDotNet;
-using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;
@@ -16,9 +13,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public async Task CheckCard()
         {
-            var checkCardModel = GetCheckCardModel(Configuration.Cybersource_Judoid);
+            var checkCardModel = GetCheckCardModel();
 
-            var response = await JudoPayApiCyberSource.CheckCards.Create(checkCardModel);
+            var response = await JudoPayApiBase.CheckCards.Create(checkCardModel);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -32,9 +29,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void CheckEncryptedCard()
         {
-            var checkEncryptedCardModel = GetCheckEncryptedCardModel(Configuration.Cybersource_Judoid).Result;
+            var checkEncryptedCardModel = GetCheckEncryptedCardModel().Result;
 
-            var response = JudoPayApiCyberSource.CheckCards.Create(checkEncryptedCardModel).Result;
+            var response = JudoPayApiBase.CheckCards.Create(checkEncryptedCardModel).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -44,9 +41,9 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public async Task CheckCardAndATokenPayment()
         {
-            var checkCardModel = GetCheckCardModel(Configuration.Cybersource_Judoid);
+            var checkCardModel = GetCheckCardModel();
 
-            var response = await JudoPayApiCyberSource.CheckCards.Create(checkCardModel);
+            var response = await JudoPayApiBase.CheckCards.Create(checkCardModel);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -59,9 +56,9 @@ namespace JudoPayDotNetIntegrationTests
             // Fetch the card token
             var cardToken = receipt.CardDetails.CardToken;
             var consumerReference = receipt.Consumer.YourConsumerReference;
-            var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27, judoId: Configuration.Cybersource_Judoid);
+            var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27);
 
-            response = await JudoPayApiCyberSource.Payments.Create(paymentWithToken);
+            response = await JudoPayApiBase.Payments.Create(paymentWithToken);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -87,37 +84,17 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public async Task PrimaryAccountDetailsCheckCard()
         {
-            var checkCardRequest = new CheckCardModel
+            var checkCardModel = GetCheckCardModel();
+            // Given a RegisterCardModel with PrimaryAccountDetails
+            checkCardModel.PrimaryAccountDetails = new PrimaryAccountDetailsModel
             {
-                JudoId = "100915867",
-                YourConsumerReference = "yourConsumerReference",
-                YourPaymentReference = "yourPaymentReference",
-                CardNumber = "4976000000003436",
-                ExpiryDate = "12/25",
-                CV2 = "452",
-                // PrimaryAccountDetails only required for MCC6012 merchants
-                PrimaryAccountDetails = new PrimaryAccountDetailsModel
-                {
-                    Name = "Doe",
-                    AccountNumber = "1234567",
-                    DateOfBirth = "2000-12-31",
-                    PostCode = "EC2A 4DP"
-                },
-                // Following are for 3DS2 transactions
-                PhoneCountryCode = "44",
-                MobileNumber = "7999123456",
-                EmailAddress = "test.user@judopay.com",
-                CardHolderName = "John Doe",
-                ThreeDSecure = new ThreeDSecureTwoModel
-                {
-                    AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
-                    ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.ChallengeAsMandate,
-                    MethodNotificationUrl = "https://yourMethodNotificationUrl",
-                    ChallengeNotificationUrl = "https://yourChallengeNotificationUrl"
-                }
+                Name = "Doe",
+                AccountNumber = "1234567",
+                DateOfBirth = "2000-12-31",
+                PostCode = "EC2A 4DP"
             };
 
-            var response = await JudoPayApiIridium.CheckCards.Create(checkCardRequest);
+            var response = await JudoPayApiBase.CheckCards.Create(checkCardModel);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);

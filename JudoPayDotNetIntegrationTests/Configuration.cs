@@ -11,18 +11,16 @@ namespace JudoPayDotNetIntegrationTests
         public string WebpaymentsUrl;
 
         public string Judoid;
+        public string CybersourceJudoId;
+
         public string Token;
         public string Secret;
+        
         public string ElevatedPrivilegesToken;
         public string ElevatedPrivilegesSecret;
 
-        public string Cybersource_Judoid;
-        public string Cybersource_Token;
-        public string Cybersource_Secret;
-
-        public string SafeCharge_Judoid;
-        public string SafeCharge_Token;
-        public string SafeCharge_Secret;
+        public string ThreeDSecure2Token;
+        public string ThreeDSecure2Secret;
 
         public JudoEnvironment JudoEnvironment = JudoEnvironment.Sandbox;
         
@@ -39,19 +37,17 @@ namespace JudoPayDotNetIntegrationTests
 
             WebpaymentsUrl = Config["WebpaymentsUrl"] ?? "https://pay-sandbox.judopay.com/v1/Pay";
 
-            Judoid = Config["Credentials:Base:JudoId"];
+            Judoid = Config["Credentials:JudoIds:AI"];
+            CybersourceJudoId = Config["Credentials:JudoIds:Cybersource"];
+
             Token = Config["Credentials:Base:Token"];
             Secret = Config["Credentials:Base:Secret"];
-            ElevatedPrivilegesToken = Config["Credentials:Base:ElevatedPrivilegesToken"];
-            ElevatedPrivilegesSecret = Config["Credentials:Base:ElevatedPrivilegesSecret"];
 
-            Cybersource_Judoid = Config["Credentials:Cybersource:JudoId"];
-            Cybersource_Token = Config["Credentials:Cybersource:Token"];
-            Cybersource_Secret = Config["Credentials:Cybersource:Secret"];
+            ElevatedPrivilegesToken = Config["Credentials:ElevatedPrivileges:Token"];
+            ElevatedPrivilegesSecret = Config["Credentials:ElevatedPrivileges:Secret"];
 
-            SafeCharge_Judoid = Config["Credentials:SafeCharge:JudoId"];
-            SafeCharge_Token = Config["Credentials:SafeCharge:Token"];
-            SafeCharge_Secret = Config["Credentials:SafeCharge:Secret"];
+            ThreeDSecure2Token = Config["Credentials:ThreeDSecure2:Token"];
+            ThreeDSecure2Secret = Config["Credentials:ThreeDSecure2:Secret"];
         }
     }
 }

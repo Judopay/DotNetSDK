@@ -16,19 +16,20 @@ namespace JudoPayDotNetIntegrationTests
     public abstract class IntegrationTestsBase
     {
         protected JudoPayApi JudoPayApiIridium;
-        protected JudoPayApi JudoPayApiCyberSource;
-        protected JudoPayApi JudoPayApiSafeCharge;
+        protected JudoPayApi JudoPayApiBase;
         protected JudoPayApi JudoPayApiElevated;
+        protected JudoPayApi JudoPayApiThreeDSecure2;
         protected readonly Configuration Configuration = new Configuration();
 
         protected IntegrationTestsBase() 
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            JudoPayApiIridium = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Token, Configuration.Secret);
-            JudoPayApiCyberSource = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.Cybersource_Token, Configuration.Cybersource_Secret);
-            JudoPayApiSafeCharge = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.SafeCharge_Token, Configuration.SafeCharge_Secret);
-            JudoPayApiElevated = JudoPaymentsFactory.Create(Configuration.JudoEnvironment, Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
-
+            JudoPayApiBase = JudoPayApiIridium = JudoPaymentsFactory.Create(Configuration.JudoEnvironment,
+                Configuration.Token, Configuration.Secret);
+            JudoPayApiElevated = JudoPaymentsFactory.Create(Configuration.JudoEnvironment,
+                Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
+            JudoPayApiThreeDSecure2 = JudoPaymentsFactory.Create(Configuration.JudoEnvironment,
+                Configuration.ThreeDSecure2Token, Configuration.ThreeDSecure2Secret);
         }
 
         protected CardPaymentModel GetCardPaymentModel(
@@ -261,7 +262,8 @@ namespace JudoPayDotNetIntegrationTests
         protected CheckCardModel GetCheckCardModel(
             string judoId = null, 
             string cardNumber = "4976000000003436", 
-            string cv2 = "452")
+            string cv2 = "452",
+            string currency = null)
         {
             return new CheckCardModel
             {
@@ -270,6 +272,7 @@ namespace JudoPayDotNetIntegrationTests
                 CardNumber = cardNumber,
                 CV2 = cv2,
                 ExpiryDate = "12/25",
+                Currency = currency ?? "GBP",
                 CardAddress = new CardAddressModel
                 {
                     Address1 = "32 Edward Street",
@@ -283,7 +286,7 @@ namespace JudoPayDotNetIntegrationTests
             string judoId = null,
             string yourConsumerReference = null)
         {
-            var oneUseTokenModel = await GetOneUseToken(true);
+            var oneUseTokenModel = await GetOneUseToken();
 
             if (string.IsNullOrEmpty(yourConsumerReference))
             {
@@ -323,12 +326,12 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
         
-        private async Task<OneUseTokenModel> GetOneUseToken(bool getAlt = false)
+        private async Task<OneUseTokenModel> GetOneUseToken()
         {
             var client = new HttpClient();
 
             client.DefaultRequestHeaders.Add("Api-Version", VersioningHandler.DEFAULT_API_VERSION);
-            client.DefaultRequestHeaders.Add("Authorization", getAlt ? $"Simple {Configuration.Cybersource_Token}" : $"Simple {Configuration.Token}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Simple {Configuration.Token}");
 
             var cardDetailsModel = new Dictionary<string, string>
             {
