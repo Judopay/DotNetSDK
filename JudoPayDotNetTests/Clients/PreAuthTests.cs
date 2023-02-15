@@ -32,11 +32,6 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
                         CV2 = "420",
                         EmailAddress = "testaccount@judo.com",
                         ExpiryDate = "12/25",
@@ -70,11 +65,6 @@ namespace JudoPayDotNetTests.Clients
                     yield return new TestCaseData(new TokenPaymentModel
                     {
                         Amount = 2.0m,
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
                         CV2 = "420",
                         CardToken = "A24BS2",
                         EmailAddress = "testaccount@judo.com",
@@ -124,11 +114,6 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
                         CV2 = "420",
                         EmailAddress = "testaccount@judo.com",
                         ExpiryDate = "12/25",
@@ -154,11 +139,6 @@ namespace JudoPayDotNetTests.Clients
                     yield return new TestCaseData(new TokenPaymentModel
                     {
                         Amount = 2.0m,
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
                         CV2 = "420",
                         CardToken = "A24BS2",
                         EmailAddress = "testaccount@judo.com",

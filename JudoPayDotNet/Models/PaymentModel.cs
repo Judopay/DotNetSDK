@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using JudoPayDotNet.Enums;
-using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models
 {
@@ -80,33 +79,11 @@ namespace JudoPayDotNet.Models
 // ReSharper restore MemberCanBePrivate.Global
 
         /// <summary>
-        /// Gets or sets the partner service fee.
-        /// </summary>
-        /// <value>
-        /// The partner service fee.
-        /// </value>
-        [DataMember]
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-        public decimal PartnerServiceFee { get; set; }
-// ReSharper restore UnusedAutoPropertyAccessor.Global
-
-        /// <summary>
-        /// Gets or sets the consumer location.
-        /// </summary>
-        /// <value>
-        /// The consumer location.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-        public ConsumerLocationModel ConsumerLocation { get; set; }
-        // ReSharper restore UnusedAutoPropertyAccessor.Global
-
-        /// <summary>
-        /// This is a set of fraud signals sent by the mobile SDKs
+        /// This is a set of encrypted mobile device information sent from the mobile SDKs
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable once UnusedMember.Global
-        public JObject ClientDetails { get; set; }
+        public ClientDetailsModel ClientDetails { get; set; }
 
         /// <summary>
         /// Details needed for MCC 6012 transactions
@@ -114,29 +91,6 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable once UnusedMember.Global
         public PrimaryAccountDetailsModel PrimaryAccountDetails { get; set; }
-
-        /// <summary>
-        /// The end consumers browser useragent for 3D secure
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-        public string UserAgent { get; set; }
-// ReSharper restore UnusedAutoPropertyAccessor.Global
-
-        /// <summary>
-        /// The end consumers browser DeviceCategory for 3D secure
-        /// </summary>
-        /// <remarks>This should either be Desktop or Mobile</remarks>
-        [DataMember(EmitDefaultValue = false)]
-        public string DeviceCategory { get; set; }
-
-        /// <summary>
-		/// The end consumers browser accept headers, used for 3D secure
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-        public string AcceptHeaders { get; set; }
-// ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         /// Is this transaction the first transaction of a series (has continuous authority

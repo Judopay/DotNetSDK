@@ -29,7 +29,6 @@ namespace JudoPayDotNetTests.Clients
                                                  Amount = 2.0m,
                                                  CardAddress = new CardAddressModel { Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
                                                  CardNumber = "348417606737499",
-                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  EmailAddress = "testaccount@judo.com",
                                                  ExpiryDate = "12/25",
@@ -66,7 +65,6 @@ namespace JudoPayDotNetTests.Clients
                                 Amount = 2.0m,
                                 CardAddress = new CardAddressModel {Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town"},
                                 CardNumber = "348417606737499",
-                                ConsumerLocation = new ConsumerLocationModel {Latitude = 40m, Longitude = 14m},
                                 CV2 = "420",
                                 EmailAddress = "testaccount@judo.com",
                                 ExpiryDate = "12/25",
@@ -102,7 +100,6 @@ namespace JudoPayDotNetTests.Clients
                         new TestCaseData(new TokenPaymentModel
                                              {
                                                  Amount = 2.0m,
-                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  CardToken = "A24BS2",
                                                  EmailAddress = "testaccount@judo.com",
@@ -147,7 +144,6 @@ namespace JudoPayDotNetTests.Clients
                                                  Amount = 2.0m,
                                                  CardAddress = new CardAddressModel { Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
                                                  CardNumber = "348417606737499",
-                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  EmailAddress = "testaccount@judo.com",
                                                  ExpiryDate = "12/25",
@@ -173,7 +169,6 @@ namespace JudoPayDotNetTests.Clients
                         new TestCaseData(new TokenPaymentModel
                                              {
                                                  Amount = 2.0m,
-                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  CardToken = "A24BS2",
                                                  EmailAddress = "testaccount@judo.com",
@@ -209,7 +204,6 @@ namespace JudoPayDotNetTests.Clients
                                                  Amount = 2.0m,
                                                  CardAddress = new CardAddressModel { Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
                                                  CardNumber = "348417606737499",
-                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  EmailAddress = "testaccount@judo.com",
                                                  ExpiryDate = "12/25",
@@ -235,7 +229,6 @@ namespace JudoPayDotNetTests.Clients
                         {
                             Amount = 2.0m,
                             CardToken = "",
-                            ConsumerLocation = new ConsumerLocationModel {Latitude = 40m, Longitude = 14m},
                             CV2 = "420",
                             EmailAddress = "testaccount@judo.com",
                             JudoId = "100200300",
@@ -259,7 +252,6 @@ namespace JudoPayDotNetTests.Clients
                         {
                             Amount = 2.0m,
                             OneUseToken = "",
-                            ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                             EmailAddress = "testaccount@judo.com",
                             JudoId = "100200300",
                             MobileNumber = "07999999999",
@@ -449,7 +441,6 @@ namespace JudoPayDotNetTests.Clients
                 Amount = 2.0m,
                 CardAddress = new CardAddressModel {Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town"},
                 CardNumber = "348417606737499",
-                ConsumerLocation = new ConsumerLocationModel {Latitude = 40m, Longitude = 14m},
                 CV2 = "420",
                 EmailAddress = "testaccount@judo.com",
                 ExpiryDate = "12/25",

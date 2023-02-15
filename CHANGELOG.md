@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## 4.0 Changes
 - Remove support for ThreeDSecure 1.x
+- Update PaymentModel to remove PartnerServiceFee, ConsumerLocation and DeviceCategory (use
+	ThreeDSecureTwoModel.AuthenticationSource instead).   AcceptHeaders and UserAgent moved
+	to ThreeDSecureTwoPaymentModel.
+- Make ClientDetails only accept a Key and Value attribute (encrypted by Mobile SDK using DeviceDNA)
 
 ## 3.4 Changes on 2022-07-18
 - Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions
