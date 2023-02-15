@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
@@ -8,7 +7,6 @@ namespace JudoPayDotNet.Models
     /// Data to save a card
     /// </summary>
     [DataContract]
-    [KnownType(typeof(SaveEncryptedCardModel))]
     // ReSharper disable UnusedMember.Global
     public class SaveCardModel : IModelWithHttpHeaders
     {

@@ -17,12 +17,5 @@ namespace JudoPayDotNet.Clients
         /// <param name="saveCard">The card to save (tokenise).</param>
         /// <returns>The result of the save card call</returns>
         Task<IResult<ITransactionResult>> Create(SaveCardModel saveCard);
-
-        /// <summary>
-        /// Saves a consumer card using a One Use Token
-        /// </summary>
-        /// <param name="saveEncryptedCard">The card to save (tokenise).</param>
-        /// <returns>The result of the save card call</returns>
-        Task<IResult<ITransactionResult>> Create(SaveEncryptedCardModel saveEncryptedCard);
     }
 }
