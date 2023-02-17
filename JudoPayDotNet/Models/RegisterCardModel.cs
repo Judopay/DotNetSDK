@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using JudoPayDotNet.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models
@@ -94,6 +96,7 @@ namespace JudoPayDotNet.Models
         /// Enum for Regular Payments (recurring)
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public RecurringPaymentType? RecurringPaymentType { get; set; }
 
         /// <summary>

@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using JudoPayDotNet.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace JudoPayDotNet.Models.Internal
 {
@@ -8,6 +10,7 @@ namespace JudoPayDotNet.Models.Internal
     public class InternalThreeDSecureTwoModel : ThreeDSecureTwoModel
     {
         [DataMember(EmitDefaultValue = false)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public MethodCompletion MethodCompletion { get; set; }
     }
 }
