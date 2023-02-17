@@ -45,7 +45,7 @@ namespace JudoPayDotNetIntegrationTests
                 initialRecurringPayment: false, 
                 recurringPayment: true,
                 recurringPaymentType: RecurringPaymentType.Recurring, 
-                relatedReceiptId: "" + initialPaymentReceipt.ReceiptId
+                relatedReceiptId: initialPaymentReceipt.ReceiptId
             );
 
             var recurringResponse = await JudoPayApiBase.Payments.Create(recurringPaymentWithCard);
@@ -77,7 +77,7 @@ namespace JudoPayDotNetIntegrationTests
                 initialRecurringPayment: false, 
                 recurringPayment: true,
                 recurringPaymentType: RecurringPaymentType.Mit, 
-                relatedReceiptId: "" + initialPaymentReceipt.ReceiptId
+                relatedReceiptId: initialPaymentReceipt.ReceiptId
             );
 
             var mitResponse = await JudoPayApiBase.Payments.Create(mitPaymentWithCard);

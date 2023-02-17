@@ -24,39 +24,30 @@ namespace JudoPayDotNet.Models
         public Dictionary<string, string> HttpHeaders => _httpHeaders ?? (_httpHeaders = new Dictionary<string, string>());
 
         /// <summary>
-        /// Gets or sets the transaction identifier.
+        /// Judopay transaction identifier of the referenced transaction.
         /// </summary>
-        /// <value>
-        /// The transaction identifier.
-        /// </value>
         [DataMember(IsRequired = true)]
-        public long ReceiptId { get; set; }
+        public string ReceiptId { get; set; }
 
         /// <summary>
-        /// Gets or sets your payment reference.
+        /// The merchant reference to for this transaction (not the referenced transaction).
         /// </summary>
-        /// <value>
-        /// Your payment reference.
-        ///PLEASE NOTE!!!! there is a reflection call within JudoPayClient.cs that gets this property via a string call. update in both places
-        /// including  other model instances of yourPaymentReference ********************
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-        public string YourPaymentReference { get; }
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
+        public string YourPaymentReference { get; set; }
 
         /// <summary>
-        /// Gets or sets the amount.
+        /// The transaction amount.   If not specified, the amount of the referenced transaction is used.
+        /// If specified, for voids, this must match the amount of the referenced transaction, but refunds
+        /// and collections can be less than the referenced amount.
         /// </summary>
-        /// <value>
-        /// The amount.
-        /// </value>
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public decimal? Amount { get; set; }
 
         /// <summary>
-        /// This is a set of fraud signals sent by the mobile SDKs
+        /// The ISO currency code of the transaction (e.g. GBP, EUR, USD).   If not specified the currency
+        /// of the referenced transaction is assumed.
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        // ReSharper disable once UnusedMember.Global
-        public JObject ClientDetails { get; set; }
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
+        public string Currency { get; set; }
     }
 }

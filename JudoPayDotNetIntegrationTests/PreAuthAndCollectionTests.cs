@@ -25,7 +25,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var oneTimePaymentModel = GetOneTimePaymentModel().Result;
 
-            var response = JudoPayApiIridium.PreAuths.Create(oneTimePaymentModel).Result;
+            var response = JudoPayApiBase.PreAuths.Create(oneTimePaymentModel).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -41,7 +41,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
 
-            var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
+            var response = JudoPayApiBase.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -60,7 +60,7 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = paymentWithCard.Amount
             };
 
-            var response = JudoPayApiIridium.Collections.Create(collection).Result;
+            var response = JudoPayApiBase.Collections.Create(collection).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -85,7 +85,7 @@ namespace JudoPayDotNetIntegrationTests
                 ReceiptId = preAuthReceiptId
             };
 
-            var response = JudoPayApiIridium.Collections.Create(collection).Result;
+            var response = JudoPayApiBase.Collections.Create(collection).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -115,13 +115,13 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 20,
                 ReceiptId = preAuthReceiptId
             };
-            var collectionResponse = JudoPayApiIridium.Collections.Create(collection).Result;
+            var collectionResponse = JudoPayApiBase.Collections.Create(collection).Result;
 
             // The collection will go through since it is less than the preauth amount
             Assert.That(collectionResponse.HasError, Is.False);
             Assert.That(collectionResponse.Response.ReceiptId, Is.GreaterThan(0));
 
-            var validateResponse = JudoPayApiIridium.Collections.Create(collection2).Result;
+            var validateResponse = JudoPayApiBase.Collections.Create(collection2).Result;
 
             Assert.That(validateResponse, Is.Not.Null);
             Assert.That(validateResponse.HasError, Is.True);
@@ -141,7 +141,7 @@ namespace JudoPayDotNetIntegrationTests
                 ReceiptId = preAuthReceiptId
             };
 
-            var response = JudoPayApiIridium.Voids.Create(voidPreAuth).Result;
+            var response = JudoPayApiBase.Voids.Create(voidPreAuth).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -167,7 +167,7 @@ namespace JudoPayDotNetIntegrationTests
                 ReceiptId = preAuthReceiptId
             };
 
-            var response = JudoPayApiIridium.Voids.Create(voidPreAuth).Result;
+            var response = JudoPayApiBase.Voids.Create(voidPreAuth).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -191,16 +191,16 @@ namespace JudoPayDotNetIntegrationTests
             {
                 // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
                 case CardPaymentModel model:
-                    preAuthReceiptResult = JudoPayApiIridium.PreAuths.Create(model).Result;
+                    preAuthReceiptResult = JudoPayApiBase.PreAuths.Create(model).Result;
                     break;
                 case TokenPaymentModel model:
-                    preAuthReceiptResult = JudoPayApiIridium.PreAuths.Create(model).Result;
+                    preAuthReceiptResult = JudoPayApiBase.PreAuths.Create(model).Result;
                     break;
                 case OneTimePaymentModel model:
-                    preAuthReceiptResult = JudoPayApiIridium.PreAuths.Create(model).Result;
+                    preAuthReceiptResult = JudoPayApiBase.PreAuths.Create(model).Result;
                     break;
                 case PKPaymentModel model:
-                    preAuthReceiptResult = JudoPayApiIridium.PreAuths.Create(model).Result;
+                    preAuthReceiptResult = JudoPayApiBase.PreAuths.Create(model).Result;
                     break;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
@@ -217,9 +217,9 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsTrue(fieldErrors.Any(x => x.Code == (int)expectedModelErrorCode));
         }
 
-        private long MakeAPreAuthWithCard(CardPaymentModel paymentWithCard)
+        private string MakeAPreAuthWithCard(CardPaymentModel paymentWithCard)
         {
-            var response = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
+            var response = JudoPayApiBase.PreAuths.Create(paymentWithCard).Result;
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
 

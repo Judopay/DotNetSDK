@@ -149,7 +149,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
+            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo("134567"));
         }
 
         [Test, TestCaseSource(typeof(CheckCardsTestSource), nameof(CheckCardsTestSource.SuccessTestCases))]
@@ -181,7 +181,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
+            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo("134567"));
         }
 
         [Test, TestCaseSource(typeof(CheckCardsTestSource), nameof(CheckCardsTestSource.FailureTestCases))]

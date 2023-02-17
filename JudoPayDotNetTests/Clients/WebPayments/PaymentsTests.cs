@@ -47,7 +47,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                 
                 Receipt = new PaymentReceiptModel
                 {
-                    ReceiptId = 134567,
+                    ReceiptId = "134567",
                     Type = "Create",
                     JudoId = 12456,
                     OriginalAmount = 20,
@@ -131,7 +131,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                 
                 Receipt = new PaymentReceiptModel
                 {
-                    ReceiptId = 134567,
+                    ReceiptId = "134567",
                     Type = "Create",
                     JudoId = 12456,
                     OriginalAmount = 20,
