@@ -9,7 +9,6 @@ using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using Newtonsoft.Json;
-using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
 {

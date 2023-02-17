@@ -20,76 +20,51 @@ namespace JudoPayDotNet.Models
         }
 
         /// <summary>
-        /// Gets or sets your consumer reference.
+        /// The merchant reference to anonymously and uniquely identify a consumer.   GUIDs are recommended.
         /// </summary>
-        /// <value>
-        /// Your consumer reference.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string YourConsumerReference { get; set; }
 
         /// <summary>
-        /// Gets your payment reference.
+        /// The merchant reference to anonymously and uniquely identify a consumer.  GUIDs are recommended.
         /// </summary>
-        /// <value>
-        /// Your payment reference.
-        /// PLEASE NOTE!!!! there is a reflection call within JudoPayClient.cs that gets this property via a string call. update in both places
-        /// including  other model instances of yourPaymentReference ********************
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string YourPaymentReference { get; set; }
 
         /// <summary>
-        /// Gets or sets your payment meta data.
+        /// The merchant payment meta data.
         /// </summary>
-        /// <value>
-        /// Your payment meta data.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
-        public IDictionary<string, string> YourPaymentMetaData { get; set; }
+        public IDictionary<string, object> YourPaymentMetaData { get; set; }
 
         /// <summary>
-        /// Gets or sets the judo identifier.
+        /// The judo account identifier.
         /// </summary>
-        /// <value>
-        /// The judo identifier.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string JudoId { get; set; }
 
         /// <summary>
-        /// Gets or sets the amount.
+        /// The transaction amount.
         /// </summary>
-        /// <value>
-        /// The amount.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public decimal Amount { get; set; }
 
         /// <summary>
-        /// Gets or sets the currency.
+        /// The ISO currency code of the transaction (e.g. GBP, EUR, USD)
         /// </summary>
-        /// <remarks>Valid values GBP, EUR or USD.</remarks>
-        /// <value>
-        /// The currency.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
-// ReSharper disable MemberCanBePrivate.Global
         public string Currency { get; set; }
-// ReSharper restore MemberCanBePrivate.Global
 
         /// <summary>
-        /// This is a set of encrypted mobile device information sent from the mobile SDKs
+        /// Encrypted mobile device information sent from the mobile SDKs
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-// ReSharper disable once UnusedMember.Global
         public ClientDetailsModel ClientDetails { get; set; }
 
         /// <summary>
         /// Details needed for MCC 6012 transactions
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-// ReSharper disable once UnusedMember.Global
         public PrimaryAccountDetailsModel PrimaryAccountDetails { get; set; }
 
         /// <summary>
