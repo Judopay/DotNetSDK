@@ -94,7 +94,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
         }
 
         [Test]
-        public void UpdatePreAuth()
+        public void CancelPreAuth()
         {
             var httpClient = Substitute.For<IHttpClient>();
             var request = new WebPaymentRequestModel
@@ -213,7 +213,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
-            var paymentReceiptResult = judo.WebPayments.PreAuths.Update(request).Result;
+            var paymentReceiptResult = judo.WebPayments.PreAuths.Cancel(request.Reference).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);

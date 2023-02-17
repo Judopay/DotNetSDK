@@ -17,10 +17,10 @@ namespace JudoPayDotNet.Clients.WebPayments
         Task<IResult<WebPaymentResponseModel>> Create(WebPaymentRequestModel model);
 
         /// <summary>
-		/// Updates the webpayment payment.
+		/// Cancels the specific payment session
         /// </summary>
-		/// <param name="model">The updated information of webpayment payment</param>
+		/// <param name="model">The Judopay reference for the payment session returned on creation</param>
 		/// <returns>The webpayment payment updated</returns>
-        Task<IResult<WebPaymentRequestModel>> Update(WebPaymentRequestModel model);
+        Task<IResult<WebPaymentRequestModel>> Cancel(string reference);
     }
 }

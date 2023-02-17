@@ -99,6 +99,12 @@ namespace JudoPayDotNet.Http
                 request.Content = new StringContent(JsonConvert.SerializeObject(body, _settings), new UTF8Encoding());
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             }
+            else if (request.Method == HttpMethod.Put)
+            {
+                // Support empty body for PUT paymentsession/{reference}/cancel
+                request.Content = new StringContent("{}", new UTF8Encoding());
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            }
 
             return request;
         }

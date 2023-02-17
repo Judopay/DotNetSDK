@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -273,6 +274,25 @@ namespace JudoPayDotNetIntegrationTests
                 var paymentSessionReference = webPaymentResult.Response.Reference;
                 var yourPaymentReference = paymentSessionRequestModel.YourPaymentReference;
             }
+        }
+
+        [Test]
+        public void PaymentSessionCancel()
+        {
+            var request = GetWebPaymentRequestModel();
+
+            var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
+
+            Assert.NotNull(result);
+            Assert.IsFalse(result.HasError);
+            Assert.NotNull(result.Response);
+            var reference = result.Response.Reference;
+
+            var cancelResult = JudoPayApiElevated.WebPayments.Payments.Cancel(reference).Result;
+
+            Assert.NotNull(result);
+            Assert.IsFalse(result.HasError);
+            Assert.AreEqual(WebPaymentStatus.Cancelled, cancelResult.Response.Status);
         }
 
         internal class WebPaymentsTestSource

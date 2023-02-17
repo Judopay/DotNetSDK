@@ -100,7 +100,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
         }
 
         [Test]
-        public void UpdatePayment()
+        public void CancelPayment()
         {
             var httpClient = Substitute.For<IHttpClient>();
             var request = new WebPaymentRequestModel
@@ -225,7 +225,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 
             var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
 
-            var paymentReceiptResult = judo.WebPayments.Payments.Update(request).Result;
+            var paymentReceiptResult = judo.WebPayments.Payments.Cancel(request.Reference).Result;
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);

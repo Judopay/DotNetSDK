@@ -26,15 +26,5 @@ namespace JudoPayDotNet.Clients.WebPayments
         {
             return Create(model, Transactiontype);
         }
-
-	    /// <summary>
-		/// Updates the webpayment payment.  Used in conjunction with 3D secure
-	    /// </summary>
-	    /// <param name="model">The updated information of webpayment payment</param>
-	    /// <returns>The webpayment payment updated</returns>
-	    public Task<IResult<WebPaymentRequestModel>> Update(WebPaymentRequestModel model)
-        {
-            return Update(model, Transactiontype);
-        }
     }
 }
