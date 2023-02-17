@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 - Update Api-Version to 6.19
 - Update PaymentModel to remove PartnerServiceFee, ConsumerLocation and DeviceCategory (use
 	ThreeDSecureTwoModel.AuthenticationSource instead).   AcceptHeaders and UserAgent moved
-	to ThreeDSecureTwoPaymentModel.
+	to ThreeDSecureTwoPaymentModel.   RelatedPaymentNetworkTransactionId added.
 - Make ClientDetails only accept a Key and Value attribute (encrypted by Mobile SDK using DeviceDNA)
 - Change YourPaymentMetaData signature to allow object values to be stored rather than only strings
 

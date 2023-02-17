@@ -96,10 +96,17 @@ namespace JudoPayDotNet.Models
         public RecurringPaymentType? RecurringPaymentType { get; set; }
 
         /// <summary>
-        /// Receipt ID of original authenticated transaction (for recurring payments)
+        /// Judopay receipt ID of original authenticated transaction (for recurring or merchant initiated payments)
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string RelatedReceiptId { get; set; }
+
+        /// <summary>
+        /// Payment network (scheme) transaction ID of original authenticated transaction (for recurring  or
+        /// merchant initiated payments)
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string RelatedPaymentNetworkTransactionId { get; set; }
 
         /// <summary>
         /// Reference of associated web payment session
