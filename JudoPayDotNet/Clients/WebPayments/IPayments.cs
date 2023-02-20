@@ -21,6 +21,6 @@ namespace JudoPayDotNet.Clients.WebPayments
         /// </summary>
 		/// <param name="model">The Judopay reference for the payment session returned on creation</param>
 		/// <returns>The webpayment payment updated</returns>
-        Task<IResult<WebPaymentRequestModel>> Cancel(string reference);
+        Task<IResult<CancelWebPaymentResponseModel>> Cancel(string reference);
     }
 }

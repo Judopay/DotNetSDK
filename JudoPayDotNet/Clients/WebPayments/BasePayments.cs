@@ -25,11 +25,11 @@ namespace JudoPayDotNet.Clients.WebPayments
         /// </summary>
         /// <param name="model">The updated information of webpayment preauth</param>
         /// <returns>The webpayment preauth updated</returns>
-        public Task<IResult<WebPaymentRequestModel>> Cancel(string reference)
+        public Task<IResult<CancelWebPaymentResponseModel>> Cancel(string reference)
         {
             var address = $"paymentsession/{reference}/cancel";
 
-            return PutInternal<WebPaymentRequestModel, WebPaymentRequestModel>(address, null);
+            return PutInternal<string, CancelWebPaymentResponseModel>(address, null);
         }
     }
 }

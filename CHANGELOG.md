@@ -3,7 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## 4.0 Changes
 - Remove support for ThreeDSecure 1.x
-- Remove IPayments.Update and replace it with IPayments.Cancel that takes a reference parameters
+- Remove IPayments.Update and IPreAuths.Update and replace it with IPayments.Cancel and IPreAuths.Cancel that takes
+	a reference parameter.   Add ICheckCards.Cancel.
 
 ## 3.4 Changes on 2022-07-18
 - Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions
