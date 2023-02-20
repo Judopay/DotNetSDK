@@ -26,7 +26,7 @@ namespace JudoPayDotNet.Models
         public string YourConsumerReference { get; set; }
 
         /// <summary>
-        /// The merchant reference to anonymously and uniquely identify a consumer.  GUIDs are recommended.
+        /// The merchant reference to uniquely identify a transaction.
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string YourPaymentReference { get; set; }
