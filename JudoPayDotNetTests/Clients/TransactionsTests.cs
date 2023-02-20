@@ -129,6 +129,10 @@ namespace JudoPayDotNetTests.Clients
                                         address2 : '{addressLine2}',
                                         town : '{town}',
                                         postcode : '{postcode}'
+                                    }},
+                                risks :
+                                    {{
+                                        postCodeCheck : '{postCodeCheckResult}'
                                     }}
                              }}") };
 
@@ -155,7 +159,7 @@ namespace JudoPayDotNetTests.Clients
             //New attributes added for JR-3931
             Assert.That(receipt.AcquirerTransactionId, Is.EqualTo(acquirerTransactionId));
             Assert.That(receipt.ExternalBankResponseCode, Is.EqualTo(externalBankResponseCode));
-            Assert.That(receipt.PostCodeCheckResult, Is.EqualTo(postCodeCheckResult));
+            Assert.That(receipt.Risks.PostcodeCheck, Is.EqualTo(postCodeCheckResult));
             Assert.That(receipt.BillingAddress.Address1, Is.EqualTo(addressAddress1));
             Assert.That(receipt.BillingAddress.Address2, Is.EqualTo(addressLine2));
             Assert.That(receipt.BillingAddress.Town, Is.EqualTo(town));
