@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## 4.0 Changes
 - Remove support for ThreeDSecure 1.x
+- Update PaymentReceiptModel
+-- Remove PartnerServiceFee, KountTransactionId, Refunds, PostCodeCheckResult  (Risks block should be used instead)
+-- Add NoOfAuthAttempts (only populated in historic receipts)
+- Extend WalletType to Include GooglePay and ClickToPay
+- Remove deprecated Line1/Line2/Line3 from CardAddressModel (Use Address1/Address2/Addres3 instead)
+- Extend ThreeDSecureReceiptModel to add ChallengeRequestIndicator, ScaExemption
+- Extend RiskModel to add Cv2Check
 
 ## 3.4 Changes on 2022-07-18
 - Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions
