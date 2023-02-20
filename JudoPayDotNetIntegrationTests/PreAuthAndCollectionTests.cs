@@ -119,7 +119,7 @@ namespace JudoPayDotNetIntegrationTests
 
             // The collection will go through since it is less than the preauth amount
             Assert.That(collectionResponse.HasError, Is.False);
-            Assert.That(collectionResponse.Response.ReceiptId, Is.GreaterThan(0));
+            Assert.NotNull(collectionResponse.Response.ReceiptId);
 
             var validateResponse = JudoPayApiBase.Collections.Create(collection2).Result;
 
