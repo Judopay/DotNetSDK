@@ -51,6 +51,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void ASimplePreAuthAndCollection()
         {
+            // Given a successful preauth
             var paymentWithCard = GetCardPaymentModel();
             var preAuthReceiptId = MakeAPreAuthWithCard(paymentWithCard);
 
@@ -59,19 +60,22 @@ namespace JudoPayDotNetIntegrationTests
                 ReceiptId = preAuthReceiptId,
                 Amount = paymentWithCard.Amount
             };
-
+            // When a full collection is requested
             var response = JudoPayApiBase.Collections.Create(collection).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
 
+            // Then collection is successful
             var receipt = response.Response as PaymentReceiptModel;
-
             Assert.IsNotNull(receipt);
-
             Assert.AreEqual("Success", receipt.Result);
             Assert.AreEqual("Collection", receipt.Type);
+
+            // And details match initial preauth
             Assert.AreEqual(paymentWithCard.Amount, receipt.Amount);
+            Assert.AreEqual(paymentWithCard.Currency, receipt.Currency);
+            Assert.AreEqual(preAuthReceiptId, receipt.OriginalReceiptId);
         }
 
         [Test]
