@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using JudoPayDotNet.Models;
 using NUnit.Framework;
 
@@ -158,6 +159,62 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotEmpty(transaction.Response.Results);
             Assert.AreEqual("Success", transaction.Response.Results.First().Result);
             Assert.IsTrue(transaction.Response.Results.Any(t => t.ReceiptId == response.Response.ReceiptId));
+        }
+
+        [Test]
+        public void GetTransactionWithPaymentReference()
+        {
+            var paymentWithCard = GetCardPaymentModel();
+            var merchantPaymentRef = Guid.NewGuid().ToString();
+            paymentWithCard.YourPaymentReference = merchantPaymentRef;
+
+            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+            System.Threading.Thread.Sleep(1000);
+            var transaction = JudoPayApiIridium.Transactions.Get(yourPaymentReference: merchantPaymentRef).Result;
+
+            Assert.IsNotNull(transaction);
+            Assert.IsFalse(transaction.HasError);
+            Assert.IsNotEmpty(transaction.Response.Results);
+            Assert.AreEqual(1, transaction.Response.Results.Count());
+            Assert.AreEqual(merchantPaymentRef, transaction.Response.Results.First().YourPaymentReference);
+        }
+
+        [Test]
+        public void GetTransactionWithConsumerReference()
+        {
+            var merchantConsumerRef = Guid.NewGuid().ToString();
+            var paymentWithCard = GetCardPaymentModel(merchantConsumerRef);
+
+            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+            System.Threading.Thread.Sleep(1000);
+            var transaction = JudoPayApiIridium.Transactions.Get(yourConsumerReference: merchantConsumerRef).Result;
+
+            Assert.IsNotNull(transaction);
+            Assert.IsFalse(transaction.HasError);
+            Assert.IsNotEmpty(transaction.Response.Results);
+            Assert.AreEqual(1, transaction.Response.Results.Count());
+            Assert.AreEqual(merchantConsumerRef, transaction.Response.Results.First().Consumer.YourConsumerReference);
+        }
+
+        [Test]
+        public void GetTransactionWithFromDateInFuture()
+        {
+            var fromString = DateTimeOffset.Now.AddDays(1).ToString("dd/MM/yyyy");
+
+            System.Threading.Thread.Sleep(1000);
+            var transactionList = JudoPayApiIridium.Transactions.Get(from: fromString).Result;
+
+            Assert.IsNotNull(transactionList);
+            Assert.IsFalse(transactionList.HasError);
+            Assert.IsEmpty(transactionList.Response.Results);
         }
     }
 }
