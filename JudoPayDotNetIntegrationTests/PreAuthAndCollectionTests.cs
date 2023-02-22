@@ -316,5 +316,46 @@ namespace JudoPayDotNetIntegrationTests
             }
         }
 
+        [Test]
+        public void TestDelayedAuthorisation()
+        {
+            var preAuthWithCard = GetCardPaymentModel();
+            preAuthWithCard.CardHolderName = "FL-SUCCESS-NO-METHOD";
+            preAuthWithCard.ThreeDSecure = new ThreeDSecureTwoModel
+            {
+                AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
+                ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.NoPreference
+            };
+            preAuthWithCard.DelayedAuthorisation = true;
+
+            var preAuthResponse = JudoPayApiBase.PreAuths.Create(preAuthWithCard).Result;
+            Assert.IsNotNull(preAuthResponse);
+            Assert.IsFalse(preAuthResponse.HasError);
+
+            var preAuthReceipt = preAuthResponse.Response as PaymentReceiptModel;
+            Assert.IsNotNull(preAuthReceipt);
+            Assert.AreEqual("Success", preAuthReceipt.Result);
+            Assert.AreEqual("Successful authentication - Pending delayed authorisation",
+                preAuthReceipt.Message);
+
+            var collection = new CollectionModel
+            {
+                ReceiptId = preAuthReceipt.ReceiptId,
+                Amount = preAuthWithCard.Amount
+            };
+
+            var collectResponse = JudoPayApiBase.Collections.Create(collection).Result;
+
+            Assert.IsNotNull(collectResponse);
+            Assert.IsFalse(collectResponse.HasError);
+
+            var collectReceipt = collectResponse.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(collectReceipt);
+
+            Assert.AreEqual("Success", collectReceipt.Result);
+            Assert.AreEqual("Collection", collectReceipt.Type);
+            Assert.AreEqual(preAuthReceipt.Amount, collectReceipt.Amount);
+        }
     }
 }

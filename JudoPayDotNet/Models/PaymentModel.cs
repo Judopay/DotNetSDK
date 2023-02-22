@@ -179,6 +179,15 @@ namespace JudoPayDotNet.Models
         public string WebPaymentReference { get; set; }
 
         /// <summary>
+        /// Set true on PreAuths calls to to authenticate a card holder with 3D secure without performing payment
+        /// authorisation. When this flag is set, the 3D Secure authentication status is returned in the response.
+        /// The payment authorisation is carried out at a different stage, when the merchant is ready to collect
+        /// the amount from their customer.
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public bool? DelayedAuthorisation { get; set; }
+
+        /// <summary>
         /// Allows you to set HTTP headers on requests
         /// </summary>
         [IgnoreDataMember]
