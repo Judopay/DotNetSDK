@@ -13,13 +13,13 @@ namespace JudoPayDotNet.Clients.WebPayments
         /// </summary>
         /// <param name="reference">The reference.</param>
         /// <returns>The webpayment transaction</returns>
-        Task<IResult<WebPaymentRequestModel>> Get(string reference);
+        Task<IResult<GetWebPaymentResponseModel>> Get(string reference);
 
         /// <summary>
         /// Gets a webpayment transaction by transaction identifier (ReceiptId).
         /// </summary>
         /// <param name="receiptId">The transaction identifier.</param>
         /// <returns>The webpayment transaction</returns>
-        Task<IResult<WebPaymentRequestModel>> GetByReceipt(string receiptId);
+        Task<IResult<GetWebPaymentResponseModel>> GetByReceipt(string receiptId);
     }
 }

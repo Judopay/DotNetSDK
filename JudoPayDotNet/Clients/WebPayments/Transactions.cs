@@ -25,11 +25,11 @@ namespace JudoPayDotNet.Clients.WebPayments
 		/// </summary>
 		/// <param name="reference">The reference.</param>
 		/// <returns>The webpayment transaction</returns>
-		public Task<IResult<WebPaymentRequestModel>> Get(string reference)
+		public Task<IResult<GetWebPaymentResponseModel>> Get(string reference)
         {
-            var address = string.Format("{0}/{1}", Baseaddress, reference);
+            var address = $"{Baseaddress}/{reference}";
 
-            return GetInternal<WebPaymentRequestModel>(address);
+            return GetInternal<GetWebPaymentResponseModel>(address);
         }
 
         /// <summary>
@@ -38,18 +38,18 @@ namespace JudoPayDotNet.Clients.WebPayments
         /// <param name="reference">The reference.</param>
         /// <param name="type">The type of transaction <see cref="TransactionType"/></param>
         /// <returns>The webpayment transaction</returns>
-        public Task<IResult<WebPaymentRequestModel>> Get(string reference, TransactionType type)
+        public Task<IResult<GetWebPaymentResponseModel>> Get(string reference, TransactionType type)
 
         {
             if (type == TransactionType.PREAUTH || type == TransactionType.PAYMENT)
             {
-                var address = string.Format("{0}/{1}/{2}", Baseaddress, type, reference);
+                var address = $"{Baseaddress}/{type}/{reference}";
 
-                return GetInternal<WebPaymentRequestModel>(address);
+                return GetInternal<GetWebPaymentResponseModel>(address);
             }
 
             //Transactions can only be fetched by transation types PAYMENTS or PREAUTH
-            return Task.FromResult<IResult<WebPaymentRequestModel>>(new Result<WebPaymentRequestModel>(null,
+            return Task.FromResult<IResult<GetWebPaymentResponseModel>>(new Result<GetWebPaymentResponseModel>(null,
                 new ModelError()
                 {
                     Message = "Sorry, it looks like you're trying to make a collection on an invalid transaction type. Collections can only be performed on PreAuths.",
@@ -63,14 +63,14 @@ namespace JudoPayDotNet.Clients.WebPayments
 		/// <param name="receiptId">The transaction identifier.</param>
 		/// <exception cref="ArgumentNullException">If receiptId is empty</exception>
 		/// <returns>The webpayment transaction</returns>
-		public Task<IResult<WebPaymentRequestModel>> GetByReceipt(string receiptId)
+		public Task<IResult<GetWebPaymentResponseModel>> GetByReceipt(string receiptId)
         {
             if (string.IsNullOrWhiteSpace(receiptId))
                 throw new ArgumentNullException(nameof(receiptId));
 
-            var address = string.Format("{0}/{1}/webpayment", Baseaddressgetbyreceipt, receiptId);
+            var address = $"{Baseaddressgetbyreceipt}/{receiptId}/webpayment";
 
-            return GetInternal<WebPaymentRequestModel>(address);
+            return GetInternal<GetWebPaymentResponseModel>(address);
         }
     }
     // ReSharper restore UnusedMember.Global

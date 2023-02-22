@@ -9,7 +9,6 @@ using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using Newtonsoft.Json;
-using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
 {
@@ -371,17 +370,12 @@ namespace JudoPayDotNetIntegrationTests
                     PostCode = "W31 4HS",
                     CountryCode = 826
                 },
-                ClientIpAddress = "127.0.0.1",
-                CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now.AddMinutes(30),
                 JudoId = Configuration.Judoid,
-                PartnerServiceFee = 10,
                 CancelUrl = "https://www.test.com",
                 SuccessUrl = "https://www.test.com",
-                Reference = "42421",
-                Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.PAYMENT,
+                YourPaymentReference = Guid.NewGuid().ToString(),
                 YourConsumerReference = "4235325"
             };
         }
@@ -401,19 +395,14 @@ namespace JudoPayDotNetIntegrationTests
                     PostCode = "W31 4HS",
                     CountryCode = 826
                 },
-                ClientIpAddress = "127.0.0.1",
-                CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now.AddMinutes(30),
                 JudoId = Configuration.Judoid,
-                PartnerServiceFee = 10,
-                CancelUrl = "https://www.test.com",
-                SuccessUrl = "https://www.test.com",
-                Reference = "42421",
-                Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.PAYMENT,
+                CancelUrl = "https://www.test.com/cancel",
+                SuccessUrl = "https://www.test.com/success",
+                YourPaymentReference = Guid.NewGuid().ToString(),
                 YourConsumerReference = "4235325",
-                MobileNumber = "07999999999",
+                MobileNumber = "7999999999",
                 PhoneCountryCode = "44",
                 EmailAddress = "test@judopay.com",
                 ThreeDSecure = new ThreeDSecureTwoModel()
