@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 -- Rename BillingAddress to BillingContact and change object type to match Apple payload
 -- Remove ShippingAddress
 -- Remove PaymentInstrumentName and PaymentNetwork, replace with ApplePayPaymentModel
+- Add GooglePayPaymentModel that extends ThreeDSecureTwoPaymentModel (as 3DS required for GPAY FPAN)
 
 ## 3.4 Changes on 2022-07-18
 - Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions
