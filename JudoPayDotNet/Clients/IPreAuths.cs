@@ -32,6 +32,13 @@ namespace JudoPayDotNet.Clients
         Task<IResult<ITransactionResult>> Create(ApplePayPaymentModel pkPreAuth);
 
         /// <summary>
+        /// Creates the specified Google Pay pre authorization.
+        /// </summary>
+        /// <param name="googlePayPayment">The Google Pay pre authorization.</param>
+        /// <returns>The transaction result for the created Google Pay pre authorization</returns>
+        Task<IResult<ITransactionResult>> Create(GooglePayPaymentModel googlePayPayment);
+
+        /// <summary>
         /// Creates the specified One time pre authorization.
         /// </summary>
         /// <param name="oneTimePayment">The one time pre authorization payload.</param>

@@ -38,6 +38,11 @@ namespace JudoPayDotNet.Clients
                 PostInternal<ApplePayPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, pkPreAuth);
         }
 
+        public Task<IResult<ITransactionResult>> Create(GooglePayPaymentModel googlePayPayment)
+        {
+            return PostInternal<GooglePayPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, googlePayPayment);
+        }
+
         public Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment)
         {
             return PostInternal<OneTimePaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, oneTimePayment);
