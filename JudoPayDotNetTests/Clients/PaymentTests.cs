@@ -312,9 +312,9 @@ namespace JudoPayDotNetTests.Clients
             {
                 paymentReceiptResult = judo.Payments.Create((OneTimePaymentModel)payment).Result;
             }
-            else if (payment is PKPaymentModel)
+            else if (payment is ApplePayPaymentModel)
             {
-                paymentReceiptResult = judo.Payments.Create((PKPaymentModel)payment).Result;
+                paymentReceiptResult = judo.Payments.Create((ApplePayPaymentModel)payment).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
@@ -427,9 +427,9 @@ namespace JudoPayDotNetTests.Clients
             {
                 paymentReceiptResult = judo.Payments.Create((OneTimePaymentModel)payment).Result;
             }
-            else if (payment is PKPaymentModel)
+            else if (payment is ApplePayPaymentModel)
             {
-                paymentReceiptResult = judo.Payments.Create((PKPaymentModel)payment).Result;
+                paymentReceiptResult = judo.Payments.Create((ApplePayPaymentModel)payment).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 

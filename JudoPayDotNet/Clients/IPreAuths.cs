@@ -29,7 +29,7 @@ namespace JudoPayDotNet.Clients
         /// </summary>
         /// <param name="pkPreAuth">The apple pay pre authorization.</param>
         /// <returns>The receipt for the created apple pre authorization</returns>
-        Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPreAuth);
+        Task<IResult<ITransactionResult>> Create(ApplePayPaymentModel pkPreAuth);
 
         /// <summary>
         /// Creates the specified One time pre authorization.

@@ -28,7 +28,7 @@ namespace JudoPayDotNet.Clients
         /// </summary>
         /// <param name="pkPayment">The Apple Pay payment.</param>
         /// <returns>The receipt for the created Apple Pay payment</returns>
-        Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPayment);
+        Task<IResult<ITransactionResult>> Create(ApplePayPaymentModel pkPayment);
 
         /// <summary>
         /// Creates the specified One time payment.

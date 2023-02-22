@@ -199,7 +199,7 @@ namespace JudoPayDotNetIntegrationTests
                 case OneTimePaymentModel model:
                     preAuthReceiptResult = JudoPayApiIridium.PreAuths.Create(model).Result;
                     break;
-                case PKPaymentModel model:
+                case ApplePayPaymentModel model:
                     preAuthReceiptResult = JudoPayApiIridium.PreAuths.Create(model).Result;
                     break;
             }

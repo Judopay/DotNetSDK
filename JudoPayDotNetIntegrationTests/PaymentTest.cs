@@ -238,7 +238,7 @@ namespace JudoPayDotNetIntegrationTests
                 case OneTimePaymentModel model:
                     paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
                     break;
-                case PKPaymentModel model:
+                case ApplePayPaymentModel model:
                     paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
                     break;
             }

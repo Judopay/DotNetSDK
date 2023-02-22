@@ -10,7 +10,7 @@ namespace JudoPayDotNet.Clients
     internal class Payments : JudoPayClient, IPayments
     {
         // Keep PKPaymentValidator as FieldErrors not returned for invalid pkPayment.token attributes
-        private readonly IValidator<PKPaymentModel> PKPaymentValidator = new PKPaymentValidator();
+        private readonly IValidator<ApplePayPaymentModel> PKPaymentValidator = new PKPaymentValidator();
         // Other validation is done in the PartnerApi to ensure error codes are up to date
 
         private const string CREATE_ADDRESS = "transactions/payments";
@@ -30,11 +30,11 @@ namespace JudoPayDotNet.Clients
             return PostInternal<TokenPaymentModel, ITransactionResult>(CREATE_ADDRESS, tokenPayment);
         }
 
-        public Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPayment)
+        public Task<IResult<ITransactionResult>> Create(ApplePayPaymentModel pkPayment)
         {
-            var validationError = Validate<PKPaymentModel, ITransactionResult>(PKPaymentValidator, pkPayment);
+            var validationError = Validate<ApplePayPaymentModel, ITransactionResult>(PKPaymentValidator, pkPayment);
             return validationError != null ? Task.FromResult(validationError) :
-                PostInternal<PKPaymentModel, ITransactionResult>(CREATE_ADDRESS, pkPayment);
+                PostInternal<ApplePayPaymentModel, ITransactionResult>(CREATE_ADDRESS, pkPayment);
         }
 
         public Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment)
