@@ -230,16 +230,19 @@ namespace JudoPayDotNetIntegrationTests
             {
                 // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
                 case CardPaymentModel model:
-                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
+                    paymentReceiptResult = JudoPayApiBase.Payments.Create(model).Result;
                     break;
                 case TokenPaymentModel model:
-                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
+                    paymentReceiptResult = JudoPayApiBase.Payments.Create(model).Result;
                     break;
                 case OneTimePaymentModel model:
-                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
+                    paymentReceiptResult = JudoPayApiBase.Payments.Create(model).Result;
                     break;
                 case ApplePayPaymentModel model:
-                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
+                    paymentReceiptResult = JudoPayApiBase.Payments.Create(model).Result;
+                    break;
+                case GooglePayPaymentModel model:
+                    paymentReceiptResult = JudoPayApiBase.Payments.Create(model).Result;
                     break;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
