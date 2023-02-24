@@ -319,7 +319,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test]
         public void TestDelayedAuthorisation()
         {
-            var preAuthWithCard = GetCardPaymentModel();
+            var preAuthWithCard = PrepareThreeDSecureTwoCardPayment();
             preAuthWithCard.CardHolderName = "FL-SUCCESS-NO-METHOD";
             preAuthWithCard.ThreeDSecure = new ThreeDSecureTwoModel
             {
@@ -328,7 +328,7 @@ namespace JudoPayDotNetIntegrationTests
             };
             preAuthWithCard.DelayedAuthorisation = true;
 
-            var preAuthResponse = JudoPayApiBase.PreAuths.Create(preAuthWithCard).Result;
+            var preAuthResponse = JudoPayApiThreeDSecure2.PreAuths.Create(preAuthWithCard).Result;
             Assert.IsNotNull(preAuthResponse);
             Assert.IsFalse(preAuthResponse.HasError);
 

@@ -32,13 +32,13 @@ namespace JudoPayDotNet.Models
         /// Should not be specified in the same request as ScaExemption
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-        public ThreeDSecureTwoChallengeRequestIndicator ChallengeRequestIndicator { get; set; }
+        public ThreeDSecureTwoChallengeRequestIndicator? ChallengeRequestIndicator { get; set; }
 
         /// <summary>
         /// Indicates reason why challenge may not be necessary (this may be over-ruled by the issuer).
         /// Should not be specified in the same request as ChallengeRequestIndicator
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-        public ThreeDSecureTwoScaExemption ScaExemption { get; set; }
+        public ThreeDSecureTwoScaExemption? ScaExemption { get; set; }
     }
 }
