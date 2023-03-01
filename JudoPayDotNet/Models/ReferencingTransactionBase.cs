@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Linq;
 
 namespace JudoPayDotNet.Models
 {
@@ -42,12 +41,5 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public decimal? Amount { get; set; }
-
-        /// <summary>
-        /// The ISO currency code of the transaction (e.g. GBP, EUR, USD).   If not specified the currency
-        /// of the referenced transaction is assumed.
-        /// </summary>
-        [DataMember(IsRequired = false, EmitDefaultValue = false)]
-        public string Currency { get; set; }
     }
 }
