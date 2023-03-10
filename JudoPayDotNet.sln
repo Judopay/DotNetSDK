@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{D7ADBA82-2B45-4BDF-8725-63A9ABF7A9E9}"
 	ProjectSection(SolutionItems) = preProject
 		CHANGELOG.md = CHANGELOG.md
+		.circleci\config.yml = .circleci\config.yml
 		Deploy.md = Deploy.md
 		Readme.md = Readme.md
 	EndProjectSection
