@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## 4.0 Changes
 - Remove support for ThreeDSecure 1.x
+- Update UserAgent to start with JudoDotNetSDK
 
 ## 3.4 Changes on 2022-07-18
 - Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions

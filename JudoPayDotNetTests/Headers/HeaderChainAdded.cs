@@ -92,7 +92,7 @@ namespace JudoPayDotNetTests.Headers
                                   {
                                       // Ensure User-Agent is sent
                                       Assert.That(request.Headers.UserAgent, Is.Not.Null.Or.Empty);
-                                      Assert.That(request.Headers.UserAgent.First().Product.Name, Is.EqualTo("DotNetSDK"));
+                                      Assert.That(request.Headers.UserAgent.First().Product.Name, Is.EqualTo("JudoDotNetSDK"));
                                       Assert.That(request.Headers.UserAgent.First().Product.Version, Is.EqualTo(ProductVersion));
 
                                       return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));

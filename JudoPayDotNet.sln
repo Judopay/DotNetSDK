@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JudoPayDotNet", "JudoPayDotNet\JudoPayDotNet.csproj", "{365D3FE1-5AA7-4C99-8AEF-0D780C28E842}"
 EndProject
@@ -11,7 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JudoPayDotNetIntegrationTes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{D7ADBA82-2B45-4BDF-8725-63A9ABF7A9E9}"
 	ProjectSection(SolutionItems) = preProject
-		appveyor.yml = appveyor.yml
 		CHANGELOG.md = CHANGELOG.md
 		Deploy.md = Deploy.md
 		Readme.md = Readme.md
