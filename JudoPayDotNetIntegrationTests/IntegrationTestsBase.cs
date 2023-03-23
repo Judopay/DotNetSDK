@@ -161,7 +161,7 @@ namespace JudoPayDotNetIntegrationTests
 
             return new SaveCardModel
             {
-                JudoId = judoId,
+                JudoId = judoId ?? Configuration.Judoid,
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
                 ExpiryDate = "12/25",
