@@ -210,7 +210,7 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable once UnusedMember.Global
-        public IDictionary<string, string> YourPaymentMetaData { get; set; }
+        public IDictionary<string, object> YourPaymentMetaData { get; set; }
 
         /// <summary>
         /// If the payment requested 3d secure, we need to include the result of that authentication process
