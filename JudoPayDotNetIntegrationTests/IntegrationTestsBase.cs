@@ -9,7 +9,6 @@ using JudoPayDotNet.Enums;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using Newtonsoft.Json;
-using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
 {
@@ -168,7 +167,7 @@ namespace JudoPayDotNetIntegrationTests
 
             return new SaveCardModel
             {
-                JudoId = judoId,
+                JudoId = judoId ?? Configuration.Judoid,
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
                 ExpiryDate = "12/25",

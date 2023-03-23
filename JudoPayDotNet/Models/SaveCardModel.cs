@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Data to save a card
+    /// Request attribute to save and tokenise a card.
     /// </summary>
     [DataContract]
     [KnownType(typeof(SaveEncryptedCardModel))]
@@ -18,57 +17,27 @@ namespace JudoPayDotNet.Models
         }
         
         /// <summary>
-        /// Gets or sets the card number.
+        /// The card PAN (13 to 19 digits depending on card type).   Submit without spaces or dashes.
         /// </summary>
-        /// <value>
-        /// The card number.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(IsRequired = true)]
         public string CardNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the expiry date.
+        /// The card expiry date in format MM/YY, e.g. 07/27.
         /// </summary>
-        /// <value>
-        /// The expiry date.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(IsRequired = true)]
         public string ExpiryDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the start date.
+        /// The billing address associated with the card.
         /// </summary>
-        /// <value>
-        /// The start date.
-        /// </value>
         [DataMember(IsRequired = false, EmitDefaultValue = false)]
-        public string StartDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Issue Number.
-        /// </summary>
-        /// <value>
-        /// The Issue Number date.
-        /// </value>
-        [DataMember(IsRequired = false)]
-        public string IssueNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the card address.
-        /// </summary>
-        /// <value>
-        /// The card address.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
         public CardAddressModel CardAddress { get; set; }
 
         /// <summary>
-        /// Gets or sets your consumer reference.
+        /// Your unique reference to anonymously identify this consumer.   It is advisable to use GUIDs.
         /// </summary>
-        /// <value>
-        /// Your consumer reference.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(IsRequired = true)]
         public string YourConsumerReference { get; set; }
 
         /// <summary>
@@ -78,22 +47,24 @@ namespace JudoPayDotNet.Models
         public Dictionary<string, string> HttpHeaders { get; private set; }
 
         /// <summary>
-        /// Gets or sets the judo identifier. This is the identifier that you can get from our portal
+        /// The Judopay account identifier that you can get from our portal.   Typically 9 digits (specify without
+        /// spaces or dashes).   If not specified the your default JudoId will be used.
         /// </summary>
-        /// <value>
-        /// This will be 6 or 9 digits
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string JudoId { get; set; }
 
         /// <summary>
-        /// Gets or sets the iso 3 character currency to be used.
+        /// The ISO 3 character currency to be used, defaults to GBP if not specified.
         /// </summary>
-        /// <value>
-        /// GBP, EUR, USD
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string Currency { get; set; }
+
+        /// <summary>
+        /// The full name of the card holder.  Note: When testing 3D Secure in the sandbox environment, it is the
+        /// CardHolderName that is used to determine the test card for 3D Secure 2 authentication.
+        /// </summary>
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
+        public string CardHolderName { get; set; }
     }
     // ReSharper restore UnusedMember.Global
 }
