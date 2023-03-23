@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JudoPayDotNet.Enums;
@@ -17,7 +18,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel();
 
-            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
 
 
             Assert.IsNotNull(response);
@@ -45,7 +46,7 @@ namespace JudoPayDotNetIntegrationTests
                 initialRecurringPayment: false, 
                 recurringPayment: true,
                 recurringPaymentType: RecurringPaymentType.Recurring, 
-                relatedReceiptId: "" + initialPaymentReceipt.ReceiptId
+                relatedReceiptId: initialPaymentReceipt.ReceiptId
             );
 
             var recurringResponse = await JudoPayApiBase.Payments.Create(recurringPaymentWithCard);
@@ -77,7 +78,7 @@ namespace JudoPayDotNetIntegrationTests
                 initialRecurringPayment: false, 
                 recurringPayment: true,
                 recurringPaymentType: RecurringPaymentType.Mit, 
-                relatedReceiptId: "" + initialPaymentReceipt.ReceiptId
+                relatedReceiptId: initialPaymentReceipt.ReceiptId
             );
 
             var mitResponse = await JudoPayApiBase.Payments.Create(mitPaymentWithCard);
@@ -96,7 +97,7 @@ namespace JudoPayDotNetIntegrationTests
             var consumerReference = Guid.NewGuid().ToString();
             var paymentWithCard = GetCardPaymentModel(consumerReference);
 
-            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -111,7 +112,7 @@ namespace JudoPayDotNetIntegrationTests
             var cardToken = receipt.CardDetails.CardToken;
 
             var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 26);
-            response = await JudoPayApiIridium.Payments.Create(paymentWithToken);
+            response = await JudoPayApiBase.Payments.Create(paymentWithToken);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -168,27 +169,11 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public async Task AOneTimePayment()
-        {
-            var oneTimePaymentModel = GetOneTimePaymentModel().Result;
-
-            var response = await JudoPayApiIridium.Payments.Create(oneTimePaymentModel);
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-
-            var receipt = response.Response as PaymentReceiptModel;
-
-            Assert.IsNotNull(receipt);
-            Assert.AreEqual("Success", receipt.Result);
-        }
-
-        [Test]
         public async Task ADeclinedCardPayment()
         {
             var paymentWithCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
 
-            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -200,9 +185,9 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var response1 = await JudoPayApiIridium.Payments.Create(paymentWithCard);
+            var response1 = await JudoPayApiBase.Payments.Create(paymentWithCard);
 
-            var response2 = await JudoPayApiIridium.Payments.Create(paymentWithCard);
+            var response2 = await JudoPayApiBase.Payments.Create(paymentWithCard);
 
             Assert.AreEqual(response1.Response.ReceiptId, response2.Response.ReceiptId);
         }
@@ -212,7 +197,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetPrimaryAccountPaymentModel();
 
-            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -230,16 +215,13 @@ namespace JudoPayDotNetIntegrationTests
             {
                 // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
                 case CardPaymentModel model:
-                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
+                    paymentReceiptResult = JudoPayApiBase.Payments.Create(model).Result;
                     break;
                 case TokenPaymentModel model:
-                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
-                    break;
-                case OneTimePaymentModel model:
-                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
+                    paymentReceiptResult = JudoPayApiBase.Payments.Create(model).Result;
                     break;
                 case PKPaymentModel model:
-                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
+                    paymentReceiptResult = JudoPayApiBase.Payments.Create(model).Result;
                     break;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
@@ -310,14 +292,6 @@ namespace JudoPayDotNetIntegrationTests
                         YourConsumerReference = null,
                         YourPaymentReference = "UniqueRef"
                     }, JudoModelErrorCode.Consumer_Reference_Not_Supplied_1).SetName("ValidatePaymentMissingConsumerReference");
-                    yield return new TestCaseData(new OneTimePaymentModel
-                    {
-                        Amount = 2.0m,
-                        OneUseToken = "",
-                        JudoId = "100200302",
-                        YourConsumerReference = "User10",
-                        YourPaymentReference = "UniqueRef"
-                    }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidatePaymentInvalidOneTimeToken");
                 }
             }
         }
@@ -336,7 +310,7 @@ namespace JudoPayDotNetIntegrationTests
             };
 
             // When a payment is made with this model
-            var result = JudoPayApiIridium.Payments.Create(paymentModel).Result;
+            var result = JudoPayApiBase.Payments.Create(paymentModel).Result;
 
             // Then PartnerApi will return fieldErrors for the invalid fields (proving that
             // the details are being passed on)
@@ -354,7 +328,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             // Given a payment without a card address
             var paymentWithCardNoAddress = GetCardPaymentNoCardAddressModel();
-            var response = await JudoPayApiIridium.Payments.Create(paymentWithCardNoAddress);
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCardNoAddress);
             
             // Then the payment is successful 
             Assert.IsNotNull(response);
@@ -362,7 +336,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Success", response.Response.Result);
 
             // When we try to retrieve the receipt 
-            var receipt = await JudoPayApiIridium.Transactions.Get(response.Response.ReceiptId);
+            var receipt = await JudoPayApiBase.Transactions.Get(response.Response.ReceiptId);
 
             // Then there is no error 
             Assert.IsNotNull(receipt);
@@ -389,6 +363,57 @@ namespace JudoPayDotNetIntegrationTests
             var receipt = response.Response as PaymentReceiptModel;
             // And the receipt contains a value for PaymentNetworkTransactionId
             Assert.IsTrue(!string.IsNullOrEmpty(receipt?.PaymentNetworkTransactionId));
+        }
+
+        [Test]
+        public async Task TestClientDetails()
+        {
+            // Given a payment with dummy client details set
+            var paymentWithCard = GetCardPaymentModel();
+            paymentWithCard.ClientDetails = new ClientDetailsModel
+            {
+                Key = "DummyKey",
+                Value = "DummyValue"
+            };
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
+
+            // Then the payment is successful
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+
+            // It is expected that these dummy values can't be decrypted so the returned device identifier
+            // should be null
+            Assert.IsNull(receipt.Device?.Identifier);
+        }
+
+        [Test]
+        public async Task TestYourPaymentMetaData()
+        {
+            // Given a payment with merchant payment meta data set
+            var paymentWithCard = GetCardPaymentModel();
+            var merchantPaymentMetaData = new Dictionary<string, object>()
+            {
+                { "internalKey", "Example" },
+                { "interalId", 99 }
+            };
+            paymentWithCard.YourPaymentMetaData = merchantPaymentMetaData;
+
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
+
+            // Then the payment is successful
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+            Assert.AreEqual("Success", response.Response.Result);
+
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+
+            // And the supplied metadata is returned on the receipt
+            Assert.AreEqual(merchantPaymentMetaData, receipt.YourPaymentMetaData);
         }
     }
 }

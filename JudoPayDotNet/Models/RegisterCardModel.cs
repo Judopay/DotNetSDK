@@ -11,7 +11,6 @@ namespace JudoPayDotNet.Models
     /// Data to register a card (pre-auth with a pre-configured amount)
     /// </summary>
     [DataContract]
-    [KnownType(typeof(RegisterEncryptedCardModel))]
     // ReSharper disable UnusedMember.Global
     public class RegisterCardModel : SaveCardModel
     {
@@ -39,15 +38,6 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string YourPaymentReference { get; set; }
-
-        /// <summary>
-        /// Gets or sets the full card holder name.
-        /// </summary>
-        /// <value>
-        /// The card holder name.
-        /// </value>
-        [DataMember(IsRequired = false)]
-        public string CardHolderName { get; set; }
 
         /// <summary>
         /// Gets or sets the mobile number.

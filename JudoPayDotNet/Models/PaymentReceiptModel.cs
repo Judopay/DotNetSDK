@@ -17,23 +17,17 @@ namespace JudoPayDotNet.Models
 		public WalletType? WalletType { get; set; }
 
 	    /// <summary>
-        /// Gets or sets the transaction identifier.
+        /// Judopay transaction identifier.
         /// </summary>
-        /// <value>
-        /// The transaction identifier.
-        /// </value>
         [DataMember]
-        public long ReceiptId { get; set; }
+        public string ReceiptId { get; set; }
 
         /// <summary>
-        /// The receipt id of the original payment, if this is a refund or collection
+        /// The Judopay receipt id of the original payment, if this is a refund, collection or void.
         /// </summary>
-        /// <value>
-        /// The original transaction identifier.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable once UnusedMember.Global
-        public long? OriginalReceiptId { get; set; }
+        public string OriginalReceiptId { get; set; }
 
         /// <summary>
         /// Payment, Refund, PreAuth, or Collection
@@ -181,11 +175,8 @@ namespace JudoPayDotNet.Models
         public CardDetails CardDetails { get; set; }
 
         /// <summary>
-        /// Gets or sets the consumer.
+        /// The consumer details.
         /// </summary>
-        /// <value>
-        /// The consumer.
-        /// </value>
         [DataMember]
         public Consumer Consumer { get; set; }
 
@@ -213,7 +204,7 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable once UnusedMember.Global
-        public IDictionary<string, string> YourPaymentMetaData { get; set; }
+        public IDictionary<string, object> YourPaymentMetaData { get; set; }
 
         /// <summary>
         /// If the payment requested 3d secure, we need to include the result of that authentication process

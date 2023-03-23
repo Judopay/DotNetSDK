@@ -69,7 +69,7 @@ namespace JudoPayDotNetTests.Clients
         [Test]
         public void GetTransactionForReceipt()
         {
-            var receiptId = 585759301407084544;
+            var receiptId = "585759301407084544";
             var acquirerTransactionId = "31746852808191501395";
             var externalBankResponseCode = "12345";
             var postCodeCheckResult = "Passed";
@@ -108,7 +108,6 @@ namespace JudoPayDotNetTests.Clients
                                     }},
                                 consumer :
                                     {{
-                                        consumerToken : 'vpii5CUSUSt84zpL',
                                         yourConsumerReference : 'cv2 test'
                                     }},
                                 device :
@@ -185,7 +184,6 @@ namespace JudoPayDotNetTests.Clients
                                 currency : 'GBP',
                                 consumer : 
                                     {
-                                        consumerToken : 'B245SEB',
                                         yourConsumerReference : 'Consumer1'
                                     }
                              }]}"))};

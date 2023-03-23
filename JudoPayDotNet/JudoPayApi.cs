@@ -1,6 +1,5 @@
 ﻿using System;
 using JudoPayDotNet.Clients;
-using JudoPayDotNet.Clients.Consumer;
 using JudoPayDotNet.Clients.WebPayments;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Logging;
@@ -21,8 +20,6 @@ namespace JudoPayDotNet
     public class JudoPayApi : IJudoPayApi
     {
         public IWebPayments WebPayments { get; set; }
-
-        public IConsumers Consumers { get; set; }
 
         public IPayments Payments { get; set; }
         public IRefunds Refunds { get; set; }
@@ -57,7 +54,6 @@ namespace JudoPayDotNet
                 Transactions = new Clients.WebPayments.Transactions(logger(typeof(Clients.WebPayments.Transactions)), client)
             };
 
-            Consumers = new Consumers(logger(typeof(Consumers)), client);
             Connection = client.Connection;
         }
 
