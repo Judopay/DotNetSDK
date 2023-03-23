@@ -168,22 +168,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public async Task AOneTimePayment()
-        {
-            var oneTimePaymentModel = GetOneTimePaymentModel().Result;
-
-            var response = await JudoPayApiIridium.Payments.Create(oneTimePaymentModel);
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-
-            var receipt = response.Response as PaymentReceiptModel;
-
-            Assert.IsNotNull(receipt);
-            Assert.AreEqual("Success", receipt.Result);
-        }
-
-        [Test]
         public async Task ADeclinedCardPayment()
         {
             var paymentWithCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
@@ -233,9 +217,6 @@ namespace JudoPayDotNetIntegrationTests
                     paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
                     break;
                 case TokenPaymentModel model:
-                    paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
-                    break;
-                case OneTimePaymentModel model:
                     paymentReceiptResult = JudoPayApiIridium.Payments.Create(model).Result;
                     break;
                 case PKPaymentModel model:
@@ -310,14 +291,6 @@ namespace JudoPayDotNetIntegrationTests
                         YourConsumerReference = null,
                         YourPaymentReference = "UniqueRef"
                     }, JudoModelErrorCode.Consumer_Reference_Not_Supplied_1).SetName("ValidatePaymentMissingConsumerReference");
-                    yield return new TestCaseData(new OneTimePaymentModel
-                    {
-                        Amount = 2.0m,
-                        OneUseToken = "",
-                        JudoId = "100200302",
-                        YourConsumerReference = "User10",
-                        YourPaymentReference = "UniqueRef"
-                    }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidatePaymentInvalidOneTimeToken");
                 }
             }
         }

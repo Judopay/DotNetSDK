@@ -19,10 +19,5 @@ namespace JudoPayDotNet.Clients
         {
             return PostInternal<CheckCardModel, ITransactionResult>(CheckCardAddress, checkCardModel);
         }
-
-        public Task<IResult<ITransactionResult>> Create(CheckEncryptedCardModel checkEncryptedCardModel)
-        {
-            return PostInternal<CheckEncryptedCardModel, ITransactionResult>(CheckCardAddress, checkEncryptedCardModel);
-        }
     }
 }
