@@ -39,7 +39,6 @@ namespace JudoPayDotNetTests.Clients
                             currency : 'GBP',
                             consumer : 
                                 {
-                                    consumerToken : 'B245SEB',
                                     yourConsumerReference : 'Consumer1'
                                 }
                             }", "134567").SetName("CollectionWithSuccess");

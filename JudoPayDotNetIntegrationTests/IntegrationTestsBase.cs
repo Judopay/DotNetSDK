@@ -142,7 +142,6 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = amount,
                 CardToken = cardToken,
                 CV2 = "452",
-                ConsumerToken = "ABSE",
                 RecurringPayment = recurringPayment
             };
         }

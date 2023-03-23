@@ -181,11 +181,8 @@ namespace JudoPayDotNet.Models
         public CardDetails CardDetails { get; set; }
 
         /// <summary>
-        /// Gets or sets the consumer.
+        /// The consumer details.
         /// </summary>
-        /// <value>
-        /// The consumer.
-        /// </value>
         [DataMember]
         public Consumer Consumer { get; set; }
 
