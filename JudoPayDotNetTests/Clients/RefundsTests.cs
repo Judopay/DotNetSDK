@@ -26,7 +26,7 @@ namespace JudoPayDotNetTests.Clients
                     yield return new TestCaseData(new RefundModel
                     {
                         Amount = 2.0m,
-                        ReceiptId = 34560,
+                        ReceiptId = "34560",
                         
                     },
                         @"{
@@ -60,7 +60,7 @@ namespace JudoPayDotNetTests.Clients
                     yield return new TestCaseData(new RefundModel
                     {
                         Amount = 2.0m,
-                        ReceiptId = 34560,
+                        ReceiptId = "34560",
                         
                     },
                         @"    
@@ -103,7 +103,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
+            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo("134567"));
         }
 
         [Test, TestCaseSource(typeof(RefundsTestSource), "FailureTestCases")]
@@ -162,7 +162,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(refundReceipt);
             Assert.IsFalse(refundReceipt.HasError);
             Assert.NotNull(refundReceipt.Response);
-            Assert.That(refundReceipt.Response.ReceiptId, Is.EqualTo(134567));
+            Assert.That(refundReceipt.Response.ReceiptId, Is.EqualTo("134567"));
         }
     }
 }

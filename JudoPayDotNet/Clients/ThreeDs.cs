@@ -20,7 +20,7 @@ namespace JudoPayDotNet.Clients
         /*
          *  To be called after device details gathering following the Issuer ACS request for a ThreeDSecure Two transaction
          */
-        public Task<IResult<ITransactionResult>> Resume3DSecureTwo(long receiptId, ResumeThreeDSecureTwoModel model)
+        public Task<IResult<ITransactionResult>> Resume3DSecureTwo(string receiptId, ResumeThreeDSecureTwoModel model)
         {
             var address = $"transactions/{receiptId}/{ResumeThreeDSecureTwoAddress}";
 
@@ -34,7 +34,7 @@ namespace JudoPayDotNet.Clients
         /*
         *  To be called after the Issuer ACS challenge has been completed for a ThreeDSecure Two transaction
         */
-        public Task<IResult<PaymentReceiptModel>> Complete3DSecureTwo(long receiptId, CompleteThreeDSecureTwoModel model)
+        public Task<IResult<PaymentReceiptModel>> Complete3DSecureTwo(string receiptId, CompleteThreeDSecureTwoModel model)
         {
             var address = $"transactions/{receiptId}/{CompleteThreeDSecureTwoAddress}";
 

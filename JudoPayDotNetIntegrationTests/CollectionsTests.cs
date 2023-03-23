@@ -12,7 +12,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test, TestCaseSource(typeof(CollectionsTestSource), nameof(CollectionsTestSource.ValidateFailureTestCases))]
         public void ValidateWithoutSuccess(CollectionModel collectionModel, JudoModelErrorCode expectedModelErrorCode)
         {
-            var collectionReceiptResult = JudoPayApiIridium.Collections.Create(collectionModel).Result;
+            var collectionReceiptResult = JudoPayApiBase.Collections.Create(collectionModel).Result;
 
             Assert.NotNull(collectionReceiptResult);
             Assert.IsTrue(collectionReceiptResult.HasError);
@@ -38,17 +38,17 @@ namespace JudoPayDotNetIntegrationTests
                     }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateCollectionMissingReceiptId"); // No ReceiptId_Not_Supplied as ReceiptId will be set to 0 as it is not null
                     yield return new TestCaseData(new CollectionModel
                     {
-                        ReceiptId = -1,
+                        ReceiptId = "-1",
                         Amount = 1.20m
                     }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateCollectionInvalidReceiptId"); ;
                     yield return new TestCaseData(new CollectionModel
                     {
-                        ReceiptId = 685187481842388992,
+                        ReceiptId = "685187481842388992",
                         Amount = 0m
                     }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateCollectionZeroAmount");
                     yield return new TestCaseData(new CollectionModel
                     {
-                        ReceiptId = 685187481842388992,
+                        ReceiptId = "685187481842388992",
                         Amount = -1m
                     }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateCollectionNegativeAmount");
                 }
