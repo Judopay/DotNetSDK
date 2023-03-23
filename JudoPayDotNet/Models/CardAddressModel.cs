@@ -16,7 +16,7 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The Address1.
         /// </value>
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string Address1 { get; set; }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The Address2.
         /// </value>
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string Address2 { get; set; }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The Address1.
         /// </value>
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string Address3 { get; set; }
 
         [Obsolete("This property is obsolete. Please use Address1 instead.", false)]
@@ -55,7 +55,7 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The town.
         /// </value>
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string Town { get; set; }
 
         /// <summary>
@@ -64,14 +64,14 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The post code.
         /// </value>
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string PostCode { get; set; }
 
         /// <summary> 
         /// The optional country code (ISO 3166-1) for this address. 
         /// </summary> 
         /// <remarks>UK is 826</remarks>
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public int? CountryCode { get; set; }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The state.
         /// </value>
-        [DataMember(IsRequired = false)]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string State { get; set; }
 
     }

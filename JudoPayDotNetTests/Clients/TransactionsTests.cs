@@ -108,7 +108,6 @@ namespace JudoPayDotNetTests.Clients
                                     }},
                                 consumer :
                                     {{
-                                        consumerToken : 'vpii5CUSUSt84zpL',
                                         yourConsumerReference : 'cv2 test'
                                     }},
                                 device :
@@ -185,7 +184,6 @@ namespace JudoPayDotNetTests.Clients
                                 currency : 'GBP',
                                 consumer : 
                                     {
-                                        consumerToken : 'B245SEB',
                                         yourConsumerReference : 'Consumer1'
                                     }
                              }]}"))};

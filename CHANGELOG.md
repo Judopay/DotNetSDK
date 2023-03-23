@@ -2,13 +2,16 @@
 All notable changes to this project will be documented in this file.
 
 ## 4.0 Changes
-- Remove support for ThreeDSecure 1.x
 - Update Api-Version to 6.19
 - Update PaymentModel to remove PartnerServiceFee, ConsumerLocation and DeviceCategory (use
 	ThreeDSecureTwoModel.AuthenticationSource instead).   AcceptHeaders and UserAgent moved
 	to ThreeDSecureTwoPaymentModel.   RelatedPaymentNetworkTransactionId added.
 - Make ClientDetails only accept a Key and Value attribute (encrypted by Mobile SDK using DeviceDNA)
 - Change YourPaymentMetaData signature to allow object values to be stored rather than only strings
+- Update SaveCardModel to add CardHolderName, remove IssueNumber and StartDate (no longer required for Maestro transactions)
+- Remove support for ConsumerToken, use YourConsumerReference instead
+- Remove support for OneUseTokens
+- Remove support for ThreeDSecure 1.x
 
 ## 3.4 Changes on 2022-07-18
 - Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions

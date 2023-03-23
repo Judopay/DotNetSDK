@@ -76,7 +76,6 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 	                                                    currency : 'GBP',
 	                                                    consumer : 
 	                                                        {
-	                                                            consumerToken : 'B245SEB',
 	                                                            yourConsumerReference : 'Consumer1'
 	                                                        }
 		                                            }
@@ -152,7 +151,6 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 	                                                    currency : 'GBP',
 	                                                    consumer : 
 	                                                        {
-	                                                            consumerToken : 'B245SEB',
 	                                                            yourConsumerReference : 'Consumer1'
 	                                                        }
 		                                            }

@@ -12,10 +12,6 @@ using NUnit.Framework;
 
 namespace JudoPayDotNetTests.Http
 {
-    using JudoPayDotNet.Models;
-
-    using NSubstitute.Core;
-
     [TestFixture]
     public class ConnectionTests
     {

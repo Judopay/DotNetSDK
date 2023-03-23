@@ -57,7 +57,6 @@ namespace JudoPayDotNetTests.Clients
                             currency : 'GBP',
                             consumer : 
                                 {
-                                    consumerToken : 'B245SEB',
                                     yourConsumerReference : 'Consumer1'
                                 }
                             }",
@@ -71,9 +70,7 @@ namespace JudoPayDotNetTests.Clients
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
                         PhoneCountryCode = "44",
-                        YourConsumerReference = "User10",
-                       
-                        ConsumerToken = "ABAS"
+                        YourConsumerReference = "User10"
                     },
                         @"{
                             receiptId : '134567',
@@ -145,8 +142,7 @@ namespace JudoPayDotNetTests.Clients
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
                         PhoneCountryCode = "44",
-                        YourConsumerReference = "User10",
-                        ConsumerToken = "ABAS"
+                        YourConsumerReference = "User10"
                     },
                         @"    
                         {
