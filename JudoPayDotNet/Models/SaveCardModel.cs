@@ -7,7 +7,6 @@ namespace JudoPayDotNet.Models
     /// Request attribute to save and tokenise a card.
     /// </summary>
     [DataContract]
-    [KnownType(typeof(SaveEncryptedCardModel))]
     // ReSharper disable UnusedMember.Global
     public class SaveCardModel : IModelWithHttpHeaders
     {

@@ -9,7 +9,6 @@ namespace JudoPayDotNet.Models
     /// Data to register a card (pre-auth with a pre-configured amount)
     /// </summary>
     [DataContract]
-    [KnownType(typeof(RegisterEncryptedCardModel))]
     // ReSharper disable UnusedMember.Global
     public class RegisterCardModel : SaveCardModel
     {

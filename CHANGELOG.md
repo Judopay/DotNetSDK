@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## 4.0 Changes
 - Update Api-Version to 6.18
 - Remove support for ThreeDSecure 1.x
+- Remove support for OneUseTokens
 - Update SaveCardModel to add CardHolderName, remove IssueNumber and StartDate (no longer required for Maestro transactions)
 
 ## 3.4 Changes on 2022-07-18

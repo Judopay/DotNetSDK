@@ -30,13 +30,6 @@ namespace JudoPayDotNet.Clients
         /// <param name="pkPreAuth">The apple pay pre authorization.</param>
         /// <returns>The receipt for the created apple pre authorization</returns>
         Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPreAuth);
-
-        /// <summary>
-        /// Creates the specified One time pre authorization.
-        /// </summary>
-        /// <param name="oneTimePayment">The one time pre authorization payload.</param>
-        /// <returns>The receipt for the created pre authorization</returns>
-        Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment);
     }
     // ReSharper restore UnusedMember.Global
 }

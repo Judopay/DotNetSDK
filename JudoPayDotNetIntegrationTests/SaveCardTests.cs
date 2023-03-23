@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using JudoPayDotNet;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Models.Validations;
 using NUnit.Framework;
@@ -62,19 +61,7 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void SaveEncryptedCard()
-        {
-            var saveEncryptedCardModel = GetSaveEncryptedCardModel().Result;
-
-            var response = JudoPayApiBase.SaveCards.Create(saveEncryptedCardModel).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-        }
-
-        [Test]
-        public void SaveCardWithAddressRequiresPostCode()
+        public void SaveCardRequiresCv2()
         {
             // Given a SaveCard model with an address with no postCode set
             var saveCardModel = GetSaveCardModel(postCode: null);
@@ -238,32 +225,7 @@ namespace JudoPayDotNetIntegrationTests
                         CardNumber = "4976000000003436",
                         ExpiryDate = "",
                         YourConsumerReference = "UniqueRef"
-                    }, JudoModelErrorCode.Expiry_Date_Not_Supplied).SetName("ValidateSaveCardEmptyExpiryDate");
-                    yield return new TestCaseData(new SaveEncryptedCardModel
-                    {
-                        OneUseToken = "DummyOneUseToken",
-                        YourConsumerReference = null,
-                    }, JudoModelErrorCode.Consumer_Reference_Not_Supplied_1).SetName("ValidateSaveEncryptedCardMissingConsumerReference");
-                    yield return new TestCaseData(new SaveEncryptedCardModel
-                    {
-                        OneUseToken = "DummyOneUseToken",
-                        YourConsumerReference = "",
-                    }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateSaveEncryptedCardEmptyConsumerReference");
-                    yield return new TestCaseData(new SaveEncryptedCardModel
-                    {
-                        OneUseToken = "DummyOneUseToken",
-                        YourConsumerReference = "123456789012345678901234567890123456789012345678901"
-                    }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateSaveEncryptedCardConsumerReferenceTooLong");
-                    yield return new TestCaseData(new SaveEncryptedCardModel
-                    {
-                        OneUseToken = null,
-                        YourConsumerReference = "UniqueRef",
-                    }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidateSaveEncryptedCardMissingOneUseToken");
-                    yield return new TestCaseData(new SaveEncryptedCardModel
-                    {
-                        OneUseToken = "",
-                        YourConsumerReference = "UniqueRef",
-                    }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidateSaveEncryptedCardEmptyOneUseToken");
+                    }, JudoModelErrorCode.Expiry_Date_Not_Supplied).SetName("ValidateSaveCardEmptyExpiryDate"); ;
                 }
             }
         }

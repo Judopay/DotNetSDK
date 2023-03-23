@@ -19,10 +19,5 @@ namespace JudoPayDotNet.Clients
         {
             return PostInternal<SaveCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveCard);
         }
-
-        public Task<IResult<ITransactionResult>> Create(SaveEncryptedCardModel saveEncryptedCard)
-        {
-            return PostInternal<SaveEncryptedCardModel, ITransactionResult>(SAVE_CARD_ADDRESS, saveEncryptedCard);
-        }
     }
 }
