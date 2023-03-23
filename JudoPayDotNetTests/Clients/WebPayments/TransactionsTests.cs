@@ -51,7 +51,6 @@ namespace JudoPayDotNetTests.Clients.WebPayments
     	                                            expiryDate : '2012-07-19T14:30:00+09:30',
     	                                            judoId : '1254634',
 		                                            partnerRecId : '243532',
-		                                            partnerServiceFee : 10,
 		                                            paymentCancelUrl : 'http://test.com',
 		                                            paymentSuccessUrl : 'http://test.com',
 		                                            reference : '42421',
@@ -77,7 +76,6 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 	                                                    currency : 'GBP',
 	                                                    consumer : 
 	                                                        {
-	                                                            consumerToken : 'B245SEB',
 	                                                            yourConsumerReference : 'Consumer1'
 	                                                        }
 		                                            }
@@ -128,7 +126,6 @@ namespace JudoPayDotNetTests.Clients.WebPayments
     	                                            expiryDate : '2012-07-19T14:30:00+09:30',
     	                                            judoId : '1254634',
 		                                            partnerRecId : '243532',
-		                                            partnerServiceFee : 10,
 		                                            paymentCancelUrl : 'http://test.com',
 		                                            paymentSuccessUrl : 'http://test.com',
 		                                            reference : '42421',
@@ -154,7 +151,6 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 	                                                    currency : 'GBP',
 	                                                    consumer : 
 	                                                        {
-	                                                            consumerToken : 'B245SEB',
 	                                                            yourConsumerReference : 'Consumer1'
 	                                                        }
 		                                            }

@@ -1,5 +1,4 @@
 ﻿using JudoPayDotNet.Clients;
-using JudoPayDotNet.Clients.Consumer;
 using JudoPayDotNet.Clients.WebPayments;
 using JudoPayDotNet.Http;
 using IPayments = JudoPayDotNet.Clients.IPayments;
@@ -25,12 +24,7 @@ namespace JudoPayDotNet
 		/// </summary>
         IWebPayments WebPayments { get; set; }
 
-		/// <summary>
-		/// Provides visibility into transaction activity per consumer
-		/// </summary>
-        IConsumers Consumers { get; set; }
-
-		/// <summary>
+        /// <summary>
 		/// Provides immediate payment processing using either full card details, or a previously used card token
 		/// </summary>
         IPayments Payments { get; set; }

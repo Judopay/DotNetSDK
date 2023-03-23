@@ -32,11 +32,6 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
                         CV2 = "420",
                         EmailAddress = "testaccount@judo.com",
                         ExpiryDate = "12/25",
@@ -62,7 +57,6 @@ namespace JudoPayDotNetTests.Clients
                             currency : 'GBP',
                             consumer : 
                                 {
-                                    consumerToken : 'B245SEB',
                                     yourConsumerReference : 'Consumer1'
                                 }
                             }",
@@ -70,20 +64,13 @@ namespace JudoPayDotNetTests.Clients
                     yield return new TestCaseData(new TokenPaymentModel
                     {
                         Amount = 2.0m,
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
                         CV2 = "420",
                         CardToken = "A24BS2",
                         EmailAddress = "testaccount@judo.com",
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
                         PhoneCountryCode = "44",
-                        YourConsumerReference = "User10",
-                       
-                        ConsumerToken = "ABAS"
+                        YourConsumerReference = "User10"
                     },
                         @"{
                             receiptId : '134567',
@@ -124,11 +111,6 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
                         CV2 = "420",
                         EmailAddress = "testaccount@judo.com",
                         ExpiryDate = "12/25",
@@ -154,19 +136,13 @@ namespace JudoPayDotNetTests.Clients
                     yield return new TestCaseData(new TokenPaymentModel
                     {
                         Amount = 2.0m,
-                        ConsumerLocation = new ConsumerLocationModel
-                        {
-                            Latitude = 40m,
-                            Longitude = 14m
-                        },
                         CV2 = "420",
                         CardToken = "A24BS2",
                         EmailAddress = "testaccount@judo.com",
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
                         PhoneCountryCode = "44",
-                        YourConsumerReference = "User10",
-                        ConsumerToken = "ABAS"
+                        YourConsumerReference = "User10"
                     },
                         @"    
                         {

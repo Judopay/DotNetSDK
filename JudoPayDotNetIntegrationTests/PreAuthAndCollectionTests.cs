@@ -21,22 +21,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void AOneTimePreAuth()
-        {
-            var oneTimePaymentModel = GetOneTimePaymentModel().Result;
-
-            var response = JudoPayApiBase.PreAuths.Create(oneTimePaymentModel).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-
-            var receipt = response.Response as PaymentReceiptModel;
-
-            Assert.IsNotNull(receipt);
-            Assert.AreEqual("Success", receipt.Result);
-        }
-
-        [Test]
         public void ADeclinedCardPreAuth()
         {
             var paymentWithCard = GetCardPaymentModel("432438862", "4221690000004963", "125");
@@ -198,9 +182,6 @@ namespace JudoPayDotNetIntegrationTests
                     preAuthReceiptResult = JudoPayApiBase.PreAuths.Create(model).Result;
                     break;
                 case TokenPaymentModel model:
-                    preAuthReceiptResult = JudoPayApiBase.PreAuths.Create(model).Result;
-                    break;
-                case OneTimePaymentModel model:
                     preAuthReceiptResult = JudoPayApiBase.PreAuths.Create(model).Result;
                     break;
                 case PKPaymentModel model:

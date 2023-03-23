@@ -175,11 +175,8 @@ namespace JudoPayDotNet.Models
         public CardDetails CardDetails { get; set; }
 
         /// <summary>
-        /// Gets or sets the consumer.
+        /// The consumer details.
         /// </summary>
-        /// <value>
-        /// The consumer.
-        /// </value>
         [DataMember]
         public Consumer Consumer { get; set; }
 
@@ -207,7 +204,7 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable once UnusedMember.Global
-        public IDictionary<string, string> YourPaymentMetaData { get; set; }
+        public IDictionary<string, object> YourPaymentMetaData { get; set; }
 
         /// <summary>
         /// If the payment requested 3d secure, we need to include the result of that authentication process
