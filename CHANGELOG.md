@@ -13,7 +13,8 @@ All notable changes to this project will be documented in this file.
 - Remove support for OneUseTokens
 - Remove support for ThreeDSecure 1.x
 - Update PaymentReceiptModel
--- Remove PartnerServiceFee, KountTransactionId, Refunds, PostCodeCheckResult  (Risks block should be used instead)
+-- Remove PartnerServiceFee, KountTransactionId, Refunds, PostCodeCheckResult (Risks block should be used instead),
+	Recurring (RecurringPaymentType should be used instead)
 -- Add NoOfAuthAttempts (only populated in historic receipts)
 - Extend WalletType to Include GooglePay and ClickToPay
 - Remove deprecated Line1/Line2/Line3 from CardAddressModel (Use Address1/Address2/Addres3 instead)

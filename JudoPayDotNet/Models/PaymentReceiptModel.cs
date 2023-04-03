@@ -111,12 +111,6 @@ namespace JudoPayDotNet.Models
         public string Currency { get; set; }
 
         /// <summary>
-        /// Transaction processed with recurring authorization
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public bool? Recurring { get; set; }
-
-        /// <summary>
         /// The unique ID of the transaction set by the acquirer.
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
