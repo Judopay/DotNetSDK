@@ -11,9 +11,9 @@ namespace JudoPayDotNet.Clients
         /// <summary>
         /// Gets the specified receipt by its identifier.
         /// </summary>
-        /// <param name="receiptId">The transaction identifier.</param>
+        /// <param name="receiptId">The Judopay transaction identifier.</param>
         /// <returns>The receipt</returns>
-        Task<IResult<ITransactionResult>> Get(long receiptId);
+        Task<IResult<ITransactionResult>> Get(string receiptId);
 
         /// <summary>
         /// Gets the receipts that match the request parameters.

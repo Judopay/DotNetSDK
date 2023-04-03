@@ -13,7 +13,7 @@ namespace JudoPayDotNetIntegrationTests
         public void ASimplePaymentAndRefund()
         {
             var paymentWithCard = GetCardPaymentModel();
-            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
+            var response = JudoPayApiBase.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -26,7 +26,7 @@ namespace JudoPayDotNetIntegrationTests
                
             };
 
-            response = JudoPayApiIridium.Refunds.Create(refund).Result;
+            response = JudoPayApiBase.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -44,7 +44,7 @@ namespace JudoPayDotNetIntegrationTests
         public void PaymentAndRefundWithoutAmount()
         {
             var paymentWithCard = GetCardPaymentModel();
-            var response = JudoPayApiIridium.Payments.Create(paymentWithCard).Result;
+            var response = JudoPayApiBase.Payments.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -55,7 +55,7 @@ namespace JudoPayDotNetIntegrationTests
                 ReceiptId = response.Response.ReceiptId,
             };
 
-            response = JudoPayApiIridium.Refunds.Create(refund).Result;
+            response = JudoPayApiBase.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -74,7 +74,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel("432438862");
 
-            var preAuthResponse = JudoPayApiIridium.PreAuths.Create(paymentWithCard).Result;
+            var preAuthResponse = JudoPayApiBase.PreAuths.Create(paymentWithCard).Result;
 
             Assert.IsNotNull(preAuthResponse);
             Assert.IsFalse(preAuthResponse.HasError);
@@ -87,7 +87,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var collection1Response = JudoPayApiIridium.Collections.Create(collection).Result;
+            var collection1Response = JudoPayApiBase.Collections.Create(collection).Result;
 
             Assert.IsNotNull(collection1Response);
             Assert.IsFalse(collection1Response.HasError);
@@ -106,7 +106,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var collection2Response = JudoPayApiIridium.Collections.Create(collection).Result;
+            var collection2Response = JudoPayApiBase.Collections.Create(collection).Result;
 
             Assert.IsNotNull(collection2Response);
             Assert.IsFalse(collection2Response.HasError);
@@ -125,7 +125,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            var response = JudoPayApiIridium.Refunds.Create(refund).Result;
+            var response = JudoPayApiBase.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -144,7 +144,7 @@ namespace JudoPayDotNetIntegrationTests
                 
             };
 
-            response = JudoPayApiIridium.Refunds.Create(refund).Result;
+            response = JudoPayApiBase.Refunds.Create(refund).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -160,7 +160,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test, TestCaseSource(typeof(RefundsTestSource), nameof(RefundsTestSource.ValidateFailureTestCases))]
         public void ValidateWithoutSuccess(RefundModel refundModel, JudoModelErrorCode expectedModelErrorCode)
         {
-            var collectionReceiptResult = JudoPayApiIridium.Refunds.Create(refundModel).Result;
+            var collectionReceiptResult = JudoPayApiBase.Refunds.Create(refundModel).Result;
 
             Assert.NotNull(collectionReceiptResult);
             Assert.IsTrue(collectionReceiptResult.HasError);
@@ -186,17 +186,17 @@ namespace JudoPayDotNetIntegrationTests
                     }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateRefundMissingReceiptId"); // No ReceiptId_Not_Supplied as ReceiptId will be set to 0 as it is not null
                     yield return new TestCaseData(new RefundModel
                     {
-                        ReceiptId = -1,
+                        ReceiptId = "-1",
                         Amount = 1.20m
                     }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateRefundInvalidReceiptId"); ;
                     yield return new TestCaseData(new RefundModel
                     {
-                        ReceiptId = 685187481842388992,
+                        ReceiptId = "685187481842388992",
                         Amount = 0m
                     }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateRefundZeroAmount");
                     yield return new TestCaseData(new RefundModel
                     {
-                        ReceiptId = 685187481842388992,
+                        ReceiptId = "685187481842388992",
                         Amount = -1m
                     }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateRefundNegativeAmount");
                 }

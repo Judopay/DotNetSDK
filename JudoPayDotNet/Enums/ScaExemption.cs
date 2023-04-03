@@ -2,28 +2,12 @@
 {
     public enum ThreeDSecureTwoScaExemption : long
     {
-        /// <summary>
-        /// Low Value
-        /// </summary>
-        [LocalizedDescription("LowValue ")]
-        LowValue = 0,
-
-        /// <summary>
-        /// Secure Corporate
-        /// </summary>
-        [LocalizedDescription("SecureCorporate")]
-        SecureCorporate = 1,
-
-        /// <summary>
-        /// Trusted Beneficiary
-        /// </summary>
-        [LocalizedDescription("TrustedBeneficiary")]
+        // Use TransactionRiskAnalysis instead of LowValue
+        //LowValue = 0,
+        //SecureCorporate = 1,
         TrustedBeneficiary = 2,
-
-        /// <summary>
-        /// Transaction Risk Analysis
-        /// </summary>
-        [LocalizedDescription("TransactionRiskAnalysis")]
-        TransactionRiskAnalysis = 3
+        TransactionRiskAnalysis = 3,
+        DataShareOnly = 4,
+        ScaAlreadyPerformed = 5
     }
 }

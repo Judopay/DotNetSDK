@@ -2,25 +2,10 @@
 {
     public enum ThreeDSecureTwoChallengeRequestIndicator : long
     {
-        [LocalizedDescription("NoPreference")]
         NoPreference = 0,
-
-        /// <summary>
-        /// No Challenge
-        /// </summary>
-        [LocalizedDescription("NoChallenge ")]
         NoChallenge = 1,
-
-        /// <summary>
-        /// Challenge Preferred
-        /// </summary>
-        [LocalizedDescription("ChallengePreferred")]
         ChallengePreferred = 2,
-
-        /// <summary>
-        /// Challenge As Mandate
-        /// </summary>
-        [LocalizedDescription("ChallengeAsMandate")]
-        ChallengeAsMandate = 3
+        ChallengeAsMandate = 3,
+        ChallengeWithWhitelistPrompt = 4
     }
 }
