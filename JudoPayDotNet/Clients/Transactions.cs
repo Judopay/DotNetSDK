@@ -18,7 +18,7 @@ namespace JudoPayDotNet.Clients
             _usedAddress = usedAddress;
         }
 
-        public Task<IResult<ITransactionResult>> Get(long receiptId)
+        public Task<IResult<ITransactionResult>> Get(string receiptId)
         {
             var address = $"{_usedAddress}/{receiptId}";
             return GetInternal<ITransactionResult>(address);

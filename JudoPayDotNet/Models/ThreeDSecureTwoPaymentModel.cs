@@ -3,58 +3,41 @@
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Information about a ThreeDSecureTwo payment 
+    /// Information about a ThreeDSecure 2.x payment
     /// </summary>
     [DataContract]
     public abstract class ThreeDSecureTwoPaymentModel : PaymentModel
     {
         // Not explicitly associated with 3DS2, but moved here from PaymentModel to avoid the wallet payment types inheriting it
         /// <summary>
-        /// Gets or sets the CV2.
+        /// The card CV2/CVV (3-4 digit validation code).
         /// </summary>
-        /// <value>
-        /// The CV2.
-        /// </value>
         [DataMember(IsRequired = true)]
-        // ReSharper disable UnusedAutoPropertyAccessor.Global
         // ReSharper disable InconsistentNaming
         public string CV2 { get; set; }
         // ReSharper restore InconsistentNaming
-        // ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
-        /// Gets or sets the full card holder name.
+        /// The full card holder name.
         /// </summary>
-        /// <value>
-        /// The card holder name.
-        /// </value>
         [DataMember(IsRequired = false)]
         public string CardHolderName { get; set; }
 
         /// <summary>
-        /// Gets or sets the mobile number.
+        /// The card holders mobile number.
         /// </summary>
-        /// <value>
-        /// The mobile number.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string MobileNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the phone country code.
+        /// Phone country code of mobile number.
         /// </summary>
-        /// <value>
-        /// The phone country code.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string PhoneCountryCode { get; set; }
 
         /// <summary>
-        /// Gets or sets the email address.
+        /// Card holders email address.
         /// </summary>
-        /// <value>
-        /// The email address.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string EmailAddress { get; set; }
         
@@ -69,5 +52,17 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public ThreeDSecureMpiModel ThreeDSecureMpi { get; set; }
+
+        /// <summary>
+        /// The end consumers browser useragent, used to define challenge screens
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string UserAgent { get; set; }
+
+        /// <summary>
+        /// The end consumers browser accept headers, used to define challenge screens
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string AcceptHeaders { get; set; }
     }
 }
