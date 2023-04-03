@@ -25,6 +25,7 @@ All notable changes to this project will be documented in this file.
 	triggered actions).   Remove PartnerServiceFee from CollectionModel and RefundModel
 - Remove IPayments.Update and IPreAuths.Update and replace it with IPayments.Cancel and IPreAuths.Cancel that takes
 	a reference parameter.   Add ICheckCards.Cancel.
+- Allow from, to, yourPaymentReference, yourConsumerReference parameters to be passed to Transactions.Get
 
 ## 3.4 Changes on 2022-07-18
 - Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions

@@ -28,7 +28,11 @@ namespace JudoPayDotNet.Clients
         public Task<IResult<PaymentReceiptResults>> Get(TransactionType? transactionType = null, 
                                                         long? pageSize = null,
                                                         long? offset = null, 
-                                                        TransactionListSorts? sort = null)
+                                                        TransactionListSorts? sort = null,
+                                                        string from = null,
+                                                        string to = null,
+                                                        string yourPaymentReference = null,
+                                                        string yourConsumerReference = null)
         {
             var address = _usedAddress;
 
@@ -42,6 +46,11 @@ namespace JudoPayDotNet.Clients
             AddParameter(parameters, "pageSize", pageSize);
             AddParameter(parameters, "offset", offset);
             AddParameter(parameters, "sort", sort);
+            AddParameter(parameters, "from", from);
+            AddParameter(parameters, "to", to);
+            AddParameter(parameters, "yourPaymentReference", yourPaymentReference);
+            AddParameter(parameters, "yourConsumerReference", yourConsumerReference);
+
 
             return GetInternal<PaymentReceiptResults>(address, parameters);
         }
