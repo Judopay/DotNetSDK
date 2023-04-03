@@ -202,6 +202,7 @@ namespace JudoPayDotNet.Models
         public PaymentReceiptModel Receipt { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public WebPaymentOperation? WebPaymentOperation { get; set; }
 
         /// <summary>
