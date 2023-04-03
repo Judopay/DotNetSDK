@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using JudoPayDotNet.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace JudoPayDotNet.Models
 {
@@ -20,6 +22,7 @@ namespace JudoPayDotNet.Models
         /// received on the MethodNotificationUrl.
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public MethodCompletion MethodCompletion { get; set; }
 
         /// <summary>

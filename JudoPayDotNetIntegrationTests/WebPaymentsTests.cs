@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -153,7 +154,7 @@ namespace JudoPayDotNetIntegrationTests
         public void TransactionsGetByReceiptId()
         {
             var request = GetWebPaymentRequestModel();
-            var result = JudoPayApiIridium.WebPayments.Payments.Create(request).Result;
+            var result = JudoPayApiBase.WebPayments.Payments.Create(request).Result;
             var reference = result.Response.Reference;
 
             // Forms - Post a form with credentials to post url from the webpayment response passing form parameter Reference
@@ -210,7 +211,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var receiptId = formField.GetAttributeValue("value", "");
 
-            var webRequest = JudoPayApiIridium.WebPayments.Transactions.GetByReceipt(receiptId).Result;
+            var webRequest = JudoPayApiBase.WebPayments.Transactions.GetByReceipt(receiptId).Result;
 
             Assert.NotNull(webRequest);
             Assert.IsFalse(webRequest.HasError);
@@ -261,7 +262,7 @@ namespace JudoPayDotNetIntegrationTests
             paymentWithCard.YourConsumerReference = request.YourConsumerReference;
             paymentWithCard.YourPaymentReference = request.YourPaymentReference;
 
-            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -273,7 +274,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test, TestCaseSource(typeof(WebPaymentsTestSource), nameof(WebPaymentsTestSource.ValidateFailureTestCases))]
         public void ValidateWithoutSuccess(WebPaymentRequestModel webPayment, JudoModelErrorCode expectedModelErrorCode)
         {
-            var webPaymentResult = JudoPayApiIridium.WebPayments.Payments.Create(webPayment).Result;
+            var webPaymentResult = JudoPayApiBase.WebPayments.Payments.Create(webPayment).Result;
 
             Assert.NotNull(webPaymentResult);
             Assert.IsTrue(webPaymentResult.HasError);
@@ -325,6 +326,66 @@ namespace JudoPayDotNetIntegrationTests
                 var paymentSessionReference = webPaymentResult.Response.Reference;
                 var yourPaymentReference = paymentSessionRequestModel.YourPaymentReference;
             }
+        }
+
+        [Test]
+        public void PaymentSessionCancel()
+        {
+            var request = GetWebPaymentRequestModel();
+
+            var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
+
+            Assert.NotNull(result);
+            Assert.IsFalse(result.HasError);
+            Assert.NotNull(result.Response);
+            var reference = result.Response.Reference;
+
+            var cancelResult = JudoPayApiElevated.WebPayments.Payments.Cancel(reference).Result;
+
+            Assert.NotNull(result);
+            Assert.IsFalse(result.HasError);
+            Assert.AreEqual(WebPaymentStatus.Cancelled, cancelResult.Response.Status);
+            Assert.AreEqual(result.Response.Reference, cancelResult.Response.Reference);
+        }
+
+        [Test]
+        public void PreAuthSessionCancel()
+        {
+            var request = GetWebPaymentRequestModel();
+
+            var result = JudoPayApiElevated.WebPayments.PreAuths.Create(request).Result;
+
+            Assert.NotNull(result);
+            Assert.IsFalse(result.HasError);
+            Assert.NotNull(result.Response);
+            var reference = result.Response.Reference;
+
+            var cancelResult = JudoPayApiElevated.WebPayments.PreAuths.Cancel(reference).Result;
+
+            Assert.NotNull(result);
+            Assert.IsFalse(result.HasError);
+            Assert.AreEqual(WebPaymentStatus.Cancelled, cancelResult.Response.Status);
+            Assert.AreEqual(result.Response.Reference, cancelResult.Response.Reference);
+        }
+
+        [Test]
+        public void CheckCardSessionCancel()
+        {
+            var request = GetWebPaymentRequestModel();
+
+            var result = JudoPayApiElevated.WebPayments.CheckCards.Create(request).Result;
+
+            Assert.NotNull(result);
+            Assert.IsFalse(result.HasError);
+            Assert.NotNull(result.Response);
+            var reference = result.Response.Reference;
+
+            var cancelResult = JudoPayApiElevated.WebPayments.CheckCards.Cancel(reference).Result;
+
+            Assert.NotNull(result);
+            Assert.IsFalse(result.HasError);
+            Assert.AreEqual(WebPaymentStatus.Cancelled, cancelResult.Response.Status);
+            Assert.AreEqual(result.Response.Reference, cancelResult.Response.Reference);
         }
 
         internal class WebPaymentsTestSource

@@ -25,6 +25,18 @@ namespace JudoPayDotNet.Models
         public string Result { get; set; }
 
         /// <summary>
+        /// Copy of the exemption flag that was sent by the merchant
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string ChallengeRequestIndicator { get; set; }
+
+        /// <summary>
+        /// Copy of the exemption flag that was sent by the merchant
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string ScaExemption { get; set; }
+
+        /// <summary>
         /// Electronic Commerce Indicator 
         /// </summary>
         [DataMember]

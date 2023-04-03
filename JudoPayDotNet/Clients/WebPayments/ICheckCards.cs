@@ -15,5 +15,12 @@ namespace JudoPayDotNet.Clients.WebPayments
         /// <param name="model">The webpayment preauth.</param>
         /// <returns>The information required to finalize the webpayment preauth</returns>
         Task<IResult<WebPaymentResponseModel>> Create(WebPaymentRequestModel model);
+
+        /// <summary>
+        /// Cancels the specific payment session
+        /// </summary>
+        /// <param name="model">The Judopay reference for the payment session returned on creation</param>
+        /// <returns>The webpayment payment updated</returns>
+        Task<IResult<CancelWebPaymentResponseModel>> Cancel(string reference);
     }
 }

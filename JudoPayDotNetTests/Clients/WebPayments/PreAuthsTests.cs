@@ -37,7 +37,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                 JudoId = "1254634",
                 CancelUrl = "https://www.test.com",
                 SuccessUrl = "https://www.test.com",
-                YourConsumerReference = "4235325",
+                YourConsumerReference = "4235325"
             };
             var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
 		                                             postUrl : 'http://test.com',

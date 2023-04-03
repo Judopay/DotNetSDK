@@ -27,18 +27,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void CheckEncryptedCard()
-        {
-            var checkEncryptedCardModel = GetCheckEncryptedCardModel().Result;
-
-            var response = JudoPayApiBase.CheckCards.Create(checkEncryptedCardModel).Result;
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-        }
-
-        [Test]
         public async Task CheckCardAndATokenPayment()
         {
             var checkCardModel = GetCheckCardModel();
@@ -68,7 +56,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test, TestCaseSource(typeof(RegisterCheckCardTestSource), nameof(RegisterCheckCardTestSource.ValidateFailureTestCases))]
         public void ValidateWithoutSuccess(CheckCardModel checkCardModel, JudoModelErrorCode expectedModelErrorCode)
         {
-            var checkCardReceiptResult = JudoPayApiIridium.CheckCards.Create(checkCardModel).Result;
+            var checkCardReceiptResult = JudoPayApiBase.CheckCards.Create(checkCardModel).Result;
             Assert.NotNull(checkCardReceiptResult);
             Assert.IsTrue(checkCardReceiptResult.HasError);
             Assert.IsNull(checkCardReceiptResult.Response);
@@ -163,37 +151,6 @@ namespace JudoPayDotNetIntegrationTests
                         YourConsumerReference = "UniqueRef",
                         YourPaymentReference = "UniqueRef"
                     }, JudoModelErrorCode.Expiry_Date_Not_Supplied).SetName("ValidateRegisterCheckCardEmptyExpiryDate");
-
-                    yield return new TestCaseData(new CheckEncryptedCardModel
-                    {
-                        OneUseToken = "DummyOneUseToken",
-                        YourConsumerReference = null,
-                        YourPaymentReference = "UniqueRef"
-                    }, JudoModelErrorCode.Consumer_Reference_Not_Supplied_1).SetName("ValidateRegisterCheckEncryptedCardMissingConsumerReference");
-                    yield return new TestCaseData(new CheckEncryptedCardModel
-                    {
-                        OneUseToken = "DummyOneUseToken",
-                        YourConsumerReference = "",
-                        YourPaymentReference = "UniqueRef"
-                    }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateRegisterCheckEncryptedCardEmptyConsumerReference");
-                    yield return new TestCaseData(new CheckEncryptedCardModel
-                    {
-                        OneUseToken = "DummyOneUseToken",
-                        YourConsumerReference = "123456789012345678901234567890123456789012345678901",
-                        YourPaymentReference = "UniqueRef"
-                    }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateRegisterCheckEncryptedCardConsumerReferenceTooLong");
-                    yield return new TestCaseData(new CheckEncryptedCardModel
-                    {
-                        OneUseToken = null,
-                        YourConsumerReference = "UniqueRef",
-                        YourPaymentReference = "UniqueRef"
-                    }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidateRegisterCheckEncryptedCardMissingOneUseToken");
-                    yield return new TestCaseData(new CheckEncryptedCardModel
-                    {
-                        OneUseToken = "",
-                        YourConsumerReference = "UniqueRef",
-                        YourPaymentReference = "UniqueRef"
-                    }, JudoModelErrorCode.EncryptedBlobNotSupplied).SetName("ValidateRegisterCheckEncryptedCardEmptyOneUseToken");
                 }
             }
         }

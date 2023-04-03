@@ -8,11 +8,11 @@
         /// <summary>
         /// Scheduled regular payment
         /// </summary>
-        [LocalizedDescription("RECURRING ")]
+        [LocalizedDescription("RECURRING")]
         Recurring = 1,
 
         /// <summary>
-        /// Unscheduled regular payment
+        /// Unscheduled payment
         /// </summary>
         [LocalizedDescription("MIT")]
         Mit = 2

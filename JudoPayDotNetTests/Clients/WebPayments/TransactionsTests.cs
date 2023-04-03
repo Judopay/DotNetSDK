@@ -51,7 +51,6 @@ namespace JudoPayDotNetTests.Clients.WebPayments
     	                                            expiryDate : '2012-07-19T14:30:00+09:30',
     	                                            judoId : '1254634',
 		                                            partnerRecId : '243532',
-		                                            partnerServiceFee : 10,
 		                                            paymentCancelUrl : 'http://test.com',
 		                                            paymentSuccessUrl : 'http://test.com',
 		                                            reference : '42421',
@@ -77,7 +76,6 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 	                                                    currency : 'GBP',
 	                                                    consumer : 
 	                                                        {
-	                                                            consumerToken : 'B245SEB',
 	                                                            yourConsumerReference : 'Consumer1'
 	                                                        }
 		                                            }
@@ -102,7 +100,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
             Assert.That(paymentReceiptResult.Response.Status, Is.EqualTo(WebPaymentStatus.Open));
-            Assert.That(paymentReceiptResult.Response.Receipt.ReceiptId, Is.EqualTo(134567));
+            Assert.That(paymentReceiptResult.Response.Receipt.ReceiptId, Is.EqualTo("134567"));
         }
 
         [Test]
@@ -128,7 +126,6 @@ namespace JudoPayDotNetTests.Clients.WebPayments
     	                                            expiryDate : '2012-07-19T14:30:00+09:30',
     	                                            judoId : '1254634',
 		                                            partnerRecId : '243532',
-		                                            partnerServiceFee : 10,
 		                                            paymentCancelUrl : 'http://test.com',
 		                                            paymentSuccessUrl : 'http://test.com',
 		                                            reference : '42421',
@@ -154,7 +151,6 @@ namespace JudoPayDotNetTests.Clients.WebPayments
 	                                                    currency : 'GBP',
 	                                                    consumer : 
 	                                                        {
-	                                                            consumerToken : 'B245SEB',
 	                                                            yourConsumerReference : 'Consumer1'
 	                                                        }
 		                                            }
@@ -180,7 +176,7 @@ namespace JudoPayDotNetTests.Clients.WebPayments
             Assert.NotNull(paymentReceiptResult.Response);
             Assert.That(paymentReceiptResult.Response.Reference, Is.EqualTo(REFERENCE));
             Assert.That(paymentReceiptResult.Response.Status, Is.EqualTo(WebPaymentStatus.Open));
-            Assert.That(paymentReceiptResult.Response.Receipt.ReceiptId, Is.EqualTo(134567));
+            Assert.That(paymentReceiptResult.Response.Receipt.ReceiptId, Is.EqualTo("134567"));
         }
     }
 }
