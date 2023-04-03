@@ -40,7 +40,6 @@ namespace JudoPayDotNetIntegrationTests
 
             var initialPaymentReceipt = initialResponse.Response as PaymentReceiptModel;
             Assert.IsNotNull(initialPaymentReceipt);
-            Assert.IsNull(initialPaymentReceipt.Recurring);
 
             var recurringPaymentWithCard = GetCardPaymentModel(
                 initialRecurringPayment: false, 
@@ -72,7 +71,6 @@ namespace JudoPayDotNetIntegrationTests
 
             var initialPaymentReceipt = initialResponse.Response as PaymentReceiptModel;
             Assert.IsNotNull(initialPaymentReceipt);
-            Assert.IsNull(initialPaymentReceipt.Recurring);
 
             var mitPaymentWithCard = GetCardPaymentModel(
                 initialRecurringPayment: false, 

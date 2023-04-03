@@ -73,10 +73,16 @@ namespace JudoPayDotNetTests.Clients
             var acquirerTransactionId = "31746852808191501395";
             var externalBankResponseCode = "12345";
             var postCodeCheckResult = "Passed";
+            var cv2CheckResult = "NOT_CHECKED";
             var addressAddress1 = "1 Market House";
             var addressLine2 = "Market Street";
             var town = "MarketTown";
             var postcode = "TR14 8PA";
+            var threeDSAttempted = true;
+            var threeDSResult = "PASSED";
+            var threeDScri = "NoPreference";
+            var threeDSeci = "05";
+            var numAuthAttempts = 1;
 
             var httpClient = Substitute.For<IHttpClient>();
             var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent($@"{{
@@ -93,6 +99,8 @@ namespace JudoPayDotNetTests.Clients
                                 amount : 1,
                                 netAmount : 1,
                                 currency : 'GBP',
+                                webPaymentReference : '5wcAAAIAAAAUAAAADgAAAOeEZggStJPg_YMvH2PZ_KGy2L09GLdOT2AbTif5rZpSqXbG9w',
+                                noOfAuthAttempts : '{numAuthAttempts}',
                                 cardDetails :
                                     {{
                                         cardLastfour : '3436',
@@ -128,6 +136,18 @@ namespace JudoPayDotNetTests.Clients
                                         address2 : '{addressLine2}',
                                         town : '{town}',
                                         postcode : '{postcode}'
+                                    }},
+                                threeDSecure :
+                                    {{
+                                        attempted : '{threeDSAttempted}',
+                                        result : '{threeDSResult}',
+                                        challengeRequestIndicator : '{threeDScri}',
+                                        eci : '{threeDSeci}'
+                                    }},
+                                risks :
+                                    {{
+                                        postCodeCheck : '{postCodeCheckResult}',
+                                        cv2Check : '{cv2CheckResult}'
                                     }}
                              }}") };
 
@@ -154,11 +174,17 @@ namespace JudoPayDotNetTests.Clients
             //New attributes added for JR-3931
             Assert.That(receipt.AcquirerTransactionId, Is.EqualTo(acquirerTransactionId));
             Assert.That(receipt.ExternalBankResponseCode, Is.EqualTo(externalBankResponseCode));
-            Assert.That(receipt.PostCodeCheckResult, Is.EqualTo(postCodeCheckResult));
+            Assert.AreEqual(postCodeCheckResult, receipt.Risks.PostcodeCheck);
+            Assert.AreEqual(cv2CheckResult, receipt.Risks.Cv2Check);
             Assert.That(receipt.BillingAddress.Address1, Is.EqualTo(addressAddress1));
             Assert.That(receipt.BillingAddress.Address2, Is.EqualTo(addressLine2));
             Assert.That(receipt.BillingAddress.Town, Is.EqualTo(town));
             Assert.That(receipt.BillingAddress.PostCode, Is.EqualTo(postcode));
+            Assert.AreEqual(threeDSAttempted, receipt.ThreeDSecure.Attempted);
+            Assert.AreEqual(threeDSResult, receipt.ThreeDSecure.Result);
+            Assert.AreEqual(threeDScri, receipt.ThreeDSecure.ChallengeRequestIndicator);
+            Assert.AreEqual(threeDSeci, receipt.ThreeDSecure.Eci);
+            Assert.AreEqual(numAuthAttempts, receipt.NoOfAuthAttempts);
         }
 
         [Test, TestCaseSource(typeof(TransactionsTestSource),"TestData")]

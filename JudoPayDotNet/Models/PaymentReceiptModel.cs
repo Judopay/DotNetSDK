@@ -13,10 +13,7 @@ namespace JudoPayDotNet.Models
     [DataContract(Name = "Receipt", Namespace = "")]
     public class PaymentReceiptModel : ITransactionResult
     {
-		[DataMember(EmitDefaultValue = false)]
-		public WalletType? WalletType { get; set; }
-
-	    /// <summary>
+        /// <summary>
         /// Judopay transaction identifier.
         /// </summary>
         [DataMember]
@@ -30,178 +27,176 @@ namespace JudoPayDotNet.Models
         public string OriginalReceiptId { get; set; }
 
         /// <summary>
-        /// Payment, Refund, PreAuth, or Collection
+        /// The merchant reference to uniquely identify a transaction.
         /// </summary>
-        /// <value>
-        /// The type.
-        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public string YourPaymentReference { get; set; }
+
+        /// <summary>
+        /// The transaction type.  Payment, Refund, PreAuth, Collection, VOID, CheckCard, Register, Save
+        /// </summary>
         [DataMember]
         public string Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the created at.
+        /// The time the receipt was created at.
         /// </summary>
-        /// <value>
-        /// The created at.
-        /// </value>
         [DataMember]
 // ReSharper disable once UnusedMember.Global
         public DateTimeOffset CreatedAt { get; set; }
 
         /// <summary>
-        /// Gets the result of this transaction.
+        /// Gets the result of this transaction (e.g. Success, DeclineD)
         /// </summary>
-        /// <value>
-        /// The result.
-        /// </value>
         [DataMember]
         public string Result { get; set; }
 
         /// <summary>
-        /// Gets or sets the message.
+        /// The message giving more context about the result (E.g. 'Card declined: CV2 policy', 'AuthCode: 123456'
+        /// for successful payments)
         /// </summary>
-        /// <value>
-        /// The message.
-        /// </value>
         [DataMember]
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or sets the judo identifier.
+        /// The Judopay account identifier.
         /// </summary>
-        /// <value>
-        /// The judo identifier.
-        /// </value>
         [DataMember]
         public long JudoId { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the merchant.
+        /// The trading name associated with the Juodpay merchant account.
         /// </summary>
-        /// <value>
-        /// The name of the merchant.
-        /// </value>
         [DataMember]
 // ReSharper disable once UnusedMember.Global
         public string MerchantName { get; set; }
 
         /// <summary>
-        /// Gets or sets the appears on statement as.
+        /// Merchant description requested to be shown on the consumer's statement.
         /// </summary>
-        /// <value>
-        /// The appears on statement as.
-        /// </value>
         [DataMember]
         public string AppearsOnStatementAs { get; set; }
 
         /// <summary>
-        /// Gets or sets the original amount
+        /// Amount of original transaction (not affected by refunds or collections).
         /// </summary>
-        /// <value>
-        /// The original amount.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public decimal? OriginalAmount { get; set; }
 
         /// <summary>
-        /// Refunds and PreAuths will not have this value
+        /// If this transaction is a PreAuth then this is the amount of that has already been collected.
         /// </summary>
-        /// <value>
-        /// The refunds.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
-        public decimal Refunds { get; set; }
+        public decimal? AmountCollected { get; set; }
 
         /// <summary>
-        /// Gets or sets your payment reference.
+        /// For payments, this is the original amount that has not been refunded. For preauths, the original
+        /// amount that has not been collected.
         /// </summary>
-        /// <value>
-        /// Your payment reference.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-        public string YourPaymentReference { get; set; }
-
-        /// <summary>
-        /// Gets or sets the net amount.
-        /// </summary>
-        /// <value>
-        /// The net amount.
-        /// </value>
         [DataMember]
         public decimal NetAmount { get; set; }
 
-		/// <summary>
-		/// If this transaction is a PreAuth then this is the amount of that has already been collected.
-		/// </summary>
-		[DataMember(EmitDefaultValue = false)]
-	    public decimal? AmountCollected { get; set; }
-
-	    /// <summary>
-        /// Gets or sets the amount.
+        /// <summary>
+        /// The amount of this transaction, for refunds and collections the amount that has been refunded or collected
+        /// in this transaction..
         /// </summary>
-        /// <value>
-        /// The amount.
-        /// </value>
         [DataMember]
         public decimal Amount { get; set; }
 
         /// <summary>
-        /// Gets or sets the currency.
+        /// The ISO-217 alphabetic code of the currency of the transaction
         /// </summary>
-        /// <value>
-        /// The currency.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Currency { get; set; }
 
         /// <summary>
-        /// Gets or sets the partner service fee.
+        /// The unique ID of the transaction set by the acquirer.
         /// </summary>
-        /// <value>
-        /// The partner service fee.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
-// ReSharper disable once UnusedMember.Global
-        public decimal PartnerServiceFee { get; set; }
+        public string AcquirerTransactionId { get; set; }
 
         /// <summary>
-        /// Gets or sets the card details.
+        /// Response code set by the acquirer.
         /// </summary>
-        /// <value>
+        [DataMember(EmitDefaultValue = false)]
+        public string ExternalBankResponseCode { get; set; }
+
+        /// <summary>
+        /// Authorisation code set by acquirer.
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string AuthCode { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public WalletType? WalletType { get; set; }
+
+        /// <summary>
+        /// The transaction risk score (0-100).
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        // ReSharper disable once UnusedMember.Global
+        public int? RiskScore { get; set; }
+
+        /// <summary>
+        /// The acquirer name.
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string Acquirer { get; set; }
+
+        /// <summary>
+        /// Judopay identifier for associated web payment reference (if the transaction was associated with a
+        /// payment session).   Only populated for historic receipts.
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string WebPaymentReference { get; set; }
+
+        /// <summary>
+        /// Number of times the WebPaymentReference was used to authenticate for a Session
+        /// </summary>
+        [DataMember(EmitDefaultValue = true)]
+        public int? NoOfAuthAttempts { get; set; }
+
+        /// <summary>
+        /// Transaction ID set by the card scheme.
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string PaymentNetworkTransactionId { get; set; }
+
+        /// <summary>
+        /// The type of recurring payment
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string RecurringPaymentType { get; set; }
+
+        /// <summary>
         /// The card details.
-        /// </value>
+        /// </summary>
         [DataMember]
         public CardDetails CardDetails { get; set; }
 
         /// <summary>
+        /// The card billing address.
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public CardAddressModel BillingAddress { get; set; }
+
+        /// <summary>
+        /// Details about the consumer.
         /// The consumer details.
         /// </summary>
         [DataMember]
         public Consumer Consumer { get; set; }
 
         /// <summary>
-        /// Gets or sets the Device information.
+        /// Details about the consumers device.
         /// </summary>
         [DataMember]
         public Device Device { get; set; }
 
         /// <summary>
-        /// Gets or sets the risk score.
+        /// Merchant payment meta data.
         /// </summary>
-        /// <value>
-        /// The risk score.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-// ReSharper disable once UnusedMember.Global
-        public int? RiskScore { get; set; }
-
-        /// <summary>
-        /// Gets or sets your payment meta data.
-        /// </summary>
-        /// <value>
-        /// Your payment meta data.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
 // ReSharper disable once UnusedMember.Global
         public IDictionary<string, object> YourPaymentMetaData { get; set; }
@@ -216,49 +211,10 @@ namespace JudoPayDotNet.Models
         public ThreeDSecureReceiptModel ThreeDSecure { get; set; }
 
         /// <summary>
-        /// Transaction processed with recurring authorization 
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public bool? Recurring { get; set; }
-
-        /// <summary>
-        /// The type of recurring payment
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public string RecurringPaymentType { get; set; }
-
-        /// <summary>
         /// Information about the risks associated with the transaction
         /// </summary>
         [DataMember]
         public RiskModel Risks { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public string PostCodeCheckResult { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public string KountTransactionId { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public string AcquirerTransactionId { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public string ExternalBankResponseCode { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public CardAddressModel BillingAddress { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public string Acquirer { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public string AuthCode { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public string WebPaymentReference { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public string PaymentNetworkTransactionId { get; set; }
     }
 
     // ReSharper restore UnusedMember.Global

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
 {
@@ -11,7 +10,7 @@ namespace JudoPayDotNet.Models
     public class CardAddressModel
     {
         /// <summary>
-        /// Gets or sets the Address1
+        /// The first line of the card holder address.
         /// </summary>
         /// <value>
         /// The Address1.
@@ -20,7 +19,7 @@ namespace JudoPayDotNet.Models
         public string Address1 { get; set; }
 
         /// <summary>
-        /// Gets or sets the Address2
+        /// The second line of the card holder address.
         /// </summary>
         /// <value>
         /// The Address2.
@@ -29,7 +28,7 @@ namespace JudoPayDotNet.Models
         public string Address2 { get; set; }
 
         /// <summary>
-        /// Gets or sets the Address3
+        /// The third line of the card holder address.
         /// </summary>
         /// <value>
         /// The Address1.
@@ -37,20 +36,8 @@ namespace JudoPayDotNet.Models
         [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string Address3 { get; set; }
 
-        [Obsolete("This property is obsolete. Please use Address1 instead.", false)]
-        [DataMember(EmitDefaultValue = false, IsRequired = false)]
-        public string Line1 { get; set; }
-
-        [Obsolete("This property is obsolete. Please use Address2 instead.", false)]
-        [DataMember(EmitDefaultValue = false, IsRequired = false)]
-        public string Line2 { get; set; }
-
-        [Obsolete("This property is obsolete. Please use Address3 instead.", false)]
-        [DataMember(EmitDefaultValue = false, IsRequired = false)]
-        public string Line3 { get; set; }
-
         /// <summary>
-        /// Gets or sets the town.
+        /// The town of the card holder.
         /// </summary>
         /// <value>
         /// The town.
@@ -59,7 +46,7 @@ namespace JudoPayDotNet.Models
         public string Town { get; set; }
 
         /// <summary>
-        /// Gets or sets the post code.
+        /// The post code of the card holder.
         /// </summary>
         /// <value>
         /// The post code.
@@ -75,14 +62,13 @@ namespace JudoPayDotNet.Models
         public int? CountryCode { get; set; }
 
         /// <summary>
-        /// Gets or sets the state.
+        /// The state (for cards from USA or Canada)
         /// </summary>
         /// <value>
         /// The state.
         /// </value>
         [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string State { get; set; }
-
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }
