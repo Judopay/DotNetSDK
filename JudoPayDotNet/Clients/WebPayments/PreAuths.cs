@@ -6,7 +6,7 @@ using JudoPayDotNet.Models;
 namespace JudoPayDotNet.Clients.WebPayments
 {
 	/// <summary>
-	/// Allows you to create a webpayment before passing Judo your customer to complete the payment.
+	/// Allows you to create a payment session before passing Judo your customer to complete the payment.
 	/// </summary>
 	/// <remarks>This is the preauth variation of a webpayment, where the transaction amount is reserved, but not collected</remarks>
     internal class PreAuths : BasePayments, IPreAuths
@@ -27,14 +27,5 @@ namespace JudoPayDotNet.Clients.WebPayments
             return Create(model, Transactiontype);
         }
 
-		/// <summary>
-		/// Updates the webpayment preauth. Used in conjunction with 3D secure
-		/// </summary>
-		/// <param name="model">The updated information of webpayment preauth</param>
-		/// <returns>The webpayment preauth updated</returns>
-		public Task<IResult<WebPaymentRequestModel>> Update(WebPaymentRequestModel model)
-        {
-            return Update(model, Transactiontype);
-        }
     }
 }
