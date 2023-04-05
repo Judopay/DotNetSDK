@@ -9,15 +9,11 @@ All notable changes to this project will be documented in this file.
 - Make ClientDetails only accept a Key and Value attribute (encrypted by Mobile SDK using DeviceDNA)
 - Change YourPaymentMetaData signature to allow object values to be stored rather than only strings
 - Update SaveCardModel to add CardHolderName, remove IssueNumber and StartDate (no longer required for Maestro transactions)
-- Remove support for ConsumerToken, use YourConsumerReference instead
-- Remove support for OneUseTokens
-- Remove support for ThreeDSecure 1.x
 - Update PaymentReceiptModel
 -- Remove PartnerServiceFee, KountTransactionId, Refunds, PostCodeCheckResult (Risks block should be used instead),
 	Recurring (RecurringPaymentType should be used instead)
 -- Add NoOfAuthAttempts (only populated in historic receipts)
 - Extend WalletType to Include GooglePay and ClickToPay
-- Remove deprecated Line1/Line2/Line3 from CardAddressModel (Use Address1/Address2/Addres3 instead)
 - Extend ThreeDSecureReceiptModel to add ChallengeRequestIndicator, ScaExemption
 - Extend RiskModel to add Cv2Check
 - Expose ReceiptId as a string rather than a long.
@@ -26,6 +22,29 @@ All notable changes to this project will be documented in this file.
 - Remove IPayments.Update and IPreAuths.Update and replace it with IPayments.Cancel and IPreAuths.Cancel that takes
 	a reference parameter.   Add ICheckCards.Cancel.
 - Allow from, to, yourPaymentReference, yourConsumerReference parameters to be passed to Transactions.Get
+- Update WebPaymentRequestModel
+-- Add IsPayByLink
+-- Add PrimaryAccountDetails block
+-- Remove ClientIpAddress, ClientUserAgent, PartnerServiceFee
+-- Change YourPaymentMetaData to Dictionary string-object
+- Add GetWebPaymentResponseModel extending WebPaymentRequestModel that includes the attribtues returned in response to Transactions.Get that are not relevant for calls to create a web payment session
+-- CompanyName
+-- PaymentSuccessUrl
+-- PaymentCancelUrl
+-- Reference
+-- Response
+-- Status
+-- TransactionType (set on request by which interface was used)
+-- Receipt
+-- AllowedCardTypes (new)
+-- IsThreeDSecureTwo (new)
+-- NoOfAuthAttempts (new)
+- Transactions.Get and GetByReceipt now return GetWebPaymentResponseModel
+- Remove deprecated Line1/Line2/Line3 from CardAddressModel (Use Address1/Address2/Addres3 instead)
+- Remove Line1/Line2/Line3 from WebPaymentCardAddress (use Address1/Address2/Address3 instead)
+- Remove support for ConsumerToken, use YourConsumerReference instead
+- Remove support for OneUseTokens
+- Remove support for ThreeDSecure 1.x
 
 ## 3.4 Changes on 2022-07-18
 - Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions

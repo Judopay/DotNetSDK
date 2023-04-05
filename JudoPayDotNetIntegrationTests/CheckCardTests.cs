@@ -56,7 +56,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test, TestCaseSource(typeof(RegisterCheckCardTestSource), nameof(RegisterCheckCardTestSource.ValidateFailureTestCases))]
         public void ValidateWithoutSuccess(CheckCardModel checkCardModel, JudoModelErrorCode expectedModelErrorCode)
         {
-            var checkCardReceiptResult = JudoPayApiIridium.CheckCards.Create(checkCardModel).Result;
+            var checkCardReceiptResult = JudoPayApiBase.CheckCards.Create(checkCardModel).Result;
             Assert.NotNull(checkCardReceiptResult);
             Assert.IsTrue(checkCardReceiptResult.HasError);
             Assert.IsNull(checkCardReceiptResult.Response);

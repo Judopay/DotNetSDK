@@ -76,33 +76,85 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void TransactionsGetByReference()
+        public void GetWebPaymentByReference()
         {
-            var request = GetWebPaymentRequestModel();
+            var request = Get3ds2WebPaymentRequestModel();
+            var yourMetaData = new Dictionary<string, object>
+            {
+                { "key1", "value1" },
+                { "key2", "value2" }
+            };
+            request.YourPaymentMetaData = yourMetaData;
+            request.HideBillingInfo = true;
+            request.HideReviewInfo = true;
+            request.PrimaryAccountDetails = new PrimaryAccountDetailsModel
+            {
+                Name = "Smith",
+                AccountNumber = "12345678",
+                PostCode = "AB1 2CD",
+                DateOfBirth = "1980-01-01"
+            };
 
-            var result = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
+            var createResult = JudoPayApiElevated.WebPayments.Payments.Create(request).Result;
 
-            Assert.NotNull(result);
-            Assert.IsFalse(result.HasError);
-            Assert.NotNull(result.Response);
-            Assert.NotNull(result.Response.Reference);
-            Assert.NotNull(result.Response.PostUrl);
+            Assert.NotNull(createResult);
+            Assert.IsFalse(createResult.HasError);
 
-            var webRequest = JudoPayApiElevated.WebPayments.Transactions.Get(result.Response.Reference).Result;
+            var createResponse = createResult.Response;
+            Assert.NotNull(createResponse);
+            Assert.NotNull(createResponse.Reference);
+            Assert.NotNull(createResponse.PostUrl);
 
-            Assert.NotNull(webRequest);
-            Assert.IsFalse(webRequest.HasError);
-            Assert.NotNull(webRequest.Response);
-            Assert.NotNull(webRequest.Response.Reference);
-            Assert.AreEqual(result.Response.Reference, webRequest.Response.Reference);
-            Assert.AreEqual(request.JudoId, webRequest.Response.JudoId);
+            var getResult = JudoPayApiElevated.WebPayments.Transactions.Get(createResponse.Reference).Result;
+
+            Assert.NotNull(getResult);
+            Assert.IsFalse(getResult.HasError);
+            Assert.NotNull(getResult.Response);
+
+            var getResponse = getResult.Response;
+
+            Assert.AreEqual(createResponse.Reference, getResponse.Reference);
+            Assert.AreEqual(request.JudoId, getResponse.JudoId);
+            Assert.AreEqual(request.Amount, getResponse.Amount);
+            Assert.AreEqual(request.Currency, getResponse.Currency);
+            Assert.AreEqual(request.CardAddress.CardHolderName, getResponse.CardAddress.CardHolderName);
+            Assert.AreEqual(request.CardAddress.Address1, getResponse.CardAddress.Address1);
+            Assert.AreEqual(request.CardAddress.Address2, getResponse.CardAddress.Address2);
+            Assert.AreEqual(request.CardAddress.Address2, getResponse.CardAddress.Address2);
+            Assert.AreEqual(request.CardAddress.Town, getResponse.CardAddress.Town);
+            Assert.AreEqual(request.CardAddress.PostCode, getResponse.CardAddress.PostCode);
+            Assert.AreEqual(request.CardAddress.CountryCode, getResponse.CardAddress.CountryCode);
+            Assert.AreEqual(request.CardAddress.State, getResponse.CardAddress.State);
+            Assert.NotNull(getResponse.ExpiryDate); // ExpiryDate is rounded to nearest millisecond from request
+            Assert.AreEqual(request.CancelUrl, getResponse.PaymentCancelUrl);
+            Assert.AreEqual(request.SuccessUrl, getResponse.PaymentSuccessUrl);
+            Assert.AreEqual(request.YourConsumerReference, getResponse.YourConsumerReference);
+            Assert.AreEqual(request.YourPaymentReference, getResponse.YourPaymentReference);
+            Assert.AreEqual(request.YourPaymentMetaData, getResponse.YourPaymentMetaData);
+            Assert.AreEqual(WebPaymentOperation.Payment, getResponse.WebPaymentOperation);
+            Assert.AreEqual(request.IsPayByLink, getResponse.IsPayByLink);
+            Assert.AreEqual(request.MobileNumber, getResponse.MobileNumber);
+            Assert.AreEqual(request.PhoneCountryCode, getResponse.PhoneCountryCode);
+            Assert.AreEqual(request.EmailAddress, getResponse.EmailAddress);
+            Assert.IsNull(getResponse.HideBillingInfo); // Not returned in response, but used by WebPayments
+            Assert.IsNull(getResponse.HideReviewInfo); // Not returned in response, but used by WebPayments
+            Assert.IsNull(getResponse.ThreeDSecure); // Not currently returned on response
+            Assert.IsNull(getResponse.PrimaryAccountDetails);
+            Assert.NotNull(getResponse.CompanyName);
+            Assert.NotNull(getResponse.AllowedCardTypes);
+            Assert.NotNull(getResponse.Response);
+            Assert.AreEqual(createResponse.Reference, getResponse.Response.Reference);
+            Assert.AreEqual(WebPaymentStatus.Open, getResponse.Status);
+            Assert.AreEqual(TransactionType.PAYMENT, getResponse.TransactionType);
+            Assert.IsNull(getResponse.Receipt);
+            Assert.AreEqual(0, getResponse.NoOfAuthAttempts);
         }
 
         [Test]
         public void TransactionsGetByReceiptId()
         {
             var request = GetWebPaymentRequestModel();
-            var result = JudoPayApiIridium.WebPayments.Payments.Create(request).Result;
+            var result = JudoPayApiBase.WebPayments.Payments.Create(request).Result;
             var reference = result.Response.Reference;
 
             // Forms - Post a form with credentials to post url from the webpayment response passing form parameter Reference
@@ -159,7 +211,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var receiptId = formField.GetAttributeValue("value", "");
 
-            var webRequest = JudoPayApiIridium.WebPayments.Transactions.GetByReceipt(receiptId).Result;
+            var webRequest = JudoPayApiBase.WebPayments.Transactions.GetByReceipt(receiptId).Result;
 
             Assert.NotNull(webRequest);
             Assert.IsFalse(webRequest.HasError);
@@ -210,7 +262,7 @@ namespace JudoPayDotNetIntegrationTests
             paymentWithCard.YourConsumerReference = request.YourConsumerReference;
             paymentWithCard.YourPaymentReference = request.YourPaymentReference;
 
-            var response = await JudoPayApiIridium.Payments.Create(paymentWithCard);
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -222,7 +274,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test, TestCaseSource(typeof(WebPaymentsTestSource), nameof(WebPaymentsTestSource.ValidateFailureTestCases))]
         public void ValidateWithoutSuccess(WebPaymentRequestModel webPayment, JudoModelErrorCode expectedModelErrorCode)
         {
-            var webPaymentResult = JudoPayApiIridium.WebPayments.Payments.Create(webPayment).Result;
+            var webPaymentResult = JudoPayApiBase.WebPayments.Payments.Create(webPayment).Result;
 
             Assert.NotNull(webPaymentResult);
             Assert.IsTrue(webPaymentResult.HasError);
@@ -247,7 +299,7 @@ namespace JudoPayDotNetIntegrationTests
                 JudoId = "100100100",
                 YourConsumerReference = "3f7064d3-43e4-45a9-8329-2c4b9dd4d9e0",
                 // A guid will be generated for YourPaymentReference
-                YourPaymentMetaData = new Dictionary<string, string>
+                YourPaymentMetaData = new Dictionary<string, object>
                 {
                     { "key1", "value1" },
                     { "key2", "value2" }
