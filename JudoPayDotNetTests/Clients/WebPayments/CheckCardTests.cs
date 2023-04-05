@@ -32,41 +32,12 @@ namespace JudoPayDotNetTests.Clients.WebPayments
                     PostCode = "W31 4HS",
                     CountryCode = 826
                 },
-                ClientIpAddress = "127.0.0.1",
-                CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now,
                 JudoId = "1254634",
-                PartnerServiceFee = 10,
                 CancelUrl = "https://www.test.com",
                 SuccessUrl = "https://www.test.com",
-                Reference = "42421",
-                Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.PAYMENT,
-                YourConsumerReference = "4235325",
-                
-                Receipt = new PaymentReceiptModel
-                {
-                    ReceiptId = 134567,
-                    Type = "Create",
-                    JudoId = 12456,
-                    OriginalAmount = 20,
-                    Amount = 20,
-                    NetAmount = 20,
-                    CardDetails = new CardDetails
-                    {
-                        CardLastfour = "1345",
-                        EndDate = "1214",
-                        CardToken = "ASb345AE",
-                        CardType = CardType.VISA
-                    },
-                    Currency = "GBP",
-                    Consumer = new Consumer
-                    {
-                        ConsumerToken = "B245SEB",
-                        YourConsumerReference = "Consumer1"
-                    }
-                }
+                YourConsumerReference = "4235325"
             };
             var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(@"{
 		                                             postUrl : 'http://test.com',

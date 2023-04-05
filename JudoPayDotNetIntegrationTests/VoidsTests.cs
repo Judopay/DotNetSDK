@@ -12,7 +12,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test, TestCaseSource(typeof(VoidsTestSource), nameof(VoidsTestSource.ValidateFailureTestCases))]
         public void ValidateWithoutSuccess(VoidModel voidModel, JudoModelErrorCode expectedModelErrorCode)
         {
-            var voidReceiptResult = JudoPayApiIridium.Voids.Create(voidModel).Result;
+            var voidReceiptResult = JudoPayApiBase.Voids.Create(voidModel).Result;
 
             Assert.NotNull(voidReceiptResult);
             Assert.IsTrue(voidReceiptResult.HasError);
@@ -38,17 +38,17 @@ namespace JudoPayDotNetIntegrationTests
                     }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateVoidMissingReceiptId"); // No ReceiptId_Not_Supplied as ReceiptId will be set to 0 as it is not null
                     yield return new TestCaseData(new VoidModel
                     {
-                        ReceiptId = -1,
+                        ReceiptId = "-1",
                         Amount = 1.20m
                     }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateVoidInvalidReceiptId");
                     yield return new TestCaseData(new VoidModel
                     {
-                        ReceiptId = 685187481842388992,
+                        ReceiptId = "685187481842388992",
                         Amount = 0m
                     }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateVoidZeroAmount");
                     yield return new TestCaseData(new VoidModel
                     {
-                        ReceiptId = 685187481842388992,
+                        ReceiptId = "685187481842388992",
                         Amount = -1m
                     }, JudoModelErrorCode.Amount_Greater_Than_0).SetName("ValidateNegativeAmount");
                 }

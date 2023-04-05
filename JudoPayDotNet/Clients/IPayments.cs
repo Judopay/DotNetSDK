@@ -36,12 +36,5 @@ namespace JudoPayDotNet.Clients
         /// <param name="googlePayPayment">The Google Pay payment.</param>
         /// <returns>The transaction result for the created Google Pay payment</returns>
         Task<IResult<ITransactionResult>> Create(GooglePayPaymentModel googlePayPayment);
-
-        /// <summary>
-        /// Creates the specified One time payment.
-        /// </summary>
-        /// <param name="oneTimePayment">The one time payment payload.</param>
-        /// <returns>The receipt for the created payment</returns>
-        Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment);
     }
 }

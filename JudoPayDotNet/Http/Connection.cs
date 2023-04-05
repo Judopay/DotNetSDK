@@ -14,8 +14,6 @@ using Newtonsoft.Json.Serialization;
 
 namespace JudoPayDotNet.Http
 {
-    using JudoPayDotNet.Models;
-
     /// <summary>
     /// Handles the http requests creation and the http responses
     /// </summary>
@@ -88,15 +86,15 @@ namespace JudoPayDotNet.Http
                 }
             }
 
-            var paymentModel = body as PaymentModel;
-            if (paymentModel != null && !string.IsNullOrWhiteSpace(paymentModel.UserAgent))
-            {
-                request.Headers.UserAgent.TryParseAdd(paymentModel.UserAgent);
-            }
-            
             if (body != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(body, _settings), new UTF8Encoding());
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            }
+            else if (request.Method == HttpMethod.Put)
+            {
+                // Support empty body for PUT paymentsession/{reference}/cancel
+                request.Content = new StringContent("{}", new UTF8Encoding());
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             }
 

@@ -41,10 +41,5 @@ namespace JudoPayDotNet.Clients
         {
             return PostInternal<GooglePayPaymentModel, ITransactionResult>(CREATE_ADDRESS, googlePayPayment);
         }
-
-        public Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment)
-        {
-            return PostInternal<OneTimePaymentModel, ITransactionResult>(CREATE_ADDRESS, oneTimePayment);
-        }
     }
 }

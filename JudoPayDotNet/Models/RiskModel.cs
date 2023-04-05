@@ -22,5 +22,12 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember]
         public string PostcodeCheck { get; set; }
+
+        /// <summary>
+        /// Details about the CV2 check performed by the gateway.  PASSED, FAILED, UNKNOWN, NOT_SUBMITTED,
+        /// NOT_CHECKED, NOT_SUPPORTED
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string Cv2Check { get; set; }
     }
 }
