@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using JudoPayDotNet.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace JudoPayDotNet.Models
 {
@@ -13,6 +15,7 @@ namespace JudoPayDotNet.Models
         /// Type of device that will be used for challenge authentication. Only Browser is supported currently.
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public ThreeDSecureTwoAuthenticationSource AuthenticationSource { get; set; }
 
         /// <summary>
@@ -32,6 +35,7 @@ namespace JudoPayDotNet.Models
         /// Should not be specified in the same request as ScaExemption
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public ThreeDSecureTwoChallengeRequestIndicator? ChallengeRequestIndicator { get; set; }
 
         /// <summary>
@@ -39,6 +43,7 @@ namespace JudoPayDotNet.Models
         /// Should not be specified in the same request as ChallengeRequestIndicator
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public ThreeDSecureTwoScaExemption? ScaExemption { get; set; }
     }
 }

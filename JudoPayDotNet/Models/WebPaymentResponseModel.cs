@@ -3,7 +3,7 @@
 namespace JudoPayDotNet.Models
 {
     /// <summary>
-    /// Web payment response
+    /// The response model to a call to IPreAuths/IPayments/ICheckCard.Create
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     [DataContract]
@@ -21,11 +21,8 @@ namespace JudoPayDotNet.Models
         public string PostUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the reference.
+        /// Judopay generated reference for the web payment.
         /// </summary>
-        /// <value>
-        /// The reference.
-        /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string Reference { get; set; }
     }

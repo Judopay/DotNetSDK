@@ -36,10 +36,5 @@ namespace JudoPayDotNet.Clients
             return validationError != null ? Task.FromResult(validationError) :
                 PostInternal<PKPaymentModel, ITransactionResult>(CREATE_ADDRESS, pkPayment);
         }
-
-        public Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment)
-        {
-            return PostInternal<OneTimePaymentModel, ITransactionResult>(CREATE_ADDRESS, oneTimePayment);
-        }
     }
 }

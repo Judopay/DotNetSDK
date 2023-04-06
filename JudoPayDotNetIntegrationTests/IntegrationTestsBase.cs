@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using JudoPayDotNet;
 using JudoPayDotNet.Enums;
-using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
-using Newtonsoft.Json;
-using NUnit.Framework;
 
 namespace JudoPayDotNetIntegrationTests
 {
     public abstract class IntegrationTestsBase
     {
-        protected JudoPayApi JudoPayApiIridium;
         protected JudoPayApi JudoPayApiBase;
         protected JudoPayApi JudoPayApiElevated;
         protected JudoPayApi JudoPayApiThreeDSecure2;
@@ -24,7 +16,7 @@ namespace JudoPayDotNetIntegrationTests
         protected IntegrationTestsBase() 
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            JudoPayApiBase = JudoPayApiIridium = JudoPaymentsFactory.Create(Configuration.JudoEnvironment,
+            JudoPayApiBase = JudoPaymentsFactory.Create(Configuration.JudoEnvironment,
                 Configuration.Token, Configuration.Secret);
             JudoPayApiElevated = JudoPaymentsFactory.Create(Configuration.JudoEnvironment,
                 Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
@@ -142,7 +134,6 @@ namespace JudoPayDotNetIntegrationTests
 
             paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko)";
             paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp";
-            paymentWithCard.DeviceCategory = "Mobile";
 
             paymentWithCard.ThreeDSecure = new ThreeDSecureTwoModel
             {
@@ -174,7 +165,6 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = amount,
                 CardToken = cardToken,
                 CV2 = "452",
-                ConsumerToken = "ABSE",
                 RecurringPayment = recurringPayment
             };
         }
@@ -193,7 +183,7 @@ namespace JudoPayDotNetIntegrationTests
 
             return new SaveCardModel
             {
-                JudoId = judoId,
+                JudoId = judoId ?? Configuration.Judoid,
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
                 ExpiryDate = "12/25",
@@ -206,31 +196,6 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        protected async Task<SaveEncryptedCardModel> GetSaveEncryptedCardModel(
-            string judoId = null,
-            string yourConsumerReference = null)
-        {
-            var oneUseTokenModel = await GetOneUseToken();
-
-            if (string.IsNullOrEmpty(yourConsumerReference))
-            {
-                yourConsumerReference = Guid.NewGuid().ToString();
-            }
-
-            return new SaveEncryptedCardModel
-            {
-                OneUseToken = oneUseTokenModel.OneUseToken,
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = yourConsumerReference,
-                CardAddress = new CardAddressModel
-                {
-                    Address1 = "32 Edward Street",
-                    PostCode = "TR14 8PA",
-                    Town = "Camborne"
-                }
-            };
-        }
-        
         protected RegisterCardModel GetRegisterCardModel(
             string yourConsumerReference = null,
             string cardNumber = "4976000000003436",
@@ -259,31 +224,6 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        protected async Task<RegisterEncryptedCardModel> GetRegisterEncryptedCardModel(
-            string judoId = null,
-            string yourConsumerReference = null)
-        {
-            var oneUseTokenModel = await GetOneUseToken();
-
-            if (string.IsNullOrEmpty(yourConsumerReference))
-            {
-                yourConsumerReference = Guid.NewGuid().ToString();
-            }
-
-            return new RegisterEncryptedCardModel
-            {
-                OneUseToken = oneUseTokenModel.OneUseToken,
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = yourConsumerReference,
-                CardAddress = new CardAddressModel
-                {
-                    Address1 = "32 Edward Street",
-                    PostCode = "TR14 8PA",
-                    Town = "Camborne"
-                }
-            };
-        }
-
         protected CheckCardModel GetCheckCardModel(
             string judoId = null, 
             string cardNumber = "4976000000003436", 
@@ -307,80 +247,6 @@ namespace JudoPayDotNetIntegrationTests
             };
         }
 
-        protected async Task<CheckEncryptedCardModel> GetCheckEncryptedCardModel(
-            string judoId = null,
-            string yourConsumerReference = null)
-        {
-            var oneUseTokenModel = await GetOneUseToken();
-
-            if (string.IsNullOrEmpty(yourConsumerReference))
-            {
-                yourConsumerReference = Guid.NewGuid().ToString();
-            }
-
-            return new CheckEncryptedCardModel
-            {
-                OneUseToken = oneUseTokenModel.OneUseToken,
-                JudoId = judoId ?? Configuration.Judoid,
-                YourConsumerReference = yourConsumerReference,
-                CardAddress = new CardAddressModel
-                {
-                    Address1 = "32 Edward Street",
-                    PostCode = "TR14 8PA",
-                    Town = "Camborne"
-                }
-            };
-        }
-
-        protected async Task<OneTimePaymentModel> GetOneTimePaymentModel()
-        {
-            var oneUseTokenModel = await GetOneUseToken();
-
-            return new OneTimePaymentModel
-            {
-                OneUseToken = oneUseTokenModel.OneUseToken,
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = Guid.NewGuid().ToString(),
-                Amount = 25,
-                CardAddress = new CardAddressModel
-                {
-                    Address1 = "32 Edward Street",
-                    PostCode = "TR14 8PA",
-                    Town = "Camborne"
-                }
-            };
-        }
-        
-        private async Task<OneUseTokenModel> GetOneUseToken()
-        {
-            var client = new HttpClient();
-
-            client.DefaultRequestHeaders.Add("Api-Version", VersioningHandler.DEFAULT_API_VERSION);
-            client.DefaultRequestHeaders.Add("Authorization", $"Simple {Configuration.Token}");
-
-            var cardDetailsModel = new Dictionary<string, string>
-            {
-                {"cardNumber", "4976000000003436"},
-                {"expiryDate", "12/25"},
-                {"cV2", "452"},
-            };
-            var message = new HttpRequestMessage
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(cardDetailsModel), Encoding.UTF8, "application/json"),
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(JudoPaymentsFactory.GetEnvironmentUrl(Configuration.JudoEnvironment) + "/encryptions/paymentdetails")
-            };
-
-            var response = await client.SendAsync(message);
-            var oneUseTokenModel = JsonConvert.DeserializeObject<OneUseTokenModel>(await response.Content.ReadAsStringAsync());
-            return oneUseTokenModel;
-        }
-
-        private class OneUseTokenModel
-        {
-            public string OneUseToken { get; set; }
-        }
-
         protected WebPaymentRequestModel GetWebPaymentRequestModel()
         {
             return new WebPaymentRequestModel
@@ -396,17 +262,12 @@ namespace JudoPayDotNetIntegrationTests
                     PostCode = "W31 4HS",
                     CountryCode = 826
                 },
-                ClientIpAddress = "127.0.0.1",
-                CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now.AddMinutes(30),
                 JudoId = Configuration.Judoid,
-                PartnerServiceFee = 10,
                 CancelUrl = "https://www.test.com",
                 SuccessUrl = "https://www.test.com",
-                Reference = "42421",
-                Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.PAYMENT,
+                YourPaymentReference = Guid.NewGuid().ToString(),
                 YourConsumerReference = "4235325"
             };
         }
@@ -426,19 +287,14 @@ namespace JudoPayDotNetIntegrationTests
                     PostCode = "W31 4HS",
                     CountryCode = 826
                 },
-                ClientIpAddress = "127.0.0.1",
-                CompanyName = "Test",
                 Currency = "GBP",
                 ExpiryDate = DateTimeOffset.Now.AddMinutes(30),
                 JudoId = Configuration.Judoid,
-                PartnerServiceFee = 10,
-                CancelUrl = "https://www.test.com",
-                SuccessUrl = "https://www.test.com",
-                Reference = "42421",
-                Status = WebPaymentStatus.Open,
-                TransactionType = TransactionType.PAYMENT,
+                CancelUrl = "https://www.test.com/cancel",
+                SuccessUrl = "https://www.test.com/success",
+                YourPaymentReference = Guid.NewGuid().ToString(),
                 YourConsumerReference = "4235325",
-                MobileNumber = "07999999999",
+                MobileNumber = "7999999999",
                 PhoneCountryCode = "44",
                 EmailAddress = "test@judopay.com",
                 ThreeDSecure = new ThreeDSecureTwoModel()
@@ -478,8 +334,5 @@ namespace JudoPayDotNetIntegrationTests
 
             return paymentModel;
         }
-
- 
-
     }
 }
