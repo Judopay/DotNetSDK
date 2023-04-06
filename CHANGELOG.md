@@ -45,7 +45,6 @@ All notable changes to this project will be documented in this file.
 - Remove support for ConsumerToken, use YourConsumerReference instead
 - Remove support for OneUseTokens
 - Remove support for ThreeDSecure 1.x
-- Update Api-Version to 6.19
 - Add DelayedAuthorisation flag (for preauths only) to PaymentModel
 
 ## 3.4 Changes on 2022-07-18
