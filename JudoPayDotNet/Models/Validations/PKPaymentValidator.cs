@@ -3,7 +3,7 @@
 
 namespace JudoPayDotNet.Models.Validations
 {
-    internal class PKPaymentValidator: AbstractValidator<PKPaymentModel>
+    internal class PKPaymentValidator: AbstractValidator<ApplePayPaymentModel>
 	{
         public PKPaymentValidator()
 		{

@@ -40,11 +40,17 @@ All notable changes to this project will be documented in this file.
 -- IsThreeDSecureTwo (new)
 -- NoOfAuthAttempts (new)
 - Transactions.Get and GetByReceipt now return GetWebPaymentResponseModel
+- Rename PkPaymentModel to ApplePayPaymentModel
+-- Rename BillingAddress to BillingContact and change object type to match Apple payload
+-- Remove ShippingAddress
+-- Remove PaymentInstrumentName and PaymentNetwork, replace with ApplePayPaymentModel
+- Add GooglePayPaymentModel that extends ThreeDSecureTwoPaymentModel (as 3DS required for GPAY FPAN)
 - Remove deprecated Line1/Line2/Line3 from CardAddressModel (Use Address1/Address2/Addres3 instead)
 - Remove Line1/Line2/Line3 from WebPaymentCardAddress (use Address1/Address2/Address3 instead)
 - Remove support for ConsumerToken, use YourConsumerReference instead
 - Remove support for OneUseTokens
 - Remove support for ThreeDSecure 1.x
+
 
 ## 3.4 Changes on 2022-07-18
 - Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions

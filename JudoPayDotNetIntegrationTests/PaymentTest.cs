@@ -218,7 +218,10 @@ namespace JudoPayDotNetIntegrationTests
                 case TokenPaymentModel model:
                     paymentReceiptResult = JudoPayApiBase.Payments.Create(model).Result;
                     break;
-                case PKPaymentModel model:
+                case ApplePayPaymentModel model:
+                    paymentReceiptResult = JudoPayApiBase.Payments.Create(model).Result;
+                    break;
+                case GooglePayPaymentModel model:
                     paymentReceiptResult = JudoPayApiBase.Payments.Create(model).Result;
                     break;
             }

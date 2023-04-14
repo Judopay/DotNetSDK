@@ -11,7 +11,7 @@ namespace JudoPayDotNetTests.Validation
         [Test]
         public void ValidatePkPaymentWithErrorOnSpecificCardPaymentInformation()
         {
-            var payment = new PKPaymentModel();
+            var payment = new ApplePayPaymentModel();
 
             var validator = new PKPaymentValidator();
 
