@@ -50,6 +50,7 @@ All notable changes to this project will be documented in this file.
 - Remove support for ConsumerToken, use YourConsumerReference instead
 - Remove support for OneUseTokens
 - Remove support for ThreeDSecure 1.x
+- Update UserAgent to start with JudoDotNetSDK
 
 
 ## 3.4 Changes on 2022-07-18
