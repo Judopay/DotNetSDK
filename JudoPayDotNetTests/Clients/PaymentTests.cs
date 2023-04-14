@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -7,6 +8,7 @@ using JudoPayDotNet;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Logging;
+using Newtonsoft.Json.Linq;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -29,7 +31,6 @@ namespace JudoPayDotNetTests.Clients
                                                  Amount = 2.0m,
                                                  CardAddress = new CardAddressModel { Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
                                                  CardNumber = "348417606737499",
-                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  EmailAddress = "testaccount@judo.com",
                                                  ExpiryDate = "12/25",
@@ -55,7 +56,6 @@ namespace JudoPayDotNetTests.Clients
                             currency : 'GBP',
                             consumer : 
                                 {
-                                    consumerToken : 'B245SEB',
                                     yourConsumerReference : 'Consumer1'
                                 }
                             }",
@@ -66,7 +66,6 @@ namespace JudoPayDotNetTests.Clients
                                 Amount = 2.0m,
                                 CardAddress = new CardAddressModel {Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town"},
                                 CardNumber = "348417606737499",
-                                ConsumerLocation = new ConsumerLocationModel {Latitude = 40m, Longitude = 14m},
                                 CV2 = "420",
                                 EmailAddress = "testaccount@judo.com",
                                 ExpiryDate = "12/25",
@@ -93,7 +92,6 @@ namespace JudoPayDotNetTests.Clients
                             currency : 'GBP',
                             consumer :
                                 {
-                                    consumerToken : 'B245SEB',
                                     yourConsumerReference : 'Consumer1'
                                 }
                             }",
@@ -102,15 +100,13 @@ namespace JudoPayDotNetTests.Clients
                         new TestCaseData(new TokenPaymentModel
                                              {
                                                  Amount = 2.0m,
-                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  CardToken = "A24BS2",
                                                  EmailAddress = "testaccount@judo.com",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
                                                  PhoneCountryCode = "44",
-                                                 YourConsumerReference = "User10",
-                                                 ConsumerToken = "ABAS"
+                                                 YourConsumerReference = "User10"
                                              },
                             @"{
                             receiptId : '134567',
@@ -129,11 +125,105 @@ namespace JudoPayDotNetTests.Clients
                             currency : 'GBP',
                             consumer : 
                                 {
-                                    consumerToken : 'B245SEB',
                                     yourConsumerReference : 'Consumer1'
                                 }
                             }",
                             "134567").SetName("PayWithTokenWithSuccess");
+                    yield return
+                        new TestCaseData(new ApplePayPaymentModel()
+                            {
+                                Amount = 2.0m,
+                                JudoId = "100200300",
+                                YourConsumerReference = "User10",
+                                PkPayment = new PKPaymentInnerModel
+                                {
+                                    Token = new ApplePayTokenModel
+                                    {
+                                        PaymentData = new JObject
+                                        {
+                                            { "data", "value" },
+                                            { "signature", "value" },
+                                            { "header", new JObject
+                                                {
+                                                    { "publicKeyHash", "value" },
+                                                    { "ephemeralPublicKey", "value" },
+                                                    { "transactionId", "value" }
+                                                }
+                                            },
+                                            { "version", "EC_v1" }
+                                        },
+                                        PaymentMethod = new ApplePayPaymentMethodModel
+                                        {
+                                            DisplayName = "Visa 1234",
+                                            Network = "Visa",
+                                            Type = "debit"
+                                        }
+                                    },
+                                    BillingContact = new ApplePayCardAddressModel
+                                    {
+                                        AddressLines = new List<string>{ "Line1", "Line2", "Line3"},
+                                        PostalCode = "AB1 2CD",
+                                        CountryCode = "uk",
+                                        Locality = "GeorgeTown",
+                                        AdministrativeArea = "ON",
+                                    }
+                                }
+                            },
+                            @"{
+                            receiptId : '134567',
+                            type : 'Create',
+                            judoId : '12456',
+                            originalAmount : 20,
+                            amount : 20,
+                            netAmount : 20,
+                            cardDetails :
+                                {
+                                    cardLastfour : '1345',
+                                    endDate : '1214',
+                                    cardToken : 'ASb345AE',
+                                    cardType : 'VISA'
+                                },
+                            currency : 'GBP',
+                            consumer : 
+                                {
+                                    yourConsumerReference : 'Consumer1'
+                                }
+                            }",
+                            "134567").SetName("PayWithApplePayWithSuccess");
+                    yield return
+                        new TestCaseData(new GooglePayPaymentModel
+                        {
+                            Amount = 2.0m,
+                            JudoId = "100200300",
+                            YourConsumerReference = "User10",
+                            GooglePayWallet = new GooglePayWalletModel
+                            {
+                                Token = "value",
+                                CardNetwork = "Visa",
+                                CardDetails = "1234"
+                            }
+                        },
+                        @"{
+                            receiptId : '134567',
+                            type : 'Create',
+                            judoId : '12456',
+                            originalAmount : 20,
+                            amount : 20,
+                            netAmount : 20,
+                            cardDetails :
+                                {
+                                    cardLastfour : '1345',
+                                    endDate : '1214',
+                                    cardToken : 'ASb345AE',
+                                    cardType : 'VISA'
+                                },
+                            currency : 'GBP',
+                            consumer : 
+                                {
+                                    yourConsumerReference : 'Consumer1'
+                                }
+                        }",
+                        "134567").SetName("PayWithGoogPayWithSuccess");
                 }
             }
 
@@ -147,7 +237,6 @@ namespace JudoPayDotNetTests.Clients
                                                  Amount = 2.0m,
                                                  CardAddress = new CardAddressModel { Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
                                                  CardNumber = "348417606737499",
-                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  EmailAddress = "testaccount@judo.com",
                                                  ExpiryDate = "12/25",
@@ -173,15 +262,13 @@ namespace JudoPayDotNetTests.Clients
                         new TestCaseData(new TokenPaymentModel
                                              {
                                                  Amount = 2.0m,
-                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
                                                  CV2 = "420",
                                                  CardToken = "A24BS2",
                                                  EmailAddress = "testaccount@judo.com",
                                                  JudoId = "100200300",
                                                  MobileNumber = "07999999999",
                                                  PhoneCountryCode = "44",
-                                                 YourConsumerReference = "User10",
-                                                 ConsumerToken = "ABAS"
+                                                 YourConsumerReference = "User10"
                                              },
                             @"    
                         {
@@ -205,19 +292,18 @@ namespace JudoPayDotNetTests.Clients
                 {
                     yield return
                         new TestCaseData(new CardPaymentModel
-                                             {
-                                                 Amount = 2.0m,
-                                                 CardAddress = new CardAddressModel { Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
-                                                 CardNumber = "348417606737499",
-                                                 ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
-                                                 CV2 = "420",
-                                                 EmailAddress = "testaccount@judo.com",
-                                                 ExpiryDate = "12/25",
-                                                 JudoId = "100200300",
-                                                 MobileNumber = "07999999999",
-                                                 PhoneCountryCode = "44",
-                                                 YourConsumerReference = "User10"
-                                             },
+                            {
+                                Amount = 2.0m,
+                                CardAddress = new CardAddressModel { Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town" },
+                                CardNumber = "348417606737499",
+                                CV2 = "420",
+                                EmailAddress = "testaccount@judo.com",
+                                ExpiryDate = "12/25",
+                                JudoId = "100200300",
+                                MobileNumber = "07999999999",
+                                PhoneCountryCode = "44",
+                                YourConsumerReference = "User10"
+                            },
                             @"    
                         {
                             message : 'Payment not made',
@@ -235,7 +321,6 @@ namespace JudoPayDotNetTests.Clients
                         {
                             Amount = 2.0m,
                             CardToken = "",
-                            ConsumerLocation = new ConsumerLocationModel {Latitude = 40m, Longitude = 14m},
                             CV2 = "420",
                             EmailAddress = "testaccount@judo.com",
                             JudoId = "100200300",
@@ -255,29 +340,6 @@ namespace JudoPayDotNetTests.Clients
                             category : '2'
                         }",
                         JudoApiError.Payment_Failed).SetName("ValidateCardTokenWithoutSuccess");
-                    new TestCaseData(new OneTimePaymentModel
-                        {
-                            Amount = 2.0m,
-                            OneUseToken = "",
-                            ConsumerLocation = new ConsumerLocationModel { Latitude = 40m, Longitude = 14m },
-                            EmailAddress = "testaccount@judo.com",
-                            JudoId = "100200300",
-                            MobileNumber = "07999999999",
-                            YourConsumerReference = "User10"
-                        },
-                        @"
-                        {
-                            message : 'Sorry, we're unable to process your request. Please check your details and try again.',
-                            modelErrors : [{
-                                            fieldName : 'OneUseToken',
-                                            message : 'Sorry, but for this transaction a card token must be supplied. Please check your details and try again.',
-                                            detail : 'Sorry, we are unable to process your request at this time.',
-                                            code : '970'
-                                          }],
-                            code : '1',
-                            category : '2'
-                        }",
-                        JudoApiError.Payment_Failed).SetName("ValidateOneTimeTokenWithoutSuccess");
                 }
             }
         }
@@ -308,20 +370,20 @@ namespace JudoPayDotNetTests.Clients
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
             }
-            else if (payment is OneTimePaymentModel)
+            else if (payment is ApplePayPaymentModel)
             {
-                paymentReceiptResult = judo.Payments.Create((OneTimePaymentModel)payment).Result;
+                paymentReceiptResult = judo.Payments.Create((ApplePayPaymentModel)payment).Result;
             }
-            else if (payment is PKPaymentModel)
+            else if (payment is GooglePayPaymentModel)
             {
-                paymentReceiptResult = judo.Payments.Create((PKPaymentModel)payment).Result;
+                paymentReceiptResult = judo.Payments.Create((GooglePayPaymentModel)payment).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
+            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo("134567"));
         }
 
         [Test, TestCaseSource(typeof(PaymentsTestSource), "CreateSuccessTestCases")]
@@ -354,12 +416,20 @@ namespace JudoPayDotNetTests.Clients
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
             }
+            else if (payment is ApplePayPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((ApplePayPaymentModel)payment).Result;
+            }
+            else if (payment is GooglePayPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((GooglePayPaymentModel)payment).Result;
+            }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
             Assert.NotNull(paymentReceiptResult);
             Assert.IsFalse(paymentReceiptResult.HasError);
             Assert.NotNull(paymentReceiptResult.Response);
-            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo(134567));
+            Assert.That(paymentReceiptResult.Response.ReceiptId, Is.EqualTo("134567"));
         }
 
         [Test, TestCaseSource(typeof(PaymentsTestSource), "CreateFailureTestCases")]
@@ -387,6 +457,14 @@ namespace JudoPayDotNetTests.Clients
             else if (payment is TokenPaymentModel)
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
+            }
+            else if (payment is ApplePayPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((ApplePayPaymentModel)payment).Result;
+            }
+            else if (payment is GooglePayPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((GooglePayPaymentModel)payment).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
@@ -423,13 +501,13 @@ namespace JudoPayDotNetTests.Clients
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
             }
-            else if (payment is OneTimePaymentModel)
+            else if (payment is ApplePayPaymentModel)
             {
-                paymentReceiptResult = judo.Payments.Create((OneTimePaymentModel)payment).Result;
+                paymentReceiptResult = judo.Payments.Create((ApplePayPaymentModel)payment).Result;
             }
-            else if (payment is PKPaymentModel)
+            else if (payment is GooglePayPaymentModel)
             {
-                paymentReceiptResult = judo.Payments.Create((PKPaymentModel)payment).Result;
+                paymentReceiptResult = judo.Payments.Create((GooglePayPaymentModel)payment).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
@@ -449,7 +527,6 @@ namespace JudoPayDotNetTests.Clients
                 Amount = 2.0m,
                 CardAddress = new CardAddressModel {Address1 = "Test Street", PostCode = "W40 9AU", Town = "Town"},
                 CardNumber = "348417606737499",
-                ConsumerLocation = new ConsumerLocationModel {Latitude = 40m, Longitude = 14m},
                 CV2 = "420",
                 EmailAddress = "testaccount@judo.com",
                 ExpiryDate = "12/25",

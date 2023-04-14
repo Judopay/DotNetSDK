@@ -10,7 +10,7 @@ namespace JudoPayDotNet.Clients
     internal class PreAuths : JudoPayClient, IPreAuths
     {
         // Keep PKPaymentValidator as FieldErrors not returned for invalid pkPayment.token attributes
-        private readonly IValidator<PKPaymentModel> PKPaymentValidator = new PKPaymentValidator();
+        private readonly IValidator<ApplePayPaymentModel> PKPaymentValidator = new PKPaymentValidator();
         // Other validation is done in the PartnerApi to ensure error codes are up to date
 
         private const string CREATE_PREAUTH_ADDRESS = "transactions/preauths";
@@ -31,16 +31,16 @@ namespace JudoPayDotNet.Clients
             return PostInternal<TokenPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, tokenPreAuth);
         }
 
-        public Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPreAuth)
+        public Task<IResult<ITransactionResult>> Create(ApplePayPaymentModel pkPreAuth)
         {
-            var validationError = Validate<PKPaymentModel, ITransactionResult>(PKPaymentValidator, pkPreAuth);
+            var validationError = Validate<ApplePayPaymentModel, ITransactionResult>(PKPaymentValidator, pkPreAuth);
             return validationError != null ? Task.FromResult(validationError) :
-                PostInternal<PKPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, pkPreAuth);
+                PostInternal<ApplePayPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, pkPreAuth);
         }
 
-        public Task<IResult<ITransactionResult>> Create(OneTimePaymentModel oneTimePayment)
+        public Task<IResult<ITransactionResult>> Create(GooglePayPaymentModel googlePayPayment)
         {
-            return PostInternal<OneTimePaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, oneTimePayment);
+            return PostInternal<GooglePayPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, googlePayPayment);
         }
     }
 }

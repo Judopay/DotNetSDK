@@ -13,7 +13,7 @@ namespace JudoPayDotNet.Models
         /// The Judopay transaction identifier.
         /// </summary>
         [DataMember]
-        public long ReceiptId { get; set; }
+        public string ReceiptId { get; set; }
 
         /// <summary>
         /// e.g. "Challenge completion is needed for 3D Secure 2"

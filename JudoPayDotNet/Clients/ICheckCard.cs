@@ -17,12 +17,5 @@ namespace JudoPayDotNet.Clients
         /// <param name="checkCardModel">The card to check.</param>
         /// <returns>The result of the card check</returns>
         Task<IResult<ITransactionResult>> Create(CheckCardModel checkCardModel);
-
-        /// <summary>
-        /// Performs a card check against the card using a One Use Token
-        /// </summary>
-        /// <param name="checkEncryptedCardModel">The card to check.</param>
-        /// <returns>The result of the card check</returns>
-        Task<IResult<ITransactionResult>> Create(CheckEncryptedCardModel checkEncryptedCardModel);
     }
 }

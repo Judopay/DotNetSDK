@@ -19,19 +19,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var registerCardModel = GetRegisterCardModel("432438862");
 
-            var response = await JudoPayApiIridium.RegisterCards.Create(registerCardModel);
-
-            Assert.IsNotNull(response);
-            Assert.IsFalse(response.HasError);
-            Assert.AreEqual("Success", response.Response.Result);
-        }
-
-        [Test]
-        public void RegisterEncryptedCard()
-        {
-            var registerEncryptedCardModel = GetRegisterEncryptedCardModel().Result;
-
-            var response = JudoPayApiIridium.RegisterCards.Create(registerEncryptedCardModel).Result;
+            var response = await JudoPayApiBase.RegisterCards.Create(registerCardModel);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -45,7 +33,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var registerCard = GetRegisterCardModel(consumerReference);
 
-            var response = await JudoPayApiIridium.RegisterCards.Create(registerCard);
+            var response = await JudoPayApiBase.RegisterCards.Create(registerCard);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -61,7 +49,7 @@ namespace JudoPayDotNetIntegrationTests
 
             var paymentWithToken = GetTokenPaymentModel(cardToken, consumerReference, 27);
 
-            response = await JudoPayApiIridium.Payments.Create(paymentWithToken);
+            response = await JudoPayApiBase.Payments.Create(paymentWithToken);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -73,7 +61,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var registerCard = GetRegisterCardModel("432438862", "4221690000004963", "125");
 
-            var response = JudoPayApiIridium.RegisterCards.Create(registerCard).Result;
+            var response = JudoPayApiBase.RegisterCards.Create(registerCard).Result;
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -83,7 +71,7 @@ namespace JudoPayDotNetIntegrationTests
         [Test, TestCaseSource(typeof(CheckCardTests.RegisterCheckCardTestSource), nameof(CheckCardTests.RegisterCheckCardTestSource.ValidateFailureTestCases))]
         public void ValidateWithoutSuccess(RegisterCardModel registerCardModel, JudoModelErrorCode expectedModelErrorCode)
         {
-            var registerCardReceiptResult = JudoPayApiIridium.RegisterCards.Create(registerCardModel).Result;
+            var registerCardReceiptResult = JudoPayApiBase.RegisterCards.Create(registerCardModel).Result;
             Assert.NotNull(registerCardReceiptResult);
             Assert.IsTrue(registerCardReceiptResult.HasError);
             Assert.IsNull(registerCardReceiptResult.Response);
@@ -109,7 +97,7 @@ namespace JudoPayDotNetIntegrationTests
                 PostCode = "EC2A 4DP"
             };
 
-            var response = await JudoPayApiIridium.RegisterCards.Create(registerCardModel);
+            var response = await JudoPayApiBase.RegisterCards.Create(registerCardModel);
 
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
@@ -130,7 +118,7 @@ namespace JudoPayDotNetIntegrationTests
             };
 
             // When a payment is made with this model
-            var result = JudoPayApiIridium.RegisterCards.Create(registerModel).Result;
+            var result = JudoPayApiBase.RegisterCards.Create(registerModel).Result;
 
             // Then PartnerApi will return fieldErrors for the invalid fields (proving that
             // the details are being passed on)

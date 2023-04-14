@@ -20,11 +20,16 @@ namespace JudoPayDotNet.Clients.WebPayments
             return PostInternal<WebPaymentRequestModel, WebPaymentResponseModel>(address, model);
         }
 
-        protected Task<IResult<WebPaymentRequestModel>> Update(WebPaymentRequestModel model, string transactionType)
+        /// <summary>
+        /// Cancel the webpayment preauth. Used in conjunction with 3D secure
+        /// </summary>
+        /// <param name="model">The updated information of webpayment preauth</param>
+        /// <returns>The webpayment preauth updated</returns>
+        public Task<IResult<CancelWebPaymentResponseModel>> Cancel(string reference)
         {
-            var address = $"{Baseaddress}/{transactionType}";
+            var address = $"paymentsession/{reference}/cancel";
 
-            return PutInternal<WebPaymentRequestModel, WebPaymentRequestModel>(address, model);
+            return PutInternal<string, CancelWebPaymentResponseModel>(address, null);
         }
     }
 }
