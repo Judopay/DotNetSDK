@@ -184,7 +184,10 @@ namespace JudoPayDotNetIntegrationTests
                 case TokenPaymentModel model:
                     preAuthReceiptResult = JudoPayApiBase.PreAuths.Create(model).Result;
                     break;
-                case PKPaymentModel model:
+                case ApplePayPaymentModel model:
+                    preAuthReceiptResult = JudoPayApiBase.PreAuths.Create(model).Result;
+                    break;
+                case GooglePayPaymentModel model:
                     preAuthReceiptResult = JudoPayApiBase.PreAuths.Create(model).Result;
                     break;
             }

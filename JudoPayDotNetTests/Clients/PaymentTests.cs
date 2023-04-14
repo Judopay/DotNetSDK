@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -7,6 +8,7 @@ using JudoPayDotNet;
 using JudoPayDotNet.Http;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Logging;
+using Newtonsoft.Json.Linq;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -127,6 +129,101 @@ namespace JudoPayDotNetTests.Clients
                                 }
                             }",
                             "134567").SetName("PayWithTokenWithSuccess");
+                    yield return
+                        new TestCaseData(new ApplePayPaymentModel()
+                            {
+                                Amount = 2.0m,
+                                JudoId = "100200300",
+                                YourConsumerReference = "User10",
+                                PkPayment = new PKPaymentInnerModel
+                                {
+                                    Token = new ApplePayTokenModel
+                                    {
+                                        PaymentData = new JObject
+                                        {
+                                            { "data", "value" },
+                                            { "signature", "value" },
+                                            { "header", new JObject
+                                                {
+                                                    { "publicKeyHash", "value" },
+                                                    { "ephemeralPublicKey", "value" },
+                                                    { "transactionId", "value" }
+                                                }
+                                            },
+                                            { "version", "EC_v1" }
+                                        },
+                                        PaymentMethod = new ApplePayPaymentMethodModel
+                                        {
+                                            DisplayName = "Visa 1234",
+                                            Network = "Visa",
+                                            Type = "debit"
+                                        }
+                                    },
+                                    BillingContact = new ApplePayCardAddressModel
+                                    {
+                                        AddressLines = new List<string>{ "Line1", "Line2", "Line3"},
+                                        PostalCode = "AB1 2CD",
+                                        CountryCode = "uk",
+                                        Locality = "GeorgeTown",
+                                        AdministrativeArea = "ON",
+                                    }
+                                }
+                            },
+                            @"{
+                            receiptId : '134567',
+                            type : 'Create',
+                            judoId : '12456',
+                            originalAmount : 20,
+                            amount : 20,
+                            netAmount : 20,
+                            cardDetails :
+                                {
+                                    cardLastfour : '1345',
+                                    endDate : '1214',
+                                    cardToken : 'ASb345AE',
+                                    cardType : 'VISA'
+                                },
+                            currency : 'GBP',
+                            consumer : 
+                                {
+                                    yourConsumerReference : 'Consumer1'
+                                }
+                            }",
+                            "134567").SetName("PayWithApplePayWithSuccess");
+                    yield return
+                        new TestCaseData(new GooglePayPaymentModel
+                        {
+                            Amount = 2.0m,
+                            JudoId = "100200300",
+                            YourConsumerReference = "User10",
+                            GooglePayWallet = new GooglePayWalletModel
+                            {
+                                Token = "value",
+                                CardNetwork = "Visa",
+                                CardDetails = "1234"
+                            }
+                        },
+                        @"{
+                            receiptId : '134567',
+                            type : 'Create',
+                            judoId : '12456',
+                            originalAmount : 20,
+                            amount : 20,
+                            netAmount : 20,
+                            cardDetails :
+                                {
+                                    cardLastfour : '1345',
+                                    endDate : '1214',
+                                    cardToken : 'ASb345AE',
+                                    cardType : 'VISA'
+                                },
+                            currency : 'GBP',
+                            consumer : 
+                                {
+                                    yourConsumerReference : 'Consumer1'
+                                }
+                        }",
+                        "134567").SetName("PayWithGoogPayWithSuccess");
                 }
             }
 
@@ -273,9 +370,13 @@ namespace JudoPayDotNetTests.Clients
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
             }
-            else if (payment is PKPaymentModel)
+            else if (payment is ApplePayPaymentModel)
             {
-                paymentReceiptResult = judo.Payments.Create((PKPaymentModel)payment).Result;
+                paymentReceiptResult = judo.Payments.Create((ApplePayPaymentModel)payment).Result;
+            }
+            else if (payment is GooglePayPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((GooglePayPaymentModel)payment).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
@@ -315,6 +416,14 @@ namespace JudoPayDotNetTests.Clients
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
             }
+            else if (payment is ApplePayPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((ApplePayPaymentModel)payment).Result;
+            }
+            else if (payment is GooglePayPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((GooglePayPaymentModel)payment).Result;
+            }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
             Assert.NotNull(paymentReceiptResult);
@@ -348,6 +457,14 @@ namespace JudoPayDotNetTests.Clients
             else if (payment is TokenPaymentModel)
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
+            }
+            else if (payment is ApplePayPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((ApplePayPaymentModel)payment).Result;
+            }
+            else if (payment is GooglePayPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((GooglePayPaymentModel)payment).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 
@@ -384,9 +501,13 @@ namespace JudoPayDotNetTests.Clients
             {
                 paymentReceiptResult = judo.Payments.Create((TokenPaymentModel)payment).Result;
             }
-            else if (payment is PKPaymentModel)
+            else if (payment is ApplePayPaymentModel)
             {
-                paymentReceiptResult = judo.Payments.Create((PKPaymentModel)payment).Result;
+                paymentReceiptResult = judo.Payments.Create((ApplePayPaymentModel)payment).Result;
+            }
+            else if (payment is GooglePayPaymentModel)
+            {
+                paymentReceiptResult = judo.Payments.Create((GooglePayPaymentModel)payment).Result;
             }
             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
 

@@ -28,6 +28,13 @@ namespace JudoPayDotNet.Clients
         /// </summary>
         /// <param name="pkPayment">The Apple Pay payment.</param>
         /// <returns>The receipt for the created Apple Pay payment</returns>
-        Task<IResult<ITransactionResult>> Create(PKPaymentModel pkPayment);
+        Task<IResult<ITransactionResult>> Create(ApplePayPaymentModel pkPayment);
+
+        /// <summary>
+        /// Creates the specified Google Pay payment.
+        /// </summary>
+        /// <param name="googlePayPayment">The Google Pay payment.</param>
+        /// <returns>The transaction result for the created Google Pay payment</returns>
+        Task<IResult<ITransactionResult>> Create(GooglePayPaymentModel googlePayPayment);
     }
 }

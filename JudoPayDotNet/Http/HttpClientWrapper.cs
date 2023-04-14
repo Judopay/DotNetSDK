@@ -14,7 +14,7 @@ namespace JudoPayDotNet.Http
     // ReSharper disable UnusedMember.Global
     internal class HttpClientWrapper : IHttpClient
     {
-        internal static readonly string SdkUserAgent = "DotNetSDK/" + new AssemblyName(typeof(HttpClientWrapper).GetTypeInfo().Assembly.FullName).Version;
+        internal static readonly string SdkUserAgent = "JudoDotNetSDK/" + new AssemblyName(typeof(HttpClientWrapper).GetTypeInfo().Assembly.FullName).Version;
 
         public readonly HttpClient HttpClient;
 

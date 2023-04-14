@@ -3,9 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## 4.0 Changes
 - Update Api-Version to 6.19
+- Update UserAgent to start with JudoDotNetSDK
 - Update PaymentModel to remove PartnerServiceFee, ConsumerLocation and DeviceCategory (use
 	ThreeDSecureTwoModel.AuthenticationSource instead).   AcceptHeaders and UserAgent moved
 	to ThreeDSecureTwoPaymentModel.   RelatedPaymentNetworkTransactionId added.
+- Add DelayedAuthorisation flag (for preauths only) to PaymentModel
 - Make ClientDetails only accept a Key and Value attribute (encrypted by Mobile SDK using DeviceDNA)
 - Change YourPaymentMetaData signature to allow object values to be stored rather than only strings
 - Update SaveCardModel to add CardHolderName, remove IssueNumber and StartDate (no longer required for Maestro transactions)
@@ -14,6 +16,11 @@ All notable changes to this project will be documented in this file.
 	Recurring (RecurringPaymentType should be used instead)
 -- Add NoOfAuthAttempts (only populated in historic receipts)
 - Extend WalletType to Include GooglePay and ClickToPay
+- Rename PkPaymentModel to ApplePayPaymentModel
+-- Rename BillingAddress to BillingContact and change object type to match Apple payload
+-- Remove ShippingAddress
+-- Remove PaymentInstrumentName and PaymentNetwork, replace with ApplePayPaymentModel
+- Add GooglePayPaymentModel that extends ThreeDSecureTwoPaymentModel (as 3DS required for GPAY FPAN)
 - Extend ThreeDSecureReceiptModel to add ChallengeRequestIndicator, ScaExemption
 - Extend RiskModel to add Cv2Check
 - Expose ReceiptId as a string rather than a long.
@@ -45,7 +52,6 @@ All notable changes to this project will be documented in this file.
 - Remove support for ConsumerToken, use YourConsumerReference instead
 - Remove support for OneUseTokens
 - Remove support for ThreeDSecure 1.x
-- Add DelayedAuthorisation flag (for preauths only) to PaymentModel
 
 ## 3.4 Changes on 2022-07-18
 - Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions
