@@ -44,15 +44,6 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(IsRequired = false)]
         public string IssueNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the card address.
-        /// </summary>
-        /// <value>
-        /// The card address.
-        /// </value>
-        [DataMember(EmitDefaultValue = false)]
-        public CardAddressModel CardAddress { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

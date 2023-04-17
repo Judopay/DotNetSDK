@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 4.0 Changes
+## 4.0 Changes (Note this contains breaking changes)
 - Update Api-Version to 6.19
 - Update UserAgent to start with JudoDotNetSDK
 - Update PaymentModel to remove PartnerServiceFee, ConsumerLocation and DeviceCategory (use
@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Make ClientDetails only accept a Key and Value attribute (encrypted by Mobile SDK using DeviceDNA)
 - Change YourPaymentMetaData signature to allow object values to be stored rather than only strings
 - Update SaveCardModel to add CardHolderName, remove IssueNumber and StartDate (no longer required for Maestro transactions)
+- Update TokenPaymentModel to accept CardAddress
 - Update PaymentReceiptModel
 -- Remove PartnerServiceFee, KountTransactionId, Refunds, PostCodeCheckResult (Risks block should be used instead),
 	Recurring (RecurringPaymentType should be used instead)
@@ -48,7 +49,7 @@ All notable changes to this project will be documented in this file.
 -- NoOfAuthAttempts (new)
 - Transactions.Get and GetByReceipt now return GetWebPaymentResponseModel
 - Remove deprecated Line1/Line2/Line3 from CardAddressModel (Use Address1/Address2/Addres3 instead)
-- Remove Line1/Line2/Line3 from WebPaymentCardAddress (use Address1/Address2/Address3 instead)
+- Remove deprecated Line1/Line2/Line3 from WebPaymentCardAddress (use Address1/Address2/Address3 instead)
 - Remove support for ConsumerToken, use YourConsumerReference instead
 - Remove support for OneUseTokens
 - Remove support for ThreeDSecure 1.x

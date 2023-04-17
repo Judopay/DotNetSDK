@@ -95,7 +95,7 @@ var paymentModel = new CardPaymentModel
     }
 };
 
-long receiptId = 0l;
+string receiptId = null;
 await client.Payments.Create(paymentModel).ContinueWith(response =>
 {
     if (response.Result.HasError)
