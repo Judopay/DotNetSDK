@@ -64,5 +64,14 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string AcceptHeaders { get; set; }
+
+        /// <summary>
+        /// Gets or sets the card address.
+        /// </summary>
+        /// <value>
+        /// The card address.
+        /// </value>
+        [DataMember(EmitDefaultValue = false)]
+        public CardAddressModel CardAddress { get; set; }
     }
 }

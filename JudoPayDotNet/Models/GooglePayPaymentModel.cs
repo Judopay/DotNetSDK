@@ -11,11 +11,5 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(IsRequired = true)]
         public GooglePayWalletModel GooglePayWallet { get; set; }
-
-        /// <summary>
-        /// Card holder address.
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public CardAddressModel CardAddress { get; set; }
     }
 }

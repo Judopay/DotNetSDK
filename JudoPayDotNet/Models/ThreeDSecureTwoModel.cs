@@ -36,7 +36,7 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(StringEnumConverter))]
-        public ThreeDSecureTwoChallengeRequestIndicator ChallengeRequestIndicator { get; set; }
+        public ThreeDSecureTwoChallengeRequestIndicator? ChallengeRequestIndicator { get; set; }
 
         /// <summary>
         /// Indicates reason why challenge may not be necessary (this may be over-ruled by the issuer).
@@ -44,6 +44,6 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(StringEnumConverter))]
-        public ThreeDSecureTwoScaExemption ScaExemption { get; set; }
+        public ThreeDSecureTwoScaExemption? ScaExemption { get; set; }
     }
 }

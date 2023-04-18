@@ -1,19 +1,27 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 4.0 Changes
+## 4.0 Changes (Note this contains breaking changes)
 - Update Api-Version to 6.19
+- Update UserAgent to start with JudoDotNetSDK
 - Update PaymentModel to remove PartnerServiceFee, ConsumerLocation and DeviceCategory (use
 	ThreeDSecureTwoModel.AuthenticationSource instead).   AcceptHeaders and UserAgent moved
 	to ThreeDSecureTwoPaymentModel.   RelatedPaymentNetworkTransactionId added.
+- Add DelayedAuthorisation flag (for preauths only) to PaymentModel
 - Make ClientDetails only accept a Key and Value attribute (encrypted by Mobile SDK using DeviceDNA)
 - Change YourPaymentMetaData signature to allow object values to be stored rather than only strings
 - Update SaveCardModel to add CardHolderName, remove IssueNumber and StartDate (no longer required for Maestro transactions)
+- Update TokenPaymentModel to accept CardAddress
 - Update PaymentReceiptModel
 -- Remove PartnerServiceFee, KountTransactionId, Refunds, PostCodeCheckResult (Risks block should be used instead),
 	Recurring (RecurringPaymentType should be used instead)
 -- Add NoOfAuthAttempts (only populated in historic receipts)
 - Extend WalletType to Include GooglePay and ClickToPay
+- Rename PkPaymentModel to ApplePayPaymentModel
+-- Rename BillingAddress to BillingContact and change object type to match Apple payload
+-- Remove ShippingAddress
+-- Remove PaymentInstrumentName and PaymentNetwork, replace with ApplePayPaymentModel
+- Add GooglePayPaymentModel that extends ThreeDSecureTwoPaymentModel (as 3DS required for GPAY FPAN)
 - Extend ThreeDSecureReceiptModel to add ChallengeRequestIndicator, ScaExemption
 - Extend RiskModel to add Cv2Check
 - Expose ReceiptId as a string rather than a long.
@@ -40,18 +48,11 @@ All notable changes to this project will be documented in this file.
 -- IsThreeDSecureTwo (new)
 -- NoOfAuthAttempts (new)
 - Transactions.Get and GetByReceipt now return GetWebPaymentResponseModel
-- Rename PkPaymentModel to ApplePayPaymentModel
--- Rename BillingAddress to BillingContact and change object type to match Apple payload
--- Remove ShippingAddress
--- Remove PaymentInstrumentName and PaymentNetwork, replace with ApplePayPaymentModel
-- Add GooglePayPaymentModel that extends ThreeDSecureTwoPaymentModel (as 3DS required for GPAY FPAN)
 - Remove deprecated Line1/Line2/Line3 from CardAddressModel (Use Address1/Address2/Addres3 instead)
-- Remove Line1/Line2/Line3 from WebPaymentCardAddress (use Address1/Address2/Address3 instead)
+- Remove deprecated Line1/Line2/Line3 from WebPaymentCardAddress (use Address1/Address2/Address3 instead)
 - Remove support for ConsumerToken, use YourConsumerReference instead
 - Remove support for OneUseTokens
 - Remove support for ThreeDSecure 1.x
-- Update UserAgent to start with JudoDotNetSDK
-
 
 ## 3.4 Changes on 2022-07-18
 - Allow primary account details to be set on ResumeThreeDSecureTwoModel and CompleteThreeDSecureTwoModel for MCC 6012 transactions

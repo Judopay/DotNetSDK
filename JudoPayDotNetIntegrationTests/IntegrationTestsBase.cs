@@ -122,6 +122,30 @@ namespace JudoPayDotNetIntegrationTests
             return ret;
         }
 
+        // Prod Sandbox transaction
+        public CardPaymentModel PrepareThreeDSecureTwoCardPayment()
+        {
+            var paymentWithCard = GetCardPaymentModel();
+
+            paymentWithCard.CardHolderName = "CHALLENGE";
+            paymentWithCard.MobileNumber = "07999999999";
+            paymentWithCard.PhoneCountryCode = "44";
+            paymentWithCard.EmailAddress = "contact@judopay.com";
+
+            paymentWithCard.UserAgent = "Mozilla/5.0,(Windows NT 6.1; WOW64),AppleWebKit/537.36,(KHTML, like Gecko)";
+            paymentWithCard.AcceptHeaders = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp";
+
+            paymentWithCard.ThreeDSecure = new ThreeDSecureTwoModel
+            {
+                AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
+                MethodNotificationUrl = "https://www.test.com",
+                ChallengeNotificationUrl = "https://www.test.com",
+                ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.ChallengeAsMandate
+            };
+
+            return paymentWithCard;
+        }
+
         protected TokenPaymentModel GetTokenPaymentModel(
             string cardToken, 
             string yourConsumerReference = null, 
