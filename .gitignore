@@ -68,3 +68,7 @@ _ReSharper*/
 
 # Project specific files
 JudoPayDotNetIntegrationTests/appsettings.local.json
+
+#Nuget packages
+packages/
+!packages/repositories.config
