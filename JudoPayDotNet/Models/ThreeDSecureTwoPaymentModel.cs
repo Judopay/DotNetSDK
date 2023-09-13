@@ -8,14 +8,22 @@ namespace JudoPayDotNet.Models
     [DataContract]
     public abstract class ThreeDSecureTwoPaymentModel : PaymentModel
     {
-        // Not explicitly associated with 3DS2, but moved here from PaymentModel to avoid the wallet payment types inheriting it
+        // Not explicitly associated with 3DS2, but moved here from PaymentModel to avoid the wallet payment types
+        // inheriting it.   This public accessor keeps the existing case but the DataMember is now the private Cv2
         /// <summary>
         /// The card CV2/CVV (3-4 digit validation code).
         /// </summary>
-        [DataMember(IsRequired = true)]
         // ReSharper disable InconsistentNaming
-        public string CV2 { get; set; }
+        public string CV2
+        {
+            get => Cv2;
+            set => Cv2 = value;
+        }
         // ReSharper restore InconsistentNaming
+
+        // This is marked as the DataMember to ensure the expected case is sent to the server API in Json - cv2
+        [DataMember(IsRequired = false)]
+        private string Cv2 { get; set; }
 
         /// <summary>
         /// The full card holder name.
