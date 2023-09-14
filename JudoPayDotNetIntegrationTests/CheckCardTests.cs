@@ -89,6 +89,31 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Success", response.Response.Result);
         }
 
+        [Test]
+        public async Task ThreeDSecureMpiCheckCard()
+        {
+            var checkCardModel = GetCheckCardModel();
+            // Given a CheckCardModel with ThreeDSecureMpiModel
+            var threeDSecureMpi = new ThreeDSecureMpiModel
+            {
+                DsTransId = "539c3e09-ee16-404b-9eee-96941e9e012e",
+                Cavv = "AAkBAgOViQAAAABkgmJXdAoPFww=",
+                Eci = "05",
+                ThreeDSecureVersion = "2.1.0"
+            };
+            checkCardModel.ThreeDSecureMpi = threeDSecureMpi;
+
+            var response = await JudoPayApiBase.CheckCards.Create(checkCardModel);
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt?.ThreeDSecure);
+            Assert.AreEqual(threeDSecureMpi.Eci, receipt.ThreeDSecure.Eci);
+        }
+
+
         internal class RegisterCheckCardTestSource
         {
             public static IEnumerable ValidateFailureTestCases

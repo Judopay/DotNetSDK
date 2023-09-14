@@ -79,5 +79,11 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = true)]
         public int? NoOfAuthAttempts { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string ShortReference { get; private set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public bool? DelayedAuthorisation { get; private set; }
     }
 }
