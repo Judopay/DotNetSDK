@@ -25,8 +25,15 @@ namespace JudoPayDotNet.Models
         /// <value>
         /// The CV2.
         /// </value>
-        [DataMember(EmitDefaultValue = false)]
-        public string CV2 { get; set; }
+        public string CV2
+        {
+            get => Cv2;
+            set => Cv2 = value;
+        }
+
+        // This is marked as the DataMember to ensure the expected case is sent to the server API in Json - cv2
+        [DataMember(IsRequired = false)]
+        private string Cv2 { get; set; }
 
         /// <summary>
         /// Gets your payment reference.

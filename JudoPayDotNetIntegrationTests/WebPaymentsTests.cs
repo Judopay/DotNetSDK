@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using HtmlAgilityPack;
 using JudoPayDotNet;
 using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
