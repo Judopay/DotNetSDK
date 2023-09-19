@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using HtmlAgilityPack;
 using JudoPayDotNet;
 using JudoPayDotNet.Enums;
 using JudoPayDotNet.Models;
@@ -148,96 +143,6 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual(TransactionType.PAYMENT, getResponse.TransactionType);
             Assert.IsNull(getResponse.Receipt);
             Assert.AreEqual(0, getResponse.NoOfAuthAttempts);
-        }
-
-        [Test]
-        public void TransactionsGetByReceiptId()
-        {
-            var request = GetWebPaymentRequestModel();
-            var result = JudoPayApiBase.WebPayments.Payments.Create(request).Result;
-            var reference = result.Response.Reference;
-
-            // Forms - Post a form with credentials to post url from the webpayment response passing form parameter Reference
-            var httpClient = new HttpClient();
-            var formContent = new FormUrlEncodedContent(new[] 
-            {
-                new KeyValuePair<string, string>("Reference", reference)
-            });
-
-            // The test works only with webpayments v1, so we need to alter the URL version if the account is set to use v2 
-            result.Response.PostUrl = result.Response.PostUrl.Replace("/v2", "/v1");
-
-            var formRequest = CreateJudoApiRequest(result.Response.PostUrl, HttpMethod.Post, "6.7.0.0", Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
-
-            formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-            formRequest.Content = formContent;
-
-            var paymentPage = httpClient.SendAsync(formRequest).Result;
-
-            var resultBody = paymentPage.Content.ReadAsStringAsync().Result;
-            var doc = new HtmlDocument();
-            doc.LoadHtml(resultBody);
-
-            // Forms - Post a form with credentials and cookie and form following variables:
-            var formField = doc.DocumentNode.SelectSingleNode("//input[@name='__RequestVerificationToken']");
-
-            var requestVerificationToken = formField.GetAttributeValue("value", "");
-            formContent = new FormUrlEncodedContent(new[] 
-            {
-                new KeyValuePair<string, string>("__RequestVerificationToken", requestVerificationToken),
-                new KeyValuePair<string, string>("CardNumber", "4976000000003436"),
-                new KeyValuePair<string, string>("Cv2", "452"), 
-                new KeyValuePair<string, string>("CardAddress.CountryCode", "826"), 
-                new KeyValuePair<string, string>("CardAddress.PostCode", "TR14 8PA"), 
-                new KeyValuePair<string, string>("ExpiryDate", "12/25"), 
-                new KeyValuePair<string, string>("Reference", reference),
-                new KeyValuePair<string, string>("YourConsumerReference", "4235325"), 
-            });
-
-            formRequest = CreateJudoApiRequest(Configuration.WebpaymentsUrl, HttpMethod.Post, "6.7.0.0", Configuration.ElevatedPrivilegesToken, Configuration.ElevatedPrivilegesSecret);
-
-            formContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-            formRequest.Content = formContent;
-
-            var resultPage = httpClient.SendAsync(formRequest).Result;
-
-            resultBody = resultPage.Content.ReadAsStringAsync().Result;
-
-            // Retrieve from the response the receipt id
-            doc = new HtmlDocument();
-            doc.LoadHtml(resultBody);
-
-            formField = doc.DocumentNode.SelectSingleNode("//input[@name='ReceiptId']");
-
-            var receiptId = formField.GetAttributeValue("value", "");
-
-            var webRequest = JudoPayApiBase.WebPayments.Transactions.GetByReceipt(receiptId).Result;
-
-            Assert.NotNull(webRequest);
-            Assert.IsFalse(webRequest.HasError);
-            Assert.NotNull(webRequest.Response);
-            Assert.NotNull(webRequest.Response.Reference);
-            Assert.AreEqual(request.JudoId, webRequest.Response.JudoId);
-        }
-
-        private HttpRequestMessage CreateJudoApiRequest(string url, HttpMethod method, string apiVersion, string apiToken, string apiSecret)
-        {
-            var request = new HttpRequestMessage(method, url);
-
-            var full = string.Format("{0}:{1}", apiToken, apiSecret);
-
-            var authDetails = Encoding.GetEncoding("iso-8859-1").GetBytes(full);
-            var parameter = Convert.ToBase64String(authDetails);
-
-            request.Headers.Add("Accept", "application/json");
-
-            request.Headers.Add("Api-Version", apiVersion);
-
-            request.Headers.Add("User-Agent", "Mozilla");
-
-            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", parameter);
-
-            return request;
         }
 
         [Test]

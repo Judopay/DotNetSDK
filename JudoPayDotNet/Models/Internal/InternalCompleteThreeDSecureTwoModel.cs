@@ -15,7 +15,7 @@ namespace JudoPayDotNet.Models.Internal
         /// The CV2.
         /// </value>
         [DataMember(EmitDefaultValue = false)]
-        public string CV2 { get; set; }
+        public string Cv2 { get; set; }
         
         /// <summary>
         /// Gets or sets the Version.
@@ -35,7 +35,7 @@ namespace JudoPayDotNet.Models.Internal
             {
                 // This version can be used for all 3DS 2.x versions
                 Version = "2.0.0",
-                CV2 = externalModel.CV2,
+                Cv2 = externalModel.CV2,
                 PrimaryAccountDetails = !string.IsNullOrEmpty(externalModel.PrimaryAccountDetails?.AccountNumber) ? new PrimaryAccountDetailsModel()
                 {
                     PostCode = externalModel.PrimaryAccountDetails?.PostCode,

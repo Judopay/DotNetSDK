@@ -12,7 +12,7 @@ namespace JudoPayDotNet.Models.Internal
         public InternalThreeDSecureTwoModel ThreeDSecure { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public string CV2 { get; set; }
+        public string Cv2 { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
         public PrimaryAccountDetailsModel PrimaryAccountDetails { get; set; }
@@ -25,7 +25,7 @@ namespace JudoPayDotNet.Models.Internal
                 {
                     MethodCompletion = externalModel.MethodCompletion
                 },
-                CV2 = externalModel.CV2,
+                Cv2 = externalModel.CV2,
                 PrimaryAccountDetails = !string.IsNullOrEmpty(externalModel.PrimaryAccountDetails?.AccountNumber) ? new PrimaryAccountDetailsModel()
                 {
                     PostCode = externalModel.PrimaryAccountDetails?.PostCode,

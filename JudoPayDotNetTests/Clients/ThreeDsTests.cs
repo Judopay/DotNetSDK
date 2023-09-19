@@ -22,7 +22,7 @@ namespace JudoPayDotNetTests.Clients
 
             // Then version is always 2.0.0 and cv2 unchanged from external model
             Assert.AreEqual("2.0.0", internalComplete3Ds2Model.Version);
-            Assert.AreEqual(cv2FromMerchant, internalComplete3Ds2Model.CV2);
+            Assert.AreEqual(cv2FromMerchant, internalComplete3Ds2Model.Cv2);
         }
     }
 }
