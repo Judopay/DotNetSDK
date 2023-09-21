@@ -293,6 +293,123 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual(result.Response.Reference, cancelResult.Response.Reference);
         }
 
+        [Test]
+        public void GetShortReferenceFromWebPayment()
+        {
+            // Given a WebPayment session
+            var yourConsumerReference = "432438862";
+            var webPaymentRequest = new WebPaymentRequestModel
+            {
+                JudoId = Configuration.Judoid,
+                YourConsumerReference = yourConsumerReference,
+                Amount = 25
+            };
+
+            var webPaymentResult = JudoPayApiBase.WebPayments.Payments.Create(webPaymentRequest).Result;
+            Assert.NotNull(webPaymentResult);
+            Assert.IsFalse(webPaymentResult.HasError);
+
+            var webPaymentReference = webPaymentResult.Response.Reference;
+            Assert.NotNull(webPaymentReference);
+
+            var shortUrl = webPaymentResult.Response.ShortUrl;
+
+            // When session is retrieved by reference
+            var paymentSession = JudoPayApiBase.WebPayments.Transactions.Get(
+                webPaymentReference).Result;
+
+            Assert.IsNotNull(paymentSession);
+            Assert.IsFalse(paymentSession.HasError);
+
+            // Then shortReference on payment session matches end of shortUrl from response
+            Assert.IsNotNull(paymentSession.Response.ShortReference);
+            var shortRef = shortUrl?.Substring(shortUrl.LastIndexOf('/') + 1);
+            Assert.AreEqual(shortRef,
+                paymentSession.Response.ShortReference);
+        }
+
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        [TestCase(null)]
+        public void GetDelayedAuthorisationFromWebPayment(bool? delayedAuthorisation)
+        {
+            // Given a WebPayment session
+            var yourConsumerReference = "432438862";
+            var webPaymentRequest = new WebPaymentRequestModel
+            {
+                JudoId = Configuration.Judoid,
+                YourConsumerReference = yourConsumerReference,
+                Amount = 25,
+                DelayedAuthorisation = delayedAuthorisation
+            };
+
+            // For a PreAuth
+            var webPaymentResult = JudoPayApiBase.WebPayments.PreAuths.Create(webPaymentRequest).Result;
+            Assert.NotNull(webPaymentResult);
+            Assert.IsFalse(webPaymentResult.HasError);
+            var webPaymentReference = webPaymentResult.Response.Reference;
+            Assert.NotNull(webPaymentReference);
+
+            // When session is retrieved by reference
+            var paymentSession = JudoPayApiBase.WebPayments.Transactions.Get(
+                webPaymentReference).Result;
+
+            Assert.IsNotNull(paymentSession);
+            Assert.IsFalse(paymentSession.HasError);
+
+            // Then delayedAuthorisation on respones matches that on session
+            Assert.AreEqual(delayedAuthorisation, paymentSession.Response.DelayedAuthorisation);
+        }
+
+        [Test]
+        public void GetReceiptFromCompletedWebPayment()
+        {
+            // Given a WebPayment session
+            var yourConsumerReference = "432438862";
+            var webPaymentRequest = new WebPaymentRequestModel
+            {
+                JudoId = Configuration.Judoid,
+                YourConsumerReference = yourConsumerReference,
+                Amount = 25
+            };
+
+            var webPaymentResult = JudoPayApiBase.WebPayments.Payments.Create(webPaymentRequest).Result;
+            Assert.NotNull(webPaymentResult);
+            Assert.IsFalse(webPaymentResult.HasError);
+
+            var webPaymentReference = webPaymentResult.Response.Reference;
+            Assert.NotNull(webPaymentReference);
+
+            // And an associated payment (passing webPaymentReference)
+            var paymentWithCard = GetCardPaymentModel();
+            paymentWithCard.WebPaymentReference = webPaymentReference;
+
+            // Set other fields to be identical for the authentication to be successful 
+            paymentWithCard.Amount = webPaymentRequest.Amount;
+            paymentWithCard.YourConsumerReference = webPaymentRequest.YourConsumerReference;
+            paymentWithCard.YourPaymentReference = webPaymentRequest.YourPaymentReference;
+
+            var paymentResponse = JudoPayApiBase.Payments.Create(paymentWithCard).Result;
+
+            Assert.IsNotNull(paymentResponse);
+            Assert.IsFalse(paymentResponse.HasError);
+            Assert.AreEqual("Success", paymentResponse.Response.Result);
+
+            // When session is retrieved by reference
+            var paymentSession = JudoPayApiBase.WebPayments.Transactions.Get(
+                webPaymentReference).Result;
+
+            Assert.IsNotNull(paymentSession);
+            Assert.IsFalse(paymentSession.HasError);
+
+            // Then receipt on payment session matches that of transaction
+            Assert.IsNotNull(paymentSession.Response.Receipt);
+            Assert.AreEqual(paymentResponse.Response.ReceiptId,
+                paymentSession.Response.Receipt.ReceiptId);
+        }
+
+
         internal class WebPaymentsTestSource
         {
             public static IEnumerable ValidateFailureTestCases

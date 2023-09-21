@@ -1,7 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 4.0 Changes (Note this contains breaking changes)
+## 4.1 Changes on 2023-09
+- Update Api-Version to 6.20
+- Add ShortUrl to WebPaymentResponseModel
+- Add DelayedAuthorisation request attribute to WebPaymentRequestModel (for use in PreAuths only)
+- Add ShortReference and DelayedAuthorisation to GetWebPaymentResponseModel
+
+## 4.0 Changes on 2023-04-18 (Note this contains breaking changes)
 - Update Api-Version to 6.19
 - Update UserAgent to start with JudoDotNetSDK
 - Update PaymentModel to remove PartnerServiceFee, ConsumerLocation and DeviceCategory (use
