@@ -16,7 +16,8 @@ jobs:
           command: dotnet restore
       - save_cache:
           key: judokit-dotnet-sdk-{{ checksum "JudoPayDotNet/JudoPayDotNet.csproj" }}-{{ checksum "JudoPayDotNetTests/JudoPayDotNetTests.csproj" }}-{{checksum "JudoPayDotNetIntegrationTests/JudoPayDotNetIntegrationTests.csproj" }}
-          paths: ~/.nuget/packages
+          paths:
+            - ~/.nuget/packages
   build_sdk:
     executor: win/default
     steps:

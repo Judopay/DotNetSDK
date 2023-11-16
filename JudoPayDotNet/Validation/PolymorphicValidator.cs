@@ -7,7 +7,7 @@ using FluentValidation.Validators;
 
 namespace JudoPayDotNet.Validation
 {
-	internal class PolymorphicValidator<TBaseClass> : NoopPropertyValidator where TBaseClass : class 
+    internal class PolymorphicValidator<TBaseClass> : NoopPropertyValidator where TBaseClass : class
     {
         readonly Dictionary<Type, IValidator> _derivedValidators = new Dictionary<Type, IValidator>();
         readonly IValidator<TBaseClass> _baseValidator;
@@ -29,8 +29,9 @@ namespace JudoPayDotNet.Validation
 
             if (_derivedValidators.TryGetValue(actualType, out derivedValidator))
             {
+                var context = new ValidationContext<TBaseClass>(value);
                 // we found a validator for the specific subclass. 
-                return derivedValidator.Validate(value).Errors;
+                return derivedValidator.Validate(context).Errors;
             }
 
             // Otherwise fall back to the validator for the base class.
