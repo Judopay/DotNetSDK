@@ -20,7 +20,7 @@
         <PackageReleaseNotes></PackageReleaseNotes>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="9.5.4" />
+        <PackageReference Include="FluentValidation" Version="11.8.0" />
         <PackageReference Include="log4net" Version="2.0.10" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
