@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using JudoPayDotNet.Models;
 using JudoPayDotNet.Validation;
-using JudoPayDotNetTests.Model.Validations;
 using NUnit.Framework;
 
 namespace JudoPayDotNetTests.Validation
@@ -12,39 +11,37 @@ namespace JudoPayDotNetTests.Validation
         [Test]
         public void ValidateATransactionResult()
         {
-            ITransactionResult transactionResult = new PaymentReceiptModel();
+            var receipt = new PaymentReceiptModel();
 
-            var validator = new PolymorphicValidator<ITransactionResult>(new TransactionResultValidation())
-                // ReSharper disable RedundantTypeArgumentsOfMethod
-                .Add<PaymentReceiptModel>(new PaymentReceiptValidation());
-            // ReSharper restore RedundantTypeArgumentsOfMethod
+            var validator = new PaymentReceiptValidator();
 
-            var result = validator.Validate(transactionResult);
+            var result = validator.Validate(receipt);
 
             Assert.IsNotNull(result);
 
-            var inner = result.First();
+            Assert.IsFalse(result.IsValid);
 
-            Assert.IsTrue(inner.PropertyName == "ReceiptId");
+            var firstError = result.Errors.First();
+
+            Assert.IsTrue(firstError.PropertyName == "ReceiptId");
         }
 
         [Test]
         public void ValidateAThreeDSecureTwoTransactionResult()
         {
-            ITransactionResult transactionResult = new PaymentRequiresThreeDSecureTwoModel();
+            var transactionResult = new PaymentRequiresThreeDSecureTwoModel();
 
-            var validator = new PolymorphicValidator<ITransactionResult>(new TransactionResultValidation())
-                // ReSharper disable RedundantTypeArgumentsOfMethod
-                .Add<PaymentRequiresThreeDSecureTwoModel>(new PaymentRequiresThreeDSecureTwoModelValidator());
-            // ReSharper restore RedundantTypeArgumentsOfMethod
+            var validator = new PaymentRequiresThreeDSecureTwoValidator();
 
             var result = validator.Validate(transactionResult);
 
             Assert.IsNotNull(result);
 
-            var inner = result.First();
+            Assert.IsFalse(result.IsValid);
 
-            Assert.IsTrue(inner.PropertyName == "ReceiptId");
+            var firstError = result.Errors.First();
+
+            Assert.IsTrue(firstError.PropertyName == "ReceiptId");
         }
     }
 }

@@ -15,7 +15,9 @@ namespace JudoPayDotNetTests.Validation
 
             var validator = new PKPaymentValidator();
 
-            validator.ShouldHaveValidationErrorFor(model => model.PkPayment, payment);
+            var result = validator.TestValidate(payment);
+
+            result.ShouldHaveValidationErrorFor(model => model.PkPayment);
         }
     }
 }
