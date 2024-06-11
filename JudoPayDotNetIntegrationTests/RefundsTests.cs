@@ -183,7 +183,7 @@ namespace JudoPayDotNetIntegrationTests
                     yield return new TestCaseData(new RefundModel
                     {
                         Amount = 1.20m
-                    }, JudoModelErrorCode.ReceiptId_Is_Invalid).SetName("ValidateRefundMissingReceiptId"); // No ReceiptId_Not_Supplied as ReceiptId will be set to 0 as it is not null
+                    }, JudoModelErrorCode.ReceiptId_Not_Supplied).SetName("ValidateRefundMissingReceiptId"); // No ReceiptId_Not_Supplied as ReceiptId will be set to 0 as it is not null
                     yield return new TestCaseData(new RefundModel
                     {
                         ReceiptId = "-1",

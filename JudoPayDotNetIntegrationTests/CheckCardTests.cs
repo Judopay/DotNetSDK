@@ -175,7 +175,7 @@ namespace JudoPayDotNetIntegrationTests
                         ExpiryDate = "",
                         YourConsumerReference = "UniqueRef",
                         YourPaymentReference = "UniqueRef"
-                    }, JudoModelErrorCode.Expiry_Date_Not_Supplied).SetName("ValidateRegisterCheckCardEmptyExpiryDate");
+                    }, JudoModelErrorCode.Expiry_Date_Not_Valid).SetName("ValidateRegisterCheckCardEmptyExpiryDate");
                 }
             }
         }

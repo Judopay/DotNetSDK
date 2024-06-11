@@ -225,7 +225,7 @@ namespace JudoPayDotNetIntegrationTests
                         CardNumber = "4976000000003436",
                         ExpiryDate = "",
                         YourConsumerReference = "UniqueRef"
-                    }, JudoModelErrorCode.Expiry_Date_Not_Supplied).SetName("ValidateSaveCardEmptyExpiryDate"); ;
+                    }, JudoModelErrorCode.Expiry_Date_Not_Valid).SetName("ValidateSaveCardEmptyExpiryDate"); ;
                 }
             }
         }
