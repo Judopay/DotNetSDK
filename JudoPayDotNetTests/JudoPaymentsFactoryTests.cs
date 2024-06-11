@@ -48,7 +48,7 @@ namespace JudoPayDotNetTests
         {
             var credentials = new Credentials("token", "secret");
             var expectedBaseAddress = "http://test.judopay.com/";
-            var client = JudoPaymentsFactory.Create(credentials, expectedBaseAddress, "4.1.0");
+            var client = JudoPaymentsFactory.Create(credentials, expectedBaseAddress, "4.2.0");
 
             Assert.That(client, Is.Not.Null);
             Assert.That(client.Connection.BaseAddress.ToString(), Is.EqualTo(expectedBaseAddress));
