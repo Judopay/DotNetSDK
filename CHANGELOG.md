@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 4.2 Changes on 2024-TBD
+- TBD
+
 ## 4.1 Changes on 2023-09
 - Update Api-Version to 6.20
 - Add ShortUrl to WebPaymentResponseModel

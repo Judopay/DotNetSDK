@@ -127,7 +127,7 @@ namespace JudoPayDotNetIntegrationTests
             var firstFieldError = result.Error.ModelErrors.First();
             Assert.NotNull(firstFieldError);
             Assert.AreEqual(3250, firstFieldError.Code); // ThreeDSecure_Mpi_MissingFields
-            Assert.AreEqual("ThreeDSecureMpi.Cavv", firstFieldError.FieldName);
+            Assert.AreEqual("ThreeDSecureMpi.DsTransId", firstFieldError.FieldName);
             // Other errors are the same code for the other two invalid fields
         }
     }
