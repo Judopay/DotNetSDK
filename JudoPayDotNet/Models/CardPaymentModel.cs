@@ -35,15 +35,6 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string StartDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Issue Number.
-        /// </summary>
-        /// <value>
-        /// The Issue Number date.
-        /// </value>
-        [DataMember(IsRequired = false)]
-        public string IssueNumber { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

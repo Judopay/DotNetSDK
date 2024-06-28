@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## 4.2 Changes on 2024-TBD
-- TBD
+- Drop issueNumber (no longer exposed as a request attribute on Judo Transaction API)
 
 ## 4.1 Changes on 2023-09
 - Update Api-Version to 6.20
