@@ -215,6 +215,18 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember]
         public RiskModel Risks { get; set; }
+
+        /// <summary>
+        /// Set true for consumer initiated preAuths that can be incremented before they are fully collected
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public bool? AllowIncrement { get; set; }
+
+        /// <summary>
+        /// Set true for merchant initiated incremental auths
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public bool? IsIncrementalAuth { get; set; }
     }
 
     // ReSharper restore UnusedMember.Global

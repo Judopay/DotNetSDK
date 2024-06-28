@@ -141,6 +141,12 @@ namespace JudoPayDotNet.Models
         public PrimaryAccountDetailsModel PrimaryAccountDetails { get; set; }
 
         /// <summary>
+        /// Set true for consumer initiated preAuths that can be incremented before they are fully collected
+        /// </summary>
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
+        public bool? AllowIncrement { get; set; }
+
+        /// <summary>
         /// Only set this flag on payment sessions for PreAuths, to authenticate a card holder with 3D secure without
         /// performing payment authorisation.
         /// </summary>
