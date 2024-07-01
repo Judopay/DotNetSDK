@@ -345,5 +345,63 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Collection", collectReceipt.Type);
             Assert.AreEqual(preAuthReceipt.Amount, collectReceipt.Amount);
         }
+
+        [Test]
+        public void PreAuthIncrementalAuthAndCollectionWithoutAmount()
+        {
+            var preAuthWithCard = GetCardPaymentModel(judoId: Configuration.CybersourceJudoId);
+            preAuthWithCard.Amount = 1.01m;
+            preAuthWithCard.AllowIncrement = true;
+
+            var preAuthResponse = JudoPayApiBase.PreAuths.Create(preAuthWithCard).Result;
+            Assert.IsNotNull(preAuthResponse);
+            Assert.IsFalse(preAuthResponse.HasError);
+
+            var preAuthReceipt = preAuthResponse.Response as PaymentReceiptModel;
+            Assert.IsNotNull(preAuthReceipt);
+            Assert.AreEqual("Success", preAuthReceipt.Result);
+            Assert.AreEqual("PreAuth", preAuthReceipt.Type);
+            Assert.IsTrue(preAuthReceipt.AllowIncrement);
+            Assert.IsNull(preAuthReceipt.IsIncrementalAuth);
+
+            var preAuthReceiptId = preAuthReceipt.ReceiptId;
+
+            var incrementAuthRequest = new IncrementalAuthModel
+            {
+                ReceiptId = preAuthReceiptId,
+                Amount = 0.10m,
+                YourPaymentReference = "Increment of " + preAuthReceiptId
+            };
+
+            var incrementAuthResponse = JudoPayApiBase.PreAuths.IncrementAuth(incrementAuthRequest).Result;
+            Assert.IsNotNull(incrementAuthResponse);
+            Assert.IsFalse(incrementAuthResponse.HasError);
+
+            var incrementAuthReceipt = incrementAuthResponse.Response as PaymentReceiptModel;
+            Assert.IsNotNull(incrementAuthReceipt);
+            Assert.AreEqual("Success", incrementAuthReceipt.Result);
+            Assert.AreEqual("PreAuth", incrementAuthReceipt.Type);
+            Assert.IsTrue(incrementAuthReceipt.IsIncrementalAuth);
+            Assert.IsNull(incrementAuthReceipt.AllowIncrement);
+            Assert.AreEqual(0.10m, incrementAuthReceipt.Amount);
+            Assert.AreEqual(1.11m, incrementAuthReceipt.NetAmount);
+
+            var collectionRequest = new CollectionModel
+            {
+                ReceiptId = preAuthReceiptId
+            };
+
+            var collectionResponse = JudoPayApiBase.Collections.Create(collectionRequest).Result;
+            Assert.IsNotNull(collectionResponse);
+            Assert.IsFalse(collectionResponse.HasError);
+
+            var collectionReceipt = collectionResponse.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(collectionReceipt);
+
+            Assert.AreEqual("Success", collectionReceipt.Result);
+            Assert.AreEqual("Collection", collectionReceipt.Type);
+            Assert.AreEqual(incrementAuthReceipt.NetAmount, collectionReceipt.Amount);
+        }
     }
 }

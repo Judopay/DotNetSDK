@@ -14,6 +14,7 @@ namespace JudoPayDotNet.Clients
         // Other validation is done in the PartnerApi to ensure error codes are up to date
 
         private const string CREATE_PREAUTH_ADDRESS = "transactions/preauths";
+        private const string INCREMENTAL_AUTH_ADDRESS = "transactions/incrementalAuth";
 
         public PreAuths(ILog logger, IClient client, bool deDuplicate = false)
             : base(logger, client)
@@ -41,6 +42,11 @@ namespace JudoPayDotNet.Clients
         public Task<IResult<ITransactionResult>> Create(GooglePayPaymentModel googlePayPayment)
         {
             return PostInternal<GooglePayPaymentModel, ITransactionResult>(CREATE_PREAUTH_ADDRESS, googlePayPayment);
+        }
+
+        public Task<IResult<ITransactionResult>> IncrementAuth(IncrementalAuthModel incrementalAuthRequestModel)
+        {
+            return PostInternal<IncrementalAuthModel, ITransactionResult>(INCREMENTAL_AUTH_ADDRESS, incrementalAuthRequestModel);
         }
     }
 }
