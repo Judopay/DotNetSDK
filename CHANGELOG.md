@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 4.2 Changes on 2024-TBD
+## 4.2 Changes on 2024
 - Update Api-Version to 6.21
 - Add optional AllowIncrement boolean flag to CardPaymentModel for CIT preAuths that can be incremented before they are fully collected
 - Add optional AllowIncrement boolean flag to WebPaymentRequestModel for payment sessions created through JudoPayDotNet.Clients.WebPayments.IPreAuths (should not be specified on IPayments or ICheckCards)
@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Add AllowIncrement to PaymentReceiptModel, true on receipts for CIT preAuths that have that flag set to true in the request
 - Add IsIncrementalAuth to PaymentReceiptMode, true on receipts for call to incrementalAuth endpoint
 - Remove DelayedAuthorisation request attribute from PaymentModel and WebPaymentRequestModel, and from the response GetWebPaymentResponseModel (use the new incremental authorisation feature instead)
+- Drop issueNumber (no longer exposed as a request attribute on Judo Transaction API)
 
 ## 4.1 Changes on 2023-09
 - Update Api-Version to 6.20
