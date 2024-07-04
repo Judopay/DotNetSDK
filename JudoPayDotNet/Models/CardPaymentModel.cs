@@ -37,13 +37,10 @@ namespace JudoPayDotNet.Models
         public string StartDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the Issue Number.
+        /// Set true for consumer initiated preAuths that can be incremented before they are fully collected
         /// </summary>
-        /// <value>
-        /// The Issue Number date.
-        /// </value>
-        [DataMember(IsRequired = false)]
-        public string IssueNumber { get; set; }
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
+        public bool? AllowIncrement { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

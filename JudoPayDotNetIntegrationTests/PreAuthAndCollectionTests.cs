@@ -305,45 +305,61 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        public void TestDelayedAuthorisation()
+        public void PreAuthIncrementalAuthAndCollectionWithoutAmount()
         {
-            var preAuthWithCard = PrepareThreeDSecureTwoCardPayment();
-            preAuthWithCard.CardHolderName = "FL-SUCCESS-NO-METHOD";
-            preAuthWithCard.ThreeDSecure = new ThreeDSecureTwoModel
-            {
-                AuthenticationSource = ThreeDSecureTwoAuthenticationSource.Browser,
-                ChallengeRequestIndicator = ThreeDSecureTwoChallengeRequestIndicator.NoPreference
-            };
-            preAuthWithCard.DelayedAuthorisation = true;
+            var preAuthWithCard = GetCardPaymentModel(judoId: Configuration.CybersourceJudoId);
+            preAuthWithCard.Amount = 1.01m;
+            preAuthWithCard.AllowIncrement = true;
 
-            var preAuthResponse = JudoPayApiThreeDSecure2.PreAuths.Create(preAuthWithCard).Result;
+            var preAuthResponse = JudoPayApiBase.PreAuths.Create(preAuthWithCard).Result;
             Assert.IsNotNull(preAuthResponse);
             Assert.IsFalse(preAuthResponse.HasError);
 
             var preAuthReceipt = preAuthResponse.Response as PaymentReceiptModel;
             Assert.IsNotNull(preAuthReceipt);
             Assert.AreEqual("Success", preAuthReceipt.Result);
-            Assert.AreEqual("Successful authentication - Pending delayed authorisation",
-                preAuthReceipt.Message);
+            Assert.AreEqual("PreAuth", preAuthReceipt.Type);
+            Assert.IsTrue(preAuthReceipt.AllowIncrement);
+            Assert.IsNull(preAuthReceipt.IsIncrementalAuth);
 
-            var collection = new CollectionModel
+            var preAuthReceiptId = preAuthReceipt.ReceiptId;
+
+            var incrementAuthRequest = new IncrementalAuthModel
             {
-                ReceiptId = preAuthReceipt.ReceiptId,
-                Amount = preAuthWithCard.Amount
+                ReceiptId = preAuthReceiptId,
+                Amount = 0.10m,
+                YourPaymentReference = "Increment of " + preAuthReceiptId
             };
 
-            var collectResponse = JudoPayApiBase.Collections.Create(collection).Result;
+            var incrementAuthResponse = JudoPayApiBase.PreAuths.IncrementAuth(incrementAuthRequest).Result;
+            Assert.IsNotNull(incrementAuthResponse);
+            Assert.IsFalse(incrementAuthResponse.HasError);
 
-            Assert.IsNotNull(collectResponse);
-            Assert.IsFalse(collectResponse.HasError);
+            var incrementAuthReceipt = incrementAuthResponse.Response as PaymentReceiptModel;
+            Assert.IsNotNull(incrementAuthReceipt);
+            Assert.AreEqual("Success", incrementAuthReceipt.Result);
+            Assert.AreEqual("PreAuth", incrementAuthReceipt.Type);
+            Assert.IsTrue(incrementAuthReceipt.IsIncrementalAuth);
+            Assert.IsNull(incrementAuthReceipt.AllowIncrement);
+            Assert.AreEqual(0.10m, incrementAuthReceipt.Amount);
+            Assert.AreEqual(1.11m, incrementAuthReceipt.NetAmount);
 
-            var collectReceipt = collectResponse.Response as PaymentReceiptModel;
+            var collectionRequest = new CollectionModel
+            {
+                ReceiptId = preAuthReceiptId
+            };
 
-            Assert.IsNotNull(collectReceipt);
+            var collectionResponse = JudoPayApiBase.Collections.Create(collectionRequest).Result;
+            Assert.IsNotNull(collectionResponse);
+            Assert.IsFalse(collectionResponse.HasError);
 
-            Assert.AreEqual("Success", collectReceipt.Result);
-            Assert.AreEqual("Collection", collectReceipt.Type);
-            Assert.AreEqual(preAuthReceipt.Amount, collectReceipt.Amount);
+            var collectionReceipt = collectionResponse.Response as PaymentReceiptModel;
+
+            Assert.IsNotNull(collectionReceipt);
+
+            Assert.AreEqual("Success", collectionReceipt.Result);
+            Assert.AreEqual("Collection", collectionReceipt.Type);
+            Assert.AreEqual(incrementAuthReceipt.NetAmount, collectionReceipt.Amount);
         }
     }
 }
