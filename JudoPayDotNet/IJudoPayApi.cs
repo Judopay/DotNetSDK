@@ -56,11 +56,6 @@ namespace JudoPayDotNet
         IThreeDs ThreeDs { get; set; }
 
         /// <summary>
-        /// Enables the developer to register a consumer card
-        /// </summary>
-        IRegisterCards RegisterCards { get; set; }
-
-        /// <summary>
         /// Allows you voids previously authorised transactions (<see cref="PreAuths"/>).
         /// </summary>
         IVoids Voids { get; set; }
