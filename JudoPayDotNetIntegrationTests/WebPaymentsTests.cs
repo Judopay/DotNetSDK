@@ -409,6 +409,39 @@ namespace JudoPayDotNetIntegrationTests
                 paymentSession.Response.Receipt.ReceiptId);
         }
 
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        [TestCase(null)]
+        public void GetAllowIncrementFromWebPayment(bool? allowIncrement)
+        {
+            // Given a WebPayment session
+            var yourConsumerReference = "432438862";
+            var webPaymentRequest = new WebPaymentRequestModel
+            {
+                JudoId = Configuration.Judoid,
+                YourConsumerReference = yourConsumerReference,
+                Amount = 25,
+                AllowIncrement = allowIncrement
+            };
+
+            // For a PreAuth
+            var webPaymentResult = JudoPayApiBase.WebPayments.PreAuths.Create(webPaymentRequest).Result;
+            Assert.NotNull(webPaymentResult);
+            Assert.IsFalse(webPaymentResult.HasError);
+            var webPaymentReference = webPaymentResult.Response.Reference;
+            Assert.NotNull(webPaymentReference);
+
+            // When session is retrieved by reference
+            var paymentSession = JudoPayApiBase.WebPayments.Transactions.Get(
+                webPaymentReference).Result;
+
+            Assert.IsNotNull(paymentSession);
+            Assert.IsFalse(paymentSession.HasError);
+
+            // Then allowIncrement on response matches that on session
+            Assert.AreEqual(allowIncrement, paymentSession.Response.AllowIncrement);
+        }
 
         internal class WebPaymentsTestSource
         {

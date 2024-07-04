@@ -37,6 +37,13 @@ namespace JudoPayDotNet.Clients
         /// <param name="googlePayPayment">The Google Pay pre authorization.</param>
         /// <returns>The transaction result for the created Google Pay pre authorization</returns>
         Task<IResult<ITransactionResult>> Create(GooglePayPaymentModel googlePayPayment);
+
+        /// <summary>
+        /// Increase the amount of an existing consumer initiated PreAuth that was set with AllowIncrement=true
+        /// </summary>
+        /// <param name="incrementalAuthRequestModel">Details of the incremental auth request</param>
+        /// <returns></returns>
+        Task<IResult<ITransactionResult>> IncrementAuth(IncrementalAuthModel incrementalAuthRequestModel);
     }
     // ReSharper restore UnusedMember.Global
 }

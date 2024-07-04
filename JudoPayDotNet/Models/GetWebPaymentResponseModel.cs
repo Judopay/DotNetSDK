@@ -85,5 +85,11 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public bool? DelayedAuthorisation { get; private set; }
+
+        /// <summary>
+        /// Set true for consumer initiated preAuths that can be incremented before they are fully collected
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public bool? AllowIncrement { get; set; }
     }
 }

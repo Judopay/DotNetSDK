@@ -35,6 +35,12 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string StartDate { get; set; }
+
+        /// <summary>
+        /// Set true for consumer initiated preAuths that can be incremented before they are fully collected
+        /// </summary>
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
+        public bool? AllowIncrement { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }
