@@ -1,9 +1,6 @@
-﻿using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Runtime.Serialization;
-using JudoPayDotNet.Enums;
 
 namespace JudoPayDotNet.Models
 {
@@ -82,25 +79,6 @@ namespace JudoPayDotNet.Models
         /// repeat charges.</remarks>
         [DataMember(EmitDefaultValue = false)]
         public bool? InitialRecurringPayment { get; set; }
-
-        /// <summary>
-        /// Indicates that the transaction has been given recurring authorization from the consumer
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public bool? RecurringPayment { get; set; }
-
-        /// <summary>
-        /// Enum for Regular Payments (recurring)
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public RecurringPaymentType? RecurringPaymentType { get; set; }
-
-        /// <summary>
-        /// Receipt ID of original authenticated transaction (for recurring payments)
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public string RelatedReceiptId { get; set; }
 
         /// <summary>
         /// Information needed for ThreeDSecure2 payments
