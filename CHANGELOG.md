@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Remove DelayedAuthorisation request attribute from PaymentModel and WebPaymentRequestModel, and from the response GetWebPaymentResponseModel (use the new incremental authorisation feature instead)
 - Drop issueNumber (no longer exposed as a request attribute on Judo Transaction API)
 - Drop IRegisterCards interface - ICheckCard or IPreAuths should be used instead
+- Remove RecurringPayment, RecurringPaymentType, RelatedReceiptId from CheckCardModel
 
 ## 4.1 Changes on 2023-09
 - Update Api-Version to 6.20
