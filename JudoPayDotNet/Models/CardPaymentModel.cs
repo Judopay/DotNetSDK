@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
@@ -36,15 +35,6 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string StartDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Issue Number.
-        /// </summary>
-        /// <value>
-        /// The Issue Number date.
-        /// </value>
-        [DataMember(IsRequired = false)]
-        public string IssueNumber { get; set; }
 
         /// <summary>
         /// Set true for consumer initiated preAuths that can be incremented before they are fully collected
