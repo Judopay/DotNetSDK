@@ -83,9 +83,6 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public string ShortReference { get; private set; }
 
-        [DataMember(EmitDefaultValue = false)]
-        public bool? DelayedAuthorisation { get; private set; }
-
         /// <summary>
         /// Set true for consumer initiated preAuths that can be incremented before they are fully collected
         /// </summary>

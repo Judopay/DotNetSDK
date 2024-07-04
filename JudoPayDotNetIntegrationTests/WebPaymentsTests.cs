@@ -329,40 +329,6 @@ namespace JudoPayDotNetIntegrationTests
         }
 
         [Test]
-        [TestCase(true)]
-        [TestCase(false)]
-        [TestCase(null)]
-        public void GetDelayedAuthorisationFromWebPayment(bool? delayedAuthorisation)
-        {
-            // Given a WebPayment session
-            var yourConsumerReference = "432438862";
-            var webPaymentRequest = new WebPaymentRequestModel
-            {
-                JudoId = Configuration.Judoid,
-                YourConsumerReference = yourConsumerReference,
-                Amount = 25,
-                DelayedAuthorisation = delayedAuthorisation
-            };
-
-            // For a PreAuth
-            var webPaymentResult = JudoPayApiBase.WebPayments.PreAuths.Create(webPaymentRequest).Result;
-            Assert.NotNull(webPaymentResult);
-            Assert.IsFalse(webPaymentResult.HasError);
-            var webPaymentReference = webPaymentResult.Response.Reference;
-            Assert.NotNull(webPaymentReference);
-
-            // When session is retrieved by reference
-            var paymentSession = JudoPayApiBase.WebPayments.Transactions.Get(
-                webPaymentReference).Result;
-
-            Assert.IsNotNull(paymentSession);
-            Assert.IsFalse(paymentSession.HasError);
-
-            // Then delayedAuthorisation on respones matches that on session
-            Assert.AreEqual(delayedAuthorisation, paymentSession.Response.DelayedAuthorisation);
-        }
-
-        [Test]
         public void GetReceiptFromCompletedWebPayment()
         {
             // Given a WebPayment session

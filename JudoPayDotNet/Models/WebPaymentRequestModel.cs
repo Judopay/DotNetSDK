@@ -146,13 +146,6 @@ namespace JudoPayDotNet.Models
         [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public bool? AllowIncrement { get; set; }
 
-        /// <summary>
-        /// Only set this flag on payment sessions for PreAuths, to authenticate a card holder with 3D secure without
-        /// performing payment authorisation.
-        /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public bool? DelayedAuthorisation { get; set; }
-
         private Dictionary<string, string> _httpHeaders;
 
         /// <summary>

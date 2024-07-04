@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Add JudoPayDotNet.Clients.IPreAuths.IncrementAuth method to increase the authorised amount for an existing CIT preAuth that was set with AllowIncrement=true
 - Add AllowIncrement to PaymentReceiptModel, true on receipts for CIT preAuths that have that flag set to true in the request
 - Add IsIncrementalAuth to PaymentReceiptMode, true on receipts for call to incrementalAuth endpoint
+- Remove DelayedAuthorisation request attribute from PaymentModel and WebPaymentRequestModel, and from the response GetWebPaymentResponseModel (use the new incremental authorisation feature instead)
 - Drop issueNumber (no longer exposed as a request attribute on Judo Transaction API)
 
 ## 4.1 Changes on 2023-09
