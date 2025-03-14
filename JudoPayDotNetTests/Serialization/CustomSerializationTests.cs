@@ -11,6 +11,8 @@ namespace JudoPayDotNetTests.Serialization
     [TestFixture]
     public class CustomSerializationTests
     {
+        private const string TestRequestId = "9b1a0c47931bc858a7701541c468f986";
+
         [Test]
         public void DeSerialize()
         {
@@ -22,7 +24,8 @@ namespace JudoPayDotNetTests.Serialization
                                             errorMessage : 'To large',
                                             detailErrorMessage : 'This field has to be at most 20 characters'
                                           }],
-                            errorType : '11'
+                            errorType : '11',
+                            requestId : '" + TestRequestId + @"'
                         }";
 
             var settings = new JsonSerializerSettings();
@@ -32,6 +35,7 @@ namespace JudoPayDotNetTests.Serialization
 
             Assert.IsNotNull(judoApiErrorModel);
             Assert.AreEqual(JudoApiError.Payment_Declined, judoApiErrorModel.ErrorType);
+            Assert.AreEqual(TestRequestId, judoApiErrorModel.RequestId);
         }
 
         [Test]
@@ -40,7 +44,8 @@ namespace JudoPayDotNetTests.Serialization
             const string serializedMessage = @"
                         {
                             errorMessage : 'Payment not made',
-                            errorType : '11'
+                            errorType : '11',
+                            requestId : '" + TestRequestId + @"'
                         }";
 
             var settings = new JsonSerializerSettings();
@@ -51,6 +56,7 @@ namespace JudoPayDotNetTests.Serialization
             Assert.IsNotNull(judoApiErrorModel);
             Assert.AreEqual(JudoApiError.Payment_Declined, judoApiErrorModel.ErrorType);
             Assert.IsNull(judoApiErrorModel.ModelErrors);
+            Assert.AreEqual(TestRequestId, judoApiErrorModel.RequestId);
         }
     }
 }

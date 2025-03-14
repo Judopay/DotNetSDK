@@ -100,6 +100,12 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember]
         public string CardHolderName { get; set; }
+
+        /// <summary>
+        /// Whether the owner type of this card is Personal, Commercial or Unknown
+        /// </summary>
+        [DataMember]
+        public string OwnerType { get; set; }
     }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

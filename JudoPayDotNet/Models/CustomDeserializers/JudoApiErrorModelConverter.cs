@@ -17,16 +17,11 @@ namespace JudoPayDotNet.Models.CustomDeserializers
             _log = log;
         }
 
-        private T GetProperty<T>(JsonSerializer serializer, IEnumerable<JProperty> properties, string propertyName)
+        private static T GetProperty<T>(JsonSerializer serializer, IEnumerable<JProperty> properties, string propertyName)
         {
             var property = properties.FirstOrDefault(p => p.Name.ToLowerInvariant() == propertyName);
 
-            if (property != null)
-            {
-                return serializer.Deserialize<T>(property.Value.CreateReader());
-            }
-
-            return default(T);
+            return property != null ? serializer.Deserialize<T>(property.Value.CreateReader()) : default;
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -34,19 +29,17 @@ namespace JudoPayDotNet.Models.CustomDeserializers
             var jsonObject = JObject.Load(reader);
             var properties = jsonObject.Properties().ToList();
             var oldNames = new []{"errormessage", "errortype", "modelerrors"};
-            var judoApiErrorModelPropertiesNames = new[] { "details", "messages", "code", "category" };
-
-
+            var judoApiErrorModelPropertiesNames = new[] { "details", "messages", "code", "category", "requestid" };
 
             if (judoApiErrorModelPropertiesNames.Any(p => properties.Select(t => t.Name.ToLower()).Contains(p.ToLower())))
             {
-
-                var modelError = new ModelError()
+                var modelError = new ModelError
                 {
                     ModelErrors = GetProperty<List<FieldError>>(serializer, properties, "details"),
                     Code = GetProperty<int>(serializer, properties, "code"),
                     Category = GetProperty<string>(serializer, properties, "category"),
                     Message = GetProperty<string>(serializer, properties, "message"),
+                    RequestId = GetProperty<string>(serializer, properties, "requestid")
 
                 };
                 return modelError;
@@ -71,8 +64,8 @@ namespace JudoPayDotNet.Models.CustomDeserializers
                 {
                     ErrorMessage = GetProperty<string>(serializer, properties, "errormessage"),
                     ErrorType = error,
-                    ModelErrors = GetProperty<List<JudoModelError>>(serializer, properties, "modelerrors")
-
+                    ModelErrors = GetProperty<List<JudoModelError>>(serializer, properties, "modelerrors"),
+                    RequestId = GetProperty<string>(serializer, properties, "requestid"),
 
                 };
                 return modelError;
@@ -80,18 +73,17 @@ namespace JudoPayDotNet.Models.CustomDeserializers
             }
             if (properties.Any(t => t.Name == "message"))
             {
-                return new ModelError()
+                return new ModelError
                 {
                     Message = GetProperty<string>(serializer, properties, "message"),
+                    RequestId = GetProperty<string>(serializer, properties, "requestid"),
                     Code = 0
-
                 };
             }
-            return new ModelError()
+            return new ModelError
             {
                 Message = "Unknown Return type",
                 Code = 0
-
             };
         }
 
@@ -104,7 +96,5 @@ namespace JudoPayDotNet.Models.CustomDeserializers
         {
             return typeof(ModelError) == objectType;
         }
-
-
     }
 }

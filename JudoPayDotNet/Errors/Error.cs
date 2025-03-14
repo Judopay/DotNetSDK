@@ -9,10 +9,7 @@ namespace JudoPayDotNet.Errors
         protected string ErrorMessage { get; set; }
 // ReSharper restore MemberCanBePrivate.Global
 
-        public override string Message
-        {
-            get { return ErrorMessage; }
-        }
+        public override string Message => ErrorMessage;
 
         protected Error()
         { }

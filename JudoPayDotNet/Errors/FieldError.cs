@@ -1,32 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JudoPayDotNet.Errors
+﻿namespace JudoPayDotNet.Errors
 {
     public class FieldError
     {
-
         public int Code { get; set; }
-        public String FieldName { get; set; }
-        public String Message { get; set; }
-        public String Detail { get; set; }
+        public string FieldName { get; set; }
+        public string Message { get; set; }
+        public string Detail { get; set; }
 
-        public FieldError(int _code, String _fieldName, String _message, String _detail)
+        public FieldError(int code, string fieldName, string message, string detail)
         {
-            Code = _code;
-            FieldName =_fieldName;
-            Message = _message;
-            Detail = _detail;
+            Code = code;
+            FieldName = fieldName;
+            Message = message;
+            Detail = detail;
         }
 
         public FieldError()
         {
-            
         }
-
-
     }
 }

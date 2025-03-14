@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 5.1 Changes on 2025-03
+- Update Api-Version to 6.22
+- Add conditional OwnerType response attribute to CardDetails
+- Add conditional EmailAddress response attribute to PaymentReceiptModel
+- Add conditional RequestId response attribute to JudoApiErrorModel (to give to JudoPay support when requesting help)
+
 ## 5.0 Changes on 2024-07
 - Update Api-Version to 6.21
 - Add optional AllowIncrement boolean flag to CardPaymentModel for CIT preAuths that can be incremented before they are fully collected

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JudoPayDotNet.Models;
 
 namespace JudoPayDotNet.Errors
@@ -9,9 +8,9 @@ namespace JudoPayDotNet.Errors
 	/// </summary>
     public class JudoApiErrorModel
     {
-        public String ErrorMessage { get; set; }
+        public string ErrorMessage { get; set; }
         public List<JudoModelError> ModelErrors { get; set; }
         public JudoApiError ErrorType { get; set; }
+        public string RequestId { get; set; }
     }
 }
-

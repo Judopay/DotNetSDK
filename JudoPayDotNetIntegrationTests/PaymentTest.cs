@@ -121,12 +121,11 @@ namespace JudoPayDotNetIntegrationTests
             Assert.That(cardTokenReceipt.CardDetails, Is.Not.Null, "Missing carddetails property on receipt");
             Assert.That(cardTokenReceipt.CardDetails.CardLastfour, Is.Not.Empty);
             Assert.That(cardTokenReceipt.CardDetails.EndDate, Is.Not.Empty);
-            Assert.That(cardTokenReceipt.CardDetails.CardScheme, Is.EqualTo("Visa"));
+            Assert.That(cardTokenReceipt.CardDetails.CardScheme, Is.EqualTo("VISA"));
             Assert.That(cardTokenReceipt.CardDetails.CardFunding, Is.EqualTo("Debit"));
-            // IssuerService no longer called for token transactions and Category not saved in DB
-            Assert.That(cardTokenReceipt.CardDetails.CardCategory, Is.EqualTo(""));
+            Assert.That(cardTokenReceipt.CardDetails.CardCategory, Is.EqualTo("CLASSIC"));
             Assert.That(cardTokenReceipt.CardDetails.CardCountry, Is.EqualTo("FR"));
-            Assert.That(cardTokenReceipt.CardDetails.Bank, Is.EqualTo("Credit Industriel Et Commercial"));
+            Assert.That(cardTokenReceipt.CardDetails.Bank, Is.EqualTo("CREDIT INDUSTRIEL ET COMMERCIAL"));
             Assert.That(cardTokenReceipt.Message, Does.Match("AuthCode: \\d{6}"), $"Result message on receipt not in correct format AuthCode: xxxxxx. Was {cardTokenReceipt.Message}");
             Assert.That(cardTokenReceipt.MerchantName, Is.Not.Empty);
             Assert.That(cardTokenReceipt.AppearsOnStatementAs, Is.Not.Empty);
@@ -415,6 +414,38 @@ namespace JudoPayDotNetIntegrationTests
 
             // And the supplied metadata is returned on the receipt
             Assert.AreEqual(merchantPaymentMetaData, receipt.YourPaymentMetaData);
+        }
+
+        [Test]
+        public async Task OwnerTypeReturned()
+        {
+            var paymentWithCard = GetCardPaymentModel();
+            // Given a payment with the latest Api-Version (6.22+)
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
+
+            Assert.IsNotNull(response);
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+
+            // And the cardDetails.ownerType attribute is populated
+            Assert.AreEqual("Personal", receipt.CardDetails.OwnerType);
+        }
+
+        [Test]
+        public async Task EmailAddressTypeReturned()
+        {
+            var paymentWithCard = GetCardPaymentModel();
+            // Given a payment with the latest Api-Version (6.22+) and a specified email
+            const string testEmail = "test.user@judopay.com";
+            paymentWithCard.EmailAddress = testEmail;
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
+
+            Assert.IsNotNull(response);
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+
+            // And the emailAddress attribute is populated
+            Assert.AreEqual(testEmail, receipt.EmailAddress);
         }
     }
 }

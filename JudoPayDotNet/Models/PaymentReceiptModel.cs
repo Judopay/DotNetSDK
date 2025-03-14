@@ -170,6 +170,12 @@ namespace JudoPayDotNet.Models
         public string RecurringPaymentType { get; set; }
 
         /// <summary>
+        /// The email address of the consumer is supplied in the payment session, transaction request or wallet payload
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string EmailAddress { get; set; }
+
+        /// <summary>
         /// The card details.
         /// </summary>
         [DataMember]
