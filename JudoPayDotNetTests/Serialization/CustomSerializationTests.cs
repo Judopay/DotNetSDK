@@ -58,5 +58,29 @@ namespace JudoPayDotNetTests.Serialization
             Assert.IsNull(judoApiErrorModel.ModelErrors);
             Assert.AreEqual(TestRequestId, judoApiErrorModel.RequestId);
         }
+
+        [Test]
+        public void DeSerializeModelErrorWithoutFieldErrorList()
+        {
+            const string errorMessage = "Unable to process transaction. Card authentication failed with 3DS Server.";
+            const int errorCode = 165;
+            const int errorCategory = 4;
+            var serializedMessage = @"
+                        {
+                            message : '" + errorMessage + @"',
+                            code : " + errorCode + @",
+                            category : " + errorCategory + @",
+                            requestId : '" + TestRequestId + @"'
+                        }";
+
+            var settings = new JsonSerializerSettings();
+            var errorModel = JsonConvert.DeserializeObject<ModelError>(serializedMessage, settings);
+
+            Assert.IsNotNull(errorModel);
+            Assert.AreEqual(errorMessage, errorModel.Message);
+            Assert.AreEqual(errorCode, errorModel.Code);
+            Assert.AreEqual(errorCategory.ToString(), errorModel.Category);
+            Assert.AreEqual(TestRequestId, errorModel.RequestId);
+        }
     }
 }
