@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## 5.1 Changes on 2025-03
 - Update Api-Version to 6.22
-- Add conditional OwnerType response attribute to CardDetails
+- Add conditional OwnerType response attribute to CardDetails (from issuer data)
 - Add conditional EmailAddress response attribute to PaymentReceiptModel
 - Add conditional RequestId response attribute to JudoApiErrorModel (to give to JudoPay support when requesting help)
 
