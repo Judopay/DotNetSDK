@@ -47,6 +47,7 @@ namespace JudoPayDotNet.Models.CustomDeserializers
 
             if (oldNames.Any(p => properties.Select(t => t.Name.ToLower()).Contains(p.ToLower())))
             {
+                // Api-Version 4.x errors
                 var errorType = GetProperty<int>(serializer, properties, "errortype");
                 var error  = JudoApiError.General_Error;
                 
@@ -60,12 +61,11 @@ namespace JudoPayDotNet.Models.CustomDeserializers
                   
                 }
 
-                var modelError = new JudoApiErrorModel()
+                var modelError = new JudoApiErrorModel
                 {
                     ErrorMessage = GetProperty<string>(serializer, properties, "errormessage"),
                     ErrorType = error,
-                    ModelErrors = GetProperty<List<JudoModelError>>(serializer, properties, "modelerrors"),
-                    RequestId = GetProperty<string>(serializer, properties, "requestid"),
+                    ModelErrors = GetProperty<List<JudoModelError>>(serializer, properties, "modelerrors")
 
                 };
                 return modelError;
