@@ -20,7 +20,7 @@ namespace JudoPayDotNet.Models.CustomDeserializers
         {
             var jsonObject = JObject.Load(reader);
             var properties = jsonObject.Properties().ToList();
-            var judoApiErrorModelPropertiesNames = new[] { "details", "messages", "code", "category" };
+            var judoApiErrorModelPropertiesNames = new[] { "details", "message", "code", "category" };
 
             if (judoApiErrorModelPropertiesNames.Any(p => properties.Select(t => t.Name.ToLower()).Contains(p.ToLower())))
             {
@@ -36,15 +36,6 @@ namespace JudoPayDotNet.Models.CustomDeserializers
                 return modelError;
             }
 
-            if (properties.Any(t => t.Name == "message"))
-            {
-                return new ModelError
-                {
-                    Message = GetProperty<string>(serializer, properties, "message"),
-                    RequestId = GetProperty<string>(serializer, properties, "requestid"),
-                    Code = 0
-                };
-            }
             return new ModelError
             {
                 Message = "Unknown Return type",

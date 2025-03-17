@@ -78,5 +78,23 @@ namespace JudoPayDotNetTests.Serialization
             Assert.AreEqual(errorCategory.ToString(), errorModel.Category);
             Assert.AreEqual(TestRequestId, errorModel.RequestId);
         }
+
+        [Test]
+        public void DeSerializeUnexpectedError()
+        {
+            var serializedMessage = @"
+                        {
+                            unexpectedAttribute : 'unexpectedValue'
+                        }";
+
+            var settings = new JsonSerializerSettings();
+            settings.Converters.Add(new JudoApiErrorModelConverter());
+
+            var errorModel = JsonConvert.DeserializeObject<ModelError>(serializedMessage, settings);
+
+            Assert.IsNotNull(errorModel);
+            Assert.AreEqual("Unknown Return type", errorModel.Message);
+            Assert.AreEqual(0, errorModel.Code);
+        }
     }
 }
