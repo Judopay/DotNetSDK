@@ -22,7 +22,7 @@ namespace JudoPayDotNetTests
         [Test]
         public void PassingNoUserAgentDoesntCauseException()
         {
-            var client = JudoPaymentsFactory.Create(new Credentials("abc", "def"), "http://foo", "5.0.0.0");
+            var client = JudoPaymentsFactory.Create(new Credentials("abc", "def"), "http://foo", "6.0");
 
             Assert.That(client, Is.Not.Null);
         }
@@ -48,7 +48,7 @@ namespace JudoPayDotNetTests
         {
             var credentials = new Credentials("token", "secret");
             var expectedBaseAddress = "http://test.judopay.com/";
-            var client = JudoPaymentsFactory.Create(credentials, expectedBaseAddress, "6.21.0");
+            var client = JudoPaymentsFactory.Create(credentials, expectedBaseAddress, "6.22.0");
 
             Assert.That(client, Is.Not.Null);
             Assert.That(client.Connection.BaseAddress.ToString(), Is.EqualTo(expectedBaseAddress));

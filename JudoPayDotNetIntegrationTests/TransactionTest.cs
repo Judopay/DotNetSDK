@@ -132,7 +132,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(10000);
             var transaction = JudoPayApiBase.Transactions.Get().Result;
 
             Assert.IsNotNull(transaction);
@@ -151,7 +151,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(10000);
             var transaction = JudoPayApiBase.Transactions.Get(TransactionType.PAYMENT).Result;
 
             Assert.IsNotNull(transaction);
@@ -173,7 +173,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(10000);
             var transaction = JudoPayApiBase.Transactions.Get(yourPaymentReference: merchantPaymentRef).Result;
 
             Assert.IsNotNull(transaction);
@@ -194,7 +194,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.IsNotNull(response);
             Assert.IsFalse(response.HasError);
             Assert.AreEqual("Success", response.Response.Result);
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(10000);
             var transaction = JudoPayApiBase.Transactions.Get(yourConsumerReference: merchantConsumerRef).Result;
 
             Assert.IsNotNull(transaction);
