@@ -45,7 +45,7 @@ namespace JudoPayDotNet.Http
             _settings = new JsonSerializerSettings
                             {
                                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                                Converters = new JsonConverter[] { new JudoApiErrorModelConverter(log(typeof(JudoApiErrorModelConverter))), new TransactionResultConvertor() }
+                                Converters = new JsonConverter[] { new JudoApiErrorModelConverter(), new TransactionResultConvertor() }
                             };
         }
 
