@@ -22,7 +22,7 @@
     <ItemGroup>
         <PackageReference Include="FluentValidation" Version="11.8.0" />
         <PackageReference Include="log4net" Version="2.0.17" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
   <!-- .NET 4.6.1 references, compilation flags and build options -->
