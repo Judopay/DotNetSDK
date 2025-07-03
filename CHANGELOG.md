@@ -1,6 +1,22 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 5.2 Changes on 2025-06
+- Update Api-Version to 6.23
+- Add optional DisableNetworkTokenisation boolean flag to PaymentModel and SaveCardModel to specify that network
+   tokenisation should not be used for this transaction even if network token registration has been enabled on the
+   account
+- Add optional DisableNetworkTokenisation boolean flag to WebPaymentRequestModel for payment session creation
+- Add conditional DisableNetworkTokenisation to PaymentReceiptModel response that mirrors value set on the transaction
+   or payment session request
+- Add conditional NetworkTokenisationDetails block to PaymentReceiptModel (note this is not returned in the sandbox
+   environment)
+-- NetworkTokenProvisioned boolean flag indicating whether a new network token was created for the payment
+-- NetworkTokenUsed boolean flag indicating whether a network token was used for the payment
+-- VirtualPan block containing
+--- LastFour Last four digits of the virtual PAN used for the payment
+--- ExpiryDate Expiry date of the virtual PAN used for the payment
+
 ## 5.1 Changes on 2025-03
 - Update Api-Version to 6.22
 - Add conditional OwnerType response attribute to CardDetails (from issuer data)
