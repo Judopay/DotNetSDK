@@ -118,6 +118,13 @@ namespace JudoPayDotNet.Models
         public string WebPaymentReference { get; set; }
 
         /// <summary>
+        /// Set true to specify that network tokenisation should not be used for this transaction even if network
+        /// token registration has been enabled on the account
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public bool? DisableNetworkTokenisation { get; set; }
+
+        /// <summary>
         /// Allows you to set HTTP headers on requests
         /// </summary>
         [IgnoreDataMember]

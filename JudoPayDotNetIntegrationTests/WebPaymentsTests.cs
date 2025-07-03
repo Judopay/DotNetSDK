@@ -409,6 +409,56 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual(allowIncrement, paymentSession.Response.AllowIncrement);
         }
 
+        [Test]
+        [TestCase(true, true)]
+        [TestCase(false, false)]
+        [TestCase(null, false)]
+        public async Task GetDisableNetworkTokenisationFromWebPayment(bool? disableNetworkTokenisation, bool expectedDisableNetworkTokenisation)
+        {
+            // Given a WebPayment session
+            var yourConsumerReference = "432438862";
+            var merchantPaymentReference = Guid.NewGuid().ToString();
+            var webPaymentRequest = new WebPaymentRequestModel
+            {
+                JudoId = Configuration.Judoid,
+                YourConsumerReference = yourConsumerReference,
+                YourPaymentReference = merchantPaymentReference,
+                Amount = 25,
+                DisableNetworkTokenisation = disableNetworkTokenisation
+            };
+
+            // For a PreAuth
+            var webPaymentResult = JudoPayApiBase.WebPayments.PreAuths.Create(webPaymentRequest).Result;
+            Assert.NotNull(webPaymentResult);
+            Assert.IsFalse(webPaymentResult.HasError);
+            var webPaymentReference = webPaymentResult.Response.Reference;
+            Assert.NotNull(webPaymentReference);
+
+            // When session is retrieved by reference
+            var paymentSession = JudoPayApiBase.WebPayments.Transactions.Get(
+                webPaymentReference).Result;
+
+            Assert.IsNotNull(paymentSession);
+            Assert.IsFalse(paymentSession.HasError);
+
+            // Then disableNetworkTokenisation on payment session is always null
+            Assert.IsNull(paymentSession.Response.DisableNetworkTokenisation);
+
+            // If if a preauth is made referencing this session, without specifying the
+            // disableNetworkTokenisation attribute
+            var paymentWithCard = GetCardPaymentModel(yourConsumerReference: webPaymentRequest.YourConsumerReference);
+            paymentWithCard.YourPaymentReference = merchantPaymentReference;
+            paymentWithCard.WebPaymentReference = webPaymentReference;
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
+
+            Assert.IsNotNull(response);
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+
+            // Then DisableNetworkTokenisation attribute on the receipt is populated as expected
+            Assert.AreEqual(expectedDisableNetworkTokenisation, receipt.DisableNetworkTokenisation);
+        }
+
         internal class WebPaymentsTestSource
         {
             public static IEnumerable ValidateFailureTestCases
