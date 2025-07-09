@@ -409,7 +409,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual(allowIncrement, paymentSession.Response.AllowIncrement);
         }
 
-        [Test]
+        [Test, Explicit("Requires API tokens using COS")]
         [TestCase(true, true)]
         [TestCase(false, false)]
         [TestCase(null, false)]

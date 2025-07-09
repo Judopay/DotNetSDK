@@ -113,7 +113,7 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual(threeDSecureMpi.Eci, receipt.ThreeDSecure.Eci);
         }
 
-        [Test]
+        [Test, Explicit("Requires API tokens using COS")]
         [TestCase(true)]
         [TestCase(false)]
         public async Task DisableNetworkTokenisationReturned(bool disableNetworkTokenisation)

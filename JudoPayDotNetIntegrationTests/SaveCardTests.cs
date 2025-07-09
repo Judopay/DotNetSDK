@@ -178,7 +178,7 @@ namespace JudoPayDotNetIntegrationTests
             }
         }
 
-        [Test]
+        [Test, Explicit("Requires API tokens using COS")]
         [TestCase(true)]
         [TestCase(false)]
         public async Task DisableNetworkTokenisationReturned(bool disableNetworkTokenisation)
