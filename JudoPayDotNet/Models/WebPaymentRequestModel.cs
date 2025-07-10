@@ -141,6 +141,13 @@ namespace JudoPayDotNet.Models
         public PrimaryAccountDetailsModel PrimaryAccountDetails { get; set; }
 
         /// <summary>
+        /// Set true to specify that network tokenisation should not be used for associated transactions
+        /// even if network token registration has been enabled on the account
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public bool? DisableNetworkTokenisation { get; set; }
+
+        /// <summary>
         /// Set true for consumer initiated preAuths that can be incremented before they are fully collected
         /// </summary>
         [DataMember(IsRequired = false, EmitDefaultValue = false)]

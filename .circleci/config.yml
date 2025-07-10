@@ -100,9 +100,11 @@ jobs:
               $params += "/d:sonar.pullrequest.branch=$env:CIRCLE_BRANCH"
               $params += "/d:sonar.pullrequest.provider=GitHub"
               $params += "/d:sonar.github.repository=$env:CIRCLE_PROJECT_USERNAME/$env:CIRCLE_PROJECT_REPONAME"
+              $params += "/d:sonar.coverage.exclusions=JudoPayDotNet/Models/*.cs"
             } elseif ($env:CIRCLE_BRANCH -ne "master") {
               $params += "/d:sonar.branch.name=$env:CIRCLE_BRANCH"
               $params += "/d:sonar.branch.target=master"
+              $params += "/d:sonar.coverage.exclusions=JudoPayDotNet/Models/*.cs"
             }
             $coverageReports = (Get-ChildItem -Path . -Include "coverage.opencover.xml" -Recurse).FullName -join ","
             If ($coverageReports) {
