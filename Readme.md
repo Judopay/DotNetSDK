@@ -42,7 +42,7 @@ var cardPaymentModel = new CardPaymentModel
 
 	// card details
 	CardNumber = "4976000000000036",
-	ExpiryDate = "12/25",
+	ExpiryDate = "12/30",
 	CV2 = "452",
 
 	// a unique identifier for your customer
@@ -78,7 +78,7 @@ var paymentModel = new CardPaymentModel
     Amount = 1.01m,
     Currency = "GBP",
     CardNumber = "4976000000000036",
-    ExpiryDate = "12/25",
+    ExpiryDate = "12/30",
     CV2 = "452",
 
     YourConsumerReference = "d6e6f5b8-e8f4-480e-8787-2a2a47239434",

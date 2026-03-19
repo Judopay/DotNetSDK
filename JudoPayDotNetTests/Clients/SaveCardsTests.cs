@@ -16,6 +16,8 @@ namespace JudoPayDotNetTests.Clients
     [TestFixture]
     public class SaveCardsTests
     {
+        private const string DefaultCardExpiry = "12/30";
+
         //Test data
         private class SaveCardsTestSource
         {
@@ -32,7 +34,7 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = DefaultCardExpiry,
                         YourConsumerReference = "User10",
                         JudoId = "100200300"
                     },
@@ -73,7 +75,7 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = DefaultCardExpiry,
                         YourConsumerReference = "User10",
                         JudoId = "100200300"
                     },

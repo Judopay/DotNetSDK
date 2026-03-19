@@ -12,6 +12,7 @@ namespace JudoPayDotNetIntegrationTests
         protected JudoPayApi JudoPayApiElevated;
         protected JudoPayApi JudoPayApiThreeDSecure2;
         protected readonly Configuration Configuration = new Configuration();
+        protected static string DefaultCardExpiry = "12/30";
 
         protected IntegrationTestsBase() 
         {
@@ -49,7 +50,7 @@ namespace JudoPayDotNetIntegrationTests
                 Currency  = "GBP",
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/25",
+                ExpiryDate = DefaultCardExpiry,
                 CardHolderName = cardHolderName,
                 CardAddress = new CardAddressModel
                 {
@@ -100,7 +101,7 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/25",
+                ExpiryDate = DefaultCardExpiry,
                 CardHolderName = cardHolderName,
             };
             if (initialRecurringPayment != null)
@@ -186,7 +187,7 @@ namespace JudoPayDotNetIntegrationTests
                 JudoId = judoId ?? Configuration.Judoid,
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
-                ExpiryDate = "12/25",
+                ExpiryDate = DefaultCardExpiry,
                 CardAddress = new CardAddressModel
                 {
                     Address1 = "32 Edward Street",
@@ -208,7 +209,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = Guid.NewGuid().ToString(),
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/25",
+                ExpiryDate = DefaultCardExpiry,
                 Currency = currency ?? "GBP",
                 CardAddress = new CardAddressModel
                 {
