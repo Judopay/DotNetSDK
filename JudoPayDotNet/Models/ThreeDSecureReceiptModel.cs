@@ -41,6 +41,12 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember]
         public string Eci { get; set; }
+
+        /// <summary>
+        /// Did the consumer successfully compete the 3DS challenge
+        /// </summary>
+        [DataMember]
+        public bool? ChallengeCompleted { get; set; }
     }
     // ReSharper restore UnusedMember.Global
     // ReSharper restore UnusedAutoPropertyAccessor.Global
