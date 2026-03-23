@@ -1,0 +1,13 @@
+name: .NET Build and Test SDK
+
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  build_and_test:
+    uses: Judopay/github-actions/.github/workflows/dotnet-build-and-test.yml@master
+    with:
+      appsettings_json_path: JudoPayDotNetIntegrationTests/appsettings.json
+    secrets:
+      sonar-token: ${{ secrets.sonar_token }}
+      appsettings_json_b64: ${{ secrets.dotnet_sdk_appsettings_json_b64 }}
