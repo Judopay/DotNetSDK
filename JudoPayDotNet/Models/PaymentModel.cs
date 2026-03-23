@@ -124,6 +124,20 @@ namespace JudoPayDotNet.Models
         [DataMember(EmitDefaultValue = false)]
         public bool? DisableNetworkTokenisation { get; set; }
 
+
+        /// <summary>
+        /// Business application ID is required for AFTs
+        /// </summary>
+        [DataMember]
+        public string BusinessApplicationId { get; set; }
+
+        /// <summary>
+        /// Details needed for AFTs (Account Funding Transactions).
+        /// </summary>
+        [DataMember]
+        // ReSharper disable once UnusedMember.Global
+        public AftRecipientInformationModel AftRecipientInformation { get; set; }
+
         /// <summary>
         /// Allows you to set HTTP headers on requests
         /// </summary>
