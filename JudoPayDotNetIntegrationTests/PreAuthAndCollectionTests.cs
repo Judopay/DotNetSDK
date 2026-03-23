@@ -233,7 +233,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = consumerRef,
                 YourPaymentReference = paymentRef,
                 CardNumber = "4976000000003436",
-                ExpiryDate = "12/25",
+                ExpiryDate = "12/30",
                 CV2 = "452",
                 Amount = 1.01m,
                 Currency = "GBP",

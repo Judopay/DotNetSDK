@@ -49,7 +49,7 @@ namespace JudoPayDotNetIntegrationTests
                 Currency  = "GBP",
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/25",
+                ExpiryDate = "12/30",
                 CardHolderName = cardHolderName,
                 CardAddress = new CardAddressModel
                 {
@@ -100,7 +100,7 @@ namespace JudoPayDotNetIntegrationTests
                 Amount = 25,
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/25",
+                ExpiryDate = "12/30",
                 CardHolderName = cardHolderName,
             };
             if (initialRecurringPayment != null)
@@ -186,7 +186,7 @@ namespace JudoPayDotNetIntegrationTests
                 JudoId = judoId ?? Configuration.Judoid,
                 YourConsumerReference = yourConsumerReference,
                 CardNumber = cardNumber,
-                ExpiryDate = "12/25",
+                ExpiryDate = "12/30",
                 CardAddress = new CardAddressModel
                 {
                     Address1 = "32 Edward Street",
@@ -208,7 +208,7 @@ namespace JudoPayDotNetIntegrationTests
                 YourConsumerReference = Guid.NewGuid().ToString(),
                 CardNumber = cardNumber,
                 CV2 = cv2,
-                ExpiryDate = "12/25",
+                ExpiryDate = "12/30",
                 Currency = currency ?? "GBP",
                 CardAddress = new CardAddressModel
                 {

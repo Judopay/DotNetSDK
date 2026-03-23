@@ -152,7 +152,7 @@ namespace JudoPayDotNetIntegrationTests
                     {
                         CardNumber = "4976000000003436",
                         CV2 = "452",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = "12/30",
                         YourConsumerReference = null,
                         YourPaymentReference = "UniqueRef"
                     }, JudoModelErrorCode.Consumer_Reference_Not_Supplied_1).SetName("ValidateRegisterCheckCardMissingConsumerReference");
@@ -160,7 +160,7 @@ namespace JudoPayDotNetIntegrationTests
                     {
                         CardNumber = "4976000000003436",
                         CV2 = "452",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = "12/30",
                         YourConsumerReference = "",
                         YourPaymentReference = "UniqueRef"
                     }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateRegisterCheckCardEmptyConsumerReference");
@@ -168,7 +168,7 @@ namespace JudoPayDotNetIntegrationTests
                     {
                         CardNumber = "4976000000003436",
                         CV2 = "452",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = "12/30",
                         YourConsumerReference = "123456789012345678901234567890123456789012345678901",
                         YourPaymentReference = "UniqueRef"
                     }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateRegisterCheckCardConsumerReferenceTooLong");
@@ -176,7 +176,7 @@ namespace JudoPayDotNetIntegrationTests
                     {
                         CardNumber = null,
                         CV2 = "452",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = "12/30",
                         YourConsumerReference = "UniqueRef",
                         YourPaymentReference = "UniqueRef"
                     }, JudoModelErrorCode.Card_Number_Not_Supplied).SetName("ValidateRegisterCheckCardMissingCardNumber");
@@ -184,7 +184,7 @@ namespace JudoPayDotNetIntegrationTests
                     {
                         CardNumber = "",
                         CV2 = "452",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = "12/30",
                         YourConsumerReference = "UniqueRef",
                         YourPaymentReference = "UniqueRef"
                     }, JudoModelErrorCode.Card_Number_Not_Supplied).SetName("ValidateRegisterCheckCardEmptyCardNumber");
