@@ -64,6 +64,13 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public string CardHolderName { get; set; }
+
+        /// <summary>
+        /// Set true to specify that network tokenisation should not be used for this transaction even if network
+        /// token registration has been enabled on the account
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public bool? DisableNetworkTokenisation { get; set; }
     }
     // ReSharper restore UnusedMember.Global
 }

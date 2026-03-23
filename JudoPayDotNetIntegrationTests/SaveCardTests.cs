@@ -178,6 +178,36 @@ namespace JudoPayDotNetIntegrationTests
             }
         }
 
+        [Test, Explicit("Requires API tokens using COS")]
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task DisableNetworkTokenisationReturned(bool disableNetworkTokenisation)
+        {
+            var saveCardModel = GetSaveCardModel();
+
+            // Given a savecard with the latest Api-Version (6.23+)
+            saveCardModel.DisableNetworkTokenisation = disableNetworkTokenisation;
+            var response = await JudoPayApiBase.SaveCards.Create(saveCardModel);
+
+            Assert.IsNotNull(response);
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+
+            // And the DisableNetworkTokenisation attribute is populated as expected
+            Assert.AreEqual(disableNetworkTokenisation, receipt.DisableNetworkTokenisation);
+
+            // Also check historic receipts
+            System.Threading.Thread.Sleep(1000);
+            var historicReceiptResponse = JudoPayApiBase.Transactions.Get(response.Response.ReceiptId).Result;
+
+            Assert.IsNotNull(historicReceiptResponse);
+            Assert.IsFalse(historicReceiptResponse.HasError);
+
+            var historicReceipt = historicReceiptResponse.Response as PaymentReceiptModel;
+            Assert.IsNotNull(historicReceipt);
+            Assert.AreEqual(disableNetworkTokenisation, historicReceipt.DisableNetworkTokenisation);
+        }
+
         internal class SaveCardTestSource
         {
             public static IEnumerable ValidateFailureTestCases

@@ -447,5 +447,34 @@ namespace JudoPayDotNetIntegrationTests
             // And the emailAddress attribute is populated
             Assert.AreEqual(testEmail, receipt.EmailAddress);
         }
+
+        [Test, Explicit("Requires API tokens using COS")]
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task DisableNetworkTokenisationReturned(bool disableNetworkTokenisation)
+        {
+            var paymentWithCard = GetCardPaymentModel();
+            // Given a payment with the latest Api-Version (6.23+)
+            paymentWithCard.DisableNetworkTokenisation = disableNetworkTokenisation;
+            var response = await JudoPayApiBase.Payments.Create(paymentWithCard);
+
+            Assert.IsNotNull(response);
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+
+            // And the DisableNetworkTokenisation attribute is populated as expected
+            Assert.AreEqual(disableNetworkTokenisation, receipt.DisableNetworkTokenisation);
+
+            // Also check historic receipts
+            System.Threading.Thread.Sleep(1000);
+            var historicReceiptResponse = JudoPayApiBase.Transactions.Get(response.Response.ReceiptId).Result;
+
+            Assert.IsNotNull(historicReceiptResponse);
+            Assert.IsFalse(historicReceiptResponse.HasError);
+
+            var historicReceipt = historicReceiptResponse.Response as PaymentReceiptModel;
+            Assert.IsNotNull(historicReceipt);
+            Assert.AreEqual(disableNetworkTokenisation, historicReceipt.DisableNetworkTokenisation);
+        }
     }
 }

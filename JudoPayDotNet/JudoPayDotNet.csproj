@@ -6,7 +6,7 @@
     </PropertyGroup>
     <PropertyGroup Label="Package">
         <PackageId>JudoPay.Net</PackageId>
-        <Version>5.6.1</Version>
+        <Version>5.2.0</Version>
         <Authors>JudoPay</Authors>
         <Description>A .Net client for our JudoPay API, allowing you to quickly and easily process payments</Description>
         <Copyright>Copyright 2018</Copyright>
@@ -20,9 +20,9 @@
         <PackageReleaseNotes />
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="11.8.0" />
-        <PackageReference Include="log4net" Version="2.0.10" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="FluentValidation" Version="11.11.0" />
+        <PackageReference Include="log4net" Version="2.0.17" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
   

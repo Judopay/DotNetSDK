@@ -233,6 +233,15 @@ namespace JudoPayDotNet.Models
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public bool? IsIncrementalAuth { get; set; }
+
+        /// <summary>
+        /// Mirrors flag of same name supplied on request or associated web payment session.
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public bool? DisableNetworkTokenisation { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public NetworkTokenisationDetailsModel NetworkTokenisationDetails { get; set; }
     }
 
     // ReSharper restore UnusedMember.Global

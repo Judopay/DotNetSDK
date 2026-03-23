@@ -8,8 +8,6 @@ namespace JudoPayDotNetIntegrationTests
     {
         private IConfigurationRoot Config { get; }
 
-        public string WebpaymentsUrl;
-
         public string Judoid;
         public string CybersourceJudoId;
 
@@ -34,8 +32,6 @@ namespace JudoPayDotNetIntegrationTests
                 .AddJsonFile("appsettings.json", false, true);
 
             Config = builder.Build();
-
-            WebpaymentsUrl = Config["WebpaymentsUrl"] ?? "https://pay-sandbox.judopay.com/v1/Pay";
 
             Judoid = Config["Credentials:JudoIds:AI"];
             CybersourceJudoId = Config["Credentials:JudoIds:Cybersource"];
