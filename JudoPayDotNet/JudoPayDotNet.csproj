@@ -3,6 +3,7 @@
         <AssemblyTitle>JudoPayDotNet</AssemblyTitle>
         <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
     <PropertyGroup Label="Package">
         <PackageId>JudoPay.Net</PackageId>
