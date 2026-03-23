@@ -9,5 +9,5 @@ jobs:
     with:
       appsettings_json_path: JudoPayDotNetIntegrationTests/appsettings.json
     secrets:
-      sonar-token: ${{ secrets.sonar_token }}
+      sonar_token: ${{ secrets.sonar_token }}
       appsettings_json_b64: ${{ secrets.dotnet_sdk_appsettings_json_b64 }}
