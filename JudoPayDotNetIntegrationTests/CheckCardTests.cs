@@ -163,7 +163,7 @@ namespace JudoPayDotNetIntegrationTests
                         ExpiryDate = "12/30",
                         YourConsumerReference = "",
                         YourPaymentReference = "UniqueRef"
-                    }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateRegisterCheckCardEmptyConsumerReference");
+                    }, JudoModelErrorCode.Consumer_Reference_Not_Supplied_1).SetName("ValidateRegisterCheckCardEmptyConsumerReference");
                     yield return new TestCaseData(new CheckCardModel
                     {
                         CardNumber = "4976000000003436",
