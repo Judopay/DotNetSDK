@@ -24,7 +24,7 @@ namespace JudoPayDotNetCoreSampleApp
 
                 // card details
                 CardNumber = "4976000000003436",
-                ExpiryDate = "1225",
+                ExpiryDate = "12/30",
                 CV2 = "452",
 
                 // an identifier for your customer
