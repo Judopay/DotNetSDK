@@ -32,7 +32,7 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = "12/30",
                         YourConsumerReference = "User10",
                         CV2 = "420",
                         JudoId = "100200300"
@@ -74,7 +74,7 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = "12/30",
                         YourConsumerReference = "User10",
                         JudoId = "100200300"
                     },
@@ -107,7 +107,7 @@ namespace JudoPayDotNetTests.Clients
                             Town = "Town"
                         },
                         CardNumber = "348417606737499",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = "12/30",
                         YourConsumerReference = "User10",
                     },
                         @"{
