@@ -249,7 +249,7 @@ namespace JudoPayDotNetIntegrationTests
                         Amount = 1.20m,
                         CardNumber = "497600000003436",
                         CV2 = "452",
-                        ExpiryDate = "12/30",
+                        ExpiryDate = DefaultCardExpiry,
                         JudoId = "Invalid",
                         YourConsumerReference = "User10",
                         YourPaymentReference = "UniqueRef"
@@ -259,7 +259,7 @@ namespace JudoPayDotNetIntegrationTests
                         Amount = 1.20m,
                         CardNumber = null,
                         CV2 = "452",
-                        ExpiryDate = "12/30",
+                        ExpiryDate = DefaultCardExpiry,
                         JudoId = "100200302",
                         YourConsumerReference = "User10",
                         YourPaymentReference = "UniqueRef"
