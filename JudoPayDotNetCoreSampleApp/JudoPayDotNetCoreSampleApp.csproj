@@ -10,5 +10,9 @@
   <ItemGroup>
     <ProjectReference Include="..\JudoPayDotNet\JudoPayDotNet.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <SonarQubeSetting Include="sonar.coverage.exclusions">
+      <Value>**/*</Value>
+    </SonarQubeSetting>
+  </ItemGroup>
 </Project>
