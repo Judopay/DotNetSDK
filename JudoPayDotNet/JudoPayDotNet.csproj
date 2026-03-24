@@ -1,12 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <AssemblyTitle>JudoPayDotNet</AssemblyTitle>
         <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
     <PropertyGroup Label="Package">
         <PackageId>JudoPay.Net</PackageId>
-        <Version>5.2</Version>
+        <Version>5.2.0</Version>
         <Authors>JudoPay</Authors>
         <Description>A .Net client for our JudoPay API, allowing you to quickly and easily process payments</Description>
         <Copyright>Copyright 2018</Copyright>
@@ -17,7 +18,7 @@
         <RepositoryUrl>https://github.com/JudoPay/DotNetSDK</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>judo;judopaypayment;gateway;credit;cards;</PackageTags>
-        <PackageReleaseNotes></PackageReleaseNotes>
+        <PackageReleaseNotes />
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="FluentValidation" Version="11.11.0" />
@@ -25,7 +26,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
-  <!-- .NET 4.6.1 references, compilation flags and build options -->
+  
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Reference Include="System.Net.Http" />
   </ItemGroup>

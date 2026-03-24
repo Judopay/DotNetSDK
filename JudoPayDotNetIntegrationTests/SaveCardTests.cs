@@ -145,7 +145,7 @@ namespace JudoPayDotNetIntegrationTests
                 JudoId = Configuration.Judoid,
                 YourConsumerReference = consumerRef,
                 CardNumber = "4976000000003436",
-                ExpiryDate = "12/25"
+                ExpiryDate = DefaultCardExpiry
             };
 
             //Send the request to Judopay
@@ -217,31 +217,31 @@ namespace JudoPayDotNetIntegrationTests
                     yield return new TestCaseData(new SaveCardModel
                     {
                         CardNumber = "4976000000003436",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = DefaultCardExpiry,
                         YourConsumerReference = null
                     }, JudoModelErrorCode.Consumer_Reference_Not_Supplied_1).SetName("ValidateSaveCardMissingConsumerReference");
                     yield return new TestCaseData(new SaveCardModel
                     {
                         CardNumber = "4976000000003436",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = DefaultCardExpiry,
                         YourConsumerReference = ""
                     }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateSaveCardEmptyConsumerReference");
                     yield return new TestCaseData(new SaveCardModel
                     {
                         CardNumber = "4976000000003436",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = DefaultCardExpiry,
                         YourConsumerReference = "123456789012345678901234567890123456789012345678901"
                     }, JudoModelErrorCode.Consumer_Reference_Length_2).SetName("ValidateSaveCardConsumerReferenceTooLong");
                     yield return new TestCaseData(new SaveCardModel
                     {
                         CardNumber = null,
-                        ExpiryDate = "12/25",
+                        ExpiryDate = DefaultCardExpiry,
                         YourConsumerReference = "UniqueRef"
                     }, JudoModelErrorCode.Card_Number_Not_Supplied).SetName("ValidateSaveCardMissingCardNumber");
                     yield return new TestCaseData(new SaveCardModel
                     {
                         CardNumber = "",
-                        ExpiryDate = "12/25",
+                        ExpiryDate = DefaultCardExpiry,
                         YourConsumerReference = "UniqueRef"
                     }, JudoModelErrorCode.Card_Number_Not_Supplied).SetName("ValidateSaveCardEmptyCardNumber");
                     yield return new TestCaseData(new SaveCardModel
