@@ -285,6 +285,8 @@ namespace JudoPayDotNetIntegrationTests
                     // Device details are required - POST md as threeDSMethodData to methodUrl
                     var methodUrl = threeDSecureTwoResponseModel.MethodUrl;
                     var md = threeDSecureTwoResponseModel.Md;
+                    Assert.NotNull(methodUrl);
+                    Assert.NotNull(md);
                 }
                 else if (threeDSecureTwoResponseModel.ChallengeUrl != null)
                 {
