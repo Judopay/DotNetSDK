@@ -170,10 +170,12 @@ namespace JudoPayDotNetIntegrationTests
             else if (response.Response is PaymentReceiptModel receipt)
             {
                 var receiptId = receipt.ReceiptId;
+                Assert.NotNull(receiptId);
                 var status = receipt.Result;
                 if (receipt.Result == "Success")
                 {
                     var cardToken = receipt.CardDetails.CardToken;
+                    Assert.NotNull(cardToken);
                 }
             }
         }
