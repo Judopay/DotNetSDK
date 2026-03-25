@@ -482,6 +482,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel();
             // Given a payment with the latest Api-Version (6.25+) and aftRecipientInformation set
+            paymentWithCard.BusinessApplicationId = "AA";
             paymentWithCard.AftRecipientInformation = new AftRecipientInformationModel
             {
                 FirstName = "John",
@@ -497,7 +498,7 @@ namespace JudoPayDotNetIntegrationTests
             var receipt = response.Response as PaymentReceiptModel;
             Assert.IsNotNull(receipt);
 
-            // No AFT recipient information is returned on the receipt for card payments
+            // No AFT recipient information is returned on the receipt
         }
 
         [Test]
@@ -505,6 +506,7 @@ namespace JudoPayDotNetIntegrationTests
         {
             var paymentWithCard = GetCardPaymentModel();
             // Given a payment with the latest Api-Version (6.25+) and aftRecipientInformation set
+            paymentWithCard.BusinessApplicationId = "AA";
             paymentWithCard.AftRecipientInformation = new AftRecipientInformationModel
             {
                 FirstName = "John",
@@ -519,7 +521,7 @@ namespace JudoPayDotNetIntegrationTests
             var receipt = response.Response as PaymentReceiptModel;
             Assert.IsNotNull(receipt);
 
-            // No AFT recipient information is returned on the receipt for card payments
+            // No AFT recipient information is returned on the receipt
         }
     }
 }
