@@ -43,7 +43,7 @@ namespace JudoPayDotNet.Models
         public string Eci { get; set; }
 
         /// <summary>
-        /// Did the consumer successfully compete the 3DS challenge
+        /// Did the consumer successfully complete the 3DS challenge
         /// </summary>
         [DataMember]
         public bool? ChallengeCompleted { get; set; }

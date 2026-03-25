@@ -594,6 +594,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(receipt);
             Assert.NotNull(receipt.ThreeDSecure);
             Assert.IsTrue(receipt.ThreeDSecure.Attempted);
+            Assert.NotNull(receipt.ThreeDSecure.ChallengeCompleted);
             Assert.IsTrue(receipt.ThreeDSecure.ChallengeCompleted);
             Assert.AreEqual("PASSED", receipt.ThreeDSecure.Result);
             Assert.AreEqual("05", receipt.ThreeDSecure.Eci);
@@ -602,7 +603,7 @@ namespace JudoPayDotNetTests.Clients
         [Test]
         public void NetworkTokenisationDetailsResponse()
         {
-            // Given an API response with the threeDSecure attributes set on the response
+            // Given an API response with the networkTokenisationDetails attributes set on the response
             var responseData = @"{
                             receiptId : '134567',
                             judoId : '12456',
@@ -658,6 +659,7 @@ namespace JudoPayDotNetTests.Clients
             Assert.NotNull(receipt.NetworkTokenisationDetails);
             Assert.IsTrue(receipt.NetworkTokenisationDetails.NetworkTokenProvisioned);
             Assert.IsTrue(receipt.NetworkTokenisationDetails.NetworkTokenUsed);
+            Assert.NotNull(receipt.NetworkTokenisationDetails.AccountDetailsUpdated);
             Assert.IsTrue(receipt.NetworkTokenisationDetails.AccountDetailsUpdated);
             Assert.NotNull(receipt.NetworkTokenisationDetails.VirtualPan);
             Assert.AreEqual("1234", receipt.NetworkTokenisationDetails.VirtualPan.LastFour);
