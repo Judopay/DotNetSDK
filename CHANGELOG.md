@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 5.3 Changes on 2026-03
+- Update Api-Version to 6.25
+
 ## 5.2 Changes on 2025-06
 - Update Api-Version to 6.23
 - Add optional DisableNetworkTokenisation boolean flag to PaymentModel and SaveCardModel to specify that network

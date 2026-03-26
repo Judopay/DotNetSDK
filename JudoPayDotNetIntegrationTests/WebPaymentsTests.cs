@@ -230,6 +230,8 @@ namespace JudoPayDotNetIntegrationTests
             {
                 var paymentSessionReference = webPaymentResult.Response.Reference;
                 var yourPaymentReference = paymentSessionRequestModel.YourPaymentReference;
+                Assert.NotNull(paymentSessionReference);
+                Assert.NotNull(yourPaymentReference);
             }
         }
 

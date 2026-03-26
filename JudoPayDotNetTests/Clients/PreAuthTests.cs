@@ -15,6 +15,8 @@ namespace JudoPayDotNetTests.Clients
     [TestFixture]
     public class PreAuthTests
     {
+        private const string DefaultCardExpiry = "12/30";
+
         //Test data
         private class PreAuthTestSource
         {
@@ -34,7 +36,7 @@ namespace JudoPayDotNetTests.Clients
                         CardNumber = "348417606737499",
                         CV2 = "420",
                         EmailAddress = "testaccount@judo.com",
-                        ExpiryDate = "12/30",
+                        ExpiryDate = DefaultCardExpiry,
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
                         PhoneCountryCode = "44",
@@ -113,7 +115,7 @@ namespace JudoPayDotNetTests.Clients
                         CardNumber = "348417606737499",
                         CV2 = "420",
                         EmailAddress = "testaccount@judo.com",
-                        ExpiryDate = "12/30",
+                        ExpiryDate = DefaultCardExpiry,
                         JudoId = "100200300",
                         MobileNumber = "07999999999",
                         PhoneCountryCode = "44",

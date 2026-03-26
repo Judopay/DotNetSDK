@@ -12,7 +12,7 @@ namespace JudoPayDotNetIntegrationTests
         protected JudoPayApi JudoPayApiElevated;
         protected JudoPayApi JudoPayApiThreeDSecure2;
         protected readonly Configuration Configuration = new Configuration();
-        protected static string DefaultCardExpiry = "12/30";
+        protected static readonly string DefaultCardExpiry = "12/30";
 
         protected IntegrationTestsBase() 
         {

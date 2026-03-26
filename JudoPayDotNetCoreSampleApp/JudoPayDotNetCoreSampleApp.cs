@@ -5,7 +5,7 @@ using JudoPayDotNet.Models;
 
 namespace JudoPayDotNetCoreSampleApp
 {
-    class JudoPayDotNetCoreSampleApp
+    static class JudoPayDotNetCoreSampleApp
     {
         private static readonly string ApiToken = "{BASE_TOKEN}";
         private static readonly string ApiSecret = "{SECRET}";
