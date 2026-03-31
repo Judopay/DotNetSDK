@@ -363,5 +363,52 @@ namespace JudoPayDotNetIntegrationTests
             Assert.AreEqual("Collection", collectionReceipt.Type);
             Assert.AreEqual(incrementAuthReceipt.NetAmount, collectionReceipt.Amount);
         }
+
+        [Test]
+        public async Task AftRecipientInformationExample()
+        {
+            var paymentWithCard = GetCardPaymentModel();
+            // Given a preauth with the latest Api-Version (6.25+) and aftRecipientInformation set
+            paymentWithCard.BusinessApplicationId = "AA";
+            paymentWithCard.AftRecipientInformation = new AftRecipientInformationModel
+            {
+                FirstName = "John",
+                AddressLine1 = "My house",
+                CountryCode = "US",
+                State = "CA",
+                AccountType = "03",
+                AccountId = "1234567890"
+            };
+            var response = await JudoPayApiBase.PreAuths.Create(paymentWithCard);
+
+            Assert.IsNotNull(response);
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+
+            // No AFT recipient information is returned on the receipt
+        }
+
+        [Test]
+        public async Task AftRecipientInformationExampleWithoutState()
+        {
+            var paymentWithCard = GetCardPaymentModel();
+            // Given a preauth with the latest Api-Version (6.25+) and aftRecipientInformation set
+            paymentWithCard.BusinessApplicationId = "AA";
+            paymentWithCard.AftRecipientInformation = new AftRecipientInformationModel
+            {
+                FirstName = "John",
+                AddressLine1 = "My house",
+                CountryCode = "GB",
+                AccountType = "03",
+                AccountId = "1234567890"
+            };
+            var response = await JudoPayApiBase.PreAuths.Create(paymentWithCard);
+
+            Assert.IsNotNull(response);
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+
+            // No AFT recipient information is returned on the receipt
+        }
     }
 }

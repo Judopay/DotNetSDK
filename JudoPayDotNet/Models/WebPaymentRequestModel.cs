@@ -153,6 +153,19 @@ namespace JudoPayDotNet.Models
         [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public bool? AllowIncrement { get; set; }
 
+        /// <summary>
+        /// Business application ID is required for AFTs
+        /// </summary>
+        [DataMember]
+        public string BusinessApplicationId { get; set; }
+
+        /// <summary>
+        /// Details needed for AFTs (Account Funding Transactions).
+        /// </summary>
+        [DataMember]
+        // ReSharper disable once UnusedMember.Global
+        public AftRecipientInformationModel AftRecipientInformation { get; set; }
+
         private Dictionary<string, string> _httpHeaders;
 
         /// <summary>
