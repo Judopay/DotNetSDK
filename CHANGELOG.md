@@ -1,8 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 5.3 Changes on 2026-03
+## 5.3 Changes on 2026-04-01
 - Update Api-Version to 6.25
+- Add ChallengeCompleted response attribute to ThreeDSecureReceiptModel to indicate whether the consumer completed a 3DS challenge.
+- Add AccountDetailsUpdate response attribute to NetworkTokenisationDetailsModel to indicate whether the underlying payment details have been updated as part of this request.
+- Add BusinessApplicationId request attribute and AftRecipientInformation object to PaymentModel and WebPaymentRequestModel for use in Account Funding Transaction (AFT) payments.
 
 ## 5.2 Changes on 2025-06
 - Update Api-Version to 6.23
