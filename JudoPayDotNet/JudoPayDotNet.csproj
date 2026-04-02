@@ -21,9 +21,9 @@
         <PackageReleaseNotes />
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="11.11.0" />
-        <PackageReference Include="log4net" Version="2.0.17" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+        <PackageReference Include="FluentValidation" Version="[11.11.0]" />
+        <PackageReference Include="log4net" Version="[2.0.17]" />
+        <PackageReference Include="Newtonsoft.Json" Version="[13.0.4]" />
     </ItemGroup>
 
   

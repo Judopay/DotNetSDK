@@ -4,19 +4,19 @@
     "net8.0": {
       "coverlet.msbuild": {
         "type": "Direct",
-        "requested": "[2.9.0, )",
+        "requested": "[2.9.0, 2.9.0]",
         "resolved": "2.9.0",
         "contentHash": "t+2du2q+z0FFklyP6HGSoKssRj0NequInLvgQ9rtxHskbgmAENxgt83eTQSRyxJ8DAThW8WOYhOuhuXIs//ZyA=="
       },
       "HtmlAgilityPack": {
         "type": "Direct",
-        "requested": "[1.12.4, )",
+        "requested": "[1.12.4, 1.12.4]",
         "resolved": "1.12.4",
         "contentHash": "ljqvBabvFwKoLniuoQKO8b5bJfJweKLs4fUNS/V5dsvpo0A8MlJqxxn9XVmP2DaskbUXty6IYaWAi1SArGIMeQ=="
       },
       "Microsoft.Extensions.Configuration": {
         "type": "Direct",
-        "requested": "[5.0.0, )",
+        "requested": "[5.0.0, 5.0.0]",
         "resolved": "5.0.0",
         "contentHash": "LN322qEKHjuVEhhXueTUe7RNePooZmS8aGid5aK2woX3NPjSnONFyKUc6+JknOS6ce6h2tCLfKPTBXE3mN/6Ag==",
         "dependencies": {
@@ -26,7 +26,7 @@
       },
       "Microsoft.Extensions.Configuration.Json": {
         "type": "Direct",
-        "requested": "[5.0.0, )",
+        "requested": "[5.0.0, 5.0.0]",
         "resolved": "5.0.0",
         "contentHash": "Pak8ymSUfdzPfBTLHxeOwcR32YDbuVfhnH2hkfOLnJNQd19ItlBdpMjIDY9C5O/nS2Sn9bzDMai0ZrvF7KyY/Q==",
         "dependencies": {
@@ -38,7 +38,7 @@
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
-        "requested": "[15.9.2, )",
+        "requested": "[15.9.2, 15.9.2]",
         "resolved": "15.9.2",
         "contentHash": "vYtHTWtm7tOT7ZqboiIw7tKgJBLFJhMgi6eaUzJ9JRVmYLx5P6PBMEqZB1og2olG4H+FAtruPlN/PAaM6MW89Q==",
         "dependencies": {
@@ -48,7 +48,7 @@
       },
       "NUnit": {
         "type": "Direct",
-        "requested": "[3.14.0, )",
+        "requested": "[3.14.0, 3.14.0]",
         "resolved": "3.14.0",
         "contentHash": "R7iPwD7kbOaP3o2zldWJbWeMQAvDKD0uld27QvA3PAALl1unl7x0v2J7eGiJOYjimV/BuGT4VJmr45RjS7z4LA==",
         "dependencies": {
@@ -57,19 +57,19 @@
       },
       "NUnit.ConsoleRunner": {
         "type": "Direct",
-        "requested": "[3.20.1, )",
+        "requested": "[3.20.1, 3.20.1]",
         "resolved": "3.20.1",
         "contentHash": "LSn79616mSfkCGwU7fkN0LSte0TOVANUxfiI+CgHemd5y2pO7lFq6fdsn5K0BIV9P3LZnGq+9zcZm4TMKiWVQw=="
       },
       "NUnit.Extension.VSProjectLoader": {
         "type": "Direct",
-        "requested": "[3.9.0, )",
+        "requested": "[3.9.0, 3.9.0]",
         "resolved": "3.9.0",
         "contentHash": "KDCliBK7Db3PPheXfp0gaUQdT2AyRCVPPSnI4/cI2umRmEnNM7uKnZOIJflN7MebjqUpMyi92OAm7dIbaAK4NA=="
       },
       "NUnit.Runners": {
         "type": "Direct",
-        "requested": "[3.12.0, )",
+        "requested": "[3.12.0, 3.12.0]",
         "resolved": "3.12.0",
         "contentHash": "KNpc03ZPF8wUWdPnLwNch1ycqsUNJgsheVlsUQcsHStuN5S7HMuNEGAavBNVwsHGq++GmtgG0N1MBVEgmxFtFg==",
         "dependencies": {
@@ -78,7 +78,7 @@
       },
       "NUnit3TestAdapter": {
         "type": "Direct",
-        "requested": "[4.6.0, )",
+        "requested": "[4.6.0, 4.6.0]",
         "resolved": "4.6.0",
         "contentHash": "R7e1+a4vuV/YS+ItfL7f//rG+JBvVeVLX4mHzFEZo4W1qEKl8Zz27AqvQSAqo+BtIzUCo4aAJMYa56VXS4hudw=="
       },
@@ -1072,9 +1072,9 @@
       "JudoPay.Net": {
         "type": "Project",
         "dependencies": {
-          "FluentValidation": "[11.11.0, )",
-          "Newtonsoft.Json": "[13.0.4, )",
-          "log4net": "[2.0.17, )"
+          "FluentValidation": "[11.11.0, 11.11.0]",
+          "Newtonsoft.Json": "[13.0.4, 13.0.4]",
+          "log4net": "[2.0.17, 2.0.17]"
         }
       }
     }
