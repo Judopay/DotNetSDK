@@ -67,9 +67,9 @@
       "JudoPay.Net": {
         "type": "Project",
         "dependencies": {
-          "FluentValidation": "[11.11.0, )",
-          "Newtonsoft.Json": "[13.0.4, )",
-          "log4net": "[2.0.17, )"
+          "FluentValidation": "[11.11.0, 11.11.0]",
+          "Newtonsoft.Json": "[13.0.4, 13.0.4]",
+          "log4net": "[2.0.17, 2.0.17]"
         }
       }
     }
