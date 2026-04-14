@@ -1,42 +1,6 @@
 {
   "version": 1,
   "dependencies": {
-    ".NETFramework,Version=v4.6.1": {
-      "FluentValidation": {
-        "type": "Direct",
-        "requested": "[11.11.0, )",
-        "resolved": "11.11.0",
-        "contentHash": "cyIVdQBwSipxWG8MA3Rqox7iNbUNUTK5bfJi9tIdm4CAfH71Oo5ABLP4/QyrUwuakqpUEPGtE43BDddvEehuYw==",
-        "dependencies": {
-          "System.Threading.Tasks.Extensions": "4.5.4"
-        }
-      },
-      "log4net": {
-        "type": "Direct",
-        "requested": "[2.0.17, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
-      },
-      "Newtonsoft.Json": {
-        "type": "Direct",
-        "requested": "[13.0.4, )",
-        "resolved": "13.0.4",
-        "contentHash": "pdgNNMai3zv51W5aq268sujXUyx7SNdE2bj1wZcWjAQrKMFZV260lbqYop1d2GM67JI1huLRwxo9ZqnfF/lC6A=="
-      },
-      "System.Runtime.CompilerServices.Unsafe": {
-        "type": "Transitive",
-        "resolved": "4.5.3",
-        "contentHash": "3TIsJhD1EiiT0w2CcDMN/iSSwnNnsrnbzeVHSKkaEgV85txMprmuO+Yq2AdSbeVGcg28pdNDTPK87tJhX7VFHw=="
-      },
-      "System.Threading.Tasks.Extensions": {
-        "type": "Transitive",
-        "resolved": "4.5.4",
-        "contentHash": "zteT+G8xuGu6mS+mzDzYXbzS7rd3K6Fjb9RiZlYlJPam2/hU7JCBZBVEcywNuR+oZ1ncTvc/cq0faRr3P01OVg==",
-        "dependencies": {
-          "System.Runtime.CompilerServices.Unsafe": "4.5.3"
-        }
-      }
-    },
     ".NETStandard,Version=v2.0": {
       "FluentValidation": {
         "type": "Direct",
@@ -49,9 +13,9 @@
       },
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.17, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA==",
+        "requested": "[3.3.0, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q==",
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.5.0"
         }
