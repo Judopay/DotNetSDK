@@ -42,9 +42,9 @@
       },
       "NUnit.ConsoleRunner": {
         "type": "Direct",
-        "requested": "[3.20.1, )",
-        "resolved": "3.20.1",
-        "contentHash": "LSn79616mSfkCGwU7fkN0LSte0TOVANUxfiI+CgHemd5y2pO7lFq6fdsn5K0BIV9P3LZnGq+9zcZm4TMKiWVQw=="
+        "requested": "[3.22.0, )",
+        "resolved": "3.22.0",
+        "contentHash": "KGQyjarSq7/E8NulUXUK8m7Fx3aMvqWfDP6o37lk7JLfRUzSJxNrLJF7Xorkx2ntpJMINCV1LwBRgTgGhU5DkA=="
       },
       "NUnit.Extension.VSProjectLoader": {
         "type": "Direct",
