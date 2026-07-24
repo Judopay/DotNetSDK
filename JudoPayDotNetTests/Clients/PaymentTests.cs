@@ -665,5 +665,56 @@ namespace JudoPayDotNetTests.Clients
             Assert.AreEqual("1234", receipt.NetworkTokenisationDetails.VirtualPan.LastFour);
             Assert.AreEqual("1235", receipt.NetworkTokenisationDetails.VirtualPan.ExpiryDate);
         }
+
+        [Test]
+        public void TransactionLinkIdResponse()
+        {
+            // Given an API response with the transactionLinkId attributes set on the response
+            var responseData = """
+                                {
+                                    receiptId : '134567',
+                                    judoId : '12456',
+                                    originalAmount : 20,
+                                    amount : 20,
+                                    netAmount : 20,
+                                    cardDetails :
+                                        {
+                                            cardLastfour : '1345',
+                                            endDate : '1214',
+                                            cardToken : 'ASb345AE',
+                                            cardType : 'VISA'
+                                        },
+                                    currency : 'GBP',
+                                    consumer : 
+                                        {
+                                            yourConsumerReference : 'Consumer1'
+                                        },
+                                    transactionLinkId : 'TX123456'
+                                    }
+                                """;
+
+            var httpClient = Substitute.For<IHttpClient>();
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseData) };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var responseTask = new TaskCompletionSource<HttpResponseMessage>();
+            responseTask.SetResult(response);
+
+            httpClient.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(responseTask.Task);
+
+            var client = new Client(new Connection(httpClient, DotNetLoggerFactory.Create, "http://something.com"));
+
+            var judo = new JudoPayApi(DotNetLoggerFactory.Create, client);
+
+            var paymentReceiptResult = judo.Payments.Create(new CardPaymentModel()).Result;
+            // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
+
+            Assert.NotNull(paymentReceiptResult);
+            Assert.IsFalse(paymentReceiptResult.HasError);
+            Assert.NotNull(paymentReceiptResult.Response);
+            // These are mapped to the expected response properties on the PaymentReceiptModel
+            var receipt = paymentReceiptResult.Response as PaymentReceiptModel;
+            Assert.NotNull(receipt);
+            Assert.AreEqual("TX123456", receipt.TransactionLinkId);
+        }
     }
 }
