@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 5.4 Changes on 2026-07-24
+- Update Api-Version to 6.26
+- Add TransactionLinkId to PaymentReceiptModel (if returned by the gateway for Mastercard transactions)
+- Add optional YourPaymentMetaData to CheckCardModel request
+
 ## 5.3 Changes on 2026-04-01
 - Update Api-Version to 6.25
 - Add ChallengeCompleted response attribute to ThreeDSecureReceiptModel to indicate whether the consumer completed a 3DS challenge.

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JudoPayDotNet.Models;
@@ -140,6 +141,28 @@ namespace JudoPayDotNetIntegrationTests
             var historicReceipt = historicReceiptResponse.Response as PaymentReceiptModel;
             Assert.IsNotNull(historicReceipt);
             Assert.AreEqual(disableNetworkTokenisation, historicReceipt.DisableNetworkTokenisation);
+        }
+
+        [Test]
+        public async Task CheckCardYourPaymentMetaData()
+        {
+            var checkCardModel = GetCheckCardModel();
+
+            var yourPaymentMetaData = new Dictionary<string, object>
+            {
+                { "string", "value1" },
+                { "integer", 123 },
+                { "boolean", true }
+            };
+            checkCardModel.YourPaymentMetaData = yourPaymentMetaData;
+
+            var response = await JudoPayApiBase.CheckCards.Create(checkCardModel);
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.HasError);
+
+            var receipt = response.Response as PaymentReceiptModel;
+            Assert.IsNotNull(receipt);
+            Assert.AreEqual(yourPaymentMetaData, receipt.YourPaymentMetaData);
         }
 
         internal class RegisterCheckCardTestSource

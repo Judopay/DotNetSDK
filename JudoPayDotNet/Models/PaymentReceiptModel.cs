@@ -242,6 +242,12 @@ namespace JudoPayDotNet.Models
 
         [DataMember(EmitDefaultValue = false)]
         public NetworkTokenisationDetailsModel NetworkTokenisationDetails { get; set; }
+
+        /// <summary>
+        /// A Mastercard-generated Transaction Link Identifier (TLID) used to uniquely identify and link economically related transactions.
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string TransactionLinkId { get; set; }
     }
 
     // ReSharper restore UnusedMember.Global

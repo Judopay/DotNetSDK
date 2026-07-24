@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace JudoPayDotNet.Models
@@ -42,6 +43,12 @@ namespace JudoPayDotNet.Models
         /// </value>
         [DataMember(EmitDefaultValue = false)]
         public string YourPaymentReference { get; set; }
+
+        /// <summary>
+        /// The merchant payment meta data.
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public IDictionary<string, object> YourPaymentMetaData { get; set; }
 
         /// <summary>
         /// Gets or sets the mobile number.
