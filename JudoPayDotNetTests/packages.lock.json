@@ -91,8 +91,8 @@
       },
       "log4net": {
         "type": "Transitive",
-        "resolved": "3.3.2",
-        "contentHash": "fwRZAWPkK1zAlxAvn8lhfuHzQV+++F6ReJbimt9QIPwI4s2FSRjCZLgq5e12PTD5ynkPf/zGki6QbJ9LWQTeNg==",
+        "resolved": "3.4.0",
+        "contentHash": "IubYl1l3vs4pZ8hRJBWjfPOW8osR1gS/FAweVYpc2n7SZ0yrZ64uMGQYjjt1nna/Hpm10IHiw4D6HSh/JFbj9w==",
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.5.0"
         }
@@ -1037,7 +1037,7 @@
         "dependencies": {
           "FluentValidation": "[11.12.0, )",
           "Newtonsoft.Json": "[13.0.4, )",
-          "log4net": "[3.3.2, )"
+          "log4net": "[3.4.0, )"
         }
       }
     }
